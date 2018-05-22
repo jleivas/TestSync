@@ -1,0 +1,123 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fn;
+
+import entities.Lente;
+import entities.User;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ *
+ * @author sdx
+ */
+public class GlobalValues {
+    /*  Nombres de sistema  */
+    public static String PROJECTNAME="";
+    public static String VERSION = "4.0.0";
+    
+    /* Bases de datos*/
+    public static String BD_URL_REMOTE = "localhost";
+    public static String BD_NAME_REMOTE = "localhost/odmbd";
+    public static String BD_USER_REMOTE = "root";
+    public static String BD_PASS_REMOTE = "";
+    public static String BD_URL_LOCAL = "localhost:1527";
+    public static String BD_NAME_LOCAL = "odm4";
+    public static String BD_USER_LOCAL = "odm4";
+    public static String BD_PASS_LOCAL = "odm4";
+    
+    /* Seguridad */
+    public static String SALT = "optidataodm4softdirex";
+    public static String PASS;
+    
+    /* LICENCIA */
+    public static String COMPANY_NAME;
+    public static boolean LICENCE = true;
+    public static String EXP_DATE = "00-00-0000";
+    public static String API_URI;
+    public static String LOCAL_ID;
+    
+    /* Update */
+    public static int ID_UPDATE=0;
+    public static String URL_UPDATE;
+    
+    /* Mail */
+    public static String MAIL_ADDRES = "sdx.respaldo.bd@gmail.com";
+    public static String MAIL_PASS= "qwpzedzqucvpyjzt";
+    public static String MAIL_REPORT= "softdirex@gmail.com";
+    
+    /* Direcciones de fichero*/
+    public static String FILES_PATH = "";
+    public static String LOCAL_PATH = "";
+    
+    /* Variables del sistema */
+    public static String USERNAME = "";
+    public static int ID_USER = 0;
+    public static String TMP_RUT_DOCTOR;
+    public static int TMP_ID_INSTITUCION;
+    public static int TMP_ID_DESCUENTO;
+    public static Date TMP_DATE_FROM = null;
+    public static Date TMP_DATE_TO =null;
+    //LISTAS TEMPORALES
+    public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
+    public static ArrayList<Lente> TMP_LIST_LENTES = new ArrayList<Lente>();
+    
+    /* Joption Pane del sistema */
+    public static String PANELTITLE ="";
+    public static int MSG_STATUS;
+    public static String ICON_INFO = "/icons/show_info_50px.png";
+    public static String ICON_WARN = "/icons/show_warning_50px.png";
+    public static String ICON_ERROR = "/icons/show_error_50px.png";
+    
+    
+    
+    
+    public static void initValues(){
+        System.out.println("GLOBALVALUES:initValues()");
+        LOCAL_PATH = System.getProperty("user.dir")+File.separator;
+        FILES_PATH = LOCAL_PATH+"files"+File.separator;
+    }
+    
+    
+    public static String getLocalBdUser() {
+        
+        return BD_USER_LOCAL;
+    }
+
+    public static String getLocalBdPass() {
+        return BD_PASS_LOCAL;
+    }
+
+    public static String getLocalBdUrl() {
+        return BD_URL_LOCAL;
+    }
+
+    public static String getLocalBdName() {
+        return BD_NAME_LOCAL;
+    }
+    
+    public static String getRemoteBdUser() {
+        return BD_USER_REMOTE;
+    }
+
+    public static String getRemoteBdPass() {
+        return BD_PASS_REMOTE;
+    }
+
+    public static String getRemoteBdUrl() {
+        return BD_URL_REMOTE;
+    }
+
+    public static String getRemoteBdName() {
+        return BD_NAME_REMOTE;
+    }
+    
+    
+    
+    
+
+}
