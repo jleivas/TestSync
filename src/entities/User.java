@@ -5,6 +5,8 @@
  */
 package entities;
 
+import java.util.Date;
+
 /**
  *
  * @author home
@@ -12,19 +14,42 @@ package entities;
 public class User {
     private int id;
     private String nombre;
+    private String username;
     private String pass;
     private int tipo;
     private int estado;
+    private Date lastUpdate;
 
     public User() {
     }
 
-    public User(int id, String nombre, String pass, int tipo, int estado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.pass = pass;
-        this.tipo = tipo;
-        this.estado = estado;
+    public User(int id, String nombre, String username, String pass, int tipo, int estado, Date lastUpdate) {
+        setId(id);
+        setNombre(nombre);
+        setUsername(username);
+        setPass(pass);
+        setTipo(tipo);
+        setEstado(estado);
+        setLastUpdate(lastUpdate);
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        if(lastUpdate == null)
+            this.lastUpdate = new Date();
+        else
+            this.lastUpdate = lastUpdate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setId(int id) {
