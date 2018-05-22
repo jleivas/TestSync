@@ -22,7 +22,7 @@ public class GlobalValues {
     
     /* Bases de datos*/
     public static String BD_URL_REMOTE = "localhost";
-    public static String BD_NAME_REMOTE = "localhost/odmbd";
+    public static String BD_NAME_REMOTE = "odmbd";
     public static String BD_USER_REMOTE = "root";
     public static String BD_PASS_REMOTE = "";
     public static String BD_URL_LOCAL = "localhost:1527";
