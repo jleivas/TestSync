@@ -6,9 +6,11 @@
 package bd;
 
 import fn.GlobalValues;
+import fn.OptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +24,7 @@ public class LcBd {
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         conn = DriverManager.getConnection("jdbc:derby://"+GlobalValues.getLocalBdUrl()+"/"+GlobalValues.getLocalBdName(),GlobalValues.getLocalBdUser(),GlobalValues.getLocalBdPass());
         if(conn == null)
-            System.out.println("bd.LcBd::obtener(): ERROR BD."); 
+            OptionPane.showMsg("Error en Base de datos local", "No se pudo obtener la conexion:/nbd.RmBd::obtener(): ERROR BD.", JOptionPane.ERROR_MESSAGE);
         else
             System.out.println("bd.LcBd::obtener(): EXITO BD.");
         return conn;
