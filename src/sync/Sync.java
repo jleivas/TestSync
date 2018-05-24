@@ -25,20 +25,15 @@ public class Sync {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public static boolean add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object, String objectId) throws SQLException, ClassNotFoundException{        
+    public static boolean add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object) throws SQLException, ClassNotFoundException{        
         System.out.println("Sync::add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object)");    
         
-        if(!globalData.add(localData.get(objectId),object)){
-            OptionPane.showMsg("No se pudo agregar el nuevo elemento, porfavor reinicie el sistema.", "Error interno del sistema",JOptionPane.INFORMATION_MESSAGE); 
+        if(!globalData.add(object)){
             return false;
         }
-        if(!localData.add(null,object)){
-            OptionPane.showMsg("No se pudo conectar a Base de datos local", "Error de conexión interna",JOptionPane.ERROR);
-        }
+        localData.add(object);
         if(sync.Cmp.isOnline()){
-            if(!remoteData.add(null,object)){
-                OptionPane.showMsg("No se pudo conectar a Base de datos remota", "Error de conexión remota",JOptionPane.WARNING_MESSAGE);
-            }
+            remoteData.add(object);
         }
         return true;
         }

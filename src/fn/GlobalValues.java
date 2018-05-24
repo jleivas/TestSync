@@ -24,7 +24,7 @@ public class GlobalValues {
     public static String BD_URL_REMOTE = "localhost";
     public static String BD_NAME_REMOTE = "odmbd";
     public static String BD_USER_REMOTE = "root";
-    public static String BD_PASS_REMOTE = "";
+    public static String BD_PASS_REMOTE = "20075321818";
     public static String BD_URL_LOCAL = "localhost:1527";
     public static String BD_NAME_LOCAL = "odm4";
     public static String BD_USER_LOCAL = "odm4";

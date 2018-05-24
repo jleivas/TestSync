@@ -5,8 +5,14 @@
  */
 package testsync;
 
-import fn.UserDao;
+import dao.UserDao;
+import entities.User;
+import fn.GlobalValues;
+import fn.date.Cmp;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -19,11 +25,22 @@ public class TestSync {
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
         // TODO code application logic here
-        
+//        Date d = new Date(6456564);
+//        Date a = new Date();
+//        Date b = new Date();
+//        System.out.println(""+a.compareTo(d));
         UserDao load = new UserDao();
-        load.deleteUser("root");
+        load.sincronize();
+//        User aux = (User)load.get("root");
+//        if(aux != null){
+//            aux.setEstado(1);
+//            load.update(aux);
+//        }
         
-        
+        for (User temp : GlobalValues.TMP_LIST_USERS) {
+            System.out.println(""+temp.toString());
+        }
+//        testear linea 74 en LcBdUser
     }
     
 }

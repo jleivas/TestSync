@@ -96,9 +96,11 @@ public class User {
     public String toString() {
         return "\nID: "+this.id+
                 " - Nombre: "+this.nombre+
+                " - USERNAME: "+this.username+
                 " - PASS: "+this.pass+
                 " - TIPO:"+this.tipo+
-                " - Estado:"+this.estado; //To change body of generated methods, choose Tools | Templates.
+                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(this.lastUpdate, "dd-mm-yyyy")+
+                " - Estado:"+this.estado;
     }
     
     

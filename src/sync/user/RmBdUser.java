@@ -71,9 +71,7 @@ public class RmBdUser implements SyncBd{
             } catch (Exception e) {
                 OptionPane.showMsg("Error al convertir fecha", "sync.object.RmBdUser::modificar(User object):\nSe cayó al intentar convertir la fecha", JOptionPane.ERROR_MESSAGE);
             }
-            if(!fn.date.Cmp.localIsNew(object.getLastUpdate(), dsp_fecha)){
-                OptionPane.showMsg("El registro ya se encuentra actualizado", "No se pudo modificar el usuario: "+object.getUsername()+"\n"
-                        + "porque ya se encuentra actualizado por última vez el: "+object.getLastUpdate(), JOptionPane.WARNING_MESSAGE);
+            if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
                 return false;
             }
         }
@@ -86,16 +84,13 @@ public class RmBdUser implements SyncBd{
                         +"', `us_tipo` = '"+object.getTipo()
                         +"', `us_estado` = '"+object.getEstado()
                         +"', `us_last_update` = '"+sqlfecha
-                        +"' WHERE `us_id` = '"+object.getId()+"'");
+                        +"' WHERE `us_id` = '"+object.getId()+"' AND us_last_update <= '"+sqlfecha+"'");
         if(insert.executeUpdate()!=0){
             RmBd.cerrar();
             //OptionPane.showMsg("Operación realizada correctamente", "Usuario actualizado con éxito", JOptionPane.INFORMATION_MESSAGE);
             return true;
         }
         else{
-            OptionPane.showMsg("Ha ocurrido un error al actualizar el usuario", 
-                    "Ocurrió un error inesperado al actualizar el usuario.\n"
-                     + "Detalles: RmBdUser::add->update->modificar(param):\n"+object.toString(), JOptionPane.ERROR_MESSAGE);
             RmBd.cerrar();
             return true;
         }
@@ -146,7 +141,7 @@ public class RmBdUser implements SyncBd{
     }
 
     @Override
-    public boolean add(Object old,Object object) {
+    public boolean add(Object object) {
         System.out.println("RmBdUser::add(Object object)");
         try {
             return update((User)object);

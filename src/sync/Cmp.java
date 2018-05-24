@@ -5,6 +5,7 @@
  */
 package sync;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -13,13 +14,20 @@ import java.net.Socket;
  */
 public class Cmp {
     public static boolean isOnline(){
+        String comando = "ping -c 1 google.com";
         try{
-            if(new Socket("www.softdirex.cl", 80).isConnected()){
-              return true;
-            }
-        }catch(Exception e){
+            return (Runtime.getRuntime().exec (comando).waitFor() == 0);
+        }catch(IOException | InterruptedException e){
             return false;
         }
-        return false;
+        
+//        try{
+//            if(new Socket("www.softdirex.cl", 80).isConnected()){
+//              return true;
+//            }
+//        }catch(Exception e){
+//            return false;
+//        }
+//        return false;
     }
 }

@@ -8,6 +8,7 @@ package sync.user;
 import bd.LcBd;
 import entities.User;
 import fn.OptionPane;
+import fn.date.Cmp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,6 +64,19 @@ public class LcBdUser implements SyncBd{
     }
     
     public static boolean modificar(User object) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM usuario WHERE us_id="+object.getId());
+        ResultSet datos = consulta.executeQuery();
+        while (datos.next()) {
+            Date dsp_fecha= new Date();
+            try {
+                dsp_fecha = datos.getDate("us_last_update");
+            } catch (Exception e) {
+                OptionPane.showMsg("Error al convertir fecha", "sync.object.LcBdUser::modificar(User object):\nSe cayó al intentar convertir la fecha", JOptionPane.ERROR_MESSAGE);
+            }
+            if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                return false;
+            }
+        }
         java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
         PreparedStatement insert = LcBd.obtener().prepareStatement(
                 "UPDATE usuario set us_nombre = '"+object.getNombre()
@@ -71,16 +85,12 @@ public class LcBdUser implements SyncBd{
                         +"', us_tipo = "+object.getTipo()
                         +", us_estado = "+object.getEstado()
                         +", us_last_update = '"+sqlfecha
-                        +"' WHERE us_id = "+object.getId());
+                        +"' WHERE us_id = "+object.getId()+" AND us_last_update <= '"+sqlfecha+"'");
         if(insert.executeUpdate()!=0){
             LcBd.cerrar();
-            //OptionPane.showMsg("Operación realizada correctamente", "Usuario actualizado con éxito", JOptionPane.INFORMATION_MESSAGE);
             return true;
         }
         else{
-            OptionPane.showMsg("Ha ocurrido un error al actualizar el usuario", 
-                    "Ocurrió un error inesperado al actualizar el usuario.\n"
-                     + "Detalles: LcBdUser::add->update->modificar(param):\n"+object.toString(), JOptionPane.ERROR_MESSAGE);
             LcBd.cerrar();
             return true;
         }
@@ -116,9 +126,11 @@ public class LcBdUser implements SyncBd{
         LcBd.cerrar();
         return lista;
     }
+    
+    
 
     @Override
-    public boolean add(Object old,Object object) {
+    public boolean add(Object object) {
         System.out.println("LcBdUser::add(Object object)");
         try {
             return update((User)object);
@@ -132,7 +144,7 @@ public class LcBdUser implements SyncBd{
     public Object get(String objectId) {
         try {
             for (User temp : listar(-2)) {
-                if(temp.getUsername().equals(objectId))
+                if(temp.getUsername().toLowerCase().equals(objectId.toLowerCase()))
                     return temp;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {

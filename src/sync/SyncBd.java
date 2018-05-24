@@ -10,6 +10,6 @@ package sync;
  * @author sdx
  */
 public interface SyncBd {
-     public boolean add(Object old,Object object);
+     public boolean add(Object object);
      public Object get(String objectId);
 }
