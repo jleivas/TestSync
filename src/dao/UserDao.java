@@ -15,29 +15,29 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sync.Cmp;
 import sync.Sync;
-import sync.user.GbVlUser;
-import sync.user.LcBdUser;
-import sync.user.RmBdUser;
+import sync.entities.Global;
+import sync.entities.Local;
+import sync.entities.Remote;
 
 /**
  *
  * @author jorge
  */
 public class UserDao implements Dao{
-    private static GbVlUser global = new GbVlUser();
-    private static LcBdUser local = new LcBdUser();
-    private static RmBdUser remote = new RmBdUser();
+    private static Global global = new Global();
+    private static Local local = new Local();
+    private static Remote remote = new Remote();
     
     public boolean add(Object object){
         User user =  (User)object;
         user.setLastUpdate(new Date());
         if(Cmp.isOnline()){
             try {
-                user.setId(remote.obtenerId());
+                user.setId(remote.getMaxUserId());
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!remote.exist(user.getUsername()))
+            if(!remote.userExist(user.getUsername()))
                 try {
                     return sync.Sync.add(local, remote, global, user);
             } catch (SQLException | ClassNotFoundException ex) {
@@ -65,7 +65,7 @@ public class UserDao implements Dao{
         User user =  (User)object;
         user.setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
         if(Cmp.isOnline()){
-            User old = (User)remote.get(user.getUsername());
+            User old = (User)remote.getUser(user.getUsername());
             if(old == null){//no existe ningun registro con el mismo username
                 try {
                     return sync.Sync.add(local, remote, global, user);
@@ -80,7 +80,7 @@ public class UserDao implements Dao{
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                if(!remote.exist(user.getUsername()))//valida si ya existe el nuevo username
+                if(!remote.userExist(user.getUsername()))//valida si ya existe el nuevo username
                     try {
                         return sync.Sync.add(local, remote, global, user);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -108,7 +108,7 @@ public class UserDao implements Dao{
     public boolean delete(String id){
         User user =  null;
         if(Cmp.isOnline()){
-            user =  (User)remote.get(id);
+            user =  (User)remote.getUser(id);
             if(user != null){//valida si ya existe el username
                 user.setEstado(0);
                 user.setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
@@ -130,14 +130,14 @@ public class UserDao implements Dao{
     public void sincronize() {
         try {
             if(sync.Cmp.isOnline()){
-                for (User object : remote.listar(-2)) {
+                for (User object : remote.users(-2)) {
                     sync.Sync.add(local, remote, global, object);
                 }
-                for (User object : local.listar(-2)) {
+                for (User object : local.users(-2)) {
                     sync.Sync.add(local, remote, global, object);
                 }
             }else{
-                for (User object : local.listar(-2)) {
+                for (User object : local.users(-2)) {
                     sync.Sync.add(local, remote, global, object);
                 }
             }  
@@ -148,7 +148,7 @@ public class UserDao implements Dao{
 
     @Override
     public Object get(String idObject) {
-        return local.get(idObject);
+        return local.getUser(idObject);
     }
     
    

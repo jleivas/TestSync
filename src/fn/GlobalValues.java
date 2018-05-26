@@ -5,6 +5,7 @@
  */
 package fn;
 
+import entities.Cristal;
 import entities.Lente;
 import entities.User;
 import java.io.File;
@@ -49,6 +50,7 @@ public class GlobalValues {
     public static String MAIL_ADDRES = "sdx.respaldo.bd@gmail.com";
     public static String MAIL_PASS= "qwpzedzqucvpyjzt";
     public static String MAIL_REPORT= "softdirex@gmail.com";
+    public static String MAIL_LOG = "";
     
     /* Direcciones de fichero*/
     public static String FILES_PATH = "";
@@ -64,6 +66,7 @@ public class GlobalValues {
     public static Date TMP_DATE_TO =null;
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
+    public static ArrayList<Cristal> TMP_LIST_CRISTAL = new ArrayList<Cristal>();
     public static ArrayList<Lente> TMP_LIST_LENTES = new ArrayList<Lente>();
     
     /* Joption Pane del sistema */

@@ -5,11 +5,15 @@
  */
 package sync;
 
+import entities.Cristal;
+import entities.User;
+
 /**
  *
  * @author sdx
  */
 public interface SyncBd {
      public boolean add(Object object);
-     public Object get(String objectId);
+     public User getUser(String username);
+     public Cristal getCristal(String name);
 }

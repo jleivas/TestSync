@@ -22,7 +22,7 @@ public class OptionPane {
     
     
     public static void showMsg(String title, String message, int statusMsg){
-        JOptionPane.showMessageDialog(null, title, message, statusMsg);
+        JOptionPane.showMessageDialog(null, message, title, statusMsg);
     }
 
     

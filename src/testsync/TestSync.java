@@ -29,17 +29,19 @@ public class TestSync {
 //        Date a = new Date();
 //        Date b = new Date();
 //        System.out.println(""+a.compareTo(d));
-        UserDao load = new UserDao();
-        load.sincronize();
+//        UserDao load = new UserDao();
+//        load.sincronize();
 //        User aux = (User)load.get("root");
 //        if(aux != null){
 //            aux.setEstado(1);
 //            load.update(aux);
 //        }
-        
-        for (User temp : GlobalValues.TMP_LIST_USERS) {
-            System.out.println(""+temp.toString());
-        }
+    String no = "Jorge Luis Leiva Silva";
+        System.out.println("..."+no.substring(2));
+//        for (User temp : GlobalValues.TMP_LIST_USERS) {
+//            System.out.println(""+temp.toString());
+//        }
+//        System.out.println(GlobalValues.MAIL_LOG);
 //        testear linea 74 en LcBdUser
     }
     
