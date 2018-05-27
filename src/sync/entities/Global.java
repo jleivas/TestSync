@@ -17,7 +17,7 @@ import sync.SyncBd;
  * @author sdx
  */
 public class Global implements SyncBd{
-    private static String className="GbVlUser";
+    private static String className="Global";
 
     @Override
     public boolean add(Object object) {

@@ -11,12 +11,16 @@ import entities.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import sync.entities.Global;
+import sync.entities.Local;
+import sync.entities.Remote;
 
 /**
  *
  * @author sdx
  */
 public class GlobalValues {
+    private static String className="GlobalValues";
     /*  Nombres de sistema  */
     public static String PROJECTNAME="";
     public static String VERSION = "4.0.0";
@@ -64,6 +68,12 @@ public class GlobalValues {
     public static int TMP_ID_DESCUENTO;
     public static Date TMP_DATE_FROM = null;
     public static Date TMP_DATE_TO =null;
+    /*  Sincronizacion */
+    public static Global GLOBAL_SYNC = new Global();
+    public static Local LOCAL_SYNC = new Local();
+    public static Remote REMOTE_SYNC = new Remote();
+    public static boolean IS_ONLINE = false;
+    
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
     public static ArrayList<Cristal> TMP_LIST_CRISTAL = new ArrayList<Cristal>();
@@ -80,14 +90,14 @@ public class GlobalValues {
     
     
     public static void initValues(){
-        System.out.println("GLOBALVALUES:initValues()");
+        Log.setLog(className,Log.getReg());
+        SubProcess.isOnline();
         LOCAL_PATH = System.getProperty("user.dir")+File.separator;
         FILES_PATH = LOCAL_PATH+"files"+File.separator;
     }
     
     
     public static String getLocalBdUser() {
-        
         return BD_USER_LOCAL;
     }
 
@@ -119,7 +129,9 @@ public class GlobalValues {
         return BD_NAME_REMOTE;
     }
     
-    
+    public static boolean isOnline(){
+        return IS_ONLINE;
+    }
     
     
 

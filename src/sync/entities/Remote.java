@@ -24,7 +24,7 @@ import sync.SyncBd;
  * @author sdx
  */
 public class Remote implements SyncBd{
-    private static String className = "RmBdUser";
+    private static String className = "Remote";
     /**
      * Agrega o modifica un objeto en la base de datos remota
      * @param usuario
@@ -295,6 +295,20 @@ public class Remote implements SyncBd{
             OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: LcBdUser::get(param): "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
         return null;
+    }
+
+    public int getMaxCristalId() throws ClassNotFoundException, SQLException {
+        Log.setLog(className,Log.getReg());
+        String sql="SELECT MAX(`cri_id`) as id_cristal FROM `cristal`";
+        
+        PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+        ResultSet datos = consulta.executeQuery();
+        int id=0;
+        while (datos.next()) {
+            id=datos.getInt("id_cristal");
+        }
+        RmBd.cerrar();
+        return id+1;
     }
 
 }

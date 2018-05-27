@@ -18,10 +18,11 @@ public class OptionPane {
     private static int ancho = 549;
     private static int alto = 220;
     private static int locat = 5;
-    
+    private static String className = "OptionPane";
     
     
     public static void showMsg(String title, String message, int statusMsg){
+        Log.setLog(className,Log.getReg());
         JOptionPane.showMessageDialog(null, message, title, statusMsg);
     }
 

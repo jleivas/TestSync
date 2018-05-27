@@ -5,15 +5,16 @@
  */
 package sync;
 
-import fn.OptionPane;
+import fn.GlobalValues;
+import fn.Log;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author sdx
  */
 public class Sync {
+    private static String className="Sync";
     /**
      * Add or update new objct in static variables, local data base and remote data base.
      * @param localData
@@ -26,13 +27,13 @@ public class Sync {
      * @throws ClassNotFoundException 
      */
     public static boolean add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object) throws SQLException, ClassNotFoundException{        
-        System.out.println("Sync::add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object)");    
+        Log.setLog(className,Log.getReg());
         
         if(!globalData.add(object)){
             return false;
         }
         localData.add(object);
-        if(sync.Cmp.isOnline()){
+        if(GlobalValues.isOnline()){
             remoteData.add(object);
         }
         return true;

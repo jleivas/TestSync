@@ -72,5 +72,13 @@ public class Cristal {
         return estado;
     }
     
+    @Override
+    public String toString() {
+        return "\nID: "+this.id+
+                " - Nombre: "+this.nombre+
+                " - Precio: "+this.precio+
+                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(this.lastUpdate, "dd-mm-yyyy")+
+                " - Estado:"+this.estado;
+    }
     
 }

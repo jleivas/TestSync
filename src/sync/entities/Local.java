@@ -23,7 +23,7 @@ import sync.SyncBd;
  * @author sdx
  */
 public class Local implements SyncBd{
-    private static String className = "LcBdUser";
+    private static String className = "Local";
     /**
      * Agrega o modifica un objeto en la base de datos local
      * @param object
@@ -95,6 +95,8 @@ public class Local implements SyncBd{
     
     public static boolean modificar(User object) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
         Log.setLog(className,Log.getReg());
+        if(object == null)
+            return false;
         PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM usuario WHERE us_id="+object.getId());
         ResultSet datos = consulta.executeQuery();
         while (datos.next()) {
@@ -104,6 +106,8 @@ public class Local implements SyncBd{
             } catch (Exception e) {
                 OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
             }
+            if(dsp_fecha == null)
+                dsp_fecha = new Date();
             if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
                 return false;
             }

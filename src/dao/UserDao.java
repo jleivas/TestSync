@@ -7,39 +7,39 @@ package dao;
 
 import entities.User;
 import fn.GlobalValues;
+import fn.Log;
 import fn.OptionPane;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import sync.Cmp;
-import sync.Sync;
-import sync.entities.Global;
-import sync.entities.Local;
-import sync.entities.Remote;
 
 /**
  *
  * @author jorge
  */
 public class UserDao implements Dao{
-    private static Global global = new Global();
-    private static Local local = new Local();
-    private static Remote remote = new Remote();
-    
+    private static String className = "UserDao";
+    /**
+     *
+     * @param object
+     * @return
+     */
+    @Override
     public boolean add(Object object){
+        Log.setLog(className,Log.getReg());
         User user =  (User)object;
         user.setLastUpdate(new Date());
-        if(Cmp.isOnline()){
+        if(GlobalValues.isOnline()){
             try {
-                user.setId(remote.getMaxUserId());
+                user.setId(GlobalValues.REMOTE_SYNC.getMaxUserId());
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!remote.userExist(user.getUsername()))
+            if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername()))
                 try {
-                    return sync.Sync.add(local, remote, global, user);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -62,27 +62,28 @@ public class UserDao implements Dao{
      */
     @Override
     public boolean update(Object object){
+        Log.setLog(className,Log.getReg());
         User user =  (User)object;
         user.setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-        if(Cmp.isOnline()){
-            User old = (User)remote.getUser(user.getUsername());
+        if(GlobalValues.isOnline()){
+            User old = (User)GlobalValues.REMOTE_SYNC.getUser(user.getUsername());
             if(old == null){//no existe ningun registro con el mismo username
                 try {
-                    return sync.Sync.add(local, remote, global, user);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if(old.getId() == user.getId()){//inserta sin validar username
                 try {
-                    return sync.Sync.add(local, remote, global, user);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                if(!remote.userExist(user.getUsername()))//valida si ya existe el nuevo username
+                if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername()))//valida si ya existe el nuevo username
                     try {
-                        return sync.Sync.add(local, remote, global, user);
+                        return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -106,14 +107,15 @@ public class UserDao implements Dao{
      */
     @Override
     public boolean delete(String id){
+        Log.setLog(className,Log.getReg());
         User user =  null;
-        if(Cmp.isOnline()){
-            user =  (User)remote.getUser(id);
+        if(GlobalValues.isOnline()){
+            user =  (User)GlobalValues.REMOTE_SYNC.getUser(id);
             if(user != null){//valida si ya existe el username
                 user.setEstado(0);
                 user.setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
                 try {
-                    return sync.Sync.add(local, remote, global, user);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -125,20 +127,44 @@ public class UserDao implements Dao{
         }
         return false;
     }
+    
+    @Override
+    public boolean restore(String id){
+        Log.setLog(className,Log.getReg());
+        User user =  null;
+        if(GlobalValues.isOnline()){
+            user =  (User)GlobalValues.REMOTE_SYNC.getUser(id);
+            if(user != null){//valida si ya existe el username
+                user.setEstado(1);
+                user.setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                try {
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                OptionPane.showMsg("No se puede restaurar usuario", "El usuario no existe.", JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            OptionPane.showMsg("No se puede restaurar el usuario", "Para poder ejecutar esta operación debes tener acceso a internet.", JOptionPane.WARNING_MESSAGE);
+        }
+        return false;
+    }
 
     @Override
     public void sincronize() {
+        Log.setLog(className,Log.getReg());
         try {
-            if(sync.Cmp.isOnline()){
-                for (User object : remote.users(-2)) {
-                    sync.Sync.add(local, remote, global, object);
+            if(GlobalValues.isOnline()){
+                for (User object : GlobalValues.REMOTE_SYNC.users(-2)) {
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
-                for (User object : local.users(-2)) {
-                    sync.Sync.add(local, remote, global, object);
+                for (User object : GlobalValues.LOCAL_SYNC.users(-2)) {
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }else{
-                for (User object : local.users(-2)) {
-                    sync.Sync.add(local, remote, global, object);
+                for (User object : GlobalValues.LOCAL_SYNC.users(-2)) {
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }  
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -148,7 +174,8 @@ public class UserDao implements Dao{
 
     @Override
     public Object get(String idObject) {
-        return local.getUser(idObject);
+        Log.setLog(className,Log.getReg());
+        return GlobalValues.LOCAL_SYNC.getUser(idObject);
     }
     
    

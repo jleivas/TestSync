@@ -5,14 +5,19 @@
  */
 package testsync;
 
+import dao.CristalDao;
 import dao.UserDao;
+import entities.Cristal;
 import entities.User;
 import fn.GlobalValues;
+import fn.SubProcess;
 import fn.date.Cmp;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  *
@@ -27,22 +32,35 @@ public class TestSync {
         // TODO code application logic here
 //        Date d = new Date(6456564);
 //        Date a = new Date();
-//        Date b = new Date();
-//        System.out.println(""+a.compareTo(d));
+////        Date b = new Date();
+////        System.out.println(""+a.compareTo(d));
 //        UserDao load = new UserDao();
 //        load.sincronize();
-//        User aux = (User)load.get("root");
-//        if(aux != null){
-//            aux.setEstado(1);
-//            load.update(aux);
-//        }
-    String no = "Jorge Luis Leiva Silva";
-        System.out.println("..."+no.substring(2));
+////        User aux = (User)load.get("root");
+////        User u1 = new User(0, "Elias", "eli", "admin", 1, 1, null);
+////        load.add(u1);
+////        User u2 = new User(0, "Alan", "alanx", "1234", 1, 1, null);
+////        load.add(u2);
+//        load.restore("eli");
 //        for (User temp : GlobalValues.TMP_LIST_USERS) {
 //            System.out.println(""+temp.toString());
 //        }
 //        System.out.println(GlobalValues.MAIL_LOG);
 //        testear linea 74 en LcBdUser
     }
+
+    private static void cristales() {
+        Cristal c1 = new Cristal(0, "ADO-90", 19990, 1, null);
+        CristalDao load = new CristalDao();
+        load.add(c1);
+        load.sincronize();
+        load.restore("ado-90");
+        for (Cristal cristal : GlobalValues.TMP_LIST_CRISTAL) {
+            System.out.println(""+cristal.toString());
+        }
+
+        
+    }
+    
     
 }

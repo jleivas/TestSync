@@ -5,29 +5,29 @@
  */
 package sync;
 
+import fn.GlobalValues;
+import fn.Log;
 import java.io.IOException;
 import java.net.Socket;
+import sync.entities.Global;
 
 /**
  *
  * @author sdx
  */
 public class Cmp {
-    public static boolean isOnline(){
-        String comando = "ping -c 1 google.com";
+    private static String className = "sync.Cmp";
+    public static Global global(){
+        return new Global();
+    }
+    
+    public static void isOnline(){
+        Log.setLog(className,Log.getReg());
+        String comando = "ping www.softdirex.cl";//ping -c 1 google.com
         try{
-            return (Runtime.getRuntime().exec (comando).waitFor() == 0);
+            GlobalValues.IS_ONLINE = (Runtime.getRuntime().exec (comando).waitFor() == 0);
         }catch(IOException | InterruptedException e){
-            return false;
+            GlobalValues.IS_ONLINE = false;
         }
-        
-//        try{
-//            if(new Socket("www.softdirex.cl", 80).isConnected()){
-//              return true;
-//            }
-//        }catch(Exception e){
-//            return false;
-//        }
-//        return false;
     }
 }

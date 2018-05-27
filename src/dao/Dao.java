@@ -13,6 +13,7 @@ public interface Dao {
     public boolean add(Object object);
     public boolean update(Object object);
     public boolean delete(String id);
+    public boolean restore(String id);
     public Object get(String idObject);
     public void sincronize();
 }
