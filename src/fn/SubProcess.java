@@ -21,14 +21,14 @@ public class SubProcess {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     public static void isOnline() {
-        Log.setLog(className,Log.getReg());
+        Cmp.isOnline();
         final Runnable beeper = new Runnable() {
           public void run() { 
               Cmp.isOnline(); 
           }
         };
         final ScheduledFuture<?> beeperHandle =
-            scheduler.scheduleAtFixedRate(beeper, 30, 30, SECONDS);
+            scheduler.scheduleAtFixedRate(beeper, 5, 5, SECONDS);
             scheduler.schedule(
                     new Runnable() {
                         public void run() { 
@@ -37,11 +37,4 @@ public class SubProcess {
                     }
                     , 60 * 60, SECONDS);
     }
-    
-//    public static void isOnline(){
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        executor.submit(() -> {
-//            
-//        });
-//    }
 }

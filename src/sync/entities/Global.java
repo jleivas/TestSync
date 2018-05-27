@@ -6,6 +6,7 @@
 package sync.entities;
 
 import entities.Cristal;
+import entities.Descuento;
 import entities.User;
 import fn.GlobalValues;
 import fn.Log;
@@ -55,6 +56,21 @@ public class Global implements SyncBd{
                 }
                 GlobalValues.TMP_LIST_CRISTAL.add((Cristal)object);
             }
+            if(object instanceof Descuento){
+                for (Descuento temp : GlobalValues.TMP_LIST_DESCUENTO) {
+                    if(temp.getId() == ((Descuento)object).getId()){
+                        if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Descuento)object).getLastUpdate())){
+                            int index = GlobalValues.TMP_LIST_DESCUENTO.indexOf(temp);
+                            GlobalValues.TMP_LIST_DESCUENTO.add(index, (Descuento)object);
+                            GlobalValues.TMP_LIST_DESCUENTO.remove(index+1);
+                            return true;
+                        }else
+                            return false;
+                    }
+                        
+                }
+                GlobalValues.TMP_LIST_DESCUENTO.add((Descuento)object);
+            }
         } 
         return true;
     }
@@ -73,6 +89,16 @@ public class Global implements SyncBd{
     public Cristal getCristal(String name) {
         Log.setLog(className,Log.getReg());
         for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
+            if((object.getNombre().toLowerCase()).equals(name.toLowerCase()))
+                return object;
+        }
+        return null;
+    }
+
+    @Override
+    public Descuento getDescuento(String name) {
+        Log.setLog(className,Log.getReg());
+        for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
             if((object.getNombre().toLowerCase()).equals(name.toLowerCase()))
                 return object;
         }

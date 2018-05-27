@@ -28,7 +28,7 @@ public class TestSync {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException{
         // TODO code application logic here
 //        Date d = new Date(6456564);
 //        Date a = new Date();
@@ -47,19 +47,20 @@ public class TestSync {
 //        }
 //        System.out.println(GlobalValues.MAIL_LOG);
 //        testear linea 74 en LcBdUser
+        cristales();
     }
 
-    private static void cristales() {
-        Cristal c1 = new Cristal(0, "ADO-90", 19990, 1, null);
+    private static void cristales() throws InterruptedException {
+        SubProcess.isOnline();
+        Cristal c1 = new Cristal(0, "CRISTAL-77", 19990, 1, null);
         CristalDao load = new CristalDao();
         load.add(c1);
         load.sincronize();
-        load.restore("ado-90");
         for (Cristal cristal : GlobalValues.TMP_LIST_CRISTAL) {
             System.out.println(""+cristal.toString());
         }
 
-        
+        System.exit(0);
     }
     
     

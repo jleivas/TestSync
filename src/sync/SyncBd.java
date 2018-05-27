@@ -6,6 +6,7 @@
 package sync;
 
 import entities.Cristal;
+import entities.Descuento;
 import entities.User;
 
 /**
@@ -16,4 +17,5 @@ public interface SyncBd {
      public boolean add(Object object);
      public User getUser(String username);
      public Cristal getCristal(String name);
+     public Descuento getDescuento(String name);
 }

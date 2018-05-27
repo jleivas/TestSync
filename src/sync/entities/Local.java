@@ -7,6 +7,7 @@ package sync.entities;
 
 import bd.LcBd;
 import entities.Cristal;
+import entities.Descuento;
 import entities.User;
 import fn.Log;
 import fn.OptionPane;
@@ -93,6 +94,38 @@ public class Local implements SyncBd{
         return false;
     }
     
+    public static boolean update(Descuento object) throws   SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+        Log.setLog(className,Log.getReg());
+        if(object != null){
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT des_id FROM descuento WHERE des_id="+object.getId());
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    LcBd.cerrar();
+                    return modificar(object);
+                }    
+                //////// dar formato String a fecha
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "INSERT INTO descuento VALUES("
+                                +object.getId()+",'"
+                                +object.getNombre()+"','"
+                                +object.getDescripcion()+"',"
+                                +object.getPorcetange()+","
+                                +object.getMonto()+","
+                                +object.getEstado()+",'"
+                                +sqlfecha+"')"
+                               );
+                if(insert.executeUpdate()!=0){
+                    LcBd.cerrar();
+                    //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                    return true;
+                }
+        }
+        OptionPane.showMsg("Error inseperado en la operación", "Registro: "+object.getNombre()+"\nId: "+object.getId()+"\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    
     public static boolean modificar(User object) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
         Log.setLog(className,Log.getReg());
         if(object == null)
@@ -153,6 +186,39 @@ public class Local implements SyncBd{
                         +", cri_estado = "+object.getEstado()
                         +", cri_last_update = '"+sqlfecha
                         +"' WHERE cri_id = "+object.getId()+" AND cri_last_update <= '"+sqlfecha+"'");
+        if(insert.executeUpdate()!=0){
+            LcBd.cerrar();
+            return true;
+        }
+        else{
+            LcBd.cerrar();
+            return true;
+        }
+    }
+    
+    public static boolean modificar(Descuento object) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Log.setLog(className,Log.getReg());
+        PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM descuento WHERE des_id="+object.getId());
+        ResultSet datos = consulta.executeQuery();
+        while (datos.next()) {
+            Date dsp_fecha= new Date();
+            try {
+                dsp_fecha = datos.getDate("des_last_update");
+            } catch (Exception e) {
+                OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+            }
+            if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                return false;
+            }
+        }
+        java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+        PreparedStatement insert = LcBd.obtener().prepareStatement(
+                "UPDATE descuento set des_nombre = '"+object.getNombre()
+                        +", des_descripcion = '"+object.getDescripcion()
+                        +"', des_porc = "+object.getPorcetange()
+                        +", des_monto = "+object.getMonto()
+                        +", des_last_update = '"+sqlfecha
+                        +"' WHERE des_id = "+object.getId()+" AND des_last_update <= '"+sqlfecha+"'");
         if(insert.executeUpdate()!=0){
             LcBd.cerrar();
             return true;
@@ -224,6 +290,38 @@ public class Local implements SyncBd{
         LcBd.cerrar();
         return lista;
     }
+    
+    public ArrayList<Descuento> descuentos(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Log.setLog(className,Log.getReg());
+        String sql="SELECT * FROM descuento WHERE des_id="+id;
+        if(id==0){
+        sql="SELECT * FROM descuento WHERE des_estado=1";
+        }
+         if(id==-1){
+        sql="SELECT * FROM descuento WHERE des_estado=0";
+        }
+         if(id==-2){
+        sql="SELECT * FROM descuento";
+        }
+        
+        PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+        ResultSet datos = consulta.executeQuery();
+        ArrayList<Descuento> lista = new ArrayList<>();
+        while (datos.next()) {
+            lista.add(new Descuento(
+                    datos.getInt("des_id")
+                    , datos.getString("des_nombre")
+                    , datos.getString("des_descripcion")
+                    , datos.getInt("des_porc")
+                    , datos.getInt("des_monto")
+                    , datos.getInt("des_estado")
+                    , datos.getDate("des_last_update")
+                    )
+            );
+        }
+        LcBd.cerrar();
+        return lista;
+    }
 
     @Override
     public boolean add(Object object) {
@@ -233,6 +331,8 @@ public class Local implements SyncBd{
                 return update((User)object);
             if(object instanceof Cristal)
                 return update((Cristal)object);
+            if(object instanceof Descuento)
+                return update((Descuento)object);
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
             OptionPane.showMsg("Error", "No se pudo agregar nuevo registro:\n"
                     + "Error: "+ex.getMessage()+"\nLoc: "+className+"::add(Object object)", JOptionPane.ERROR_MESSAGE);
@@ -259,6 +359,20 @@ public class Local implements SyncBd{
         Log.setLog(className,Log.getReg());
         try {
             for (Cristal temp : cristales(-2)) {
+                if(temp.getNombre().toLowerCase().equals(name.toLowerCase()))
+                    return temp;
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: "+Log.getLog()+"\n\n"+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    @Override
+    public Descuento getDescuento(String name) {
+        Log.setLog(className,Log.getReg());
+        try {
+            for (Descuento temp : descuentos(-2)) {
                 if(temp.getNombre().toLowerCase().equals(name.toLowerCase()))
                     return temp;
             }
