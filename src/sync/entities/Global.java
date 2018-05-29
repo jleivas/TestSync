@@ -5,6 +5,7 @@
  */
 package sync.entities;
 
+import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.User;
@@ -71,6 +72,21 @@ public class Global implements SyncBd{
                 }
                 GlobalValues.TMP_LIST_DESCUENTO.add((Descuento)object);
             }
+            if(object instanceof Cliente){
+                for (Cliente temp : GlobalValues.TMP_LIST_CLIENTES) {
+                    if(temp.getRut().equals(((Cliente)object).getRut())){
+                        if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Cliente)object).getLastUpdate())){
+                            int index = GlobalValues.TMP_LIST_CLIENTES.indexOf(temp);
+                            GlobalValues.TMP_LIST_CLIENTES.add(index, (Cliente)object);
+                            GlobalValues.TMP_LIST_CLIENTES.remove(index+1);
+                            return true;
+                        }else
+                            return false;
+                    }
+                        
+                }
+                GlobalValues.TMP_LIST_CLIENTES.add((Cliente)object);
+            }
         } 
         return true;
     }
@@ -100,6 +116,16 @@ public class Global implements SyncBd{
         Log.setLog(className,Log.getReg());
         for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
             if((object.getNombre().toLowerCase()).equals(name.toLowerCase()))
+                return object;
+        }
+        return null;
+    }
+    
+    @Override
+    public Cliente getCliente(String rut) {
+        Log.setLog(className,Log.getReg());
+        for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
+            if((object.getRut().toLowerCase()).equals(rut.toLowerCase()))
                 return object;
         }
         return null;

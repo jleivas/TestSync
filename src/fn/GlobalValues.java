@@ -5,6 +5,7 @@
  */
 package fn;
 
+import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.User;
@@ -78,6 +79,7 @@ public class GlobalValues {
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
     public static ArrayList<Cristal> TMP_LIST_CRISTAL = new ArrayList<Cristal>();
     public static ArrayList<Descuento> TMP_LIST_DESCUENTO = new ArrayList<Descuento>();
+    public static ArrayList<Cliente> TMP_LIST_CLIENTES = new ArrayList<Cliente>();
     
     /* Joption Pane del sistema */
     public static String PANELTITLE ="";

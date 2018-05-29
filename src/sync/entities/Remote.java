@@ -5,6 +5,7 @@
  */
 package sync.entities;
 import bd.RmBd;
+import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.User;
@@ -126,6 +127,43 @@ public class Remote implements SyncBd{
         return false;
     }
     
+    public static boolean update(Cliente object) throws SQLException, ClassNotFoundException{
+        Log.setLog(className,Log.getReg());
+        if(object != null){
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT `cli_rut` FROM `cliente` WHERE `cli_rut`='"+object.getRut()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    RmBd.cerrar();
+                    return modificar(object);
+                }    
+                //////// dar formato String a fecha
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        "INSERT INTO cliente VALUES('"
+                                +object.getRut()+"', '"
+                                +object.getNombre()+"', '"
+                                +object.getTelefono1()+"', '"
+                                +object.getTelefono2()+"', '"
+                                +object.getEmail()+"', '"
+                                +object.getDireccion()+"', '"
+                                +object.getComuna()+"', '"
+                                +object.getCiudad()+"', '"
+                                +object.getSexo()+"', '"
+                                +object.getEdad()+"', '"
+                                +object.getEstado()+"', '"
+                                +sqlfecha+"')"
+                               );
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+                    
+                    return true;
+                }
+        }
+        OptionPane.showMsg("Error inseperado en la operación", "Registro: "+object.getNombre()+"\nId: "+object.getRut()+"\nNo se pudo insertar.\nDetalle:\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    
     public static boolean modificar(User object) throws SQLException, ClassNotFoundException{
         Log.setLog(className,Log.getReg());
         PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM `usuario` WHERE `us_id`='"+object.getId()+"'");
@@ -232,6 +270,47 @@ public class Remote implements SyncBd{
         }
     }
     
+    public static boolean modificar(Cliente object) throws SQLException, ClassNotFoundException{
+        Log.setLog(className,Log.getReg());
+        PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM `cliente` WHERE `cli_rut`='"+object.getRut()+"'");
+        ResultSet datos = consulta.executeQuery();
+        while (datos.next()) {
+            Date dsp_fecha= new Date();
+            try {
+                dsp_fecha = datos.getDate("cli_last_update");
+            } catch (Exception e) {
+                OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+            }
+            if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                return false;
+            }
+        }
+        java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+        
+        PreparedStatement insert = RmBd.obtener().prepareStatement(
+                "UPDATE `cliente` set `cli_nombre` = '"+object.getNombre()
+                        +"', `cli_telefono1` = '"+object.getTelefono1()
+                        +"', `cli_telefono2` = '"+object.getTelefono2()
+                        +"', `cli_email` = '"+object.getEmail()
+                        +"', `cli_direccion` = '"+object.getDireccion()
+                        +"', `cli_comuna` = '"+object.getComuna()
+                        +"', `cli_ciudad` = '"+object.getCiudad()
+                        +"', `cli_sexo` = '"+object.getSexo()
+                        +"', `cli_edad` = '"+object.getEdad()
+                        +"', `cli_estado` = '"+object.getEstado()
+                        +"', `cli_last_update` = '"+sqlfecha
+                        +"' WHERE `cli_rut` = '"+object.getRut()+"' AND cli_last_update <= '"+sqlfecha+"'");
+        if(insert.executeUpdate()!=0){
+            RmBd.cerrar();
+            
+            return true;
+        }
+        else{
+            RmBd.cerrar();
+            return true;
+        }
+    }
+    
     public ArrayList<User> users(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
         Log.setLog(className,Log.getReg());
         String sql="SELECT * FROM usuario WHERE us_id="+id;
@@ -326,7 +405,42 @@ public class Remote implements SyncBd{
         return lista;
     }
     
-    
+    public ArrayList<Cliente> clientes(String rut) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException{
+        Log.setLog(className,Log.getReg());
+        String sql="SELECT * FROM cliente WHERE cli_rut="+rut;
+        if(rut.equals("0")){
+        sql="SELECT * FROM cliente WHERE cli_estado=1";
+        }
+         if(rut.equals("-1")){
+        sql="SELECT * FROM cliente WHERE cli_estado=0";
+        }
+         if(rut.equals("-2")){
+        sql="SELECT * FROM cliente";
+        }
+        
+        PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+        ResultSet datos = consulta.executeQuery();
+        ArrayList<Cliente> lista = new ArrayList<>();
+        while (datos.next()) {
+            lista.add(new Cliente(
+                    datos.getString("cli_rut")
+                    , datos.getString("cli_nombre")
+                    , datos.getString("cli_telefono1")
+                    , datos.getString("cli_telefono2")
+                    , datos.getString("cli_email")
+                    , datos.getString("cli_direccion")
+                    , datos.getString("cli_comuna")
+                    , datos.getString("cli_ciudad")
+                    , datos.getInt("cli_sexo")
+                    , datos.getInt("cli_edad")
+                    , datos.getInt("cli_estado")
+                    , datos.getDate("cli_last_update")
+                    )
+            );
+        }
+        RmBd.cerrar();
+        return lista;
+    }
 
     @Override
     public boolean add(Object object) {
@@ -338,6 +452,8 @@ public class Remote implements SyncBd{
                 return update((Cristal)object);
             if(object instanceof Descuento)
                 return update((Descuento)object);
+            if(object instanceof Cliente)
+                return update((Cliente)object);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Remote.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -368,6 +484,13 @@ public class Remote implements SyncBd{
         return false;
     }
     
+    public boolean clienteExist(String rut) {
+        Log.setLog(className,Log.getReg());
+        if(getCliente(rut)!=null)
+            return true;
+        return false;
+    }
+    
     @Override
     public User getUser(String username) {
         Log.setLog(className,Log.getReg());
@@ -377,7 +500,7 @@ public class Remote implements SyncBd{
                     return temp;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: LcBdUser::get(param): "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: "+Log.getLog()+"\nError: "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -390,7 +513,7 @@ public class Remote implements SyncBd{
                     return temp;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: LcBdUser::get(param): "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: "+Log.getLog()+"\nError: "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -404,7 +527,21 @@ public class Remote implements SyncBd{
                     return temp;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: LcBdUser::get(param): "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: "+Log.getLog()+"\nError: "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+    
+    @Override
+    public Cliente getCliente(String rut) {
+        Log.setLog(className,Log.getReg());
+        try {
+            for (Cliente temp : clientes("-2")) {
+                if(temp.getRut().toLowerCase().equals(rut.toLowerCase()))
+                    return temp;
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("Error inesperado", "Ha ocurrido un error inesperado al intentar obtener el objeto.\nDetalle: "+Log.getLog()+"\nError: "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -443,7 +580,7 @@ public class Remote implements SyncBd{
         ResultSet datos = consulta.executeQuery();
         int id=0;
         while (datos.next()) {
-            id=datos.getInt("is_descuento");
+            id=datos.getInt("id_descuento");
         }
         RmBd.cerrar();
         return id+1;

@@ -37,13 +37,13 @@ public class UserDao implements Dao{
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername()))
+            if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername())){
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            else{
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
                 OptionPane.showMsg("No se puede crear nuevo usuario", "El Username ya se encuentra utilizado,\n"
                         + "Para poder ingresar un nuevo registro debes cambiar el username.", JOptionPane.WARNING_MESSAGE);
             }
@@ -81,13 +81,13 @@ public class UserDao implements Dao{
                     Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername()))//valida si ya existe el nuevo username
+                if(!GlobalValues.REMOTE_SYNC.userExist(user.getUsername())){//valida si ya existe el nuevo username
                     try {
                         return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, user);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                else{
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
                     OptionPane.showMsg("No se puede actualizar usuario", "El Username ya se encuentra utilizado,\n"
                             + "Para poder ingresar un nuevo registro debes cambiar el username.", JOptionPane.WARNING_MESSAGE);
                 }

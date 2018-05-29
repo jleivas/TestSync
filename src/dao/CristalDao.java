@@ -33,18 +33,18 @@ public class CristalDao implements Dao {
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!GlobalValues.REMOTE_SYNC.cristalExist(cristal.getNombre()))
+            if(!GlobalValues.REMOTE_SYNC.cristalExist(cristal.getNombre())){
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cristal);
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            else{
-                OptionPane.showMsg("No se puede crear nuevo usuario", "El Cristalname ya se encuentra utilizado,\n"
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
                         + "Para poder ingresar un nuevo registro debes cambiar el nombre.", JOptionPane.WARNING_MESSAGE);
             }
         }else{
-            OptionPane.showMsg("No se puede crear nuevo usuario", "Para poder ingresar un nuevo registro debes tener acceso a internet.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
@@ -70,13 +70,13 @@ public class CristalDao implements Dao {
                     Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                if(!GlobalValues.REMOTE_SYNC.cristalExist(cristal.getNombre()))//valida si ya existe el nuevo cristalname
+                if(!GlobalValues.REMOTE_SYNC.cristalExist(cristal.getNombre())){//valida si ya existe el nuevo cristalname
                     try {
                         return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cristal);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                else{
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(CristalDao.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else{
                     OptionPane.showMsg("No se puede actualizar registro", "El nombre ya se encuentra utilizado,\n"
                             + "Para poder ingresar un nuevo registro debes cambiar el nombre.", JOptionPane.WARNING_MESSAGE);
                 }

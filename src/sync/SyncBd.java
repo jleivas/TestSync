@@ -5,6 +5,7 @@
  */
 package sync;
 
+import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.User;
@@ -18,4 +19,5 @@ public interface SyncBd {
      public User getUser(String username);
      public Cristal getCristal(String name);
      public Descuento getDescuento(String name);
+     public Cliente getCliente(String rut);
 }

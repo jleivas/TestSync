@@ -5,9 +5,13 @@
  */
 package testsync;
 
+import dao.ClienteDao;
 import dao.CristalDao;
+import dao.DescuentoDao;
 import dao.UserDao;
+import entities.Cliente;
 import entities.Cristal;
+import entities.Descuento;
 import entities.User;
 import fn.GlobalValues;
 import fn.SubProcess;
@@ -29,25 +33,10 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException{
-        // TODO code application logic here
-//        Date d = new Date(6456564);
-//        Date a = new Date();
-////        Date b = new Date();
-////        System.out.println(""+a.compareTo(d));
-//        UserDao load = new UserDao();
-//        load.sincronize();
-////        User aux = (User)load.get("root");
-////        User u1 = new User(0, "Elias", "eli", "admin", 1, 1, null);
-////        load.add(u1);
-////        User u2 = new User(0, "Alan", "alanx", "1234", 1, 1, null);
-////        load.add(u2);
-//        load.restore("eli");
-//        for (User temp : GlobalValues.TMP_LIST_USERS) {
-//            System.out.println(""+temp.toString());
-//        }
-//        System.out.println(GlobalValues.MAIL_LOG);
-//        testear linea 74 en LcBdUser
+        SubProcess.isOnline();
         cristales();
+        descuentos();
+        clientes();
     }
 
     private static void cristales() throws InterruptedException {
@@ -60,7 +49,28 @@ public class TestSync {
             System.out.println(""+cristal.toString());
         }
 
-        System.exit(0);
+    }
+    
+    private static void descuentos() throws InterruptedException {
+        
+        Descuento d1 = new Descuento(0, "100 por ciento", "descuento total", 100, 0, 1, null);
+        DescuentoDao load = new DescuentoDao();
+        load.add(d1);
+        load.sincronize();
+        for (Descuento des : GlobalValues.TMP_LIST_DESCUENTO) {
+            System.out.println(""+des.toString());
+        }
+    }
+    
+    private static void clientes() throws InterruptedException {
+        
+        Cliente c1 = new Cliente("17665703-0", "jorhe", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, 27, 1, null);
+        ClienteDao load = new ClienteDao();
+        load.add(c1);
+        load.sincronize();
+        for (Cliente cli : GlobalValues.TMP_LIST_CLIENTES) {
+            System.out.println(""+cli.toString());
+        }
     }
     
     
