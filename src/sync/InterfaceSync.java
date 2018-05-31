@@ -8,16 +8,18 @@ package sync;
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
+import entities.Doctor;
 import entities.User;
 
 /**
  *
  * @author sdx
  */
-public interface SyncBd {
+public interface InterfaceSync {
      public boolean add(Object object);
      public User getUser(String username);
      public Cristal getCristal(String name);
      public Descuento getDescuento(String name);
      public Cliente getCliente(String rut);
+     public Doctor getDoctor(String rut);
 }

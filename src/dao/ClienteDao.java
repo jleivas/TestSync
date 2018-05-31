@@ -79,7 +79,7 @@ public class ClienteDao implements Dao{
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cli);
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(DescuentoDao.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
                 OptionPane.showMsg("No se puede eliminar registro", "El rehistro no existe.", JOptionPane.WARNING_MESSAGE);
@@ -92,7 +92,7 @@ public class ClienteDao implements Dao{
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cli);
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(DescuentoDao.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
                 OptionPane.showMsg("No se puede eliminar registro", "El rehistro no existe.", JOptionPane.WARNING_MESSAGE);
@@ -113,7 +113,7 @@ public class ClienteDao implements Dao{
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cli);
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(DescuentoDao.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
                 OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
@@ -126,7 +126,7 @@ public class ClienteDao implements Dao{
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, cli);
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(DescuentoDao.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
                 OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
@@ -146,10 +146,10 @@ public class ClienteDao implements Dao{
         Log.setLog(className,Log.getReg());
         try {
             if(GlobalValues.isOnline()){
-                for (Cliente object : GlobalValues.REMOTE_SYNC.clientes("-2")) {
+                for (Cliente object : GlobalValues.REMOTE_SYNC.clientes(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
-                for (Cliente object : GlobalValues.LOCAL_SYNC.clientes("-2")) {
+                for (Cliente object : GlobalValues.LOCAL_SYNC.clientes(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }else{
@@ -158,7 +158,7 @@ public class ClienteDao implements Dao{
                 }
             }  
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(DescuentoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

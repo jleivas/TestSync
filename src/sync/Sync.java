@@ -26,7 +26,7 @@ public class Sync {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public static boolean add(SyncBd localData, SyncBd remoteData, SyncBd globalData, Object object) throws SQLException, ClassNotFoundException{        
+    public static boolean add(InterfaceSync localData, InterfaceSync remoteData, InterfaceSync globalData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
         
         if(!globalData.add(object)){

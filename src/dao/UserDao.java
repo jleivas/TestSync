@@ -156,10 +156,10 @@ public class UserDao implements Dao{
         Log.setLog(className,Log.getReg());
         try {
             if(GlobalValues.isOnline()){
-                for (User object : GlobalValues.REMOTE_SYNC.users(-2)) {
+                for (User object : GlobalValues.REMOTE_SYNC.users(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
-                for (User object : GlobalValues.LOCAL_SYNC.users(-2)) {
+                for (User object : GlobalValues.LOCAL_SYNC.users(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }else{

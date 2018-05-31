@@ -144,10 +144,10 @@ public class CristalDao implements Dao {
         Log.setLog(className,Log.getReg());
         try {
             if(GlobalValues.isOnline()){
-                for (Cristal object : GlobalValues.REMOTE_SYNC.cristales(-2)) {
+                for (Cristal object : GlobalValues.REMOTE_SYNC.cristales(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
-                for (Cristal object : GlobalValues.LOCAL_SYNC.cristales(-2)) {
+                for (Cristal object : GlobalValues.LOCAL_SYNC.cristales(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }else{

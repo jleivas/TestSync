@@ -19,11 +19,11 @@ public class Log {
             GlobalValues.MAIL_LOG = "Registro del sistema:\n"+className+reg;
         else
             GlobalValues.MAIL_LOG = GlobalValues.MAIL_LOG+"\n"+className+reg;
-        if(GlobalValues.MAIL_LOG.length() > 100)
-            GlobalValues.MAIL_LOG = "Registro del sistema:\n..."+GlobalValues.MAIL_LOG.substring(50);
     }
 
     public static String getLog() {
+        if(GlobalValues.MAIL_LOG.length() > 100)
+            return "Registro del sistema:\n..."+GlobalValues.MAIL_LOG.substring(50);
         return GlobalValues.MAIL_LOG;
     }
 }

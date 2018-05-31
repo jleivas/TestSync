@@ -8,17 +8,18 @@ package sync.entities;
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
+import entities.Doctor;
 import entities.User;
 import fn.GlobalValues;
 import fn.Log;
 import fn.date.Cmp;
-import sync.SyncBd;
+import sync.InterfaceSync;
 
 /**
  *
  * @author sdx
  */
-public class Global implements SyncBd{
+public class Global implements InterfaceSync{
     private static String className="Global";
 
     @Override
@@ -87,6 +88,21 @@ public class Global implements SyncBd{
                 }
                 GlobalValues.TMP_LIST_CLIENTES.add((Cliente)object);
             }
+            if(object instanceof Doctor){
+                for (Doctor temp : GlobalValues.TMP_LIST_DOCTORES) {
+                    if(temp.getRut().equals(((Doctor)object).getRut())){
+                        if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Doctor)object).getLastUpdate())){
+                            int index = GlobalValues.TMP_LIST_DOCTORES.indexOf(temp);
+                            GlobalValues.TMP_LIST_DOCTORES.add(index, (Doctor)object);
+                            GlobalValues.TMP_LIST_DOCTORES.remove(index+1);
+                            return true;
+                        }else
+                            return false;
+                    }
+                        
+                }
+                GlobalValues.TMP_LIST_DOCTORES.add((Doctor)object);
+            }
         } 
         return true;
     }
@@ -125,6 +141,16 @@ public class Global implements SyncBd{
     public Cliente getCliente(String rut) {
         Log.setLog(className,Log.getReg());
         for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
+            if((object.getRut().toLowerCase()).equals(rut.toLowerCase()))
+                return object;
+        }
+        return null;
+    }
+
+    @Override
+    public Doctor getDoctor(String rut) {
+        Log.setLog(className,Log.getReg());
+        for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
             if((object.getRut().toLowerCase()).equals(rut.toLowerCase()))
                 return object;
         }

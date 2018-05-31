@@ -144,10 +144,10 @@ public class DescuentoDao implements Dao{
         Log.setLog(className,Log.getReg());
         try {
             if(GlobalValues.isOnline()){
-                for (Descuento object : GlobalValues.REMOTE_SYNC.descuentos(-2)) {
+                for (Descuento object : GlobalValues.REMOTE_SYNC.descuentos(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
-                for (Descuento object : GlobalValues.LOCAL_SYNC.descuentos(-2)) {
+                for (Descuento object : GlobalValues.LOCAL_SYNC.descuentos(GlobalValues.LAST_UPDATE)) {
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
                 }
             }else{

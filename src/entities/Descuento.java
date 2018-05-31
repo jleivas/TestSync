@@ -107,12 +107,11 @@ public class Descuento {
     public String toString() {
         return "Descuento{" + "id=" + id 
                 + ", nombre=" + nombre+"\n"
-                + ", descripcion="+"\n" 
-                + descripcion + ", porcetange="+"\n" 
-                + porcetange + ", monto="+"\n"
-                + monto + ", estado="+"\n"
-                + lastUpdate + ", lastUdate="+"\n"
-                + estado + '}';
+                + ", descripcion="+ descripcion + "\n" 
+                +", porcetange="+ porcetange +"\n" 
+                + ", monto="+ monto +"\n"
+                + ", estado="+ estado +"\n"
+                + ", lastUdate="+ lastUpdate + '}';
     }
     
     

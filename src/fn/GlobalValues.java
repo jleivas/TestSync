@@ -8,10 +8,15 @@ package fn;
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
+import entities.Doctor;
 import entities.User;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import sync.entities.Global;
 import sync.entities.Local;
 import sync.entities.Remote;
@@ -74,12 +79,14 @@ public class GlobalValues {
     public static Local LOCAL_SYNC = new Local();
     public static Remote REMOTE_SYNC = new Remote();
     public static boolean IS_ONLINE = false;
+    public static Date LAST_UPDATE;
     
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
     public static ArrayList<Cristal> TMP_LIST_CRISTAL = new ArrayList<Cristal>();
     public static ArrayList<Descuento> TMP_LIST_DESCUENTO = new ArrayList<Descuento>();
     public static ArrayList<Cliente> TMP_LIST_CLIENTES = new ArrayList<Cliente>();
+    public static ArrayList<Doctor> TMP_LIST_DOCTORES = new ArrayList<Doctor>();
     
     /* Joption Pane del sistema */
     public static String PANELTITLE ="";
@@ -94,6 +101,8 @@ public class GlobalValues {
     public static void initValues(){
         Log.setLog(className,Log.getReg());
         SubProcess.isOnline();
+        SubProcess.sincronizeAll();
+        loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
         LOCAL_PATH = System.getProperty("user.dir")+File.separator;
         FILES_PATH = LOCAL_PATH+"files"+File.separator;
     }
@@ -133,6 +142,41 @@ public class GlobalValues {
     
     public static boolean isOnline(){
         return IS_ONLINE;
+    }
+
+    public static String getEqId() throws UnknownHostException{
+        return thisPcAddress()+"/"+thisPcName();
+    }
+    
+    private static String thisPcAddress() throws UnknownHostException{
+        InetAddress localHost = InetAddress.getLocalHost();
+        return localHost.getHostAddress();
+    }
+    
+    private static String thisPcName() throws UnknownHostException{
+        InetAddress localHost = InetAddress.getLocalHost();
+        return localHost.getHostName();
+    }
+    private static void loadLastUpdateFromXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * Obtiene el numero del equipo desde la licencia actual para insertar en base de datos
+     * Ejemplo: "1-7000" donde 1 es el número del equipo y 7000 es el id correlativo
+     * @return inicio del Id para asignarlo a la respectiva clase
+     */
+    public static String getIndexId(){
+        try{
+            int index = Integer.parseInt(LOCAL_ID.substring((LOCAL_ID.length())-1));
+            return index+"-";
+        }catch(NumberFormatException ex){
+            OptionPane.showMsg("Error Fatal", "Se ha detectado un error fatal en su sistema,"
+                    + "\nsi continúa insertando registros puede dañar todos los datos de su empresa."
+                    + "\nLe recomendamos contactarse con su proveedor de software inmediatamente."
+                    + "\nPuede estar siendo víctima de una adulteración de licencia.", JOptionPane.ERROR_MESSAGE);
+        }
+        return "Error-";
     }
     
     
