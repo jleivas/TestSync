@@ -371,8 +371,9 @@ public class LocalFicha implements InterfaceSyncFicha{
         return lista;
     }
     @Override
-    public ArrayList<Object> listar(Date param, Object type) {
+    public ArrayList<Object> listar(Date paramDate, Object type) {
         Log.setLog(className,Log.getReg());
+        java.sql.Date param = new java.sql.Date(paramDate.getTime());
         ArrayList<Object> lista = new ArrayList<>();
         try{
             if(type instanceof Armazon){

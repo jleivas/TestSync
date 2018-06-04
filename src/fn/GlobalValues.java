@@ -9,14 +9,16 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Oficina;
 import entities.User;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import sync.Cmp;
 import sync.entities.Global;
 import sync.entities.Local;
 import sync.entities.Remote;
@@ -32,9 +34,9 @@ public class GlobalValues {
     public static String VERSION = "4.0.0";
     
     /* Bases de datos*/
-    public static String BD_URL_REMOTE = "localhost";
-    public static String BD_NAME_REMOTE = "odmbd";
-    public static String BD_USER_REMOTE = "root";
+    public static String BD_URL_REMOTE = "sql52.main-hosting.eu";
+    public static String BD_NAME_REMOTE = "u477207982_o0001";
+    public static String BD_USER_REMOTE = "u477207982_o0001";
     public static String BD_PASS_REMOTE = "20075321818";
     public static String BD_URL_LOCAL = "localhost:1527";
     public static String BD_NAME_LOCAL = "odm4";
@@ -87,6 +89,7 @@ public class GlobalValues {
     public static ArrayList<Descuento> TMP_LIST_DESCUENTO = new ArrayList<Descuento>();
     public static ArrayList<Cliente> TMP_LIST_CLIENTES = new ArrayList<Cliente>();
     public static ArrayList<Doctor> TMP_LIST_DOCTORES = new ArrayList<Doctor>();
+    public static ArrayList<Oficina> TMP_LIST_OFICINAS = new ArrayList<Oficina>();
     
     /* Joption Pane del sistema */
     public static String PANELTITLE ="";
@@ -179,6 +182,9 @@ public class GlobalValues {
         return "Error-";
     }
     
+    public static String getPublicIp() throws IOException{
+        return Cmp.getPublicIp();
+    }
     
 
 }

@@ -11,15 +11,12 @@ import java.util.Date;
  *
  * @author Lenovo G470
  */
-public class Descuento {
+public class Descuento extends SyncClass{
     
-    private int id;
     private String nombre;
     private String descripcion;
     private int porcetange;
     private int monto;
-    private int estado;
-    private Date lastUpdate;
     
     public Descuento (){}
 
@@ -37,25 +34,23 @@ public class Descuento {
         return monto;
     }
 
+    @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setMonto(int monto) {
         this.monto = monto;
     }
 
+    @Override
     public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
+        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
+    @Override
     public void setId(int id) {
-        this.id = id;
+        super.setId(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNombre(String nombre) {
@@ -72,12 +67,14 @@ public class Descuento {
         this.porcetange = porcetange;
     }
 
+    @Override
     public void setEstado(int estado) {
-        this.estado = estado;
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getId() {
-        return id;
+        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNombre() {
@@ -92,8 +89,9 @@ public class Descuento {
         return porcetange;
     }
 
+    @Override
     public int getEstado() {
-        return estado;
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
     
     public boolean isNumeric(){
@@ -105,13 +103,13 @@ public class Descuento {
     
     @Override
     public String toString() {
-        return "Descuento{" + "id=" + id 
+        return "Descuento{" + "id=" + getId()
                 + ", nombre=" + nombre+"\n"
                 + ", descripcion="+ descripcion + "\n" 
                 +", porcetange="+ porcetange +"\n" 
                 + ", monto="+ monto +"\n"
-                + ", estado="+ estado +"\n"
-                + ", lastUdate="+ lastUpdate + '}';
+                + ", estado="+ getEstado() +"\n"
+                + ", lastUdate="+ getLastUpdate() + '}';
     }
     
     

@@ -9,10 +9,13 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Oficina;
 import entities.User;
 import fn.GlobalValues;
 import fn.Log;
 import fn.date.Cmp;
+import java.util.ArrayList;
+import java.util.Date;
 import sync.InterfaceSync;
 
 /**
@@ -22,7 +25,6 @@ import sync.InterfaceSync;
 public class Global implements InterfaceSync{
     private static String className="Global";
 
-    @Override
     public boolean add(Object object) {
         Log.setLog(className,Log.getReg());
         if(object == null)
@@ -103,59 +105,88 @@ public class Global implements InterfaceSync{
                 }
                 GlobalValues.TMP_LIST_DOCTORES.add((Doctor)object);
             }
+            if(object instanceof Oficina){
+                for (Oficina temp : GlobalValues.TMP_LIST_OFICINAS) {
+                    if(temp.getId() == ((Oficina)object).getId()){
+                        if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Oficina)object).getLastUpdate())){
+                            int index = GlobalValues.TMP_LIST_OFICINAS.indexOf(temp);
+                            GlobalValues.TMP_LIST_OFICINAS.add(index, (Oficina)object);
+                            GlobalValues.TMP_LIST_OFICINAS.remove(index+1);
+                            return true;
+                        }else
+                            return false;
+                    }
+                        
+                }
+                GlobalValues.TMP_LIST_OFICINAS.add((Oficina)object);
+            }
         } 
         return true;
     }
-
-    @Override
-    public User getUser(String username) {
+    public Object getElement(String idParam, Object type) {
         Log.setLog(className,Log.getReg());
-        for (User object : GlobalValues.TMP_LIST_USERS) {
-            if((object.getUsername().toLowerCase()).equals(username.toLowerCase()))
-                return object;
+        if(type instanceof User){
+            for (User object : GlobalValues.TMP_LIST_USERS) {
+                if((object.getUsername().toLowerCase()).equals(idParam.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Cristal){
+            for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
+                if((object.getNombre().toLowerCase()).equals(idParam.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Descuento){
+            for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
+                if((object.getNombre().toLowerCase()).equals(idParam.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Cliente){
+            for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
+                if((object.getRut().toLowerCase()).equals(idParam.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Doctor){
+            for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
+                if((object.getRut().toLowerCase()).equals(idParam.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Oficina){
+            int id = Integer.parseInt(idParam);
+            for (Oficina object : GlobalValues.TMP_LIST_OFICINAS) {
+                if(object.getId() == id)
+                    return object;
+            }
         }
         return null;
     }
 
     @Override
-    public Cristal getCristal(String name) {
-        Log.setLog(className,Log.getReg());
-        for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
-            if((object.getNombre().toLowerCase()).equals(name.toLowerCase()))
-                return object;
-        }
-        return null;
+    public boolean update(Object objectParam) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Descuento getDescuento(String name) {
-        Log.setLog(className,Log.getReg());
-        for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
-            if((object.getNombre().toLowerCase()).equals(name.toLowerCase()))
-                return object;
-        }
-        return null;
-    }
-    
-    @Override
-    public Cliente getCliente(String rut) {
-        Log.setLog(className,Log.getReg());
-        for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
-            if((object.getRut().toLowerCase()).equals(rut.toLowerCase()))
-                return object;
-        }
-        return null;
+    public int getMaxId(Object type) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Doctor getDoctor(String rut) {
-        Log.setLog(className,Log.getReg());
-        for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
-            if((object.getRut().toLowerCase()).equals(rut.toLowerCase()))
-                return object;
-        }
-        return null;
+    public ArrayList<Object> listar(String idParam, Object type) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public ArrayList<Object> listar(Date param, Object type) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public boolean exist(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

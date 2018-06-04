@@ -11,14 +11,12 @@ import java.util.Date;
  *
  * @author Lenovo G470
  */
-public class Doctor {
+public class Doctor extends SyncClass{
     
     private String rut;
     private String nombre;
     private String telefono;
     private String email;
-    private int estado;
-    private Date lastUpdate;
 
     public Doctor() {
     }
@@ -32,23 +30,24 @@ public class Doctor {
         setLastUpdate(lastUpdate);
     }
 
+    @Override
     public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
+        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public void setEstado(int estado) {
-        this.estado = estado;
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getEstado() {
-        return estado;
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setRut(String rut) {
@@ -88,7 +87,9 @@ public class Doctor {
         return "Doctor{" + "rut=" + rut+"\n" 
                 + ", nombre=" + nombre+"\n" 
                 + ", telefono=" + telefono+"\n" 
-                + ", email=" + email + '}';
+                + ", email=" + email+"\n" 
+                + ", estado=" + getEstado()+"\n" 
+                + ", lastUpdate=" + getLastUpdate() + '}';
     }
     
     

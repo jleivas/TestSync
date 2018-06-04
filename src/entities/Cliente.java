@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Lenovo G470
  */
-public class Cliente {
+public class Cliente extends SyncClass{
     
     private String rut;
     private String nombre;
@@ -23,8 +23,6 @@ public class Cliente {
     private String ciudad;
     private int sexo;
     private int edad;
-    private int estado;
-    private Date lastUpdate;
 
     public Cliente() {
     }
@@ -44,14 +42,16 @@ public class Cliente {
         setLastUpdate(lastUpdate);
     }
 
+
+    @Override
     public void setEstado(int estado) {
-        this.estado = estado;
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getEstado() {
-        return estado;
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
-
     public void setRut(String rut) {
         this.rut = rut;
     }
@@ -131,16 +131,15 @@ public class Cliente {
     public int getEdad() {
         return edad;
     }
-
+    
+    @Override
     public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
+        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -154,8 +153,8 @@ public class Cliente {
                 + ", ciudad=" + ciudad+"\n" 
                 + ", sexo=" + sexo+"\n" 
                 + ", edad=" + edad+"\n" 
-                + ", estado=" + estado+"\n" 
-                + ", lastUpdate=" + lastUpdate + '}';
+                + ", estado=" + getEstado()+"\n" 
+                + ", lastUpdate=" + getLastUpdate() + '}';
     }
     
     

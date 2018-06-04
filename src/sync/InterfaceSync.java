@@ -9,17 +9,21 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Oficina;
 import entities.User;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author sdx
  */
 public interface InterfaceSync {
-     public boolean add(Object object);
-     public User getUser(String username);
-     public Cristal getCristal(String name);
-     public Descuento getDescuento(String name);
-     public Cliente getCliente(String rut);
-     public Doctor getDoctor(String rut);
+     public boolean add(Object objectParam);
+     public boolean update(Object objectParam);
+     public int getMaxId(Object type);
+     public ArrayList<Object> listar(String idParam, Object type);
+     public ArrayList<Object> listar(Date param, Object type);
+     public Object getElement(String idParam, Object type);
+     public boolean exist(Object object);
 }

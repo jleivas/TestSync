@@ -11,37 +11,43 @@ import java.util.Date;
  *
  * @author home
  */
-public class User {
-    private int id;
+public class User extends SyncClass{
     private String nombre;
     private String username;
+    private String email;
     private String pass;
     private int tipo;
-    private int estado;
-    private Date lastUpdate;
 
     public User() {
     }
 
-    public User(int id, String nombre, String username, String pass, int tipo, int estado, Date lastUpdate) {
+    public User(int id, String nombre, String username,String email, String pass, int tipo, int estado, Date lastUpdate) {
         setId(id);
         setNombre(nombre);
         setUsername(username);
+        setEmail(email);
         setPass(pass);
         setTipo(tipo);
         setEstado(estado);
         setLastUpdate(lastUpdate);
     }
 
-    public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public void setLastUpdate(Date lastUpdate) {
+        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setUsername(String username) {
@@ -52,8 +58,9 @@ public class User {
         return username;
     }
 
+    @Override
     public void setId(int id) {
-        this.id = id;
+        super.setId(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNombre(String nombre) {
@@ -68,12 +75,14 @@ public class User {
         this.tipo = tipo;
     }
 
+    @Override
     public void setEstado(int estado) {
-        this.estado = estado;
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getId() {
-        return id;
+        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNombre() {
@@ -88,19 +97,21 @@ public class User {
         return tipo;
     }
 
+    @Override
     public int getEstado() {
-        return estado;
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String toString() {
-        return "\nID: "+this.id+
+        return "\nID: "+getId()+
                 " - Nombre: "+this.nombre+
                 " - USERNAME: "+this.username+
+                " - EMAIL: "+this.email+
                 " - PASS: "+this.pass+
                 " - TIPO:"+this.tipo+
-                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(this.lastUpdate, "dd-mm-yyyy")+
-                " - Estado:"+this.estado;
+                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(getLastUpdate(), "dd-mm-yyyy")+
+                " - Estado:"+getEstado();
     }
     
     

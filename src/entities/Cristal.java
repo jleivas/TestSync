@@ -11,12 +11,9 @@ import java.util.Date;
  *
  * @author home
  */
-public class Cristal {
-    private int id;
+public class Cristal extends SyncClass{
     private String nombre;
     private int precio;
-    private int estado;
-    private Date lastUpdate;
 
     public Cristal() {
     }
@@ -29,19 +26,18 @@ public class Cristal {
         setLastUpdate(lastUpdate);
     }
 
+    @Override
     public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
+        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
     }
-
+    @Override
     public Date getLastUpdate() {
-        return lastUpdate;
+        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public void setId(int id) {
-        this.id = id;
+        super.setId(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNombre(String nombre) {
@@ -52,12 +48,14 @@ public class Cristal {
         this.precio = precio;
     }
 
+    @Override
     public void setEstado(int estado) {
-        this.estado = estado;
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getId() {
-        return id;
+        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNombre() {
@@ -68,17 +66,18 @@ public class Cristal {
         return precio;
     }
 
+    @Override
     public int getEstado() {
-        return estado;
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override
     public String toString() {
-        return "\nID: "+this.id+
+        return "\nID: "+getId()+
                 " - Nombre: "+this.nombre+
                 " - Precio: "+this.precio+
-                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(this.lastUpdate, "dd-mm-yyyy")+
-                " - Estado:"+this.estado;
+                " - LAST_UPDATE:"+fn.date.Cmp.dateToString(getLastUpdate(), "dd-mm-yyyy")+
+                " - Estado:"+getEstado();
     }
     
 }
