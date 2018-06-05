@@ -30,26 +30,6 @@ public class Doctor extends SyncClass{
         setLastUpdate(lastUpdate);
     }
 
-    @Override
-    public void setLastUpdate(Date lastUpdate) {
-        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Date getLastUpdate() {
-        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setEstado(int estado) {
-        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getEstado() {
-        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void setRut(String rut) {
         this.rut = rut;
     }

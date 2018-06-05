@@ -40,27 +40,12 @@ public class User extends SyncClass{
         return email;
     }
 
-    @Override
-    public void setLastUpdate(Date lastUpdate) {
-        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Date getLastUpdate() {
-        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public void setId(int id) {
-        super.setId(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNombre(String nombre) {
@@ -75,16 +60,6 @@ public class User extends SyncClass{
         this.tipo = tipo;
     }
 
-    @Override
-    public void setEstado(int estado) {
-        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getId() {
-        return super.getId(); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -95,11 +70,6 @@ public class User extends SyncClass{
 
     public int getTipo() {
         return tipo;
-    }
-
-    @Override
-    public int getEstado() {
-        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

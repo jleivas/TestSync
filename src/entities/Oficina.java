@@ -36,21 +36,6 @@ public class Oficina extends SyncClass{
         setLastUpdate(lastUpdate);
     }
 
-    @Override
-    public void setEstado(int estado) {
-        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getEstado() {
-        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setId(int id) {
-        super.setId(id); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -77,11 +62,6 @@ public class Oficina extends SyncClass{
 
     public void setWeb(String web) {
         this.web = web;
-    }
-
-    @Override
-    public int getId() {
-        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNombre() {
@@ -112,15 +92,6 @@ public class Oficina extends SyncClass{
         return web;
     }
 
-    @Override
-    public void setLastUpdate(Date lastUpdate) {
-        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Date getLastUpdate() {
-        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
-    }
     @Override
     public String toString() {
         return "{ID: "+getId()+",\n NOMBRE: "+getNombre()+",\n DIRECCION: "+getDireccion()+",\n"

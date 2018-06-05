@@ -5,43 +5,27 @@
  */
 package entities;
 
+import java.util.Date;
+
 /**
  *
  * @author Lenovo G470
  */
-public class TipoPago {
-    
-    private int id;
+public class TipoPago extends SyncClass{
     private String nombre;
-    private int estado;
 
     public TipoPago() {
     }
 
-    public TipoPago(int id, String nombre, int estado) {
+    public TipoPago(int id, String nombre, int estado, Date lastUpdate) {
         setId(id);
         setNombre(nombre);
         setEstado(estado);
+        setLastUpdate(lastUpdate);
     }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getNombre() {
@@ -50,7 +34,7 @@ public class TipoPago {
 
     @Override
     public String toString() {
-        return "tipoPago{" + "id=" + id + ", nombre=" + nombre + '}';
+        return "tipoPago{" + "id=" + getId() + ", nombre=" + nombre + '}';
     }
     
     

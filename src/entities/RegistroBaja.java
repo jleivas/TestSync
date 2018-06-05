@@ -11,8 +11,7 @@ import java.util.Date;
  *
  * @author home
  */
-public class RegistroBaja {
-    private int id;
+public class RegistroBaja extends SyncClass{
     private Date fecha;
     private String idLente;
     private int cantidad;
@@ -21,20 +20,14 @@ public class RegistroBaja {
     public RegistroBaja() {
     }
 
-    public RegistroBaja(int id, Date fecha, String idLente, int cantidad, String obs) {
-        this.id = id;
+    public RegistroBaja(int id, Date fecha, String idLente, int cantidad, String obs, int estado, Date lastUpdate) {
+        setId(id);
         this.fecha = fecha;
         this.idLente = idLente;
         this.cantidad = cantidad;
         this.obs = obs;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        setEstado(estado);
+        setLastUpdate(lastUpdate);
     }
 
     public void setFecha(Date fecha) {

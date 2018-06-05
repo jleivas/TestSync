@@ -34,23 +34,8 @@ public class Descuento extends SyncClass{
         return monto;
     }
 
-    @Override
-    public Date getLastUpdate() {
-        return super.getLastUpdate(); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void setMonto(int monto) {
         this.monto = monto;
-    }
-
-    @Override
-    public void setLastUpdate(Date lastUpdate) {
-        super.setLastUpdate(lastUpdate); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setId(int id) {
-        super.setId(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNombre(String nombre) {
@@ -67,16 +52,6 @@ public class Descuento extends SyncClass{
         this.porcetange = porcetange;
     }
 
-    @Override
-    public void setEstado(int estado) {
-        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getId() {
-        return super.getId(); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -87,11 +62,6 @@ public class Descuento extends SyncClass{
 
     public int getPorcetange() {
         return porcetange;
-    }
-
-    @Override
-    public int getEstado() {
-        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
     
     public boolean isNumeric(){

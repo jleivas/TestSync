@@ -11,8 +11,8 @@ import java.util.Date;
  *
  * @author home
  */
-public class Lente {
-    private String id;
+public class Lente extends SyncClass{
+    private String cod;
     private String color;
     private String tipo;
     private String marca;
@@ -24,16 +24,14 @@ public class Lente {
     private int precioAct;
     private int stock;
     private int stockMin;
-    private int estado;
     private String codigo;
     private int inventario;
-    private Date lastUpdate;
 
     public Lente() {
     }
 
-    public Lente(String id, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin, int estado, int inventario, Date lastUpdate) {
-        this.id = id;
+    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,int inventario, int estado, Date lastUpdate) {
+        setCod(cod);
         this.color = color;
         this.tipo = tipo;
         this.marca = marca;
@@ -45,27 +43,26 @@ public class Lente {
         this.precioAct = precioAct;
         this.stock = stock;
         this.stockMin = stockMin;
-        this.estado = estado;
-        setCodigo(id, marca, color);
         setInventario(inventario);
+        setCodigo(cod, marca, color);
+        setEstado(estado);
         setLastUpdate(lastUpdate);
     }
 
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public String getCod() {
+        return cod;
+    }
 
     public void setInventario(int inventario) {
         this.inventario = inventario;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
     public int getInventario() {
         return inventario;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
     }
 
     public void setTipo(String tipo) {
@@ -74,10 +71,6 @@ public class Lente {
 
     public String getTipo() {
         return tipo;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setColor(String color) {
@@ -120,22 +113,14 @@ public class Lente {
         this.stockMin = stockMin;
     }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public void setCodigo(String id, String marca, String color) {
-        if(id == null || id.equals(""))
-            id = "00";
+    public void setCodigo(String cod, String marca, String color) {
+        if(cod == null || cod.equals(""))
+            cod = "00";
         if(marca == null || marca.equals(""))
             marca = "00";
         if(color == null || color.equals(""))
             color = "00";
-        this.codigo = id.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "");
-    }
-
-    public String getId() {
-        return id;
+        this.codigo = cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "");
     }
 
     public String getColor() {
@@ -178,21 +163,18 @@ public class Lente {
         return stockMin;
     }
 
-    public int getEstado() {
-        return estado;
-    }
-
     public String getCodigo() {
         return codigo;
     }
 
     @Override
     public String toString() {
-        return "\nID: "+this.id+
+        return "\n -cod: "+getCod()+
                 " - color: "+this.color+
                 " - tipo: "+this.tipo+
                 " - marca:"+this.marca+
-                " - Estado:"+this.estado;
+                " - lastUpdate:"+getLastUpdate()+
+                " - Estado:"+getEstado();
     }
     
     
