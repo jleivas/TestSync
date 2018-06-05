@@ -34,10 +34,10 @@ public class GlobalValues {
     public static String VERSION = "4.0.0";
     
     /* Bases de datos*/
-    public static String BD_URL_REMOTE = "sql52.main-hosting.eu";
-    public static String BD_NAME_REMOTE = "u477207982_o0001";
-    public static String BD_USER_REMOTE = "u477207982_o0001";
-    public static String BD_PASS_REMOTE = "20075321818";
+    public static String BD_URL_REMOTE = "";
+    public static String BD_NAME_REMOTE = "";
+    public static String BD_USER_REMOTE = "";
+    public static String BD_PASS_REMOTE = "";
     public static String BD_URL_LOCAL = "localhost:1527";
     public static String BD_NAME_LOCAL = "odm4";
     public static String BD_USER_LOCAL = "odm4";
