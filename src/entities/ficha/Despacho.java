@@ -5,37 +5,36 @@
  */
 package entities.ficha;
 
+import entities.SyncClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Despacho {
+public class Despacho extends SyncClass{
     
-    private String id;
+    private String cod;
     private String rut;
     private String nombre;
     private Date fecha;
     private String idFicha;
-    private int estado;
-    private Date lastUpdate;
 
     public Despacho() {
     }
 
-    public Despacho(String id, String rut, String nombre, Date fecha, String idFicha, int estado, Date lastUpdate) {
-        this.id = id;
+    public Despacho(String cod, String rut, String nombre, Date fecha, String idFicha, int estado, Date lastUpdate) {
+        this.cod = cod;
         this.rut = rut;
         this.nombre = nombre;
         this.fecha = fecha;
         this.idFicha = idFicha;
-        this.estado = estado;
+        setEstado(estado);
         setLastUpdate(lastUpdate);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCod(String cod) {
+        this.cod = cod;
     }
 
     public void setRut(String rut) {
@@ -54,8 +53,8 @@ public class Despacho {
         this.idFicha = idFicha;
     }
 
-    public String getId() {
-        return id;
+    public String getCod() {
+        return cod;
     }
 
     public String getRut() {
@@ -74,36 +73,12 @@ public class Despacho {
         return idFicha;
     }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            this.lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-    
-    
-
     @Override
     public String toString() {
-        return "Despacho{" + "id=" + id 
+        return "Despacho{" + "cod=" + cod 
                 + ", rut=" + rut 
                 + ", nombre=" + nombre 
                 + ", fecha=" + fecha 
                 + ", idFicha=" + idFicha + '}';
     }
-    
-    
-    
 }

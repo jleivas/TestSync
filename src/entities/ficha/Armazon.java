@@ -5,15 +5,16 @@
  */
 package entities.ficha;
 
+import entities.SyncClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Armazon {
+public class Armazon extends SyncClass{
     
-    private String id;
+    private String cod;
     private int tipo;
     private String marca;
     private String cristal;
@@ -29,14 +30,12 @@ public class Armazon {
     private int capa;
     private int plusMax;
     private String IdFicha;
-    private int estado;
-    private Date lastUpdate;
 
     public Armazon() {
     }
 
-    public Armazon(String id, int tipo, String marca, String cristal, String add, String odA, String odEsf, String odCil, String oiA, String oiEsf, String oiCil, int dp, int endurecido, int capa, int plusMax, String IdFicha, int estado, Date lastUpdate) {
-        setId(id);
+    public Armazon(String cod, int tipo, String marca, String cristal, String add, String odA, String odEsf, String odCil, String oiA, String oiEsf, String oiCil, int dp, int endurecido, int capa, int plusMax, String IdFicha, int estado, Date lastUpdate) {
+        setCod(cod);
         setTipo(tipo);
         setCristal(cristal);
         setAdd(add);
@@ -55,17 +54,8 @@ public class Armazon {
         setEstado(estado);
         setLastUpdate(lastUpdate);
     }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setCod(String cod) {
+        this.cod = cod;
     }
 
     public void setTipo(int tipo) {
@@ -123,9 +113,13 @@ public class Armazon {
     public void setIdFicha(String IdFicha) {
         this.IdFicha = IdFicha;
     }
+    
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
-    public String getId() {
-        return id;
+    public String getCod() {
+        return cod;
     }
 
     public int getTipo() {
@@ -180,32 +174,17 @@ public class Armazon {
         return plusMax;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+     
     public String getIdFicha() {
         return IdFicha;
     }
 
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        if(lastUpdate == null)
-            lastUpdate = new Date();
-        else
-            this.lastUpdate = lastUpdate;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
     @Override
     public String toString() {
-        return "Armazon{" + "id=" + id+"\n"
+        return "Armazon{" + "cod=" + cod+"\n"
                 + ", tipo=" + tipo+"\n"  
                 + ", cristal=" + cristal+"\n"  
                 + ", add=" + add+"\n"  
@@ -220,13 +199,7 @@ public class Armazon {
                 + ", capa=" + capa+"\n"  
                 + ", plusMax=" + plusMax+"\n"
                 + ", IdFicha=" + IdFicha+"\n"
-                + ", estado=" + estado+"\n"
-                + ", lastUpdate=" + lastUpdate + '}';
+                + ", estado=" + getEstado()+"\n"
+                + ", lastUpdate=" + getLastUpdate() + '}';
     }
-    
-    
-    
-    
-    
-    
 }
