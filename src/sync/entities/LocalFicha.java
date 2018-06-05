@@ -36,7 +36,7 @@ public class LocalFicha implements InterfaceSyncFicha{
         try{
             if(objectParam instanceof Armazon){
                 Armazon object = (Armazon)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT arm_id FROM armazon WHERE arm_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT arm_id FROM armazon WHERE arm_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     LcBd.cerrar();
@@ -47,7 +47,7 @@ public class LocalFicha implements InterfaceSyncFicha{
 
                 PreparedStatement insert = LcBd.obtener().prepareStatement(
                         "INSERT INTO armazon VALUES('"
-                                +object.getId()+"', "
+                                +object.getCod()+"', "
                                 +object.getTipo()+", '"
                                 +object.getMarca()+"', '"
                                 +object.getCristal()+"', '"
@@ -74,7 +74,7 @@ public class LocalFicha implements InterfaceSyncFicha{
             }
             if(objectParam instanceof Despacho){
                 Despacho object = (Despacho)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT dsp_id FROM despacho WHERE dsp_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT dsp_id FROM despacho WHERE dsp_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     LcBd.cerrar();
@@ -85,7 +85,7 @@ public class LocalFicha implements InterfaceSyncFicha{
 
                 PreparedStatement insert = LcBd.obtener().prepareStatement(
                         "INSERT INTO despacho VALUES('"
-                                +object.getId()+"', '"
+                                +object.getCod()+"', '"
                                 +object.getRut()+"', '"
                                 +object.getNombre()+"', '"
                                 +object.getFecha()+"', '"
@@ -101,7 +101,7 @@ public class LocalFicha implements InterfaceSyncFicha{
             }
             if(objectParam instanceof HistorialPago){
                 HistorialPago object = (HistorialPago)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT hp_id FROM historial_pago WHERE hp_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT hp_id FROM historial_pago WHERE hp_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     LcBd.cerrar();
@@ -113,7 +113,7 @@ public class LocalFicha implements InterfaceSyncFicha{
 
                 PreparedStatement insert = LcBd.obtener().prepareStatement(
                         "INSERT INTO historial_pago VALUES('"
-                                +object.getId()+"', '"
+                                +object.getCod()+"', '"
                                 +sqlfecha1+"', "
                                 +object.getAbono()+", "
                                 +object.getEstado()+", "
@@ -140,7 +140,7 @@ public class LocalFicha implements InterfaceSyncFicha{
         try{
             if(objectParam instanceof Armazon){
                 Armazon object = (Armazon)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM armazon WHERE arm_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM armazon WHERE arm_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha= new Date();
@@ -173,7 +173,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +", ficha_fch_id = '"+object.getIdFicha()
                                 +"', arm_estado = "+object.getEstado()
                                 +", arm_last_update = '"+sqlfecha
-                                +"' WHERE arm_id = '"+object.getId()+"' AND arm_last_update <= '"+sqlfecha+"'");
+                                +"' WHERE arm_id = '"+object.getCod()+"' AND arm_last_update <= '"+sqlfecha+"'");
                 if(insert.executeUpdate()!=0){
                     LcBd.cerrar();
 
@@ -186,7 +186,7 @@ public class LocalFicha implements InterfaceSyncFicha{
             }
             if(objectParam instanceof Despacho){
                 Despacho object = (Despacho)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM despacho WHERE dsp_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM despacho WHERE dsp_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha= new Date();
@@ -209,7 +209,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +"', ficha_fch_id = '"+object.getIdFicha()
                                 +"', dsp_estado = "+object.getEstado()
                                 +", dsp_last_update = '"+sqlfecha2
-                                +"' WHERE dsp_id = '"+object.getId()+"' AND dsp_last_update <= '"+sqlfecha2+"'");
+                                +"' WHERE dsp_id = '"+object.getCod()+"' AND dsp_last_update <= '"+sqlfecha2+"'");
                 if(insert.executeUpdate()!=0){
                     LcBd.cerrar();
 
@@ -222,7 +222,7 @@ public class LocalFicha implements InterfaceSyncFicha{
             }
             if(objectParam instanceof HistorialPago){
                 HistorialPago object = (HistorialPago)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM historial_pago WHERE hp_id='"+object.getId()+"'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM historial_pago WHERE hp_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha= new Date();
@@ -245,7 +245,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +", tipo_pago_tp_id = "+object.getIdTipoPago()
                                 +", ficha_fch_id = '"+object.getIdFicha()
                                 +"', hp_last_update = '"+sqlfecha2
-                                +"' WHERE hp_id = '"+object.getId()+"' AND hp_last_update <= '"+sqlfecha2+"'");
+                                +"' WHERE hp_id = '"+object.getCod()+"' AND hp_last_update <= '"+sqlfecha2+"'");
                 if(insert.executeUpdate()!=0){
                     LcBd.cerrar();
 

@@ -5,16 +5,15 @@
  */
 package entities.ficha;
 
-import entities.SyncClass;
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Despacho extends SyncClass{
+public class Despacho extends SyncStringId{
     
-    private String cod;
     private String rut;
     private String nombre;
     private Date fecha;
@@ -24,17 +23,13 @@ public class Despacho extends SyncClass{
     }
 
     public Despacho(String cod, String rut, String nombre, Date fecha, String idFicha, int estado, Date lastUpdate) {
-        this.cod = cod;
+        setCod(cod);
         this.rut = rut;
         this.nombre = nombre;
         this.fecha = fecha;
         this.idFicha = idFicha;
         setEstado(estado);
         setLastUpdate(lastUpdate);
-    }
-
-    public void setCod(String cod) {
-        this.cod = cod;
     }
 
     public void setRut(String rut) {
@@ -51,10 +46,6 @@ public class Despacho extends SyncClass{
 
     public void setIdFicha(String idFicha) {
         this.idFicha = idFicha;
-    }
-
-    public String getCod() {
-        return cod;
     }
 
     public String getRut() {
@@ -75,7 +66,7 @@ public class Despacho extends SyncClass{
 
     @Override
     public String toString() {
-        return "Despacho{" + "cod=" + cod 
+        return "Despacho{" + "cod=" + getCod()
                 + ", rut=" + rut 
                 + ", nombre=" + nombre 
                 + ", fecha=" + fecha 

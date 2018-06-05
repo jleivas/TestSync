@@ -5,15 +5,15 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Doctor extends SyncClass{
+public class Doctor extends SyncStringId{
     
-    private String rut;
     private String nombre;
     private String telefono;
     private String email;
@@ -22,16 +22,12 @@ public class Doctor extends SyncClass{
     }
 
     public Doctor(String rut, String nombre, String telefono, String email,int estado, Date lastUpdate) {
-        setRut(rut);
+        setCod(rut);
         setNombre(nombre);
         setTelefono(telefono);
         setEmail(email);
         setEstado(estado);
         setLastUpdate(lastUpdate);
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
     }
 
     public void setNombre(String nombre) {
@@ -44,10 +40,6 @@ public class Doctor extends SyncClass{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getRut() {
-        return rut;
     }
 
     public String getNombre() {
@@ -64,7 +56,7 @@ public class Doctor extends SyncClass{
 
     @Override
     public String toString() {
-        return "Doctor{" + "rut=" + rut+"\n" 
+        return "Doctor{" + "rut=" + getCod()+"\n" 
                 + ", nombre=" + nombre+"\n" 
                 + ", telefono=" + telefono+"\n" 
                 + ", email=" + email+"\n" 

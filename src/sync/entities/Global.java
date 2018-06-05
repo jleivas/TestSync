@@ -32,7 +32,7 @@ public class Global implements InterfaceSync{
         else{
             if(object instanceof User){
                 for (User temp : GlobalValues.TMP_LIST_USERS) {
-                    if(temp.getId() == ((User)object).getId()){
+                    if(temp.getId()== ((User)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((User)object).getLastUpdate())){
                             int index = GlobalValues.TMP_LIST_USERS.indexOf(temp);
                             GlobalValues.TMP_LIST_USERS.add(index, (User)object);
@@ -47,7 +47,7 @@ public class Global implements InterfaceSync{
             }
             if(object instanceof Cristal){
                 for (Cristal temp : GlobalValues.TMP_LIST_CRISTAL) {
-                    if(temp.getId() == ((Cristal)object).getId()){
+                    if(temp.getId()== ((Cristal)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Cristal)object).getLastUpdate())){
                             int index = GlobalValues.TMP_LIST_CRISTAL.indexOf(temp);
                             GlobalValues.TMP_LIST_CRISTAL.add(index, (Cristal)object);
@@ -77,7 +77,7 @@ public class Global implements InterfaceSync{
             }
             if(object instanceof Cliente){
                 for (Cliente temp : GlobalValues.TMP_LIST_CLIENTES) {
-                    if(temp.getRut().equals(((Cliente)object).getRut())){
+                    if(temp.getCod().equals(((Cliente)object).getCod())){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Cliente)object).getLastUpdate())){
                             int index = GlobalValues.TMP_LIST_CLIENTES.indexOf(temp);
                             GlobalValues.TMP_LIST_CLIENTES.add(index, (Cliente)object);
@@ -92,7 +92,7 @@ public class Global implements InterfaceSync{
             }
             if(object instanceof Doctor){
                 for (Doctor temp : GlobalValues.TMP_LIST_DOCTORES) {
-                    if(temp.getRut().equals(((Doctor)object).getRut())){
+                    if(temp.getCod().equals(((Doctor)object).getCod())){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Doctor)object).getLastUpdate())){
                             int index = GlobalValues.TMP_LIST_DOCTORES.indexOf(temp);
                             GlobalValues.TMP_LIST_DOCTORES.add(index, (Doctor)object);
@@ -145,13 +145,13 @@ public class Global implements InterfaceSync{
         }
         if(type instanceof Cliente){
             for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
-                if((object.getRut().toLowerCase()).equals(idParam.toLowerCase()))
+                if((object.getCod().toLowerCase()).equals(idParam.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Doctor){
             for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
-                if((object.getRut().toLowerCase()).equals(idParam.toLowerCase()))
+                if((object.getCod().toLowerCase()).equals(idParam.toLowerCase()))
                     return object;
             }
         }

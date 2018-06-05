@@ -5,13 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncIntId;
 import java.util.Date;
 
 /**
  *
  * @author sdx
  */
-public class Oficina extends SyncClass{
+public class Oficina extends SyncIntId{
     private String nombre;
     private String direccion;
     private String ciudad;

@@ -5,13 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncIntId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Descuento extends SyncClass{
+public class Descuento extends SyncIntId{
     
     private String nombre;
     private String descripcion;

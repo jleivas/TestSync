@@ -9,7 +9,7 @@ import entities.Cliente;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Institucion;
-import entities.SyncClass;
+import entities.abstractclasses.SyncStringId;
 import entities.User;
 import java.util.Date;
 
@@ -17,9 +17,8 @@ import java.util.Date;
  *
  * @author Lenovo G470
  */
-public class Ficha extends SyncClass{
+public class Ficha extends SyncStringId{
     
-    private String cod;
     private Date fecha;
     private Date fechaEntrega;
     private String lugarEntrega;
@@ -59,10 +58,6 @@ public class Ficha extends SyncClass{
         setUser(user);
         setEstado(estado);
         setLastUpdate(lastUpdate);
-    }
-    
-    public void setCod(String cod) {
-        this.cod = cod;
     }
 
     public void setFecha(Date fecha) {
@@ -123,11 +118,6 @@ public class Ficha extends SyncClass{
     
     public void setUser(User user) {
         this.user = user;
-    }
-    
-
-    public String getCod() {
-        return cod;
     }
 
     public Date getFecha() {

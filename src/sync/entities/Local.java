@@ -6,13 +6,18 @@
 package sync.entities;
 
 import bd.LcBd;
+
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Institucion;
+import entities.Lente;
 import entities.Oficina;
-import entities.SyncClass;
+import entities.RegistroBaja;
+import entities.TipoPago;
 import entities.User;
+
 import fn.Log;
 import fn.OptionPane;
 import java.sql.PreparedStatement;
@@ -38,36 +43,40 @@ public class Local implements InterfaceSync {
         try{
             if(objectParam == null)
                 return false;
-            if(objectParam instanceof User){
-                User object = (User)objectParam;
+            if(objectParam instanceof Cliente){
+                Cliente object = (Cliente)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT us_id FROM usuario WHERE us_id=" + object.getId());
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT cli_rut FROM cliente WHERE cli_rut='" + object.getCod() + "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         LcBd.cerrar();
                         return update(object);
                     }
+                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
                     PreparedStatement insert = LcBd.obtener().prepareStatement(
-                            "INSERT INTO usuario VALUES("
-                            + object.getId() + ",'"
+                            "INSERT INTO cliente VALUES('"
+                            + object.getCod() + "','"
                             + object.getNombre() + "','"
-                            + object.getUsername() + "','"
+                            + object.getTelefono1() + "','"
+                            + object.getTelefono2() + "','"
                             + object.getEmail() + "','"
-                            + object.getPass() + "',"
-                            + object.getTipo() + ","
+                            + object.getDireccion() + "','"
+                            + object.getComuna() + "','"
+                            + object.getCiudad() + "',"
+                            + object.getSexo() + ","
+                            + object.getEdad() + ","
                             + object.getEstado() + ",'"
                             + sqlfecha + "')"
                     );
                     if (insert.executeUpdate() != 0) {
                         LcBd.cerrar();
-                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", JOptionPane.INFORMATION_MESSAGE);
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Cristal){
@@ -79,6 +88,7 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
+                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -96,7 +106,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Descuento){
@@ -108,6 +118,7 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
+                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -127,60 +138,25 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-            if(objectParam instanceof Cliente){
-                Cliente object = (Cliente)objectParam;
-                if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT cli_rut FROM cliente WHERE cli_rut='" + object.getRut() + "'");
-                    ResultSet datos = consulta.executeQuery();
-                    while (datos.next()) {
-                        LcBd.cerrar();
-                        return update(object);
-                    }
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
-                    PreparedStatement insert = LcBd.obtener().prepareStatement(
-                            "INSERT INTO cliente VALUES('"
-                            + object.getRut() + "','"
-                            + object.getNombre() + "','"
-                            + object.getTelefono1() + "','"
-                            + object.getTelefono2() + "','"
-                            + object.getEmail() + "','"
-                            + object.getDireccion() + "','"
-                            + object.getComuna() + "','"
-                            + object.getCiudad() + "',"
-                            + object.getSexo() + ","
-                            + object.getEdad() + ","
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
-                    );
-                    if (insert.executeUpdate() != 0) {
-                        LcBd.cerrar();
-
-                        return true;
-                    }
-                }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getRut() + "\nId: " + object.getNombre() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Doctor){
                 Doctor object = (Doctor)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT doc_rut FROM doctor WHERE doc_rut='" + object.getRut() + "'");
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT doc_rut FROM doctor WHERE doc_rut='" + object.getCod() + "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         LcBd.cerrar();
                         return update(object);
                     }
+                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
                     PreparedStatement insert = LcBd.obtener().prepareStatement(
                             "INSERT INTO doctor VALUES('"
-                            + object.getRut() + "','"
+                            + object.getCod() + "','"
                             + object.getNombre() + "','"
                             + object.getTelefono() + "','"
                             + object.getEmail() + "',"
@@ -193,7 +169,81 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getRut() + "\nId: " + object.getNombre() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof Institucion){
+                Institucion object = (Institucion)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT ins_id FROM institucion WHERE ins_id=" + object.getId()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    LcBd.cerrar();
+                    //////// dar formato String a fecha
+                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            "INSERT INTO institucion VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "','"
+                            + object.getTelefono() + "','"
+                            + object.getEmail() + "','"
+                            + object.getDireccion()+ "','"
+                            + object.getComuna()+ "','"
+                            + object.getCiudad()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "')"
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof Lente){
+                Lente object = (Lente)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT len_id FROM lente WHERE len_id='" + object.getCod()+ "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    LcBd.cerrar();
+                    //////// dar formato String a fecha
+                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            "INSERT INTO lente VALUES('"
+                            + object.getCodigo()+ "','"
+                            + object.getColor()+ "','"
+                            + object.getTipo()+ "','"
+                            + object.getMarca()+ "','"
+                            + object.getMaterial()+ "',"
+                            + object.getFlex()+ ","
+                            + object.getClasificacion()+ ",'"
+                            + object.getDescripcion()+ "',"
+                            + object.getPrecioRef()+ ","
+                            + object.getPrecioAct()+ ","
+                            + object.getStock()+ ","
+                            + object.getStockMin()+ ",'"
+                            + object.getInventario()+ "',"
+                            + object.getEstado()+ ",'"
+                            + sqlfecha + "')"
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCodigo()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Oficina){
@@ -228,7 +278,102 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro: " + object.getId() + "\nId: " + object.getNombre() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Oficina: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof RegistroBaja){
+                RegistroBaja object = (RegistroBaja)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT rb_id FROM registro_bajas WHERE rb_id=" + object.getCod()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    LcBd.cerrar();
+                    //////// dar formato String a fecha
+                    java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+                    java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            "INSERT INTO registro_bajas VALUES("
+                            + object.getCod()+ ",'"
+                            + sqlfecha1 + "','"
+                            + object.getIdLente()+ "',"
+                            + object.getCantidad()+ ",'"
+                            + object.getObs()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha2 + "')"
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Registro de Bajas: " + object.getCod()+ "\n\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof TipoPago){
+                TipoPago object = (TipoPago)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT tp_id FROM tipo_pago WHERE tp_id='" + object.getId()+ "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    LcBd.cerrar();
+                    //////// dar formato String a fecha
+                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            "INSERT INTO tipo_pago VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "')"
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Tipo de Pago: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof User){
+                User object = (User)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT us_id FROM usuario WHERE us_id=" + object.getId());
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    LcBd.cerrar();
+                    //////// dar formato String a fecha
+                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            "INSERT INTO usuario VALUES("
+                            + object.getId() + ",'"
+                            + object.getNombre() + "','"
+                            + object.getUsername() + "','"
+                            + object.getEmail() + "','"
+                            + object.getPass() + "',"
+                            + object.getTipo() + ","
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "')"
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }catch(SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex){
@@ -242,110 +387,9 @@ public class Local implements InterfaceSync {
         try{
             if(objectParam == null)
                 return false;
-            if(objectParam instanceof User){
-                User object = (User)objectParam;
-                if (object == null) {
-                    return false;
-                }
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM usuario WHERE us_id=" + object.getId());
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    Date dsp_fecha = new Date();
-                    try {
-                        dsp_fecha = datos.getDate("us_last_update");
-                    } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
-                    }
-                    if (dsp_fecha == null) {
-                        dsp_fecha = new Date();
-                    }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
-                        return false;
-                    }
-                }
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-                PreparedStatement insert = LcBd.obtener().prepareStatement(
-                        "UPDATE usuario set us_nombre = '" + object.getNombre()
-                        + "', us_username = '" + object.getUsername()
-                        + "', us_email = '" + object.getEmail()
-                        + "', us_pass = '" + object.getPass()
-                        + "', us_tipo = " + object.getTipo()
-                        + ", us_estado = " + object.getEstado()
-                        + ", us_last_update = '" + sqlfecha
-                        + "' WHERE us_id = " + object.getId() + " AND us_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
-                }
-            }
-            if(objectParam instanceof Cristal){
-                Cristal object = (Cristal)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM cristal WHERE cri_id=" + object.getId());
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    Date dsp_fecha = new Date();
-                    try {
-                        dsp_fecha = datos.getDate("cri_last_update");
-                    } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
-                    }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
-                        return false;
-                    }
-                }
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-                PreparedStatement insert = LcBd.obtener().prepareStatement(
-                        "UPDATE cristal set cri_nombre = '" + object.getNombre()
-                        + "', cri_precio = " + object.getPrecio()
-                        + ", cri_estado = " + object.getEstado()
-                        + ", cri_last_update = '" + sqlfecha
-                        + "' WHERE cri_id = " + object.getId() + " AND cri_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
-                }
-            }
-            if(objectParam instanceof Descuento){
-                Descuento object = (Descuento)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM descuento WHERE des_id=" + object.getId());
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    Date dsp_fecha = new Date();
-                    try {
-                        dsp_fecha = datos.getDate("des_last_update");
-                    } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
-                    }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
-                        return false;
-                    }
-                }
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-                PreparedStatement insert = LcBd.obtener().prepareStatement(
-                        "UPDATE descuento set des_nombre = '" + object.getNombre()
-                        + "', des_descripcion = '" + object.getDescripcion()
-                        + "', des_porc = " + object.getPorcetange()
-                        + ", des_monto = " + object.getMonto()
-                        + ", des_estado = " + object.getEstado()
-                        + ", des_last_update = '" + sqlfecha
-                        + "' WHERE des_id = " + object.getId() + " AND des_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
-                }
-            }
             if(objectParam instanceof Cliente){
                 Cliente object = (Cliente)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM cliente WHERE cli_rut='" + object.getRut() + "'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM cliente WHERE cli_rut='" + object.getCod() + "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha = new Date();
@@ -355,9 +399,11 @@ public class Local implements InterfaceSync {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
                     if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
                         return false;
                     }
                 }
+                LcBd.cerrar();
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = LcBd.obtener().prepareStatement(
                         "UPDATE cliente set cli_nombre = '" + object.getNombre()
@@ -371,18 +417,72 @@ public class Local implements InterfaceSync {
                         + ", cli_edad = " + object.getEdad()
                         + ", cli_estado = " + object.getEstado()
                         + ", cli_last_update = '" + sqlfecha
-                        + "' WHERE cli_rut = '" + object.getRut() + "' AND cli_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
+                        + "' WHERE cli_rut = '" + object.getCod() + "' AND cli_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Cristal){
+                Cristal object = (Cristal)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM cristal WHERE cri_id=" + object.getId());
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("cri_last_update");
+                    } catch (Exception e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
                 }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE cristal set cri_nombre = '" + object.getNombre()
+                        + "', cri_precio = " + object.getPrecio()
+                        + ", cri_estado = " + object.getEstado()
+                        + ", cri_last_update = '" + sqlfecha
+                        + "' WHERE cri_id = " + object.getId() + " AND cri_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Descuento){
+                Descuento object = (Descuento)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM descuento WHERE des_id=" + object.getId());
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("des_last_update");
+                    } catch (Exception e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE descuento set des_nombre = '" + object.getNombre()
+                        + "', des_descripcion = '" + object.getDescripcion()
+                        + "', des_porc = " + object.getPorcetange()
+                        + ", des_monto = " + object.getMonto()
+                        + ", des_estado = " + object.getEstado()
+                        + ", des_last_update = '" + sqlfecha
+                        + "' WHERE des_id = " + object.getId() + " AND des_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
             }
             if(objectParam instanceof Doctor){
                 Doctor object = (Doctor)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM doctor WHERE doc_rut='" + object.getRut() + "'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM doctor WHERE doc_rut='" + object.getCod() + "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha = new Date();
@@ -392,9 +492,11 @@ public class Local implements InterfaceSync {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
                     if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
                         return false;
                     }
                 }
+                LcBd.cerrar();
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = LcBd.obtener().prepareStatement(
                         "UPDATE doctor set doc_nombre = '" + object.getNombre()
@@ -402,14 +504,80 @@ public class Local implements InterfaceSync {
                         + "', doc_mail = '" + object.getEmail()
                         + "', doc_estado = " + object.getEstado()
                         + ", doc_last_update = '" + sqlfecha
-                        + "' WHERE doc_rut = '" + object.getRut() + "' AND doc_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
+                        + "' WHERE doc_rut = '" + object.getCod() + "' AND doc_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Institucion){
+                Institucion object = (Institucion)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM institucion WHERE ins_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("ins_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
                 }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE institucion set ins_nombre = '" + object.getNombre()
+                        + "', ins_telefono = '" + object.getTelefono()
+                        + "', ins_mail = '" + object.getEmail()
+                        + "', ins_direccion = '" + object.getDireccion()
+                        + "', ins_comuna = '" + object.getComuna()
+                        + "', ins_ciudad = '" + object.getCiudad()
+                        + "', ins_estado = " + object.getEstado()
+                        + ", ins_last_update = '" + sqlfecha
+                        + "' WHERE ins_id = " + object.getId()+ " AND ins_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Lente){
+                Lente object = (Lente)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM lente WHERE len_id='" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("len_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE lente set len_color = '" + object.getColor()
+                        + "', len_tipo = '" + object.getTipo()
+                        + "', len_marca = '" + object.getMarca()
+                        + "', len_material = '" + object.getMaterial()
+                        + "', len_flex = " + object.getFlex()
+                        + ", len_clasificacion = " + object.getClasificacion()
+                        + ", len_descripcion = '" + object.getDescripcion()
+                        + "', len_precio_ref = " + object.getPrecioRef()
+                        + ", len_precio_act = " + object.getPrecioAct()
+                        + ", len_stock = " + object.getStock()
+                        + ", len_stock_min = " + object.getStockMin()
+                        + ", inventario_inv_id = '" + object.getInventario()
+                        + "', len_estado = " + object.getEstado()
+                        + ", len_last_update = '" + sqlfecha
+                        + "' WHERE ins_id = " + object.getCod()+ " AND ins_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
             }
             if(objectParam instanceof Oficina){
                 Oficina object = (Oficina)objectParam;
@@ -440,13 +608,103 @@ public class Local implements InterfaceSync {
                         + "', of_estado = " + object.getEstado()
                         + ", of_last_update = '" + sqlfecha
                         + "' WHERE of_id = " + object.getId() + " AND of_last_update <= '" + sqlfecha + "'");
-                if (insert.executeUpdate() != 0) {
-                    LcBd.cerrar();
-                    return true;
-                } else {
-                    LcBd.cerrar();
-                    return true;
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof RegistroBaja){
+                RegistroBaja object = (RegistroBaja)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM registro_bajas WHERE rb_id='" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("rb_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
                 }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE registro_bajas set rb_fecha = '" + sqlfecha1
+                        + "', lente_len_id = '" + object.getIdLente()
+                        + "', rb_cantidad = " + object.getCantidad()
+                        + ", rb_obs = '" + object.getObs()
+                        + "', rb_estado = " + object.getEstado()
+                        + ", rb_last_update = '" + sqlfecha2
+                        + "' WHERE rb_id = '" + object.getCod()+ "' AND rb_last_update <= '" + sqlfecha2 + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof TipoPago){
+                TipoPago object = (TipoPago)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM tipo_pago WHERE tp_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("tp_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE registro_bajas set tp_nombre = '" + sqlfecha
+                        + "', tp_estado = " + object.getEstado()
+                        + ", tp_last_update = '" + sqlfecha
+                        + "' WHERE tp_id = " + object.getId()+ " AND tp_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof User){
+                User object = (User)objectParam;
+                if (object == null) {
+                    return false;
+                }
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM usuario WHERE us_id=" + object.getId());
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("us_last_update");
+                    } catch (Exception e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (dsp_fecha == null) {
+                        dsp_fecha = new Date();
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        return false;
+                    }
+                }
+                LcBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE usuario set us_nombre = '" + object.getNombre()
+                        + "', us_username = '" + object.getUsername()
+                        + "', us_email = '" + object.getEmail()
+                        + "', us_pass = '" + object.getPass()
+                        + "', us_tipo = " + object.getTipo()
+                        + ", us_estado = " + object.getEstado()
+                        + ", us_last_update = '" + sqlfecha
+                        + "' WHERE us_id = " + object.getId() + " AND us_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
             }
         }catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
@@ -459,17 +717,23 @@ public class Local implements InterfaceSync {
         int id = 0;
         try{
             String sql = "";
-            if(type instanceof User){
-                sql = "SELECT MAX(us_id) as id FROM usuario";
-            }
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
+            }
+            if(type instanceof Institucion){
+                sql = "SELECT MAX(ins_id) as id FROM institucion";
+            }
+            if (type instanceof Oficina) {
+                sql = "SELECT MAX(of_id) as id FROM oficina";
+            }
+            if (type instanceof TipoPago) {
+                sql = "SELECT MAX(tp_id) as id FROM tipo_pago";
             }
             if(type instanceof Cristal){
                 sql = "SELECT MAX(cri_id) as id FROM cristal";
             }
-            if (type instanceof Oficina) {
-                sql = "SELECT MAX(of_id) as id FROM oficina";
+            if(type instanceof User){
+                sql = "SELECT MAX(us_id) as id FROM usuario";
             }
             PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
             ResultSet datos = consulta.executeQuery();
@@ -484,6 +748,7 @@ public class Local implements InterfaceSync {
     }
     @Override
     public ArrayList<Object> listar(String idParam, Object type) {
+        //Falta ordenar y agregar clases
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
         try {
@@ -836,14 +1101,14 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Cliente){
                 for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Cliente) object).getRut().equals(idParam)) {
+                    if (((Cliente) object).getCod().equals(idParam)) {
                         return object;
                     }
                 }
             }
             if(type instanceof Doctor){
                 for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Doctor) object).getRut().equals(idParam)) {
+                    if (((Doctor) object).getCod().equals(idParam)) {
                         return object;
                     }
                 }
@@ -882,12 +1147,12 @@ public class Local implements InterfaceSync {
         }
         if (object instanceof Cliente) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Cliente) object).getRut(),object) != null) {
+            if (getElement(((Cliente) object).getCod(),object) != null) {
                 return true;
             }
         }
         if (object instanceof Doctor) {
-            if (getElement(((Doctor) object).getRut(),object) != null) {
+            if (getElement(((Doctor) object).getCod(),object) != null) {
                 return true;
             }
         }

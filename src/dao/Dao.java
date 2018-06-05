@@ -10,8 +10,9 @@ import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Oficina;
-import entities.SyncClass;
+import entities.abstractclasses.SyncStringId;
 import entities.User;
+import entities.abstractclasses.SyncIntId;
 import fn.GlobalValues;
 import fn.Log;
 import fn.OptionPane;
@@ -37,12 +38,15 @@ public class Dao{
     */
     public boolean add(Object object) throws InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        ((SyncClass)object).setLastUpdate(new Date());
+        if(object instanceof SyncStringId)
+            ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+        if(object instanceof SyncIntId)
+            ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
         if(GlobalValues.isOnline()){
-            if(object instanceof Cristal || object instanceof Descuento || object instanceof Oficina || object instanceof User)
-                ((SyncClass)object).setId(GlobalValues.REMOTE_SYNC.getMaxId(object));
+            if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
+                ((SyncIntId)object).setId(GlobalValues.REMOTE_SYNC.getMaxId(object));
             if(GlobalValues.REMOTE_SYNC.exist(object)){
-                if(object instanceof User || object instanceof Cristal || object instanceof Descuento || object instanceof Oficina){
+                if(object instanceof SyncIntId){
                     OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
                         + "Para poder ingresar un nuevo registro debes cambiar el nombre.", JOptionPane.WARNING_MESSAGE);
                 }else{
@@ -56,7 +60,7 @@ public class Dao{
                 }
             }
         }else{
-            if(object instanceof Cliente || object instanceof Doctor){
+            if(object instanceof SyncStringId){
                 if(!GlobalValues.LOCAL_SYNC.exist(object)){
                     return update(object);
                 }else{
@@ -75,7 +79,10 @@ public class Dao{
 
     public boolean update(Object object) {
         Log.setLog(className,Log.getReg());
-        ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+        if(object instanceof SyncStringId)
+            ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+        if(object instanceof SyncIntId)
+            ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
         try {
             return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
         } catch (SQLException | ClassNotFoundException ex) {
@@ -91,8 +98,14 @@ public class Dao{
         if(GlobalValues.isOnline()){
             temp =  GlobalValues.REMOTE_SYNC.getElement(id, type);
             if(temp != null){//valida si ya existe el desname
-                ((SyncClass)temp).setEstado(0);
-                ((SyncClass)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                if(temp instanceof SyncStringId){
+                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                } 
+                if(temp instanceof SyncIntId){
+                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -104,8 +117,14 @@ public class Dao{
         }else{
             temp =  GlobalValues.LOCAL_SYNC.getElement(id,type);
             if(temp != null){//valida si ya existe el desname
-                ((SyncClass)temp).setEstado(0);
-                ((SyncClass)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                if(temp instanceof SyncStringId){
+                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                } 
+                if(temp instanceof SyncIntId){
+                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -124,8 +143,14 @@ public class Dao{
         if(GlobalValues.isOnline()){
             temp =  GlobalValues.REMOTE_SYNC.getElement(id,type);
             if(temp != null){//valida si ya existe el desname
-                ((SyncClass)temp).setEstado(1);
-                ((SyncClass)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                if(temp instanceof SyncStringId){
+                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                } 
+                if(temp instanceof SyncIntId){
+                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -137,8 +162,14 @@ public class Dao{
         }else{
             temp =  GlobalValues.LOCAL_SYNC.getElement(id,type);
             if(temp != null){//valida si ya existe el desname
-                ((SyncClass)temp).setEstado(1);
-                ((SyncClass)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                if(temp instanceof SyncStringId){
+                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                } 
+                if(temp instanceof SyncIntId){
+                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
@@ -158,7 +189,6 @@ public class Dao{
 
     public void sincronize(Object type) {
         Log.setLog(className,Log.getReg());
-        System.out.println(Log.getLog());
         try {
             if(GlobalValues.isOnline()){
                 /*Usuario*/

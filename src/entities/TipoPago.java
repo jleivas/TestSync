@@ -5,13 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncIntId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class TipoPago extends SyncClass{
+public class TipoPago extends SyncIntId{
     private String nombre;
 
     public TipoPago() {
@@ -34,7 +35,7 @@ public class TipoPago extends SyncClass{
 
     @Override
     public String toString() {
-        return "tipoPago{" + "id=" + getId() + ", nombre=" + nombre + '}';
+        return "tipoPago{" + "id=" + getId()+ ", nombre=" + nombre + '}';
     }
     
     

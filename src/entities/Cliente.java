@@ -5,15 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Cliente extends SyncClass{
-    
-    private String rut;
+public class Cliente extends SyncStringId{
     private String nombre;
     private String telefono1;
     private String telefono2;
@@ -28,7 +27,7 @@ public class Cliente extends SyncClass{
     }
 
     public Cliente(String rut, String nombre, String telefono1, String telefono2, String email, String direccion, String comuna, String ciudad, int sexo, int edad, int estado, Date lastUpdate) {
-        setRut(rut);
+        setCod(rut);
         setNombre(nombre);
         setTelefono1(telefono1);
         setTelefono2(telefono2);
@@ -40,10 +39,6 @@ public class Cliente extends SyncClass{
         setEdad(edad);
         setEstado(estado);
         setLastUpdate(lastUpdate);
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
     }
 
     public void setNombre(String nombre) {
@@ -80,10 +75,6 @@ public class Cliente extends SyncClass{
 
     public void setEdad(int edad) {
         this.edad = edad;
-    }
-
-    public String getRut() {
-        return rut;
     }
 
     public String getNombre() {
@@ -124,7 +115,7 @@ public class Cliente extends SyncClass{
 
     @Override
     public String toString() {
-        return "Cliente{" + "rut=" + rut+"\n" 
+        return "Cliente{" + "rut=" + getCod()+"\n" 
                 + ", nombre=" + nombre+"\n"
                 + ", telefonos=" + telefono1+" / "+telefono2+"\n" 
                 + ", email=" + email+"\n"

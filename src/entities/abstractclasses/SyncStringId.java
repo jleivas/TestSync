@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
+package entities.abstractclasses;
 
 import java.util.Date;
 
@@ -11,17 +11,17 @@ import java.util.Date;
  *
  * @author sdx
  */
-public abstract class SyncClass {
-    private int id;
+public abstract class SyncStringId {
+    private String cod;
     private int estado;
     private Date lastUpdate;
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCod(String cod) {
+        this.cod = cod;
     }
 
-    public int getId() {
-        return id;
+    public String getCod() {
+        return cod;
     }
 
     public int getEstado() {

@@ -5,13 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncIntId;
 import java.util.Date;
 
 /**
  *
  * @author home
  */
-public class Cristal extends SyncClass{
+public class Cristal extends SyncIntId{
     private String nombre;
     private int precio;
 

@@ -5,13 +5,14 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncIntId;
 import java.util.Date;
 
 /**
  *
  * @author home
  */
-public class User extends SyncClass{
+public class User extends SyncIntId{
     private String nombre;
     private String username;
     private String email;

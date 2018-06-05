@@ -30,16 +30,18 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        Oficina of = new Oficina(1, "nom", "dir", "ciudad", "tel1", "tel2", "email", "web", 1, null);
-        System.out.println(""+of.toString());
-        Cristal cri = new Cristal(1, "nom", 2000, 1, null);
-        System.out.println(""+cri.toString());
-        Cliente cli = new Cliente("123312", "sc", "sd", "adlkj", "alihl", "adlfk", "hadsfo", "aslfnk", 0, 0, 0, null);
-        System.out.println(""+cli.toString());
-        Descuento ds = new Descuento(1, "lakdjsljkd", "asdljdasl", 0, 0, 0, null);
-        System.out.println(""+ds.toString());
-        Doctor dc = new Doctor("sdlkj", "dalj", "alsdkjadjkls", "asdlj", 0, null);
+//        Oficina of = new Oficina(1, "nom", "dir", "ciudad", "tel1", "tel2", "email", "web", 1, null);
+//        System.out.println(""+of.toString());
+//        Cristal cri = new Cristal(1, "nom", 2000, 1, null);
+//        System.out.println(""+cri.toString());
+//        Cliente cli = new Cliente("123312", "sc", "sd", "adlkj", "alihl", "adlfk", "hadsfo", "aslfnk", 0, 0, 0, null);
+//        System.out.println(""+cli.toString());
+//        Descuento ds = new Descuento(1, "lakdjsljkd", "asdljdasl", 0, 0, 0, null);
+//        System.out.println(""+ds.toString());
+        Doctor dc = new Doctor("sdlkj", "dalj", "alsdkjadjkls", "asdlj", 23, null);
+        Doctor dc2 = new Doctor("segundo", "otro", "okey", "ultim", 24, new Date(124244123));
         System.out.println(""+dc.toString());
+        System.out.println(""+dc2.toString());
         
 //        SubProcess.isOnline();
 //        sync.Cmp.getPublicIp();

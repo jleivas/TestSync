@@ -5,14 +5,15 @@
  */
 package entities;
 
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author home
  */
-public class Lente extends SyncClass{
-    private String cod;
+public class Lente extends SyncStringId{
+    //debe incluir el id del inventario en el idString solo por bd remota, no se debe mostrar despues de -
     private String color;
     private String tipo;
     private String marca;
@@ -25,12 +26,30 @@ public class Lente extends SyncClass{
     private int stock;
     private int stockMin;
     private String codigo;
-    private int inventario;
+    private String inventario;
 
     public Lente() {
     }
 
-    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,int inventario, int estado, Date lastUpdate) {
+    /**
+     * 
+     * @param cod Debe incluir el id del inventario al cual está asignado, solo para bd
+     * @param color
+     * @param tipo
+     * @param marca
+     * @param material
+     * @param flex
+     * @param clasificacion
+     * @param descripcion
+     * @param precioRef
+     * @param precioAct
+     * @param stock
+     * @param stockMin
+     * @param inventario
+     * @param estado
+     * @param lastUpdate 
+     */
+    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,String inventario, int estado, Date lastUpdate) {
         setCod(cod);
         this.color = color;
         this.tipo = tipo;
@@ -44,24 +63,16 @@ public class Lente extends SyncClass{
         this.stock = stock;
         this.stockMin = stockMin;
         setInventario(inventario);
-        setCodigo(cod, marca, color);
+        setCodigo(getCod(), marca, color);
         setEstado(estado);
         setLastUpdate(lastUpdate);
     }
 
-    public void setCod(String cod) {
-        this.cod = cod;
-    }
-
-    public String getCod() {
-        return cod;
-    }
-
-    public void setInventario(int inventario) {
+    public void setInventario(String inventario) {
         this.inventario = inventario;
     }
 
-    public int getInventario() {
+    public String getInventario() {
         return inventario;
     }
 
@@ -113,14 +124,14 @@ public class Lente extends SyncClass{
         this.stockMin = stockMin;
     }
 
-    public void setCodigo(String cod, String marca, String color) {
-        if(cod == null || cod.equals(""))
-            cod = "00";
+    public void setCodigo(String id, String marca, String color) {
+        if(id == null || id.equals(""))
+            id = "00";
         if(marca == null || marca.equals(""))
             marca = "00";
         if(color == null || color.equals(""))
             color = "00";
-        this.codigo = cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "");
+        this.codigo = id.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "");
     }
 
     public String getColor() {

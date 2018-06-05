@@ -18,6 +18,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import newpackage.NoGit;
 import sync.Cmp;
 import sync.entities.Global;
 import sync.entities.Local;
@@ -34,10 +35,10 @@ public class GlobalValues {
     public static String VERSION = "4.0.0";
     
     /* Bases de datos*/
-    public static String BD_URL_REMOTE = "";
-    public static String BD_NAME_REMOTE = "";
-    public static String BD_USER_REMOTE = "";
-    public static String BD_PASS_REMOTE = "";
+    public static String BD_URL_REMOTE = NoGit.URL;
+    public static String BD_NAME_REMOTE = NoGit.DB;
+    public static String BD_USER_REMOTE = NoGit.USER;
+    public static String BD_PASS_REMOTE = NoGit.PASS;
     public static String BD_URL_LOCAL = "localhost:1527";
     public static String BD_NAME_LOCAL = "odm4";
     public static String BD_USER_LOCAL = "odm4";

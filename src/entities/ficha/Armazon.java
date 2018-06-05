@@ -5,16 +5,15 @@
  */
 package entities.ficha;
 
-import entities.SyncClass;
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Armazon extends SyncClass{
+public class Armazon extends SyncStringId{
     
-    private String cod;
     private int tipo;
     private String marca;
     private String cristal;
@@ -53,9 +52,6 @@ public class Armazon extends SyncClass{
         setMarca(marca);
         setEstado(estado);
         setLastUpdate(lastUpdate);
-    }
-    public void setCod(String cod) {
-        this.cod = cod;
     }
 
     public void setTipo(int tipo) {
@@ -116,10 +112,6 @@ public class Armazon extends SyncClass{
     
     public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public String getCod() {
-        return cod;
     }
 
     public int getTipo() {
@@ -184,7 +176,7 @@ public class Armazon extends SyncClass{
 
     @Override
     public String toString() {
-        return "Armazon{" + "cod=" + cod+"\n"
+        return "Armazon{" + "cod=" + getCod()+"\n"
                 + ", tipo=" + tipo+"\n"  
                 + ", cristal=" + cristal+"\n"  
                 + ", add=" + add+"\n"  
