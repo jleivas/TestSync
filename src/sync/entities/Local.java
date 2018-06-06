@@ -717,6 +717,9 @@ public class Local implements InterfaceSync {
         int id = 0;
         try{
             String sql = "";
+            if(type instanceof Cristal){
+                sql = "SELECT MAX(cri_id) as id FROM cristal";
+            }
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
             }
@@ -729,18 +732,17 @@ public class Local implements InterfaceSync {
             if (type instanceof TipoPago) {
                 sql = "SELECT MAX(tp_id) as id FROM tipo_pago";
             }
-            if(type instanceof Cristal){
-                sql = "SELECT MAX(cri_id) as id FROM cristal";
-            }
             if(type instanceof User){
                 sql = "SELECT MAX(us_id) as id FROM usuario";
             }
-            PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-            ResultSet datos = consulta.executeQuery();
-            while (datos.next()) {
-                id = datos.getInt("id");
+            if(sql.length()>2){
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    id = datos.getInt("id");
+                }
+                LcBd.cerrar();
             }
-            LcBd.cerrar();
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -752,92 +754,6 @@ public class Local implements InterfaceSync {
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
         try {
-            if(type instanceof User){
-                String sql = "SELECT * FROM usuario WHERE usu_username='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM usuario";
-                }
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new User(
-                    datos.getInt("us_id"),
-                     datos.getString("us_nombre"),
-                     datos.getString("us_username"),
-                     datos.getString("us_email"),
-                     datos.getString("us_pass"),
-                     datos.getInt("us_tipo"),
-                     datos.getInt("us_estado"),
-                     datos.getDate("us_last_update")
-            )
-            );
-                }
-                LcBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Cristal){
-                String sql = "SELECT * FROM cristal WHERE cri_nombre='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM cristal WHERE cri_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM cristal WHERE cri_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM cristal";
-                }
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Cristal(
-                    datos.getInt("cri_id"),
-                     datos.getString("cri_nombre"),
-                     datos.getInt("cri_precio"),
-                     datos.getInt("cri_estado"),
-                     datos.getDate("cri_last_update")
-            )
-            );
-                }
-                LcBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Descuento){
-                String sql = "SELECT * FROM descuento WHERE des_nombre='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM descuento WHERE des_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM descuento WHERE des_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM descuento";
-                }
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Descuento(
-                        datos.getInt("des_id"),
-                        datos.getString("des_nombre"),
-                        datos.getString("des_descripcion"),
-                        datos.getInt("des_porc"),
-                        datos.getInt("des_monto"),
-                        datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
-                    )
-                    );
-                }
-                LcBd.cerrar();
-                return lista;
-            }
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_rut='" + idParam + "'";
                 if (idParam.equals("0")) {
@@ -866,8 +782,64 @@ public class Local implements InterfaceSync {
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update")
-                    )
-                );
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cristal){
+                String sql = "SELECT * FROM cristal WHERE cri_nombre='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM cristal WHERE cri_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM cristal WHERE cri_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM cristal";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Cristal(
+                        datos.getInt("cri_id"),
+                        datos.getString("cri_nombre"),
+                        datos.getInt("cri_precio"),
+                        datos.getInt("cri_estado"),
+                        datos.getDate("cri_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Descuento){
+                String sql = "SELECT * FROM descuento WHERE des_nombre='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM descuento WHERE des_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM descuento WHERE des_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM descuento";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Descuento(
+                        datos.getInt("des_id"),
+                        datos.getString("des_nombre"),
+                        datos.getString("des_descripcion"),
+                        datos.getInt("des_porc"),
+                        datos.getInt("des_monto"),
+                        datos.getInt("des_estado"),
+                        datos.getDate("des_last_update")
+                        )
+                    );
                 }
                 LcBd.cerrar();
                 return lista;
@@ -894,6 +866,74 @@ public class Local implements InterfaceSync {
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
                         datos.getDate("doc_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_id =" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM institucion WHERE ins_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM institucion WHERE ins_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM institucion";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Institucion(
+                        datos.getInt("ins_id"),
+                        datos.getString("ins_nombre"),
+                        datos.getString("ins_telefono"),
+                        datos.getString("ins_mail"),
+                        datos.getString("ins_direccion"),
+                        datos.getString("ins_comuna"),
+                        datos.getString("ins_ciudad"),
+                        datos.getInt("ins_estado"),
+                        datos.getDate("ins_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Lente){
+                String sql = "SELECT * FROM lente WHERE len_id ='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM lente WHERE len_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM lente WHERE len_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM lente";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Lente(
+                        datos.getString("len_id"),
+                        datos.getString("len_color"),
+                        datos.getString("len_tipo"),
+                        datos.getString("len_marca"),
+                        datos.getString("len_material"),
+                        datos.getInt("len_flex"),
+                        datos.getInt("len_clasificacion"),
+                        datos.getString("len_descripcion"),
+                        datos.getInt("len_precio_ref"),
+                        datos.getInt("len_precio_act"),
+                        datos.getInt("len_stock"),
+                        datos.getInt("len_stock_min"),
+                        datos.getString("inventario_inv_id"),
+                        datos.getInt("len_estado"),
+                        datos.getDate("len_last_update")
                         )
                     );
                 }
@@ -932,19 +972,72 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-    @Override
-    public ArrayList<Object> listar(Date paramDate, Object type) {
-        Log.setLog(className, Log.getReg());
-        java.sql.Date param = new java.sql.Date(paramDate.getTime());
-        ArrayList<Object> lista = new ArrayList<>();
-        try {
+            if (type instanceof RegistroBaja) {
+                String sql = "SELECT * FROM registro_bajas WHERE rb_id='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM registro_bajas WHERE rb_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM registro_bajas WHERE rb_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM registro_bajas";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new RegistroBaja(
+                            datos.getString("rb_id"),
+                            datos.getDate("rb_fecha"),
+                            datos.getString("lente_len_id"),
+                            datos.getInt("rb_cantidad"),
+                            datos.getString("rb_obs"),
+                            datos.getInt("rb_estado"),
+                            datos.getDate("rb_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if (type instanceof TipoPago) {
+                String sql = "SELECT * FROM tipo_pago WHERE tp_id=" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM tipo_pago";
+                }
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new TipoPago(
+                            datos.getInt("tp_id"),
+                            datos.getString("tp_nombre"),
+                            datos.getInt("tp_estado"),
+                            datos.getDate("tp_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
             if(type instanceof User){
-                String sql = "SELECT * FROM usuario WHERE us_last_update >='" + param + "'";
+                String sql = "SELECT * FROM usuario WHERE usu_username='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM usuario WHERE usu_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM usuario WHERE usu_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM usuario";
+                }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -964,44 +1057,17 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-            if(type instanceof Cristal){
-                String sql = "SELECT * FROM cristal WHERE cri_last_update >='" + param + "'";
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Cristal(
-                    datos.getInt("cri_id"),
-                     datos.getString("cri_nombre"),
-                     datos.getInt("cri_precio"),
-                     datos.getInt("cri_estado"),
-                     datos.getDate("cri_last_update")
-            )
-            );
-                }
-                LcBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Descuento){
-                String sql = "SELECT * FROM descuento WHERE des_last_update >='" + param + "'";
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Descuento(
-                        datos.getInt("des_id"),
-                        datos.getString("des_nombre"),
-                        datos.getString("des_descripcion"),
-                        datos.getInt("des_porc"),
-                        datos.getInt("des_monto"),
-                        datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
-                    )
-                    );
-                }
-                LcBd.cerrar();
-                return lista;
-            }
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    @Override
+    public ArrayList<Object> listar(Date paramDate, Object type) {
+        Log.setLog(className, Log.getReg());
+        java.sql.Date param = new java.sql.Date(paramDate.getTime());
+        ArrayList<Object> lista = new ArrayList<>();
+        try {
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_last_update >='" + param + "'";
 
@@ -1021,8 +1087,46 @@ public class Local implements InterfaceSync {
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update")
-                    )
-                );
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cristal){
+                String sql = "SELECT * FROM cristal WHERE cri_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Cristal(
+                        datos.getInt("cri_id"),
+                        datos.getString("cri_nombre"),
+                        datos.getInt("cri_precio"),
+                        datos.getInt("cri_estado"),
+                        datos.getDate("cri_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Descuento){
+                String sql = "SELECT * FROM descuento WHERE des_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Descuento(
+                        datos.getInt("des_id"),
+                        datos.getString("des_nombre"),
+                        datos.getString("des_descripcion"),
+                        datos.getInt("des_porc"),
+                        datos.getInt("des_monto"),
+                        datos.getInt("des_estado"),
+                        datos.getDate("des_last_update")
+                        )
+                    );
                 }
                 LcBd.cerrar();
                 return lista;
@@ -1040,6 +1144,56 @@ public class Local implements InterfaceSync {
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
                         datos.getDate("doc_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Institucion(
+                        datos.getInt("ins_id"),
+                        datos.getString("ins_nombre"),
+                        datos.getString("ins_telefono"),
+                        datos.getString("ins_mail"),
+                        datos.getString("ins_direccion"),
+                        datos.getString("ins_comuna"),
+                        datos.getString("ins_ciudad"),
+                        datos.getInt("ins_estado"),
+                        datos.getDate("ins_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Lente){
+                String sql = "SELECT * FROM lente WHERE len_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Lente(
+                        datos.getString("len_id"),
+                        datos.getString("len_color"),
+                        datos.getString("len_tipo"),
+                        datos.getString("len_marca"),
+                        datos.getString("len_material"),
+                        datos.getInt("len_flex"),
+                        datos.getInt("len_clasificacion"),
+                        datos.getString("len_descripcion"),
+                        datos.getInt("len_precio_ref"),
+                        datos.getInt("len_precio_act"),
+                        datos.getInt("len_stock"),
+                        datos.getInt("len_stock_min"),
+                        datos.getString("inventario_inv_id"),
+                        datos.getInt("len_estado"),
+                        datos.getDate("len_last_update")
                         )
                     );
                 }
@@ -1069,53 +1223,139 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
+            if (type instanceof RegistroBaja) {
+                String sql = "SELECT * FROM registro_bajas WHERE rb_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new RegistroBaja(
+                            datos.getString("rb_id"),
+                            datos.getDate("rb_fecha"),
+                            datos.getString("lente_len_id"),
+                            datos.getInt("rb_cantidad"),
+                            datos.getString("rb_obs"),
+                            datos.getInt("rb_estado"),
+                            datos.getDate("rb_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if (type instanceof TipoPago) {
+                String sql = "SELECT * FROM tipo_pago WHERE tp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new TipoPago(
+                            datos.getInt("tp_id"),
+                            datos.getString("tp_nombre"),
+                            datos.getInt("tp_estado"),
+                            datos.getDate("tp_last_update")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if(type instanceof User){
+                String sql = "SELECT * FROM usuario WHERE us_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new User(
+                    datos.getInt("us_id"),
+                     datos.getString("us_nombre"),
+                     datos.getString("us_username"),
+                     datos.getString("us_email"),
+                     datos.getString("us_pass"),
+                     datos.getInt("us_tipo"),
+                     datos.getInt("us_estado"),
+                     datos.getDate("us_last_update")
+            )
+            );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
     @Override
-    public Object getElement(String idParam, Object type) {
+    public Object getElement(String cod,int id, Object type) {
         Log.setLog(className, Log.getReg());
         try{
-            if(type instanceof User){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((User) object).getUsername().toLowerCase().equals(idParam.toLowerCase())) {
+            if(type instanceof Cliente){
+                for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
+                    if (((Cliente) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
             }
             if(type instanceof Cristal){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Cristal) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
+                for (Object object : listar(cod, type)) {//id debe ser el nombre del cristal
+                    if (((Cristal) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
             }
             if(type instanceof Descuento){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Descuento) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
-                        return object;
-                    }
-                }
-            }
-            if(type instanceof Cliente){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Cliente) object).getCod().equals(idParam)) {
+                for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
+                    if (((Descuento) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
             }
             if(type instanceof Doctor){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Doctor) object).getCod().equals(idParam)) {
+                for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                    if (((Doctor) object).getCod().equals(cod)) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof Institucion){
+                for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
+                    if (((Institucion) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof Lente){
+                for (Object object : listar(cod, type)) {//id debe ser el id de la institucion
+                    if (((Lente) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
             }
             if (type instanceof Oficina) {
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Oficina) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                    if (((Oficina) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
+                        return object;
+                    }
+                }
+            }
+            if (type instanceof RegistroBaja) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                    if (((RegistroBaja) object).getCod().equals(cod)) {
+                        return object;
+                    }
+                }
+            }
+            if (type instanceof TipoPago) {
+                for (Object object : listar(""+id, type)) {//id debe ser el id de la ficha
+                    if (((TipoPago) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof User){
+                for (Object object : listar(cod, type)) {//idParam debe ser el rut
+                    if (((User) object).getUsername().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
@@ -1129,35 +1369,35 @@ public class Local implements InterfaceSync {
     public boolean exist(Object object) {
         Log.setLog(className, Log.getReg());
         if (object instanceof User) {
-            if (getElement(((User) object).getUsername(),object) != null) {
+            if (getElement(((User) object).getUsername(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Cristal) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Cristal) object).getNombre(),object) != null) {
+            if (getElement(((Cristal) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Descuento) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Descuento) object).getNombre(),object) != null) {
+            if (getElement(((Descuento) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Cliente) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Cliente) object).getCod(),object) != null) {
+            if (getElement(((Cliente) object).getCod(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Doctor) {
-            if (getElement(((Doctor) object).getCod(),object) != null) {
+            if (getElement(((Doctor) object).getCod(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Oficina) {
-            if (getElement("" + ((Oficina) object).getId(), object) != null) {
+            if (getElement("" + ((Oficina) object).getId(),0, object) != null) {
                 return true;
             }
         }
