@@ -28,7 +28,19 @@ import javax.swing.JOptionPane;
  */
 public class Dao{
     private static String className="Dao";
+    /**
+     * Sólo crea datos, si ya existen no los puede agregar.
+     * Útil solo para registros independientes de la base de datos remota
+     * @param object
+     * @return 
+     */
+    public boolean create (SyncStringId object){
+        Log.setLog(className,Log.getReg());
+        return false;
+    }
    /**
+    * Agrega registros a la base de datos, si ya existen los actualiza, útil para sincronización de bases de datos.
+    * 
     * Comprueba si existe antes de agregar, en User comprueba si ya existe un username igual,
     * en cristal, descuento y oficina compara si ya existe un nombre igual (en estos casos no busca por id).
     * @param object
@@ -54,7 +66,7 @@ public class Dao{
                 }
             }else{
                 try {
-                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, object);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -65,7 +77,7 @@ public class Dao{
                     return update(object);
                 }else{
                     try {
-                        return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
+                        return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, object);
                     } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -84,7 +96,7 @@ public class Dao{
         if(object instanceof SyncIntId)
             ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
         try {
-            return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, object);
+            return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, object);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,11 +104,11 @@ public class Dao{
     }
 
     
-    public boolean delete(String id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public boolean delete(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
         Object temp =  null;
         if(GlobalValues.isOnline()){
-            temp =  GlobalValues.REMOTE_SYNC.getElement(id, type);
+            temp =  GlobalValues.REMOTE_SYNC.getElement(cod,id, type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
@@ -107,7 +119,7 @@ public class Dao{
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
                 }
                 try {
-                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -115,7 +127,7 @@ public class Dao{
                 OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
             }
         }else{
-            temp =  GlobalValues.LOCAL_SYNC.getElement(id,type);
+            temp =  GlobalValues.LOCAL_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
@@ -126,7 +138,7 @@ public class Dao{
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
                 }
                 try {
-                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -137,11 +149,11 @@ public class Dao{
         return false;
     }
 
-    public boolean restore(String id,Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public boolean restore(String cod,int id,Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
         Object temp =  null;
         if(GlobalValues.isOnline()){
-            temp =  GlobalValues.REMOTE_SYNC.getElement(id,type);
+            temp =  GlobalValues.REMOTE_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
@@ -152,7 +164,7 @@ public class Dao{
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
                 }
                 try {
-                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -160,7 +172,7 @@ public class Dao{
                 OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
             }
         }else{
-            temp =  GlobalValues.LOCAL_SYNC.getElement(id,type);
+            temp =  GlobalValues.LOCAL_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
@@ -171,7 +183,7 @@ public class Dao{
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
                 }
                 try {
-                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, temp);
+                    return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -182,9 +194,9 @@ public class Dao{
         return false;
     }
 
-    public Object get(String idObject, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public Object get(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        return GlobalValues.LOCAL_SYNC.getElement(idObject,type);
+        return GlobalValues.LOCAL_SYNC.getElement(cod,id,type);
     }
 
     public void sincronize(Object type) {
@@ -194,75 +206,75 @@ public class Dao{
                 /*Usuario*/
                 if(type instanceof User){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
                     }
                 }
                 /*Cliente*/
                 if(type instanceof Cliente){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cliente())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Cliente())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
                     }
                 }
                 /*Cristal*/
                 if(type instanceof Cristal){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cristal())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Cristal())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
                     }
                 }
                 /*Descuento*/
                 if(type instanceof Descuento){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Descuento())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Descuento())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
                     }
                 }
                 /*Doctor*/
                 if(type instanceof Doctor){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Doctor())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Doctor())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
                     }
                 }
                 /*Oficina*/
                 if(type instanceof Oficina){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
                     } 
                 }
             }else{
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Cliente())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Cristal())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Descuento())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Doctor())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Oficina())) {//falta opcion en listar
-                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
                 }
             }  
         } catch (SQLException | ClassNotFoundException ex) {
@@ -276,64 +288,64 @@ public class Dao{
 //            if(GlobalValues.isOnline()){
 //                /*Usuario*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
 //                }
 //                /*Cliente*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cliente())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Cliente())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
 //                }
 //                /*Cristal*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cristal())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Cristal())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
 //                }
 //                /*Descuento*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Descuento())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Descuento())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
 //                }
 //                /*Doctor*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Doctor())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Doctor())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
 //                }
 //                /*Oficina*/
 //                for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
 //                } 
 //            }else{
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (User)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Cliente())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cliente)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Cristal())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Cristal)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cristal)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Descuento())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Descuento)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Descuento)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Doctor())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Doctor)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
 //                }
 //                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Oficina())) {//falta opcion en listar
-//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, GlobalValues.GLOBAL_SYNC, (Oficina)object);
+//                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
 //                }
 //            }  
 //        } catch (SQLException | ClassNotFoundException ex) {

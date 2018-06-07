@@ -26,12 +26,8 @@ public class Sync {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public static boolean add(InterfaceSync localData, InterfaceSync remoteData, InterfaceSync globalData, Object object) throws SQLException, ClassNotFoundException{        
+    public static boolean add(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
-        
-        if(!globalData.add(object)){
-            return false;
-        }
         localData.add(object);
         if(GlobalValues.isOnline()){
             remoteData.add(object);

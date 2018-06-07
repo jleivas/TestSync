@@ -14,7 +14,6 @@ import entities.Lente;
 import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
-import entities.abstractclasses.SyncStringId;
 import entities.User;
 import fn.Log;
 import fn.OptionPane;
@@ -34,7 +33,7 @@ import sync.InterfaceSync;
  */
 public class Remote implements InterfaceSync{
     private static String className = "Remote";
-    @Override
+     @Override
     public boolean add(Object objectParam) {
         Log.setLog(className, Log.getReg());
         try{
@@ -609,6 +608,64 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return true;
             }
+            if(objectParam instanceof RegistroBaja){
+                RegistroBaja object = (RegistroBaja)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM registro_bajas WHERE rb_id='" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("rb_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                RmBd.cerrar();
+                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        "UPDATE registro_bajas set rb_fecha = '" + sqlfecha1
+                        + "', lente_len_id = '" + object.getIdLente()
+                        + "', rb_cantidad = " + object.getCantidad()
+                        + ", rb_obs = '" + object.getObs()
+                        + "', rb_estado = " + object.getEstado()
+                        + ", rb_last_update = '" + sqlfecha2
+                        + "' WHERE rb_id = '" + object.getCod()+ "' AND rb_last_update <= '" + sqlfecha2 + "'");
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof TipoPago){
+                TipoPago object = (TipoPago)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM tipo_pago WHERE tp_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("tp_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                RmBd.cerrar();
+                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        "UPDATE registro_bajas set tp_nombre = '" + sqlfecha
+                        + "', tp_estado = " + object.getEstado()
+                        + ", tp_last_update = '" + sqlfecha
+                        + "' WHERE tp_id = " + object.getId()+ " AND tp_last_update <= '" + sqlfecha + "'");
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
             if(objectParam instanceof User){
                 User object = (User)objectParam;
                 if (object == null) {
@@ -656,24 +713,32 @@ public class Remote implements InterfaceSync{
         int id = 0;
         try{
             String sql = "";
-            if(type instanceof User){
-                sql = "SELECT MAX(us_id) as id FROM usuario";
+            if(type instanceof Cristal){
+                sql = "SELECT MAX(cri_id) as id FROM cristal";
             }
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
             }
-            if(type instanceof Cristal){
-                sql = "SELECT MAX(cri_id) as id FROM cristal";
+            if(type instanceof Institucion){
+                sql = "SELECT MAX(ins_id) as id FROM institucion";
             }
             if (type instanceof Oficina) {
                 sql = "SELECT MAX(of_id) as id FROM oficina";
             }
-            PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-            ResultSet datos = consulta.executeQuery();
-            while (datos.next()) {
-                id = datos.getInt("id");
+            if (type instanceof TipoPago) {
+                sql = "SELECT MAX(tp_id) as id FROM tipo_pago";
             }
-            RmBd.cerrar();
+            if(type instanceof User){
+                sql = "SELECT MAX(us_id) as id FROM usuario";
+            }
+            if(sql.length()>2){
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    id = datos.getInt("id");
+                }
+                RmBd.cerrar();
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -681,95 +746,10 @@ public class Remote implements InterfaceSync{
     }
     @Override
     public ArrayList<Object> listar(String idParam, Object type) {
+        //Falta ordenar y agregar clases
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
         try {
-            if(type instanceof User){
-                String sql = "SELECT * FROM usuario WHERE usu_username='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM usuario";
-                }
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new User(
-                    datos.getInt("us_id"),
-                     datos.getString("us_nombre"),
-                     datos.getString("us_username"),
-                     datos.getString("us_email"),
-                     datos.getString("us_pass"),
-                     datos.getInt("us_tipo"),
-                     datos.getInt("us_estado"),
-                     datos.getDate("us_last_update")
-            )
-            );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Cristal){
-                String sql = "SELECT * FROM cristal WHERE cri_nombre='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM cristal WHERE cri_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM cristal WHERE cri_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM cristal";
-                }
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Cristal(
-                    datos.getInt("cri_id"),
-                     datos.getString("cri_nombre"),
-                     datos.getInt("cri_precio"),
-                     datos.getInt("cri_estado"),
-                     datos.getDate("cri_last_update")
-            )
-            );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Descuento){
-                String sql = "SELECT * FROM descuento WHERE des_nombre='" + idParam + "'";
-                if (idParam.equals("0")) {
-                    sql = "SELECT * FROM descuento WHERE des_estado=1";
-                }
-                if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM descuento WHERE des_estado=0";
-                }
-                if (idParam.equals("-2")) {
-                    sql = "SELECT * FROM descuento";
-                }
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Descuento(
-                        datos.getInt("des_id"),
-                        datos.getString("des_nombre"),
-                        datos.getString("des_descripcion"),
-                        datos.getInt("des_porc"),
-                        datos.getInt("des_monto"),
-                        datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
-                    )
-                    );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_rut='" + idParam + "'";
                 if (idParam.equals("0")) {
@@ -798,8 +778,64 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update")
-                    )
-                );
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cristal){
+                String sql = "SELECT * FROM cristal WHERE cri_nombre='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM cristal WHERE cri_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM cristal WHERE cri_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM cristal";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Cristal(
+                        datos.getInt("cri_id"),
+                        datos.getString("cri_nombre"),
+                        datos.getInt("cri_precio"),
+                        datos.getInt("cri_estado"),
+                        datos.getDate("cri_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Descuento){
+                String sql = "SELECT * FROM descuento WHERE des_nombre='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM descuento WHERE des_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM descuento WHERE des_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM descuento";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Descuento(
+                        datos.getInt("des_id"),
+                        datos.getString("des_nombre"),
+                        datos.getString("des_descripcion"),
+                        datos.getInt("des_porc"),
+                        datos.getInt("des_monto"),
+                        datos.getInt("des_estado"),
+                        datos.getDate("des_last_update")
+                        )
+                    );
                 }
                 RmBd.cerrar();
                 return lista;
@@ -826,6 +862,74 @@ public class Remote implements InterfaceSync{
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
                         datos.getDate("doc_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_id =" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM institucion WHERE ins_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM institucion WHERE ins_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM institucion";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Institucion(
+                        datos.getInt("ins_id"),
+                        datos.getString("ins_nombre"),
+                        datos.getString("ins_telefono"),
+                        datos.getString("ins_mail"),
+                        datos.getString("ins_direccion"),
+                        datos.getString("ins_comuna"),
+                        datos.getString("ins_ciudad"),
+                        datos.getInt("ins_estado"),
+                        datos.getDate("ins_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Lente){
+                String sql = "SELECT * FROM lente WHERE len_id ='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM lente WHERE len_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM lente WHERE len_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM lente";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Lente(
+                        datos.getString("len_id"),
+                        datos.getString("len_color"),
+                        datos.getString("len_tipo"),
+                        datos.getString("len_marca"),
+                        datos.getString("len_material"),
+                        datos.getInt("len_flex"),
+                        datos.getInt("len_clasificacion"),
+                        datos.getString("len_descripcion"),
+                        datos.getInt("len_precio_ref"),
+                        datos.getInt("len_precio_act"),
+                        datos.getInt("len_stock"),
+                        datos.getInt("len_stock_min"),
+                        datos.getString("inventario_inv_id"),
+                        datos.getInt("len_estado"),
+                        datos.getDate("len_last_update")
                         )
                     );
                 }
@@ -864,19 +968,72 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
-    @Override
-    public ArrayList<Object> listar(Date paramDate, Object type) {
-        Log.setLog(className, Log.getReg());
-        java.sql.Date param = new java.sql.Date(paramDate.getTime());
-        ArrayList<Object> lista = new ArrayList<>();
-        try {
+            if (type instanceof RegistroBaja) {
+                String sql = "SELECT * FROM registro_bajas WHERE rb_id='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM registro_bajas WHERE rb_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM registro_bajas WHERE rb_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM registro_bajas";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new RegistroBaja(
+                            datos.getString("rb_id"),
+                            datos.getDate("rb_fecha"),
+                            datos.getString("lente_len_id"),
+                            datos.getInt("rb_cantidad"),
+                            datos.getString("rb_obs"),
+                            datos.getInt("rb_estado"),
+                            datos.getDate("rb_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof TipoPago) {
+                String sql = "SELECT * FROM tipo_pago WHERE tp_id=" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM tipo_pago";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new TipoPago(
+                            datos.getInt("tp_id"),
+                            datos.getString("tp_nombre"),
+                            datos.getInt("tp_estado"),
+                            datos.getDate("tp_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof User){
-                String sql = "SELECT * FROM usuario WHERE us_last_update >='" + param + "'";
+                String sql = "SELECT * FROM usuario WHERE usu_username='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM usuario WHERE usu_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM usuario WHERE usu_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM usuario";
+                }
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -896,44 +1053,24 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-            if(type instanceof Cristal){
-                String sql = "SELECT * FROM cristal WHERE cri_last_update >='" + param + "'";
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Cristal(
-                    datos.getInt("cri_id"),
-                     datos.getString("cri_nombre"),
-                     datos.getInt("cri_precio"),
-                     datos.getInt("cri_estado"),
-                     datos.getDate("cri_last_update")
-            )
-            );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
-            if(type instanceof Descuento){
-                String sql = "SELECT * FROM descuento WHERE des_last_update >='" + param + "'";
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Descuento(
-                        datos.getInt("des_id"),
-                        datos.getString("des_nombre"),
-                        datos.getString("des_descripcion"),
-                        datos.getInt("des_porc"),
-                        datos.getInt("des_monto"),
-                        datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
-                    )
-                    );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    /**
+     * Retorna una lista de objetos comparndo por la ultima fecha de actualización con
+     * paramDate y tipo de objeto con type
+     * @param paramDate
+     * @param type
+     * @return 
+     */
+    @Override
+    public ArrayList<Object> listar(Date paramDate, Object type) {
+        Log.setLog(className, Log.getReg());
+        java.sql.Date param = new java.sql.Date(paramDate.getTime());
+        ArrayList<Object> lista = new ArrayList<>();
+        try {
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_last_update >='" + param + "'";
 
@@ -953,8 +1090,46 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update")
-                    )
-                );
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cristal){
+                String sql = "SELECT * FROM cristal WHERE cri_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Cristal(
+                        datos.getInt("cri_id"),
+                        datos.getString("cri_nombre"),
+                        datos.getInt("cri_precio"),
+                        datos.getInt("cri_estado"),
+                        datos.getDate("cri_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Descuento){
+                String sql = "SELECT * FROM descuento WHERE des_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Descuento(
+                        datos.getInt("des_id"),
+                        datos.getString("des_nombre"),
+                        datos.getString("des_descripcion"),
+                        datos.getInt("des_porc"),
+                        datos.getInt("des_monto"),
+                        datos.getInt("des_estado"),
+                        datos.getDate("des_last_update")
+                        )
+                    );
                 }
                 RmBd.cerrar();
                 return lista;
@@ -972,6 +1147,56 @@ public class Remote implements InterfaceSync{
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
                         datos.getDate("doc_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Institucion(
+                        datos.getInt("ins_id"),
+                        datos.getString("ins_nombre"),
+                        datos.getString("ins_telefono"),
+                        datos.getString("ins_mail"),
+                        datos.getString("ins_direccion"),
+                        datos.getString("ins_comuna"),
+                        datos.getString("ins_ciudad"),
+                        datos.getInt("ins_estado"),
+                        datos.getDate("ins_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Lente){
+                String sql = "SELECT * FROM lente WHERE len_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Lente(
+                        datos.getString("len_id"),
+                        datos.getString("len_color"),
+                        datos.getString("len_tipo"),
+                        datos.getString("len_marca"),
+                        datos.getString("len_material"),
+                        datos.getInt("len_flex"),
+                        datos.getInt("len_clasificacion"),
+                        datos.getString("len_descripcion"),
+                        datos.getInt("len_precio_ref"),
+                        datos.getInt("len_precio_act"),
+                        datos.getInt("len_stock"),
+                        datos.getInt("len_stock_min"),
+                        datos.getString("inventario_inv_id"),
+                        datos.getInt("len_estado"),
+                        datos.getDate("len_last_update")
                         )
                     );
                 }
@@ -1001,53 +1226,156 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
+            if (type instanceof RegistroBaja) {
+                String sql = "SELECT * FROM registro_bajas WHERE rb_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new RegistroBaja(
+                            datos.getString("rb_id"),
+                            datos.getDate("rb_fecha"),
+                            datos.getString("lente_len_id"),
+                            datos.getInt("rb_cantidad"),
+                            datos.getString("rb_obs"),
+                            datos.getInt("rb_estado"),
+                            datos.getDate("rb_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof TipoPago) {
+                String sql = "SELECT * FROM tipo_pago WHERE tp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new TipoPago(
+                            datos.getInt("tp_id"),
+                            datos.getString("tp_nombre"),
+                            datos.getInt("tp_estado"),
+                            datos.getDate("tp_last_update")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof User){
+                String sql = "SELECT * FROM usuario WHERE us_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new User(
+                    datos.getInt("us_id"),
+                     datos.getString("us_nombre"),
+                     datos.getString("us_username"),
+                     datos.getString("us_email"),
+                     datos.getString("us_pass"),
+                     datos.getInt("us_tipo"),
+                     datos.getInt("us_estado"),
+                     datos.getDate("us_last_update")
+            )
+            );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
+    /**
+     * @param cod 
+     * Cliente=>rut,
+     * Cristal=>nombre,
+     * Descuento=>nombre,
+     * Doctor=>rut,
+     * Lente=>cod,
+     * Oficina=>nombre,
+     * RegistroBaja=>cod,
+     * User=>username
+     * @param id
+     * Institucion=>id,
+     * TipoPago=>id
+     * @param type
+     * Tipo de clase que se desea retornar
+     * @return Retorna la clase de tipo Object, luego sólo se debe parsear.
+     */
     @Override
-    public Object getElement(String idParam, Object type) {
+    public Object getElement(String cod,int id, Object type) {
         Log.setLog(className, Log.getReg());
         try{
-            if(type instanceof User){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((User) object).getUsername().toLowerCase().equals(idParam.toLowerCase())) {
+            if(type instanceof Cliente){
+                for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
+                    if (((Cliente) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
             }
             if(type instanceof Cristal){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Cristal) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
+                for (Object object : listar(cod, type)) {//id debe ser el nombre del cristal
+                    if (((Cristal) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
             }
             if(type instanceof Descuento){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Descuento) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
-                        return object;
-                    }
-                }
-            }
-            if(type instanceof Cliente){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Cliente) object).getCod().equals(idParam)) {
+                for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
+                    if (((Descuento) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
             }
             if(type instanceof Doctor){
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Doctor) object).getCod().equals(idParam)) {
+                for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                    if (((Doctor) object).getCod().equals(cod)) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof Institucion){
+                for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
+                    if (((Institucion) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof Lente){
+                for (Object object : listar(cod, type)) {//id debe ser el id de la institucion
+                    if (((Lente) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
             }
             if (type instanceof Oficina) {
-                for (Object object : listar(idParam, type)) {//id debe ser el id de la ficha
-                    if (((Oficina) object).getNombre().toLowerCase().equals(idParam.toLowerCase())) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                    if (((Oficina) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
+                        return object;
+                    }
+                }
+            }
+            if (type instanceof RegistroBaja) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                    if (((RegistroBaja) object).getCod().equals(cod)) {
+                        return object;
+                    }
+                }
+            }
+            if (type instanceof TipoPago) {
+                for (Object object : listar(""+id, type)) {//id debe ser el id de la ficha
+                    if (((TipoPago) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof User){
+                for (Object object : listar(cod, type)) {//idParam debe ser el rut
+                    if (((User) object).getUsername().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
@@ -1057,39 +1385,74 @@ public class Remote implements InterfaceSync{
         }
         return null;
     }
+    /**
+     * Compara por los siguientes atributos:
+     * Cliente=>rut,
+     * Cristal=>nombre,
+     * Descuento=>nombre,
+     * Doctor=>rut,
+     * Lente=>cod,
+     * Oficina=>nombre,
+     * RegistroBaja=>cod,
+     * User=>username,
+     * Institucion=>id,
+     * TipoPago=>id
+     * @param object
+     * @return 
+     */
     @Override
     public boolean exist(Object object) {
         Log.setLog(className, Log.getReg());
-        if (object instanceof User) {
-            if (getElement(((User) object).getUsername(),object) != null) {
+        if (object instanceof Cliente) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(((Cliente) object).getCod(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Cristal) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Cristal) object).getNombre(),object) != null) {
+            if (getElement(((Cristal) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Descuento) {
             Log.setLog(className, Log.getReg());
-            if (getElement(((Descuento) object).getNombre(),object) != null) {
-                return true;
-            }
-        }
-        if (object instanceof Cliente) {
-            Log.setLog(className, Log.getReg());
-            if (getElement(((Cliente) object).getCod(),object) != null) {
+            if (getElement(((Descuento) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Doctor) {
-            if (getElement(((Doctor) object).getCod(),object) != null) {
+            if (getElement(((Doctor) object).getCod(),0,object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof Institucion) {
+            if (getElement(null,((Institucion) object).getId(),object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof Lente) {
+            if (getElement(((Lente) object).getCod(),0,object) != null) {
                 return true;
             }
         }
         if (object instanceof Oficina) {
-            if (getElement("" + ((Oficina) object).getId(), object) != null) {
+            if (getElement(((Oficina) object).getNombre(),0, object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof RegistroBaja) {
+            if (getElement(((RegistroBaja) object).getCod(),0, object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof TipoPago) {
+            if (getElement(null,((TipoPago) object).getId(), object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof User) {
+            if (getElement(((User) object).getUsername(),0,object) != null) {
                 return true;
             }
         }

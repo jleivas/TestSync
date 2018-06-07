@@ -8,6 +8,7 @@ package sync.entities;
 import bd.LcBd;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GlobalValues;
 import fn.Log;
@@ -41,7 +42,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     LcBd.cerrar();
                     return update(object);
-                }    
+                }
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -79,7 +80,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     LcBd.cerrar();
                     return update(object);
-                }    
+                }  
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -106,7 +107,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     LcBd.cerrar();
                     return update(object);
-                }    
+                }  
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
                 java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -120,6 +121,62 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +object.getIdTipoPago()+", '"
                                 +object.getIdFicha()+"', '"
                                 +sqlfecha2+"')"
+                               );
+                if(insert.executeUpdate()!=0){
+                    LcBd.cerrar();
+
+                    return true;
+                }
+            }
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT fch_id FROM ficha WHERE fch_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    LcBd.cerrar();
+                    return update(object);
+                }  
+                //////// dar formato String a fecha
+                java.sql.Date fecha  = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+                java.sql.Date fechaEntrega = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date
+                java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                
+                String rutCliente = null;
+                String rutDoctor = null;
+                int idDescuento = 0;
+                int idInstitucion = 0;
+                String idDespacho = null;
+                int idUser = 0;
+                if(object.getCliente()!= null)
+                    rutCliente = object.getCliente().getCod();
+                if(object.getDoctor()!= null)
+                    rutCliente = object.getDoctor().getCod();
+                if(object.getDescuento()!= null)
+                    idDescuento=object.getDescuento().getId();
+                if(object.getDespacho()!= null)
+                    idDespacho=object.getDespacho().getCod();
+                if(object.getUser()!= null)
+                    idUser=object.getUser().getId();
+                
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "INSERT INTO ficha VALUES('"
+                                +object.getCod()+"', '"
+                                +fecha+"', '"
+                                +fechaEntrega+"', '"
+                                +object.getLugarEntrega()+"', '"
+                                +object.getHoraEntrega()+"', "
+                                +object.getValorTotal()+", "
+                                +object.getSaldo()+", '"
+                                +object.getObservacion()+"', '"
+                                +rutCliente+"', '"
+                                +rutDoctor+"', "
+                                +idDescuento+", "
+                                +idInstitucion+", '"
+                                +idDespacho+"', "
+                                +idUser+", "
+                                +object.getEstado()+", '"
+                                +lastUpdate+"')"
                                );
                 if(insert.executeUpdate()!=0){
                     LcBd.cerrar();
@@ -256,6 +313,69 @@ public class LocalFicha implements InterfaceSyncFicha{
                     return true;
                 }
             }
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha= new Date();
+                    try {
+                        dsp_fecha = datos.getDate("fch_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                        return false;
+                    }
+                }
+                java.sql.Date fecha  = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+                java.sql.Date fechaEntrega = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date
+                java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+                
+                String rutCliente = null;
+                String rutDoctor = null;
+                int idDescuento = 0;
+                int idInstitucion = 0;
+                String idDespacho = null;
+                int idUser = 0;
+                if(object.getCliente()!= null)
+                    rutCliente = object.getCliente().getCod();
+                if(object.getDoctor()!= null)
+                    rutCliente = object.getDoctor().getCod();
+                if(object.getDescuento()!= null)
+                    idDescuento=object.getDescuento().getId();
+                if(object.getDespacho()!= null)
+                    idDespacho=object.getDespacho().getCod();
+                if(object.getUser()!= null)
+                    idUser=object.getUser().getId();
+                
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        "UPDATE ficha set fch_fecha = '"+fecha
+                                +"', fch_fecha_entrega = '"+fechaEntrega
+                                +"', fch_lugar_entrega = '"+object.getLugarEntrega()
+                                +"', fch_hora_entrega = '"+object.getHoraEntrega()
+                                +"', fch_valor_total = "+object.getValorTotal()
+                                +", fch_saldo = "+object.getSaldo()
+                                +", fch_obs = '"+object.getObservacion()
+                                +"', cliente_cli_rut = '"+rutCliente
+                                +"', doctor_doc_rut = '"+rutDoctor
+                                +"', descuento_des_id = "+idDescuento
+                                +", institucion_ins_id = "+idInstitucion
+                                +", despacho_dsp_id = '"+idDespacho
+                                +"', usuario_us_id = "+idUser
+                                +"', fch_estado = "+object.getEstado()
+                                +", fch_last_update = '"+lastUpdate
+                                +"' WHERE fch_id = '"+object.getCod()+"' AND fch_last_update <= '"+lastUpdate+"'");
+                if(insert.executeUpdate()!=0){
+                    LcBd.cerrar();
+
+                    return true;
+                }
+                else{
+                    LcBd.cerrar();
+                    return true;
+                }
+            }
         }catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex){
             Logger.getLogger(Remote.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -263,31 +383,36 @@ public class LocalFicha implements InterfaceSyncFicha{
     }
     /**
      * Retorna el elemento activo según la clase asignada al type
-     * @param id generalmente debe ser el id de la ficha donde se encuentra el objeto
-     * @param type tipo de objeto que se desea extraer
+     * @param idFicha debe ser el id de la ficha donde se encuentra el objeto
      * @return Clase encontrada, se debe parsear para su uso correcto.
      */
     @Override
-    public Object getElement(String id, Object type) {
+    public Despacho getLastDespacho(String idFicha) {
         Log.setLog(className,Log.getReg());
-        if(type instanceof Despacho){
-            Date aux = null;
-            Object element = null;
-            ArrayList<Object> list = listar(id,type);
-            if(list.size() == 1)
-                element = list.get(0);
-            for (Object object : listar(id, type)) {//id debe ser el id de la ficha
-                if(aux == null)
+        Date aux = null;
+        Object element = null;
+        ArrayList<Object> list = listar(idFicha,new Despacho());
+        if(list.size() == 1)
+            return (Despacho)list.get(0);
+        for (Object object : list) {
+            if(aux == null)
+                element = object;
+            if(aux != null){
+                if(fn.date.Cmp.localIsNewOrEqual(((Despacho)object).getLastUpdate(), aux))
                     element = object;
-                if(aux != null){
-                    if(fn.date.Cmp.localIsNewOrEqual(((Despacho)object).getLastUpdate(), aux))
-                        element = object;
-                }
-                aux = ((Despacho)object).getLastUpdate();
             }
-            return element;
+            aux = ((Despacho)object).getLastUpdate();
         }
-        return null;
+        return (Despacho)element;
+    }
+    @Override
+    public ArrayList<HistorialPago> getPagos(String idFicha) {
+        Log.setLog(className,Log.getReg());
+        ArrayList<HistorialPago> list = new ArrayList<>();
+        for (Object object : listar(idFicha, new HistorialPago())) {
+            list.add((HistorialPago)object);
+        }
+        return list;
     }
     @Override
     public ArrayList<Object> listar(String idParam, Object type) {
@@ -295,7 +420,7 @@ public class LocalFicha implements InterfaceSyncFicha{
         ArrayList<Object> lista = new ArrayList<>();
         try{
             if(type instanceof Armazon){
-                String sql="SELECT * FROM armazon WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM armazon WHERE ficha_fch_id='"+idParam+"' AND arm_estado = 1";
         
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -326,7 +451,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 return lista;
             }
             if(type instanceof Despacho){
-                String sql="SELECT * FROM despacho WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM despacho WHERE ficha_fch_id='"+idParam+"' AND dsp_estado = 1";
         
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -346,7 +471,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 return lista;
             }
             if(type instanceof HistorialPago){
-                String sql="SELECT * FROM historial_pago WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM historial_pago WHERE ficha_fch_id='"+idParam+"' AND hp_estado = 1";
         
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -498,20 +623,11 @@ public class LocalFicha implements InterfaceSyncFicha{
     @Override
     public int getMaxId(String strParam, int intParam, Object objParam) {
         Log.setLog(className,Log.getReg());
+        String sql = "";
         try {
             if(objParam instanceof Armazon){
-                
                 if(armIsValid(strParam,intParam)){
-                    String sql="SELECT COUNT(*) as id_armazon FROM armazon";
-
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                    ResultSet datos = consulta.executeQuery();
-                    int id=0;
-                    while (datos.next()) {
-                        id=datos.getInt("id_armazon");
-                    }
-                    LcBd.cerrar();
-                    return id+1;
+                    sql="SELECT COUNT(*) as id FROM armazon";
                 }else{
                     OptionPane.showMsg("No se puede insertar registro", "Ocurrió un error de duplicación de datos"
                             + "\nPor favor intente nuevamente."
@@ -520,31 +636,22 @@ public class LocalFicha implements InterfaceSyncFicha{
                 }
             }
             if(objParam instanceof Despacho){
-                
-                String sql="SELECT COUNT(*) as id_dsp FROM despacho";
-
-                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                int id=0;
-                while (datos.next()) {
-                    id=datos.getInt("id_dsp");
-                }
-                LcBd.cerrar();
-                return id+1;
+                sql="SELECT COUNT(*) as id FROM despacho";
             }
             if(objParam instanceof HistorialPago){
-                
-                String sql="SELECT COUNT(*) as id_hp FROM historial_pago";
-
+                sql="SELECT COUNT(*) as id FROM historial_pago";
+            }
+            if(sql.contains("SELECT")){
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 int id=0;
                 while (datos.next()) {
-                    id=datos.getInt("id_hp");
+                    id=datos.getInt("id");
                 }
                 LcBd.cerrar();
                 return id+1;
-            }
+            }else 
+                return -1;
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(RemoteFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -553,7 +660,7 @@ public class LocalFicha implements InterfaceSyncFicha{
     
     private boolean armIsValid(String idFicha, int tipo) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        String sql="SELECT COUNT(*) as cantidad FROM armazon WHERE ficha_fch_id = '"+idFicha+"' and arm_tipo = "+tipo;
+        String sql="SELECT COUNT(*) as cantidad FROM armazon WHERE ficha_fch_id = '"+idFicha+"' and arm_tipo = "+tipo+"";
 
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
         ResultSet datos = consulta.executeQuery();
@@ -586,4 +693,5 @@ public class LocalFicha implements InterfaceSyncFicha{
         }
         return value+"0";
     }
+    
 }

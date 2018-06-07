@@ -41,7 +41,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     RmBd.cerrar();
                     return update(object);
-                }    
+                }
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -79,7 +79,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     RmBd.cerrar();
                     return update(object);
-                }    
+                }  
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -106,7 +106,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     RmBd.cerrar();
                     return update(object);
-                }    
+                }  
                 //////// dar formato String a fecha
                 java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
                 java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -263,31 +263,36 @@ public class RemoteFicha implements InterfaceSyncFicha{
     }
     /**
      * Retorna el elemento activo según la clase asignada al type
-     * @param id generalmente debe ser el id de la ficha donde se encuentra el objeto
-     * @param type tipo de objeto que se desea extraer
+     * @param idFicha debe ser el id de la ficha donde se encuentra el objeto
      * @return Clase encontrada, se debe parsear para su uso correcto.
      */
     @Override
-    public Object getElement(String id, Object type) {
+    public Despacho getLastDespacho(String idFicha) {
         Log.setLog(className,Log.getReg());
-        if(type instanceof Despacho){
-            Date aux = null;
-            Object element = null;
-            ArrayList<Object> list = listar(id,type);
-            if(list.size() == 1)
-                element = list.get(0);
-            for (Object object : listar(id, type)) {//id debe ser el id de la ficha
-                if(aux == null)
+        Date aux = null;
+        Object element = null;
+        ArrayList<Object> list = listar(idFicha,new Despacho());
+        if(list.size() == 1)
+            return (Despacho)list.get(0);
+        for (Object object : list) {
+            if(aux == null)
+                element = object;
+            if(aux != null){
+                if(fn.date.Cmp.localIsNewOrEqual(((Despacho)object).getLastUpdate(), aux))
                     element = object;
-                if(aux != null){
-                    if(fn.date.Cmp.localIsNewOrEqual(((Despacho)object).getLastUpdate(), aux))
-                        element = object;
-                }
-                aux = ((Despacho)object).getLastUpdate();
             }
-            return element;
+            aux = ((Despacho)object).getLastUpdate();
         }
-        return null;
+        return (Despacho)element;
+    }
+    @Override
+    public ArrayList<HistorialPago> getPagos(String idFicha) {
+        Log.setLog(className,Log.getReg());
+        ArrayList<HistorialPago> list = new ArrayList<>();
+        for (Object object : listar(idFicha, new HistorialPago())) {
+            list.add((HistorialPago)object);
+        }
+        return list;
     }
     @Override
     public ArrayList<Object> listar(String idParam, Object type) {
@@ -295,7 +300,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
         ArrayList<Object> lista = new ArrayList<>();
         try{
             if(type instanceof Armazon){
-                String sql="SELECT * FROM armazon WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM armazon WHERE ficha_fch_id='"+idParam+"' AND arm_estado = 1";
         
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -326,7 +331,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 return lista;
             }
             if(type instanceof Despacho){
-                String sql="SELECT * FROM despacho WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM despacho WHERE ficha_fch_id='"+idParam+"' AND dsp_estado = 1";
         
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -346,7 +351,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 return lista;
             }
             if(type instanceof HistorialPago){
-                String sql="SELECT * FROM historial_pago WHERE ficha_fch_id='"+idParam+"'";
+                String sql="SELECT * FROM historial_pago WHERE ficha_fch_id='"+idParam+"' AND hp_estado = 1";
         
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -498,20 +503,11 @@ public class RemoteFicha implements InterfaceSyncFicha{
     @Override
     public int getMaxId(String strParam, int intParam, Object objParam) {
         Log.setLog(className,Log.getReg());
+        String sql = "";
         try {
             if(objParam instanceof Armazon){
-                
                 if(armIsValid(strParam,intParam)){
-                    String sql="SELECT COUNT(*) as id_armazon FROM armazon";
-
-                    PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                    ResultSet datos = consulta.executeQuery();
-                    int id=0;
-                    while (datos.next()) {
-                        id=datos.getInt("id_armazon");
-                    }
-                    RmBd.cerrar();
-                    return id+1;
+                    sql="SELECT COUNT(*) as id FROM armazon";
                 }else{
                     OptionPane.showMsg("No se puede insertar registro", "Ocurrió un error de duplicación de datos"
                             + "\nPor favor intente nuevamente."
@@ -520,31 +516,22 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 }
             }
             if(objParam instanceof Despacho){
-                
-                String sql="SELECT COUNT(*) as id_dsp FROM despacho";
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                int id=0;
-                while (datos.next()) {
-                    id=datos.getInt("id_dsp");
-                }
-                RmBd.cerrar();
-                return id+1;
+                sql="SELECT COUNT(*) as id FROM despacho";
             }
             if(objParam instanceof HistorialPago){
-                
-                String sql="SELECT COUNT(*) as id_hp FROM historial_pago";
-
+                sql="SELECT COUNT(*) as id FROM historial_pago";
+            }
+            if(sql.contains("SELECT")){
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 int id=0;
                 while (datos.next()) {
-                    id=datos.getInt("id_hp");
+                    id=datos.getInt("id");
                 }
                 RmBd.cerrar();
                 return id+1;
-            }
+            }else 
+                return -1;
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(RemoteFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -553,7 +540,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
     
     private boolean armIsValid(String idFicha, int tipo) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        String sql="SELECT COUNT(*) as cantidad FROM armazon WHERE ficha_fch_id = '"+idFicha+"' and arm_tipo = "+tipo;
+        String sql="SELECT COUNT(*) as cantidad FROM armazon WHERE ficha_fch_id = '"+idFicha+"' and arm_tipo = "+tipo+"";
 
         PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
         ResultSet datos = consulta.executeQuery();

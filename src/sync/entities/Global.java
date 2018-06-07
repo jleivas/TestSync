@@ -9,7 +9,11 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Institucion;
+import entities.Lente;
 import entities.Oficina;
+import entities.RegistroBaja;
+import entities.TipoPago;
 import entities.User;
 import fn.GlobalValues;
 import fn.Log;
@@ -123,47 +127,6 @@ public class Global implements InterfaceSync{
         } 
         return true;
     }
-    public Object getElement(String idParam, Object type) {
-        Log.setLog(className,Log.getReg());
-        if(type instanceof User){
-            for (User object : GlobalValues.TMP_LIST_USERS) {
-                if((object.getUsername().toLowerCase()).equals(idParam.toLowerCase()))
-                    return object;
-            }
-        }
-        if(type instanceof Cristal){
-            for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
-                if((object.getNombre().toLowerCase()).equals(idParam.toLowerCase()))
-                    return object;
-            }
-        }
-        if(type instanceof Descuento){
-            for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
-                if((object.getNombre().toLowerCase()).equals(idParam.toLowerCase()))
-                    return object;
-            }
-        }
-        if(type instanceof Cliente){
-            for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
-                if((object.getCod().toLowerCase()).equals(idParam.toLowerCase()))
-                    return object;
-            }
-        }
-        if(type instanceof Doctor){
-            for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
-                if((object.getCod().toLowerCase()).equals(idParam.toLowerCase()))
-                    return object;
-            }
-        }
-        if(type instanceof Oficina){
-            int id = Integer.parseInt(idParam);
-            for (Oficina object : GlobalValues.TMP_LIST_OFICINAS) {
-                if(object.getId() == id)
-                    return object;
-            }
-        }
-        return null;
-    }
 
     @Override
     public boolean update(Object objectParam) {
@@ -188,5 +151,87 @@ public class Global implements InterfaceSync{
     @Override
     public boolean exist(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    /**
+     * @param cod 
+     * Cliente=>rut,
+     * Cristal=>nombre,
+     * Descuento=>nombre,
+     * Doctor=>rut,
+     * Lente=>cod,
+     * Oficina=>nombre,
+     * RegistroBaja=>cod,
+     * User=>username
+     * @param id
+     * Institucion=>id,
+     * TipoPago=>id
+     * @param type
+     * Tipo de clase que se desea retornar
+     * @return Retorna la clase de tipo Object, luego sólo se debe parsear.
+     */
+    @Override
+    public Object getElement(String cod, int id, Object type) {
+        Log.setLog(className,Log.getReg());
+        if(type instanceof Cliente){
+            for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
+                if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Cristal){
+            for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
+                if((object.getNombre().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Descuento){
+            for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
+                if((object.getNombre().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Doctor){
+            for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
+                if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Institucion){
+            for (Institucion object : GlobalValues.TMP_LIST_INSTITUCIONES) {
+                if(object.getId() == id)
+                    return object;
+            }
+        }
+        if(type instanceof Lente){
+            for (Lente object : GlobalValues.TMP_LIST_LENTES) {
+                if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof Oficina){
+            for (Oficina object : GlobalValues.TMP_LIST_OFICINAS) {
+                if(object.getNombre().toLowerCase().equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof RegistroBaja){
+            for (RegistroBaja object : GlobalValues.TMP_LIST_REGISTROS_BAJAS) {
+                if(object.getCod().toLowerCase().equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        if(type instanceof TipoPago){
+            for (TipoPago object : GlobalValues.TMP_LIST_TIPOS_PAGO) {
+                if(object.getId() == id)
+                    return object;
+            }
+        }
+        if(type instanceof User){
+            for (User object : GlobalValues.TMP_LIST_USERS) {
+                if((object.getUsername().toLowerCase()).equals(cod.toLowerCase()))
+                    return object;
+            }
+        }
+        return null;
     }
 }

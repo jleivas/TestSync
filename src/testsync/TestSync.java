@@ -19,6 +19,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import sync.entities.Local;
 
 /**
  *
@@ -38,11 +39,16 @@ public class TestSync {
 //        System.out.println(""+cli.toString());
 //        Descuento ds = new Descuento(1, "lakdjsljkd", "asdljdasl", 0, 0, 0, null);
 //        System.out.println(""+ds.toString());
-        Doctor dc = new Doctor("sdlkj", "dalj", "alsdkjadjkls", "asdlj", 23, null);
-        Doctor dc2 = new Doctor("segundo", "otro", "okey", "ultim", 24, new Date(124244123));
-        System.out.println(""+dc.toString());
-        System.out.println(""+dc2.toString());
-        
+//        Doctor dc = new Doctor("sdlkj", "dalj", "alsdkjadjkls", "asdlj", 23, null);
+//        Doctor dc2 = new Doctor("segundo", "otro", "okey", "ultim", 24, new Date(124244123));
+//        System.out.println(""+dc.toString());
+//        System.out.println(""+dc2.toString());
+//        Local load = new Local();
+        String g=" jorge sd";
+        if(g.contains("jorge"))
+            System.out.println("yes");
+        else
+            System.out.println("no");
 //        SubProcess.isOnline();
 //        sync.Cmp.getPublicIp();
 //        GlobalValues.LAST_UPDATE = new Date(213312);

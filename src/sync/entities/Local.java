@@ -52,7 +52,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -88,7 +87,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -118,7 +116,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -150,7 +147,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -165,7 +161,6 @@ public class Local implements InterfaceSync {
                     );
                     if (insert.executeUpdate() != 0) {
                         LcBd.cerrar();
-
                         return true;
                     }
                 }
@@ -181,7 +176,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -199,7 +193,6 @@ public class Local implements InterfaceSync {
                     );
                     if (insert.executeUpdate() != 0) {
                         LcBd.cerrar();
-
                         return true;
                     }
                 }
@@ -215,7 +208,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -239,7 +231,6 @@ public class Local implements InterfaceSync {
                     );
                     if (insert.executeUpdate() != 0) {
                         LcBd.cerrar();
-
                         return true;
                     }
                 }
@@ -255,7 +246,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -290,7 +280,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
                     java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -323,7 +312,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -352,7 +340,6 @@ public class Local implements InterfaceSync {
                         LcBd.cerrar();
                         return update(object);
                     }
-                    LcBd.cerrar();
                     //////// dar formato String a fecha
                     java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
 
@@ -1062,6 +1049,13 @@ public class Local implements InterfaceSync {
         }
         return lista;
     }
+    /**
+     * Retorna una lista de objetos comparndo por la ultima fecha de actualización con
+     * paramDate y tipo de objeto con type
+     * @param paramDate
+     * @param type
+     * @return 
+     */
     @Override
     public ArrayList<Object> listar(Date paramDate, Object type) {
         Log.setLog(className, Log.getReg());
@@ -1286,6 +1280,23 @@ public class Local implements InterfaceSync {
         }
         return lista;
     }
+    /**
+     * @param cod 
+     * Cliente=>rut,
+     * Cristal=>nombre,
+     * Descuento=>nombre,
+     * Doctor=>rut,
+     * Lente=>cod,
+     * Oficina=>nombre,
+     * RegistroBaja=>cod,
+     * User=>username
+     * @param id
+     * Institucion=>id,
+     * TipoPago=>id
+     * @param type
+     * Tipo de clase que se desea retornar
+     * @return Retorna la clase de tipo Object, luego sólo se debe parsear.
+     */
     @Override
     public Object getElement(String cod,int id, Object type) {
         Log.setLog(className, Log.getReg());
@@ -1365,11 +1376,27 @@ public class Local implements InterfaceSync {
         }
         return null;
     }
+    /**
+     * Compara por los siguientes atributos:
+     * Cliente=>rut,
+     * Cristal=>nombre,
+     * Descuento=>nombre,
+     * Doctor=>rut,
+     * Lente=>cod,
+     * Oficina=>nombre,
+     * RegistroBaja=>cod,
+     * User=>username,
+     * Institucion=>id,
+     * TipoPago=>id
+     * @param object
+     * @return 
+     */
     @Override
     public boolean exist(Object object) {
         Log.setLog(className, Log.getReg());
-        if (object instanceof User) {
-            if (getElement(((User) object).getUsername(),0,object) != null) {
+        if (object instanceof Cliente) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(((Cliente) object).getCod(),0,object) != null) {
                 return true;
             }
         }
@@ -1385,19 +1412,38 @@ public class Local implements InterfaceSync {
                 return true;
             }
         }
-        if (object instanceof Cliente) {
-            Log.setLog(className, Log.getReg());
-            if (getElement(((Cliente) object).getCod(),0,object) != null) {
-                return true;
-            }
-        }
         if (object instanceof Doctor) {
             if (getElement(((Doctor) object).getCod(),0,object) != null) {
                 return true;
             }
         }
+        if (object instanceof Institucion) {
+            if (getElement(null,((Institucion) object).getId(),object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof Lente) {
+            if (getElement(((Lente) object).getCod(),0,object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Oficina) {
-            if (getElement("" + ((Oficina) object).getId(),0, object) != null) {
+            if (getElement(((Oficina) object).getNombre(),0, object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof RegistroBaja) {
+            if (getElement(((RegistroBaja) object).getCod(),0, object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof TipoPago) {
+            if (getElement(null,((TipoPago) object).getId(), object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof User) {
+            if (getElement(((User) object).getUsername(),0,object) != null) {
                 return true;
             }
         }

@@ -9,7 +9,11 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Institucion;
+import entities.Lente;
 import entities.Oficina;
+import entities.RegistroBaja;
+import entities.TipoPago;
 import entities.User;
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +94,11 @@ public class GlobalValues {
     public static ArrayList<Descuento> TMP_LIST_DESCUENTO = new ArrayList<Descuento>();
     public static ArrayList<Cliente> TMP_LIST_CLIENTES = new ArrayList<Cliente>();
     public static ArrayList<Doctor> TMP_LIST_DOCTORES = new ArrayList<Doctor>();
+    public static ArrayList<Institucion> TMP_LIST_INSTITUCIONES = new ArrayList<Institucion>();
+    public static ArrayList<Lente> TMP_LIST_LENTES = new ArrayList<Lente>();
     public static ArrayList<Oficina> TMP_LIST_OFICINAS = new ArrayList<Oficina>();
+    public static ArrayList<RegistroBaja> TMP_LIST_REGISTROS_BAJAS = new ArrayList<RegistroBaja>();
+    public static ArrayList<TipoPago> TMP_LIST_TIPOS_PAGO = new ArrayList<TipoPago>();
     
     /* Joption Pane del sistema */
     public static String PANELTITLE ="";
