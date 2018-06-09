@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -195,5 +197,22 @@ public class GlobalValues {
         return Cmp.getPublicIp();
     }
     
+    public static int contChar(char toCompare, String toCount){
+        char[] arrayChar = toCount.toCharArray();
+        int cont=0;
+        for(int i=0; i<arrayChar.length; i++){
 
+                if( arrayChar[i] == toCompare){
+                    cont++;
+                }
+        }
+        return cont;
+    }
+    
+    public static int hourToInt(Date date){
+        DateFormat hourFormat = new SimpleDateFormat("HHmmss");
+        String formatHour = hourFormat.format(date);
+        int hora = Integer.parseInt(formatHour);
+        return hora;
+    }
 }

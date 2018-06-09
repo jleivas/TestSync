@@ -22,7 +22,8 @@ public class Despacho extends SyncStringId{
     public Despacho() {
     }
 
-    public Despacho(String cod, String rut, String nombre, Date fecha, String idFicha, int estado, Date lastUpdate) {
+    public Despacho(String cod, String rut, String nombre, Date fecha, 
+            String idFicha, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         this.rut = rut;
         this.nombre = nombre;
@@ -30,6 +31,7 @@ public class Despacho extends SyncStringId{
         this.idFicha = idFicha;
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setRut(String rut) {

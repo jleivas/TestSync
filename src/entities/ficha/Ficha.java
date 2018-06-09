@@ -35,11 +35,16 @@ public class Ficha extends SyncStringId{
     private Armazon lejos;
     private Armazon cerca;
     private User user;
+    private int idConvenio;
 
     public Ficha() {
     }
 
-    public Ficha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, String horaEntrega, int valorTotal, int saldo, String observacion, Cliente cliente, Doctor doctor, Descuento descuento, Institucion institucion, Despacho despacho , Armazon lejos, Armazon cerca, User user, int estado, Date lastUpdate) {
+    public Ficha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, 
+            String horaEntrega, int valorTotal, int saldo, String observacion, 
+            Cliente cliente, Doctor doctor, Descuento descuento, 
+            Institucion institucion, Despacho despacho , Armazon lejos, 
+            Armazon cerca, User user, int idConvenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setFechaEntrega(fechaEntrega);
@@ -56,8 +61,18 @@ public class Ficha extends SyncStringId{
         setLejos(lejos);
         setCerca(cerca);
         setUser(user);
+        setIdConvenio(idConvenio);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
+    }
+
+    public void setIdConvenio(int idConvenio) {
+        this.idConvenio = idConvenio;
+    }
+
+    public int getIdConvenio() {
+        return idConvenio;
     }
 
     public void setFecha(Date fecha) {

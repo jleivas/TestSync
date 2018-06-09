@@ -26,7 +26,7 @@ public class Cliente extends SyncStringId{
     public Cliente() {
     }
 
-    public Cliente(String rut, String nombre, String telefono1, String telefono2, String email, String direccion, String comuna, String ciudad, int sexo, int edad, int estado, Date lastUpdate) {
+    public Cliente(String rut, String nombre, String telefono1, String telefono2, String email, String direccion, String comuna, String ciudad, int sexo, int edad, int estado, Date lastUpdate, int lastHour) {
         setCod(rut);
         setNombre(nombre);
         setTelefono1(telefono1);
@@ -39,6 +39,7 @@ public class Cliente extends SyncStringId{
         setEdad(edad);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {

@@ -24,7 +24,7 @@ public class Institucion extends SyncIntId{
     public Institucion() {
     }
 
-    public Institucion(int id, String nombre, String telefono, String email, String direccion, String comuna, String ciudad, int estado, Date lastUpdate) {
+    public Institucion(int id, String nombre, String telefono, String email, String direccion, String comuna, String ciudad, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         setNombre(nombre);
         setTelefono(telefono);
@@ -34,6 +34,7 @@ public class Institucion extends SyncIntId{
         setCiudad(ciudad);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {

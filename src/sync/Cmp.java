@@ -40,9 +40,8 @@ public class Cmp {
         String ip = "0.0.0.0";
         BufferedReader in = new BufferedReader(new InputStreamReader(
                         whatismyip.openStream()));
-
-                        ip = in.readLine(); 
-                        System.out.println("My Public ip is = "+ip);
+        ip = in.readLine(); 
+        System.out.println("My Public ip is = "+ip);
         in.close();
         return ip;
     }

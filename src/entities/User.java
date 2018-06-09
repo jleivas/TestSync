@@ -22,7 +22,8 @@ public class User extends SyncIntId{
     public User() {
     }
 
-    public User(int id, String nombre, String username,String email, String pass, int tipo, int estado, Date lastUpdate) {
+    public User(int id, String nombre, String username,String email,
+            String pass, int tipo, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         setNombre(nombre);
         setUsername(username);
@@ -31,6 +32,7 @@ public class User extends SyncIntId{
         setTipo(tipo);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setEmail(String email) {

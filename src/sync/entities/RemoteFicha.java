@@ -8,6 +8,7 @@ package sync.entities;
 import bd.RmBd;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GlobalValues;
 import fn.Log;
@@ -42,29 +43,8 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     RmBd.cerrar();
                     return update(object);
                 }
-                //////// dar formato String a fecha
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "INSERT INTO armazon VALUES('"
-                                +object.getCod()+"', "
-                                +object.getTipo()+", '"
-                                +object.getMarca()+"', '"
-                                +object.getCristal()+"', '"
-                                +object.getAdd()+"', '"
-                                +object.getOdA()+"', '"
-                                +object.getOdEsf()+"', '"
-                                +object.getOdCil()+"', '"
-                                +object.getOiA()+"', '"
-                                +object.getOiEsf()+"', '"
-                                +object.getOiCil()+"', "
-                                +object.getDp()+", "
-                                +object.getEndurecido()+", "
-                                +object.getCapa()+", "
-                                +object.getPlusMax()+", '"
-                                +object.getIdFicha()+"', "
-                                +object.getEstado()+", '"
-                                +sqlfecha+"')"
+                        sqlInsert(object)
                                );
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
@@ -79,19 +59,9 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 while (datos.next()) {
                     RmBd.cerrar();
                     return update(object);
-                }  
-                //////// dar formato String a fecha
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
+                }
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "INSERT INTO despacho VALUES('"
-                                +object.getCod()+"', '"
-                                +object.getRut()+"', '"
-                                +object.getNombre()+"', '"
-                                +object.getFecha()+"', '"
-                                +object.getIdFicha()+"', "
-                                +object.getEstado()+", '"
-                                +sqlfecha+"')"
+                        sqlInsert(object)
                                );
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
@@ -107,19 +77,27 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     RmBd.cerrar();
                     return update(object);
                 }  
-                //////// dar formato String a fecha
-                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
-                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "INSERT INTO historial_pago VALUES('"
-                                +object.getCod()+"', '"
-                                +sqlfecha1+"', "
-                                +object.getAbono()+", "
-                                +object.getEstado()+", "
-                                +object.getIdTipoPago()+", '"
-                                +object.getIdFicha()+"', '"
-                                +sqlfecha2+"')"
+                        sqlInsert(object)
+                               );
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+
+                    return true;
+                }
+            }
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT fch_id FROM ficha WHERE fch_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    RmBd.cerrar();
+                    return update(object);
+                }  
+                
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlInsert(object)
                                );
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
@@ -153,27 +131,8 @@ public class RemoteFicha implements InterfaceSyncFicha{
                         return false;
                     }
                 }
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE armazon set arm_tipo = "+object.getTipo()
-                                +", arm_marca = '"+object.getMarca()
-                                +"', arm_cristal = '"+object.getCristal()
-                                +"', arm_add = '"+object.getAdd()
-                                +"', arm_od_a = '"+object.getOdA()
-                                +"', arm_od_esf = '"+object.getOdEsf()
-                                +"', arm_od_cil = '"+object.getOdCil()
-                                +"', arm_oi_a = '"+object.getOiA()
-                                +"', arm_oi_esf = '"+object.getOiEsf()
-                                +"', arm_oi_cil = '"+object.getOiCil()
-                                +"', arm_dp = "+object.getDp()
-                                +", arm_endurecido = "+object.getEndurecido()
-                                +", arm_capa = "+object.getCapa()
-                                +", arm_plus_max = "+object.getPlusMax()
-                                +", ficha_fch_id = '"+object.getIdFicha()
-                                +"', arm_estado = "+object.getEstado()
-                                +", arm_last_update = '"+sqlfecha
-                                +"' WHERE arm_id = '"+object.getCod()+"' AND arm_last_update <= '"+sqlfecha+"'");
+                        sqlUpdate(object));
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
 
@@ -199,17 +158,8 @@ public class RemoteFicha implements InterfaceSyncFicha{
                         return false;
                     }
                 }
-                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
-                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE despacho set dsp_rut = '"+object.getRut()
-                                +"', dsp_nombre = '"+object.getNombre()
-                                +"', dsp_fecha = '"+sqlfecha1
-                                +"', ficha_fch_id = '"+object.getIdFicha()
-                                +"', dsp_estado = "+object.getEstado()
-                                +", dsp_last_update = '"+sqlfecha2
-                                +"' WHERE dsp_id = '"+object.getCod()+"' AND dsp_last_update <= '"+sqlfecha2+"'");
+                        sqlUpdate(object));
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
 
@@ -235,17 +185,35 @@ public class RemoteFicha implements InterfaceSyncFicha{
                         return false;
                     }
                 }
-                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
-                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE historial_pago set hp_fecha = '"+sqlfecha1
-                                +"', hp_abono = "+object.getAbono()
-                                +", hp_estado = "+object.getEstado()
-                                +", tipo_pago_tp_id = "+object.getIdTipoPago()
-                                +", ficha_fch_id = '"+object.getIdFicha()
-                                +"', hp_last_update = '"+sqlfecha2
-                                +"' WHERE hp_id = '"+object.getCod()+"' AND hp_last_update <= '"+sqlfecha2+"'");
+                        sqlUpdate(object));
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+
+                    return true;
+                }
+                else{
+                    RmBd.cerrar();
+                    return true;
+                }
+            }
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha= new Date();
+                    try {
+                        dsp_fecha = datos.getDate("fch_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
                 if(insert.executeUpdate()!=0){
                     RmBd.cerrar();
 
@@ -324,6 +292,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getString("ficha_fch_id")
                             , datos.getInt("arm_estado")
                             , datos.getDate("arm_last_update")
+                            , datos.getInt("arm_last_hour")
                             )
                     );
                 }
@@ -344,6 +313,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getString("ficha_fch_id")
                             , datos.getInt("dsp_estado")
                             , datos.getDate("dsp_last_update")
+                            , datos.getInt("dsp_last_hour")
                             )
                     );
                 }
@@ -364,6 +334,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getInt("tipo_pago_tp_id")
                             , datos.getString("ficha_fch_id")
                             , datos.getDate("hp_last_update")
+                            , datos.getInt("hp_last_hour")
                             )
                     );
                 }
@@ -406,6 +377,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getString("ficha_fch_id")
                             , datos.getInt("arm_estado")
                             , datos.getDate("arm_last_update")
+                            , datos.getInt("arm_last_hour")
                             )
                     );
                 }
@@ -426,6 +398,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getString("ficha_fch_id")
                             , datos.getInt("dsp_estado")
                             , datos.getDate("dsp_last_update")
+                            , datos.getInt("dsp_last_hour")
                             )
                     );
                 }
@@ -446,6 +419,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getInt("tipo_pago_tp_id")
                             , datos.getString("ficha_fch_id")
                             , datos.getDate("hp_last_update")
+                            , datos.getInt("arm_last_hour")
                             )
                     );
                 }
@@ -572,5 +546,198 @@ public class RemoteFicha implements InterfaceSyncFicha{
             return value+getMaxId(strParam, intParam, new HistorialPago());
         }
         return value+"0";
+    }
+
+    private String sqlInsert(Object objectParam) {
+        if(objectParam instanceof Armazon){
+            Armazon object = (Armazon)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "INSERT INTO armazon VALUES('"
+                                +object.getCod()+"', "
+                                +object.getTipo()+", '"
+                                +object.getMarca()+"', '"
+                                +object.getCristal()+"', '"
+                                +object.getAdd()+"', '"
+                                +object.getOdA()+"', '"
+                                +object.getOdEsf()+"', '"
+                                +object.getOdCil()+"', '"
+                                +object.getOiA()+"', '"
+                                +object.getOiEsf()+"', '"
+                                +object.getOiCil()+"', "
+                                +object.getDp()+", "
+                                +object.getEndurecido()+", "
+                                +object.getCapa()+", "
+                                +object.getPlusMax()+", '"
+                                +object.getIdFicha()+"', "
+                                +object.getEstado()+", '"
+                                +sqlfecha+"', "
+                                +object.getLastHour()+")";
+        }
+        if(objectParam instanceof Despacho){
+            Despacho object = (Despacho)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "INSERT INTO despacho VALUES('"
+                                +object.getCod()+"', '"
+                                +object.getRut()+"', '"
+                                +object.getNombre()+"', '"
+                                +object.getFecha()+"', '"
+                                +object.getIdFicha()+"', "
+                                +object.getEstado()+", '"
+                                +sqlfecha+"', "
+                                +object.getLastHour()+")";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "INSERT INTO historial_pago VALUES('"
+                                +object.getCod()+"', '"
+                                +sqlfecha1+"', "
+                                +object.getAbono()+", "
+                                +object.getEstado()+", "
+                                +object.getIdTipoPago()+", '"
+                                +object.getIdFicha()+"', '"
+                                +sqlfecha2+"', "
+                                +object.getLastHour()+")";
+        }
+        if(objectParam instanceof Ficha){
+            Ficha object = (Ficha)objectParam;
+            java.sql.Date fecha  = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date fechaEntrega = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date
+            java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+            String rutCliente = null;
+            String rutDoctor = null;
+            int idDescuento = 0;
+            int idInstitucion = 0;
+            String idDespacho = null;
+            int idUser = 0;
+            if(object.getCliente()!= null)
+                rutCliente = object.getCliente().getCod();
+            if(object.getDoctor()!= null)
+                rutCliente = object.getDoctor().getCod();
+            if(object.getDescuento()!= null)
+                idDescuento=object.getDescuento().getId();
+            if(object.getDespacho()!= null)
+                idDespacho=object.getDespacho().getCod();
+            if(object.getUser()!= null)
+                idUser=object.getUser().getId();
+            return "INSERT INTO ficha VALUES('"
+                                +object.getCod()+"', '"
+                                +fecha+"', '"
+                                +fechaEntrega+"', '"
+                                +object.getLugarEntrega()+"', '"
+                                +object.getHoraEntrega()+"', "
+                                +object.getValorTotal()+", "
+                                +object.getSaldo()+", '"
+                                +object.getObservacion()+"', '"
+                                +rutCliente+"', '"
+                                +rutDoctor+"', "
+                                +idDescuento+", "
+                                +idInstitucion+", '"
+                                +idDespacho+"', "
+                                +idUser+", "
+                                +object.getEstado()+", '"
+                                +lastUpdate+"', "
+                                +object.getLastHour()+")";
+        }
+        return null;
+    }
+
+    private String sqlUpdate(Object objectParam) {
+        if(objectParam instanceof Armazon){
+            Armazon object = (Armazon)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE armazon set arm_tipo = "+object.getTipo()
+                                +", arm_marca = '"+object.getMarca()
+                                +"', arm_cristal = '"+object.getCristal()
+                                +"', arm_add = '"+object.getAdd()
+                                +"', arm_od_a = '"+object.getOdA()
+                                +"', arm_od_esf = '"+object.getOdEsf()
+                                +"', arm_od_cil = '"+object.getOdCil()
+                                +"', arm_oi_a = '"+object.getOiA()
+                                +"', arm_oi_esf = '"+object.getOiEsf()
+                                +"', arm_oi_cil = '"+object.getOiCil()
+                                +"', arm_dp = "+object.getDp()
+                                +", arm_endurecido = "+object.getEndurecido()
+                                +", arm_capa = "+object.getCapa()
+                                +", arm_plus_max = "+object.getPlusMax()
+                                +", ficha_fch_id = '"+object.getIdFicha()
+                                +"', arm_estado = "+object.getEstado()
+                                +", arm_last_update = '"+sqlfecha
+                                +"',arm_last_hour = "+object.getLastHour()
+                                +" WHERE arm_id = '"+object.getCod()+"' AND (arm_last_update <= '"
+                                +sqlfecha+"' AND arm_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Despacho){
+            Despacho object = (Despacho)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE despacho set dsp_rut = '"+object.getRut()
+                                +"', dsp_nombre = '"+object.getNombre()
+                                +"', dsp_fecha = '"+sqlfecha1
+                                +"', ficha_fch_id = '"+object.getIdFicha()
+                                +"', dsp_estado = "+object.getEstado()
+                                +", dsp_last_update = '"+sqlfecha2
+                                +"', dsp_last_hour = "+object.getLastHour()
+                                +" WHERE dsp_id = '"+object.getCod()+"' AND (dsp_last_update <= '"
+                                +sqlfecha2+"' AND dsp_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE historial_pago set hp_fecha = '"+sqlfecha1
+                                +"', hp_abono = "+object.getAbono()
+                                +", hp_estado = "+object.getEstado()
+                                +", tipo_pago_tp_id = "+object.getIdTipoPago()
+                                +", ficha_fch_id = '"+object.getIdFicha()
+                                +"', hp_last_update = '"+sqlfecha2
+                                +"', hp_last_hour ="+object.getLastHour()
+                                +" WHERE hp_id = '"+object.getCod()+"' AND (hp_last_update <= '"
+                                +sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Ficha){
+            Ficha object = (Ficha)objectParam;
+            java.sql.Date fecha  = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date fechaEntrega = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date
+            java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+
+            String rutCliente = null;
+            String rutDoctor = null;
+            int idDescuento = 0;
+            int idInstitucion = 0;
+            String idDespacho = null;
+            int idUser = 0;
+            if(object.getCliente()!= null)
+                rutCliente = object.getCliente().getCod();
+            if(object.getDoctor()!= null)
+                rutCliente = object.getDoctor().getCod();
+            if(object.getDescuento()!= null)
+                idDescuento=object.getDescuento().getId();
+            if(object.getDespacho()!= null)
+                idDespacho=object.getDespacho().getCod();
+            if(object.getUser()!= null)
+                idUser=object.getUser().getId();
+            return "UPDATE ficha set fch_fecha = '"+fecha
+                                +"', fch_fecha_entrega = '"+fechaEntrega
+                                +"', fch_lugar_entrega = '"+object.getLugarEntrega()
+                                +"', fch_hora_entrega = '"+object.getHoraEntrega()
+                                +"', fch_valor_total = "+object.getValorTotal()
+                                +", fch_saldo = "+object.getSaldo()
+                                +", fch_obs = '"+object.getObservacion()
+                                +"', cliente_cli_rut = '"+rutCliente
+                                +"', doctor_doc_rut = '"+rutDoctor
+                                +"', descuento_des_id = "+idDescuento
+                                +", institucion_ins_id = "+idInstitucion
+                                +", despacho_dsp_id = '"+idDespacho
+                                +"', usuario_us_id = "+idUser
+                                +"', fch_estado = "+object.getEstado()
+                                +", fch_last_update = '"+lastUpdate
+                                +"', fch_last_hour = "+object.getLastHour()
+                                +" WHERE fch_id = '"+object.getCod()+"' AND (fch_last_update <= '"
+                                +lastUpdate+"' AND fch_last_hour < "+object.getLastHour()+")";
+        }
+        return null;
     }
 }

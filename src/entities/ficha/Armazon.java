@@ -33,7 +33,10 @@ public class Armazon extends SyncStringId{
     public Armazon() {
     }
 
-    public Armazon(String cod, int tipo, String marca, String cristal, String add, String odA, String odEsf, String odCil, String oiA, String oiEsf, String oiCil, int dp, int endurecido, int capa, int plusMax, String IdFicha, int estado, Date lastUpdate) {
+    public Armazon(String cod, int tipo, String marca, String cristal, String add, 
+            String odA, String odEsf, String odCil, String oiA, String oiEsf, 
+            String oiCil, int dp, int endurecido, int capa, int plusMax, String IdFicha, 
+            int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setTipo(tipo);
         setCristal(cristal);
@@ -52,6 +55,7 @@ public class Armazon extends SyncStringId{
         setMarca(marca);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setTipo(int tipo) {

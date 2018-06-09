@@ -6,10 +6,13 @@
 package sync.entities;
 import bd.RmBd;
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Equipo;
 import entities.Institucion;
+import entities.Inventario;
 import entities.Lente;
 import entities.Oficina;
 import entities.RegistroBaja;
@@ -33,7 +36,7 @@ import sync.InterfaceSync;
  */
 public class Remote implements InterfaceSync{
     private static String className = "Remote";
-     @Override
+    @Override
     public boolean add(Object objectParam) {
         Log.setLog(className, Log.getReg());
         try{
@@ -48,24 +51,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO cliente VALUES('"
-                            + object.getCod() + "','"
-                            + object.getNombre() + "','"
-                            + object.getTelefono1() + "','"
-                            + object.getTelefono2() + "','"
-                            + object.getEmail() + "','"
-                            + object.getDireccion() + "','"
-                            + object.getComuna() + "','"
-                            + object.getCiudad() + "',"
-                            + object.getSexo() + ","
-                            + object.getEdad() + ","
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -73,6 +60,26 @@ public class Remote implements InterfaceSync{
                     }
                 }
                 OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof Convenio){
+                Convenio object = (Convenio)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT cnv_id FROM convenio WHERE cnv_id=" + object.getId()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Cristal){
@@ -84,17 +91,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO cristal VALUES("
-                            + object.getId() + ",'"
-                            + object.getNombre() + "',"
-                            + object.getPrecio() + ","
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -114,19 +112,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO descuento VALUES("
-                            + object.getId() + ",'"
-                            + object.getNombre() + "','"
-                            + object.getDescripcion() + "',"
-                            + object.getPorcetange() + ","
-                            + object.getMonto() + ","
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -146,22 +133,11 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO doctor VALUES('"
-                            + object.getCod() + "','"
-                            + object.getNombre() + "','"
-                            + object.getTelefono() + "','"
-                            + object.getEmail() + "',"
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
-
                         return true;
                     }
                 }
@@ -177,25 +153,11 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO institucion VALUES("
-                            + object.getId()+ ",'"
-                            + object.getNombre() + "','"
-                            + object.getTelefono() + "','"
-                            + object.getEmail() + "','"
-                            + object.getDireccion()+ "','"
-                            + object.getComuna()+ "','"
-                            + object.getCiudad()+ "',"
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
-
                         return true;
                     }
                 }
@@ -211,35 +173,15 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO lente VALUES('"
-                            + object.getCodigo()+ "','"
-                            + object.getColor()+ "','"
-                            + object.getTipo()+ "','"
-                            + object.getMarca()+ "','"
-                            + object.getMaterial()+ "',"
-                            + object.getFlex()+ ","
-                            + object.getClasificacion()+ ",'"
-                            + object.getDescripcion()+ "',"
-                            + object.getPrecioRef()+ ","
-                            + object.getPrecioAct()+ ","
-                            + object.getStock()+ ","
-                            + object.getStockMin()+ ",'"
-                            + object.getInventario()+ "',"
-                            + object.getEstado()+ ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
-
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCodigo()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCod()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Oficina){
@@ -251,22 +193,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO oficina VALUES("
-                            + object.getId() + ",'"
-                            + object.getNombre() + "','"
-                            + object.getDireccion() + "','"
-                            + object.getCiudad() + "','"
-                            + object.getTelefono1() + "','"
-                            + object.getTelefono2() + "','"
-                            + object.getEmail() + "','"
-                            + object.getWeb() + "',"
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -286,20 +214,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
-                    java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO registro_bajas VALUES("
-                            + object.getCod()+ ",'"
-                            + sqlfecha1 + "','"
-                            + object.getIdLente()+ "',"
-                            + object.getCantidad()+ ",'"
-                            + object.getObs()+ "',"
-                            + object.getEstado() + ",'"
-                            + sqlfecha2 + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -319,16 +235,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO tipo_pago VALUES("
-                            + object.getId()+ ",'"
-                            + object.getNombre() + "',"
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -348,20 +256,8 @@ public class Remote implements InterfaceSync{
                         RmBd.cerrar();
                         return update(object);
                     }
-                    RmBd.cerrar();
-                    //////// dar formato String a fecha
-                    java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-
                     PreparedStatement insert = RmBd.obtener().prepareStatement(
-                            "INSERT INTO usuario VALUES("
-                            + object.getId() + ",'"
-                            + object.getNombre() + "','"
-                            + object.getUsername() + "','"
-                            + object.getEmail() + "','"
-                            + object.getPass() + "',"
-                            + object.getTipo() + ","
-                            + object.getEstado() + ",'"
-                            + sqlfecha + "')"
+                            sqlInsert(object)
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
@@ -399,21 +295,29 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE cliente set cli_nombre = '" + object.getNombre()
-                        + "', cli_telefono1 = '" + object.getTelefono1()
-                        + "', cli_telefono2 = '" + object.getTelefono2()
-                        + "', cli_email = '" + object.getEmail()
-                        + "', cli_direccion = '" + object.getDireccion()
-                        + "', cli_comuna = '" + object.getComuna()
-                        + "', cli_ciudad = '" + object.getCiudad()
-                        + "', cli_sexo = " + object.getSexo()
-                        + ", cli_edad = " + object.getEdad()
-                        + ", cli_estado = " + object.getEstado()
-                        + ", cli_last_update = '" + sqlfecha
-                        + "' WHERE cli_rut = '" + object.getCod() + "' AND cli_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }if(objectParam instanceof Convenio){
+                Convenio object = (Convenio)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM convenio WHERE cnv_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("cnv_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -434,14 +338,9 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE cristal set cri_nombre = '" + object.getNombre()
-                        + "', cri_precio = " + object.getPrecio()
-                        + ", cri_estado = " + object.getEstado()
-                        + ", cri_last_update = '" + sqlfecha
-                        + "' WHERE cri_id = " + object.getId() + " AND cri_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object)
+                );
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -462,16 +361,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE descuento set des_nombre = '" + object.getNombre()
-                        + "', des_descripcion = '" + object.getDescripcion()
-                        + "', des_porc = " + object.getPorcetange()
-                        + ", des_monto = " + object.getMonto()
-                        + ", des_estado = " + object.getEstado()
-                        + ", des_last_update = '" + sqlfecha
-                        + "' WHERE des_id = " + object.getId() + " AND des_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -492,15 +383,30 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE doctor set doc_nombre = '" + object.getNombre()
-                        + "', doc_telefono = '" + object.getTelefono()
-                        + "', doc_mail = '" + object.getEmail()
-                        + "', doc_estado = " + object.getEstado()
-                        + ", doc_last_update = '" + sqlfecha
-                        + "' WHERE doc_rut = '" + object.getCod() + "' AND doc_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Equipo){
+                Equipo object = (Equipo)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM equipo WHERE eq_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("eq_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -521,18 +427,30 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE institucion set ins_nombre = '" + object.getNombre()
-                        + "', ins_telefono = '" + object.getTelefono()
-                        + "', ins_mail = '" + object.getEmail()
-                        + "', ins_direccion = '" + object.getDireccion()
-                        + "', ins_comuna = '" + object.getComuna()
-                        + "', ins_ciudad = '" + object.getCiudad()
-                        + "', ins_estado = " + object.getEstado()
-                        + ", ins_last_update = '" + sqlfecha
-                        + "' WHERE ins_id = " + object.getId()+ " AND ins_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof Inventario){
+                Inventario object = (Inventario)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("inv_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -553,24 +471,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE lente set len_color = '" + object.getColor()
-                        + "', len_tipo = '" + object.getTipo()
-                        + "', len_marca = '" + object.getMarca()
-                        + "', len_material = '" + object.getMaterial()
-                        + "', len_flex = " + object.getFlex()
-                        + ", len_clasificacion = " + object.getClasificacion()
-                        + ", len_descripcion = '" + object.getDescripcion()
-                        + "', len_precio_ref = " + object.getPrecioRef()
-                        + ", len_precio_act = " + object.getPrecioAct()
-                        + ", len_stock = " + object.getStock()
-                        + ", len_stock_min = " + object.getStockMin()
-                        + ", inventario_inv_id = '" + object.getInventario()
-                        + "', len_estado = " + object.getEstado()
-                        + ", len_last_update = '" + sqlfecha
-                        + "' WHERE ins_id = " + object.getCod()+ " AND ins_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -591,19 +493,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE oficina set of_nombre = '" + object.getNombre()
-                        + "', of_direccion = '" + object.getDireccion()
-                        + "', of_ciudad = '" + object.getCiudad()
-                        + "', of_telefono1 = '" + object.getTelefono1()
-                        + "', of_telefono2 = '" + object.getTelefono2()
-                        + "', of_email = '" + object.getEmail()
-                        + "', of_web = '" + object.getWeb()
-                        + "', of_estado = " + object.getEstado()
-                        + ", of_last_update = '" + sqlfecha
-                        + "' WHERE of_id = " + object.getId() + " AND of_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -624,17 +515,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
-                java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE registro_bajas set rb_fecha = '" + sqlfecha1
-                        + "', lente_len_id = '" + object.getIdLente()
-                        + "', rb_cantidad = " + object.getCantidad()
-                        + ", rb_obs = '" + object.getObs()
-                        + "', rb_estado = " + object.getEstado()
-                        + ", rb_last_update = '" + sqlfecha2
-                        + "' WHERE rb_id = '" + object.getCod()+ "' AND rb_last_update <= '" + sqlfecha2 + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -655,13 +537,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE registro_bajas set tp_nombre = '" + sqlfecha
-                        + "', tp_estado = " + object.getEstado()
-                        + ", tp_last_update = '" + sqlfecha
-                        + "' WHERE tp_id = " + object.getId()+ " AND tp_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -687,17 +564,8 @@ public class Remote implements InterfaceSync{
                         return false;
                     }
                 }
-                RmBd.cerrar();
-                java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        "UPDATE usuario set us_nombre = '" + object.getNombre()
-                        + "', us_username = '" + object.getUsername()
-                        + "', us_email = '" + object.getEmail()
-                        + "', us_pass = '" + object.getPass()
-                        + "', us_tipo = " + object.getTipo()
-                        + ", us_estado = " + object.getEstado()
-                        + ", us_last_update = '" + sqlfecha
-                        + "' WHERE us_id = " + object.getId() + " AND us_last_update <= '" + sqlfecha + "'");
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -716,11 +584,20 @@ public class Remote implements InterfaceSync{
             if(type instanceof Cristal){
                 sql = "SELECT MAX(cri_id) as id FROM cristal";
             }
+            if(type instanceof Convenio){
+                sql = "SELECT MAX(cnv_id) as id FROM convenio";
+            }
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
             }
+            if(type instanceof Equipo){
+                sql = "SELECT MAX(eq_id) as id FROM equipo";
+            }
             if(type instanceof Institucion){
                 sql = "SELECT MAX(ins_id) as id FROM institucion";
+            }
+            if(type instanceof Inventario){
+                sql = "SELECT MAX(inv_id) as id FROM inventario";
             }
             if (type instanceof Oficina) {
                 sql = "SELECT MAX(of_id) as id FROM oficina";
@@ -777,7 +654,43 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cli_sexo"),
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
-                        datos.getDate("cli_last_update")
+                        datos.getDate("cli_last_update"),
+                        datos.getInt("cli_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Convenio){
+                String sql = "SELECT * FROM convenio WHERE cnv_id=" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM convenio WHERE cnv_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM convenio WHERE cnv_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM convenio";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Convenio(
+                        datos.getInt("cnv_id"),
+                        datos.getString("cnv_nombre"),
+                        datos.getDate("cnv_fecha_inicio"),
+                        datos.getDate("cnv_fecha_fin"),
+                        datos.getInt("cnv_cuotas"),
+                        datos.getInt("cnv_monto_maximo"),
+                        datos.getInt("cnv_monto_pp"),
+                        datos.getInt("cnv_maximo_clientes"),
+                        datos.getInt("descuento_des_id"),
+                        datos.getInt("institucion_ins_id"),
+                        datos.getInt("cnv_estado"),
+                        datos.getDate("cnv_last_update"),
+                        datos.getInt("cnv_last_hour")
                         )
                     );
                 }
@@ -804,7 +717,8 @@ public class Remote implements InterfaceSync{
                         datos.getString("cri_nombre"),
                         datos.getInt("cri_precio"),
                         datos.getInt("cri_estado"),
-                        datos.getDate("cri_last_update")
+                        datos.getDate("cri_last_update"),
+                        datos.getInt("cri_last_hour")
                         )
                     );
                 }
@@ -833,7 +747,8 @@ public class Remote implements InterfaceSync{
                         datos.getInt("des_porc"),
                         datos.getInt("des_monto"),
                         datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
+                        datos.getDate("des_last_update"),
+                        datos.getInt("des_last_hour")
                         )
                     );
                 }
@@ -861,7 +776,36 @@ public class Remote implements InterfaceSync{
                         datos.getString("doc_telefono"),
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
-                        datos.getDate("doc_last_update")
+                        datos.getDate("doc_last_update"),
+                        datos.getInt("doc_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Equipo){
+                String sql = "SELECT * FROM equipo WHERE eq_id =" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM equipo WHERE eq_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM equipo WHERE eq_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM equipo";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Equipo(
+                        datos.getInt("eq_id"),
+                        datos.getString("eq_nombre"),
+                        datos.getString("eq_licencia"),
+                        datos.getInt("eq_estado"),
+                        datos.getDate("eq_last_update"),
+                        datos.getInt("eq_last_hour")
                         )
                     );
                 }
@@ -892,7 +836,36 @@ public class Remote implements InterfaceSync{
                         datos.getString("ins_comuna"),
                         datos.getString("ins_ciudad"),
                         datos.getInt("ins_estado"),
-                        datos.getDate("ins_last_update")
+                        datos.getDate("ins_last_update"),
+                        datos.getInt("ins_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Inventario){
+                String sql = "SELECT * FROM inventario WHERE inv_id =" + idParam + "";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM inventario WHERE inv_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM inventario WHERE inv_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM inventario";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Inventario(
+                        datos.getInt("inv_id"),
+                        datos.getString("inv_nombre"),
+                        datos.getString("inv_descripcion"),
+                        datos.getInt("inv_estado"),
+                        datos.getDate("inv_last_update"),
+                        datos.getInt("inv_last_hour")
                         )
                     );
                 }
@@ -929,7 +902,8 @@ public class Remote implements InterfaceSync{
                         datos.getInt("len_stock_min"),
                         datos.getString("inventario_inv_id"),
                         datos.getInt("len_estado"),
-                        datos.getDate("len_last_update")
+                        datos.getDate("len_last_update"),
+                        datos.getInt("len_last_hour")
                         )
                     );
                 }
@@ -961,7 +935,8 @@ public class Remote implements InterfaceSync{
                              datos.getString("of_email"),
                              datos.getString("of_web"),
                              datos.getInt("of_estado"),
-                             datos.getDate("of_last_update")
+                             datos.getDate("of_last_update"),
+                             datos.getInt("of_last_hour")
                     )
                     );
                 }
@@ -990,7 +965,8 @@ public class Remote implements InterfaceSync{
                             datos.getInt("rb_cantidad"),
                             datos.getString("rb_obs"),
                             datos.getInt("rb_estado"),
-                            datos.getDate("rb_last_update")
+                            datos.getDate("rb_last_update"),
+                            datos.getInt("rb_last_hour")
                         )
                     );
                 }
@@ -1016,7 +992,8 @@ public class Remote implements InterfaceSync{
                             datos.getInt("tp_id"),
                             datos.getString("tp_nombre"),
                             datos.getInt("tp_estado"),
-                            datos.getDate("tp_last_update")
+                            datos.getDate("tp_last_update"),
+                            datos.getInt("tp_last_hour")
                         )
                     );
                 }
@@ -1039,16 +1016,17 @@ public class Remote implements InterfaceSync{
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new User(
-                    datos.getInt("us_id"),
-                     datos.getString("us_nombre"),
-                     datos.getString("us_username"),
-                     datos.getString("us_email"),
-                     datos.getString("us_pass"),
-                     datos.getInt("us_tipo"),
-                     datos.getInt("us_estado"),
-                     datos.getDate("us_last_update")
-            )
-            );
+                        datos.getInt("us_id"),
+                        datos.getString("us_nombre"),
+                        datos.getString("us_username"),
+                        datos.getString("us_email"),
+                        datos.getString("us_pass"),
+                        datos.getInt("us_tipo"),
+                        datos.getInt("us_estado"),
+                        datos.getDate("us_last_update"),
+                        datos.getInt("us_last_hour")
+                        )
+                    );
                 }
                 RmBd.cerrar();
                 return lista;
@@ -1089,7 +1067,34 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cli_sexo"),
                         datos.getInt("cli_edad"),
                         datos.getInt("cli_estado"),
-                        datos.getDate("cli_last_update")
+                        datos.getDate("cli_last_update"),
+                        datos.getInt("cli_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Convenio){
+                String sql = "SELECT * FROM convenio WHERE cnv_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Convenio(
+                        datos.getInt("cnv_id"),
+                        datos.getString("cnv_nombre"),
+                        datos.getDate("cnv_fecha_inicio"),
+                        datos.getDate("cnv_fecha_fin"),
+                        datos.getInt("cnv_cuotas"),
+                        datos.getInt("cnv_monto_maximo"),
+                        datos.getInt("cnv_monto_pp"),
+                        datos.getInt("cnv_maximo_clientes"),
+                        datos.getInt("descuento_des_id"),
+                        datos.getInt("institucion_ins_id"),
+                        datos.getInt("cnv_estado"),
+                        datos.getDate("cnv_last_update"),
+                        datos.getInt("cnv_last_hour")
                         )
                     );
                 }
@@ -1107,7 +1112,8 @@ public class Remote implements InterfaceSync{
                         datos.getString("cri_nombre"),
                         datos.getInt("cri_precio"),
                         datos.getInt("cri_estado"),
-                        datos.getDate("cri_last_update")
+                        datos.getDate("cri_last_update"),
+                        datos.getInt("cri_last_hour")
                         )
                     );
                 }
@@ -1127,7 +1133,8 @@ public class Remote implements InterfaceSync{
                         datos.getInt("des_porc"),
                         datos.getInt("des_monto"),
                         datos.getInt("des_estado"),
-                        datos.getDate("des_last_update")
+                        datos.getDate("des_last_update"),
+                        datos.getInt("des_last_hour")
                         )
                     );
                 }
@@ -1146,7 +1153,27 @@ public class Remote implements InterfaceSync{
                         datos.getString("doc_telefono"),
                         datos.getString("doc_mail"),
                         datos.getInt("doc_estado"),
-                        datos.getDate("doc_last_update")
+                        datos.getDate("doc_last_update"),
+                        datos.getInt("doc_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Equipo){
+                String sql = "SELECT * FROM equipo WHERE eq_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Equipo(
+                        datos.getInt("eq_id"),
+                        datos.getString("eq_nombre"),
+                        datos.getString("eq_licencia"),
+                        datos.getInt("eq_estado"),
+                        datos.getDate("eq_last_update"),
+                        datos.getInt("eq_last_hour")
                         )
                     );
                 }
@@ -1168,7 +1195,27 @@ public class Remote implements InterfaceSync{
                         datos.getString("ins_comuna"),
                         datos.getString("ins_ciudad"),
                         datos.getInt("ins_estado"),
-                        datos.getDate("ins_last_update")
+                        datos.getDate("ins_last_update"),
+                        datos.getInt("ins_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Inventario){
+                String sql = "SELECT * FROM inventario WHERE inv_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Inventario(
+                        datos.getInt("inv_id"),
+                        datos.getString("inv_nombre"),
+                        datos.getString("inv_descripcion"),
+                        datos.getInt("inv_estado"),
+                        datos.getDate("inv_last_update"),
+                        datos.getInt("inv_last_hour")
                         )
                     );
                 }
@@ -1196,7 +1243,8 @@ public class Remote implements InterfaceSync{
                         datos.getInt("len_stock_min"),
                         datos.getString("inventario_inv_id"),
                         datos.getInt("len_estado"),
-                        datos.getDate("len_last_update")
+                        datos.getDate("len_last_update"),
+                        datos.getInt("len_last_hour")
                         )
                     );
                 }
@@ -1210,16 +1258,17 @@ public class Remote implements InterfaceSync{
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Oficina(
-                            datos.getInt("of_id"),
-                             datos.getString("of_nombre"),
-                             datos.getString("of_direccion"),
-                             datos.getString("of_ciudad"),
-                             datos.getString("of_telefono1"),
-                             datos.getString("of_telefono2"),
-                             datos.getString("of_email"),
-                             datos.getString("of_web"),
-                             datos.getInt("of_estado"),
-                             datos.getDate("of_last_update")
+                        datos.getInt("of_id"),
+                        datos.getString("of_nombre"),
+                        datos.getString("of_direccion"),
+                        datos.getString("of_ciudad"),
+                        datos.getString("of_telefono1"),
+                        datos.getString("of_telefono2"),
+                        datos.getString("of_email"),
+                        datos.getString("of_web"),
+                        datos.getInt("of_estado"),
+                        datos.getDate("of_last_update"),
+                        datos.getInt("of_last_hour")
                     )
                     );
                 }
@@ -1239,7 +1288,8 @@ public class Remote implements InterfaceSync{
                             datos.getInt("rb_cantidad"),
                             datos.getString("rb_obs"),
                             datos.getInt("rb_estado"),
-                            datos.getDate("rb_last_update")
+                            datos.getDate("rb_last_update"),
+                            datos.getInt("rb_last_hour")
                         )
                     );
                 }
@@ -1256,7 +1306,8 @@ public class Remote implements InterfaceSync{
                             datos.getInt("tp_id"),
                             datos.getString("tp_nombre"),
                             datos.getInt("tp_estado"),
-                            datos.getDate("tp_last_update")
+                            datos.getDate("tp_last_update"),
+                            datos.getInt("tp_last_hour")
                         )
                     );
                 }
@@ -1270,16 +1321,17 @@ public class Remote implements InterfaceSync{
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new User(
-                    datos.getInt("us_id"),
-                     datos.getString("us_nombre"),
-                     datos.getString("us_username"),
-                     datos.getString("us_email"),
-                     datos.getString("us_pass"),
-                     datos.getInt("us_tipo"),
-                     datos.getInt("us_estado"),
-                     datos.getDate("us_last_update")
-            )
-            );
+                        datos.getInt("us_id"),
+                        datos.getString("us_nombre"),
+                        datos.getString("us_username"),
+                        datos.getString("us_email"),
+                        datos.getString("us_pass"),
+                        datos.getInt("us_tipo"),
+                        datos.getInt("us_estado"),
+                        datos.getDate("us_last_update"),
+                        datos.getInt("us_last_hour")
+                        )
+                    );
                 }
                 RmBd.cerrar();
                 return lista;
@@ -1317,6 +1369,13 @@ public class Remote implements InterfaceSync{
                     }
                 }
             }
+            if(type instanceof Convenio){
+                for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
+                    if (((Convenio) object).getId() == id ) {
+                        return object;
+                    }
+                }
+            }
             if(type instanceof Cristal){
                 for (Object object : listar(cod, type)) {//id debe ser el nombre del cristal
                     if (((Cristal) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
@@ -1338,9 +1397,23 @@ public class Remote implements InterfaceSync{
                     }
                 }
             }
+            if(type instanceof Equipo){
+                for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
+                    if (((Equipo) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
             if(type instanceof Institucion){
                 for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
                     if (((Institucion) object).getId() == id) {
+                        return object;
+                    }
+                }
+            }
+            if(type instanceof Inventario){
+                for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
+                    if (((Inventario) object).getId() == id) {
                         return object;
                     }
                 }
@@ -1409,6 +1482,12 @@ public class Remote implements InterfaceSync{
                 return true;
             }
         }
+        if (object instanceof Convenio) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(null,((Convenio) object).getId(),object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Cristal) {
             Log.setLog(className, Log.getReg());
             if (getElement(((Cristal) object).getNombre(),0,object) != null) {
@@ -1426,8 +1505,18 @@ public class Remote implements InterfaceSync{
                 return true;
             }
         }
+        if (object instanceof Equipo) {
+            if (getElement(null,((Equipo) object).getId(),object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Institucion) {
             if (getElement(null,((Institucion) object).getId(),object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof Inventario) {
+            if (getElement(null,((Inventario) object).getId(),object) != null) {
                 return true;
             }
         }
@@ -1457,5 +1546,382 @@ public class Remote implements InterfaceSync{
             }
         }
         return false;
+    }
+    private String sqlInsert(Object objectParam){
+        
+        if(objectParam instanceof Cliente){
+            Cliente object = (Cliente)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO cliente VALUES('"
+                    + object.getCod() + "','"
+                    + object.getNombre() + "','"
+                    + object.getTelefono1() + "','"
+                    + object.getTelefono2() + "','"
+                    + object.getEmail() + "','"
+                    + object.getDireccion() + "','"
+                    + object.getComuna() + "','"
+                    + object.getCiudad() + "',"
+                    + object.getSexo() + ","
+                    + object.getEdad() + ","
+                    + object.getEstado() + ",'"
+                    + sqlfecha + "',"
+                    + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Convenio){
+            Convenio object = (Convenio)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFechaInicio().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaFin().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha3 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO convenio VALUES("
+                    + object.getId()+ ",'"
+                    + object.getNombre() + "','"
+                    + sqlfecha1+ "','"
+                    + sqlfecha2+ "','"
+                    + object.getCuotas()+ "','"
+                    + object.getMontoMaximo()+ "','"
+                    + object.getMontoPp()+ "','"
+                    + object.getMaximoClientes()+ "',"
+                    + object.getIdDescuento()+ ","
+                    + object.getIdInstitucion()+ ","
+                    + object.getEstado() + ",'"
+                    + sqlfecha3 + "',"
+                    + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Cristal){
+            Cristal object = (Cristal)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO cristal VALUES("
+                    + object.getId() + ",'"
+                    + object.getNombre() + "',"
+                    + object.getPrecio() + ","
+                    + object.getEstado() + ",'"
+                    + sqlfecha + "',"
+                    + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Descuento){
+            Descuento object = (Descuento)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO descuento VALUES("
+                    + object.getId() + ",'"
+                    + object.getNombre() + "','"
+                    + object.getDescripcion() + "',"
+                    + object.getPorcetange() + ","
+                    + object.getMonto() + ","
+                    + object.getEstado() + ",'"
+                    + sqlfecha + "',"
+                    + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Doctor){
+            Doctor object = (Doctor)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO doctor VALUES('"
+                            + object.getCod() + "','"
+                            + object.getNombre() + "','"
+                            + object.getTelefono() + "','"
+                            + object.getEmail() + "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Equipo){
+            Equipo object = (Equipo)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO equipo VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "','"
+                            + object.getLicencia()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Institucion){
+            Institucion object = (Institucion)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO institucion VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "','"
+                            + object.getTelefono() + "','"
+                            + object.getEmail() + "','"
+                            + object.getDireccion()+ "','"
+                            + object.getComuna()+ "','"
+                            + object.getCiudad()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Inventario){
+            Inventario object = (Inventario)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO inventario VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "','"
+                            + object.getDescripcion()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Lente){
+            Lente object = (Lente)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO lente VALUES('"
+                            + object.getCod()+ "','"
+                            + object.getColor()+ "','"
+                            + object.getTipo()+ "','"
+                            + object.getMarca()+ "','"
+                            + object.getMaterial()+ "',"
+                            + object.getFlex()+ ","
+                            + object.getClasificacion()+ ",'"
+                            + object.getDescripcion()+ "',"
+                            + object.getPrecioRef()+ ","
+                            + object.getPrecioAct()+ ","
+                            + object.getStock()+ ","
+                            + object.getStockMin()+ ",'"
+                            + object.getInventario()+ "',"
+                            + object.getEstado()+ ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Oficina){
+            Oficina object = (Oficina)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO oficina VALUES("
+                            + object.getId() + ",'"
+                            + object.getNombre() + "','"
+                            + object.getDireccion() + "','"
+                            + object.getCiudad() + "','"
+                            + object.getTelefono1() + "','"
+                            + object.getTelefono2() + "','"
+                            + object.getEmail() + "','"
+                            + object.getWeb() + "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof RegistroBaja){
+            RegistroBaja object = (RegistroBaja)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO registro_bajas VALUES("
+                            + object.getCod()+ ",'"
+                            + sqlfecha1 + "','"
+                            + object.getIdLente()+ "',"
+                            + object.getCantidad()+ ",'"
+                            + object.getObs()+ "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha2 + "')";
+        }
+        if(objectParam instanceof TipoPago){
+            TipoPago object = (TipoPago)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO tipo_pago VALUES("
+                            + object.getId()+ ",'"
+                            + object.getNombre() + "',"
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "')";
+        }
+        if(objectParam instanceof User){
+            User object = (User)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO usuario VALUES("
+                            + object.getId() + ",'"
+                            + object.getNombre() + "','"
+                            + object.getUsername() + "','"
+                            + object.getEmail() + "','"
+                            + object.getPass() + "',"
+                            + object.getTipo() + ","
+                            + object.getEstado() + ",'"
+                            + sqlfecha + "')";
+        }
+        return null;
+    }
+
+    private String sqlUpdate(Object objectParam) {
+        if(objectParam instanceof Cliente){
+            Cliente object = (Cliente)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE cliente set cli_nombre = '" + object.getNombre()
+                        + "', cli_telefono1 = '" + object.getTelefono1()
+                        + "', cli_telefono2 = '" + object.getTelefono2()
+                        + "', cli_email = '" + object.getEmail()
+                        + "', cli_direccion = '" + object.getDireccion()
+                        + "', cli_comuna = '" + object.getComuna()
+                        + "', cli_ciudad = '" + object.getCiudad()
+                        + "', cli_sexo = " + object.getSexo()
+                        + ", cli_edad = " + object.getEdad()
+                        + ", cli_estado = " + object.getEstado()
+                        + ", cli_last_update = '" + sqlfecha
+                        + "', cli_last_hour = " + object.getLastHour()
+                        + " WHERE cli_rut = '" + object.getCod() + "' AND (cli_last_update <= '" 
+                        + sqlfecha + "' AND cli_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Convenio){
+            Convenio object = (Convenio)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFechaInicio().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaFin().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha3 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE convenio set cnv_nombre = '" + object.getNombre()
+                        + "', cnv_fecha_inicio = '" + sqlfecha1
+                        + "', cnv_fecha_fin = '" + sqlfecha2
+                        + "', cnv_cuotas = " + object.getCuotas()
+                        + ", cnv_monto_maximo = " + object.getMontoMaximo()
+                        + ", cnv_monto_pp = " + object.getMontoPp()
+                        + ", cnv_maximo_clientes = " + object.getMaximoClientes()
+                        + ", descuento_des_id = " + object.getIdDescuento()
+                        + ", institucion_ins_id = " + object.getIdInstitucion()
+                        + ", cnv_estado = " + object.getEstado()
+                        + ", cnv_last_update = '" + sqlfecha3
+                        + "', cnv_last_hour = " + object.getLastHour()
+                        + " WHERE cnv_id = '" + object.getId()+ "' AND (cnv_last_update <= '" 
+                        + sqlfecha3 + "' AND cnv_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Cristal){
+            Cristal object = (Cristal)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE cristal set cri_nombre = '" + object.getNombre()
+                        + "', cri_precio = " + object.getPrecio()
+                        + ", cri_estado = " + object.getEstado()
+                        + ", cri_last_update = '" + sqlfecha
+                        + "', cri_last_hour = " + object.getLastHour()
+                        + " WHERE cri_id = " + object.getId() + 
+                        " AND (cri_last_update <= '" + sqlfecha + "' AND cri_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Descuento){
+            Descuento object = (Descuento)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE descuento set des_nombre = '" + object.getNombre()
+                        + "', des_descripcion = '" + object.getDescripcion()
+                        + "', des_porc = " + object.getPorcetange()
+                        + ", des_monto = " + object.getMonto()
+                        + ", des_estado = " + object.getEstado()
+                        + ", des_last_update = '" + sqlfecha
+                        + "', des_last_hour = " + object.getLastHour()
+                        + " WHERE des_id = " + object.getId() + " AND (des_last_update <= '" + sqlfecha 
+                        + "' AND des_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Doctor){
+            Doctor object = (Doctor)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE doctor set doc_nombre = '" + object.getNombre()
+                        + "', doc_telefono = '" + object.getTelefono()
+                        + "', doc_mail = '" + object.getEmail()
+                        + "', doc_estado = " + object.getEstado()
+                        + ", doc_last_update = '" + sqlfecha
+                        + "', doc_last_hour = " + object.getLastHour()
+                        + " WHERE doc_rut = '" + object.getCod() + "' AND (doc_last_update <= '" 
+                        + sqlfecha + "' AND doc_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Equipo){
+            Equipo object = (Equipo)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE equipo set eq_nombre = '" + object.getNombre()
+                        + "', eq_licencia = '" + object.getLicencia()
+                        + "', eq_estado = " + object.getEstado()
+                        + ", eq_last_update = '" + sqlfecha
+                        + "', eq_last_hour = " + object.getLastHour()
+                        + " WHERE eq_id = " + object.getId()+ " AND (eq_last_update <= '" 
+                        + sqlfecha + "' AND eq_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Institucion){
+            Institucion object = (Institucion)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE institucion set ins_nombre = '" + object.getNombre()
+                        + "', ins_telefono = '" + object.getTelefono()
+                        + "', ins_mail = '" + object.getEmail()
+                        + "', ins_direccion = '" + object.getDireccion()
+                        + "', ins_comuna = '" + object.getComuna()
+                        + "', ins_ciudad = '" + object.getCiudad()
+                        + "', ins_estado = " + object.getEstado()
+                        + ", ins_last_update = '" + sqlfecha
+                        + "', ins_last_hour = " + object.getLastHour()
+                        + " WHERE ins_id = " + object.getId()+ " AND (ins_last_update <= '" 
+                        + sqlfecha + "' AND ins_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Inventario){
+            Inventario object = (Inventario)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE inventario set inv_nombre = '" + object.getNombre()
+                        + "', inv_descripcion = '" + object.getDescripcion()
+                        + "', inv_estado = " + object.getEstado()
+                        + ", inv_last_update = '" + sqlfecha
+                        + "', inv_last_hour = " + object.getLastHour()
+                        + " WHERE inv_id = " + object.getId()+ " AND (inv_last_update <= '" 
+                        + sqlfecha + "' AND inv_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Lente){
+            Lente object = (Lente)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE lente set len_color = '" + object.getColor()
+                        + "', len_tipo = '" + object.getTipo()
+                        + "', len_marca = '" + object.getMarca()
+                        + "', len_material = '" + object.getMaterial()
+                        + "', len_flex = " + object.getFlex()
+                        + ", len_clasificacion = " + object.getClasificacion()
+                        + ", len_descripcion = '" + object.getDescripcion()
+                        + "', len_precio_ref = " + object.getPrecioRef()
+                        + ", len_precio_act = " + object.getPrecioAct()
+                        + ", len_stock = " + object.getStock()
+                        + ", len_stock_min = " + object.getStockMin()
+                        + ", inventario_inv_id = '" + object.getInventario()
+                        + "', len_estado = " + object.getEstado()
+                        + ", len_last_update = '" + sqlfecha
+                        + "', len_last_hour = " + object.getLastHour()
+                        + " WHERE len_id = '" + object.getCod()+ "' AND (len_last_update <= '" 
+                        + sqlfecha + "' AND len_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof Oficina){
+            Oficina object = (Oficina)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE oficina set of_nombre = '" + object.getNombre()
+                        + "', of_direccion = '" + object.getDireccion()
+                        + "', of_ciudad = '" + object.getCiudad()
+                        + "', of_telefono1 = '" + object.getTelefono1()
+                        + "', of_telefono2 = '" + object.getTelefono2()
+                        + "', of_email = '" + object.getEmail()
+                        + "', of_web = '" + object.getWeb()
+                        + "', of_estado = " + object.getEstado()
+                        + ", of_last_update = '" + sqlfecha
+                        + "', of_last_hour = " + object.getLastHour()
+                        + " WHERE of_id = " + object.getId() + " AND (of_last_update <= '" 
+                        + sqlfecha + "' AND of_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof RegistroBaja){
+            RegistroBaja object = (RegistroBaja)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE registro_bajas set rb_fecha = '" + sqlfecha1
+                        + "', lente_len_id = '" + object.getIdLente()
+                        + "', rb_cantidad = " + object.getCantidad()
+                        + ", rb_obs = '" + object.getObs()
+                        + "', rb_estado = " + object.getEstado()
+                        + ", rb_last_update = '" + sqlfecha2
+                        + "', rb_last_hour = " + object.getLastHour()
+                        + " WHERE rb_id = '" + object.getCod()+ "' AND (rb_last_update <= '" 
+                        + sqlfecha2 + "' AND rb_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof TipoPago){
+            TipoPago object = (TipoPago)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE registro_bajas set tp_nombre = '" + sqlfecha
+                        + "', tp_estado = " + object.getEstado()
+                        + ", tp_last_update = '" + sqlfecha
+                        + "', tp_last_hour = " + object.getLastHour()
+                        + " WHERE tp_id = " + object.getId()+ " AND (tp_last_update <= '" 
+                        + sqlfecha + "' AND tp_last_hour < "+object.getLastHour()+")";
+        }
+        if(objectParam instanceof User){
+            User object = (User)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE usuario set us_nombre = '" + object.getNombre()
+                        + "', us_username = '" + object.getUsername()
+                        + "', us_email = '" + object.getEmail()
+                        + "', us_pass = '" + object.getPass()
+                        + "', us_tipo = " + object.getTipo()
+                        + ", us_estado = " + object.getEstado()
+                        + ", us_last_update = '" + sqlfecha
+                        + "', us_last_hour = " + object.getLastHour()
+                        + " WHERE us_id = " + object.getId() + " AND (us_last_update <= '" 
+                        + sqlfecha + "' AND us_last_hour < "+object.getLastHour()+")";
+        }
+        return null;
     }
 }

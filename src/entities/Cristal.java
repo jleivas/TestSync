@@ -19,12 +19,13 @@ public class Cristal extends SyncIntId{
     public Cristal() {
     }
 
-    public Cristal(int id, String nombre, int precio, int estado, Date lastUpdate) {
+    public Cristal(int id, String nombre, int precio, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         setNombre(nombre);
         setPrecio(precio);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {

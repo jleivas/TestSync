@@ -21,13 +21,14 @@ public class Doctor extends SyncStringId{
     public Doctor() {
     }
 
-    public Doctor(String rut, String nombre, String telefono, String email,int estado, Date lastUpdate) {
+    public Doctor(String rut, String nombre, String telefono, String email,int estado, Date lastUpdate, int lastHour) {
         setCod(rut);
         setNombre(nombre);
         setTelefono(telefono);
         setEmail(email);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {

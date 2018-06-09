@@ -21,7 +21,8 @@ public class RegistroBaja extends SyncStringId{
     public RegistroBaja() {
     }
 
-    public RegistroBaja(String cod, Date fecha, String idLente, int cantidad, String obs, int estado, Date lastUpdate) {
+    public RegistroBaja(String cod, Date fecha, String idLente, int cantidad,
+            String obs, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         this.fecha = fecha;
         this.idLente = idLente;
@@ -29,6 +30,7 @@ public class RegistroBaja extends SyncStringId{
         this.obs = obs;
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setFecha(Date fecha) {

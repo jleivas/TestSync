@@ -24,7 +24,8 @@ public class Oficina extends SyncIntId{
     public Oficina() {
     }
 
-    public Oficina(int id, String nombre, String direccion, String ciudad, String telefono1, String telefono2, String email, String web, int estado, Date lastUpdate) {
+    public Oficina(int id, String nombre, String direccion, String ciudad, String telefono1,
+            String telefono2, String email, String web, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         this.nombre = nombre;
         this.direccion = direccion;
@@ -35,6 +36,7 @@ public class Oficina extends SyncIntId{
         this.web = web;
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {

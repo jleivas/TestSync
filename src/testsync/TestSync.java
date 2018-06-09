@@ -10,13 +10,17 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Lente;
 import entities.Oficina;
 import entities.User;
 import fn.GlobalValues;
 import fn.SubProcess;
+import fn.date.Cmp;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import sync.entities.Local;
@@ -44,18 +48,18 @@ public class TestSync {
 //        System.out.println(""+dc.toString());
 //        System.out.println(""+dc2.toString());
 //        Local load = new Local();
-        String g=" jorge sd";
-        if(g.contains("jorge"))
-            System.out.println("yes");
-        else
-            System.out.println("no");
 //        SubProcess.isOnline();
 //        sync.Cmp.getPublicIp();
+
 //        GlobalValues.LAST_UPDATE = new Date(213312);
 //        GlobalValues.IS_ONLINE = true;
+//        Dao load = new Dao();
+//        System.out.println(""+((Lente)load.get("id1-m-c", 0, new Lente())).getLastHour());
+            System.out.println(Cmp.dateToString(new Date(), "dd/mm/yyyy").replaceAll("-", " del "));
+        
 //        System.out.println(""+GlobalValues.LAST_UPDATE.getYear());
 //        Dao load = new Dao();
-//        
+//        lentes();
 //        oficinas();
 //        load.sincronize(new Oficina());
 //        cristales();
@@ -68,8 +72,8 @@ public class TestSync {
     }
     
     private static ArrayList<Object> lista(){
-        User u1 = new User(1, "name", "user","name@itc.cl", "pass", 1, 1, new Date());
-        User u2 = new User(2, "name2", "user2","name2@itc.cl", "pass2", 1, 1, new Date());
+        User u1 = new User(1, "name", "user","name@itc.cl", "pass", 1, 1, new Date(),0);
+        User u2 = new User(2, "name2", "user2","name2@itc.cl", "pass2", 1, 1, new Date(),0);
         ArrayList<Object> list = new ArrayList<>();
         list.add(u2);
         list.add(u1);
@@ -86,7 +90,7 @@ public class TestSync {
     }
     private static void cristales() throws InterruptedException, InstantiationException, IllegalAccessException {
         SubProcess.isOnline();
-        Cristal c1 = new Cristal(0, "CRISTAL-8080", 19990, 1, null);
+        Cristal c1 = new Cristal(0, "CRISTAL-8080", 19990, 1, null,0);
         Dao load = new Dao();
         load.add(c1);
         for (Cristal cristal : GlobalValues.TMP_LIST_CRISTAL) {
@@ -95,9 +99,19 @@ public class TestSync {
 
     }
     
+    private static void lentes() throws InterruptedException, InstantiationException, IllegalAccessException {
+//        SubProcess.isOnline();
+GlobalValues.IS_ONLINE = true;
+        Lente len = new Lente("cod1", "color", "tipo", "marca", "Material1414", 1, 2, "sdf", 2, 1, 1, 1, "sdñlk", 1, null,0);
+        Dao load = new Dao();
+        load.add(len);
+        load.sincronize(len);
+
+    }
+    
     private static void descuentos() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Descuento d1 = new Descuento(0, "XX por ciento", "descuento total", 50, 0, 1, null);
+        Descuento d1 = new Descuento(0, "XX por ciento", "descuento total", 50, 0, 1, null,0);
         Dao load = new Dao();
         load.add(d1);
         for (Descuento des : GlobalValues.TMP_LIST_DESCUENTO) {
@@ -107,7 +121,7 @@ public class TestSync {
     
     private static void clientes() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Cliente c1 = new Cliente("18188881-0", "amamam", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, 27, 1, null);
+        Cliente c1 = new Cliente("18188881-0", "amamam", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, 27, 1, null,0);
         Dao load = new Dao();
         load.add(c1);
         for (Cliente cli : GlobalValues.TMP_LIST_CLIENTES) {
@@ -117,7 +131,7 @@ public class TestSync {
     
     private static void docs() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Doctor doc = new Doctor("2222222-2", "name3", "phone3", "mail3", 1, null);
+        Doctor doc = new Doctor("2222222-2", "name3", "phone3", "mail3", 1, null,0);
         Dao load = new Dao();
         load.add(doc);
         for (Doctor d : GlobalValues.TMP_LIST_DOCTORES) {
@@ -127,7 +141,7 @@ public class TestSync {
     
     private static void oficinas() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Oficina of = new Oficina(1, "Stgo", "Mcyver", "Stgo CEntro", "9983748239", "2312341342","info@itc.cl", "www.itc.cl", 1, null);
+        Oficina of = new Oficina(1, "Stgo", "Mcyver", "Stgo CEntro", "9983748239", "2312341342","info@itc.cl", "www.itc.cl", 1, null,0);
         Dao load = new Dao();
         of.toString();
         load.add(of);

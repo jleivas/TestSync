@@ -5,6 +5,7 @@
  */
 package entities.abstractclasses;
 
+import fn.GlobalValues;
 import java.util.Date;
 
 /**
@@ -15,6 +16,7 @@ public abstract class SyncIntId {
     private int id;
     private int estado;
     private Date lastUpdate;
+    private int lastHour;
 
     public void setId(int id) {
         this.id = id;
@@ -42,5 +44,20 @@ public abstract class SyncIntId {
             this.lastUpdate = new Date();
         else
             this.lastUpdate = lastUpdate;
+    }
+    public int getLastHour() {
+        return lastHour;
+    }
+
+    public void setLastHour(int hour) {
+        if(hour < 1){
+            if(lastUpdate != null)
+                this.lastHour = GlobalValues.hourToInt(lastUpdate);
+            else{
+                this.lastHour = 0;
+            }
+        }else{
+            this.lastHour = hour;
+        }
     }
 }

@@ -21,7 +21,7 @@ public class Descuento extends SyncIntId{
     
     public Descuento (){}
 
-    public Descuento(int id, String nombre, String descripcion, int porcetange, int monto, int estado, Date lastUpdate) {
+    public Descuento(int id, String nombre, String descripcion, int porcetange, int monto, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         setNombre(nombre);
         setDescripcion(descripcion);
@@ -29,6 +29,7 @@ public class Descuento extends SyncIntId{
         setMonto(monto);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public int getMonto() {

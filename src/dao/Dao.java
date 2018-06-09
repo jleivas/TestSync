@@ -9,10 +9,18 @@ import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Institucion;
+import entities.Lente;
 import entities.Oficina;
+import entities.RegistroBaja;
+import entities.TipoPago;
 import entities.abstractclasses.SyncStringId;
 import entities.User;
 import entities.abstractclasses.SyncIntId;
+import entities.ficha.Armazon;
+import entities.ficha.Despacho;
+import entities.ficha.Ficha;
+import entities.ficha.HistorialPago;
 import fn.GlobalValues;
 import fn.Log;
 import fn.OptionPane;
@@ -203,15 +211,6 @@ public class Dao{
         Log.setLog(className,Log.getReg());
         try {
             if(GlobalValues.isOnline()){
-                /*Usuario*/
-                if(type instanceof User){
-                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
-                    }
-                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
-                    }
-                }
                 /*Cliente*/
                 if(type instanceof Cliente){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cliente())) {
@@ -248,6 +247,24 @@ public class Dao{
                         sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Doctor)object);
                     }
                 }
+                /*Institucion*/
+                if(type instanceof Institucion){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Institucion)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Institucion)object);
+                    }
+                }
+                /*Lente*/
+                if(type instanceof Lente){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Lente)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Lente)object);
+                    }
+                }
                 /*Oficina*/
                 if(type instanceof Oficina){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
@@ -256,6 +273,64 @@ public class Dao{
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Oficina())) {
                         sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Oficina)object);
                     } 
+                }
+                /*RegistroBaja*/
+                if(type instanceof RegistroBaja){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (RegistroBaja)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (RegistroBaja)object);
+                    }
+                }
+                /*TipoPago*/
+                if(type instanceof TipoPago){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (TipoPago)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (TipoPago)object);
+                    }
+                }
+                /*Usuario*/
+                if(type instanceof User){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new User())) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
+                    }
+                }
+                /*  ENTIDADES RELACIONADAS CON LAS FICHAS   */
+                /*Armazon*/
+                if(type instanceof Armazon){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Armazon)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Armazon)object);
+                    }
+                }
+                /*Despacho*/
+                if(type instanceof Despacho){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Despacho)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Despacho)object);
+                    }
+                }
+                /*HistorialPago*/
+                if(type instanceof HistorialPago){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (HistorialPago)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (HistorialPago)object);
+                    }
+                }
+                if(type instanceof Ficha){
+                    sincronizeFicha();
                 }
             }else{
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
@@ -352,4 +427,16 @@ public class Dao{
 //            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+
+    private void sincronizeFicha() throws SQLException, ClassNotFoundException {
+        sincronize(new Armazon());
+        sincronize(new Despacho());
+        sincronize(new HistorialPago());
+        for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Ficha())) {
+            sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Ficha)object);
+        }
+        for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Ficha())) {
+            sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Ficha)object);
+        }
+    }
 }

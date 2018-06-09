@@ -17,10 +17,9 @@ import javax.swing.JOptionPane;
  *
  * @author sdx
  */
-public class LcBd {
+public class LcBd{
     private static Connection conn = null;
     private static String className= "LcBd";
-    
     public static Connection obtener() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
     {
         Log.setLog(className,Log.getReg());

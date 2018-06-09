@@ -6,6 +6,7 @@
 package entities;
 
 import entities.abstractclasses.SyncStringId;
+import fn.GlobalValues;
 import java.util.Date;
 
 /**
@@ -25,7 +26,6 @@ public class Lente extends SyncStringId{
     private int precioAct;
     private int stock;
     private int stockMin;
-    private String codigo;
     private String inventario;
 
     public Lente() {
@@ -49,8 +49,7 @@ public class Lente extends SyncStringId{
      * @param estado
      * @param lastUpdate 
      */
-    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,String inventario, int estado, Date lastUpdate) {
-        setCod(cod);
+    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,String inventario, int estado, Date lastUpdate, int lastHour) {
         this.color = color;
         this.tipo = tipo;
         this.marca = marca;
@@ -63,11 +62,26 @@ public class Lente extends SyncStringId{
         this.stock = stock;
         this.stockMin = stockMin;
         setInventario(inventario);
-        setCodigo(getCod(), marca, color);
+        setCod(cod);
         setEstado(estado);
         setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
+    @Override
+    public void setCod(String cod) {
+        if(GlobalValues.contChar('-', cod) == 2){
+            super.setCod(cod);
+        }else{
+            if(cod == null || cod.equals(""))
+                cod = "00";
+            if(marca == null || marca.equals(""))
+                marca = "00";
+            if(color == null || color.equals(""))
+                color = "00";
+            super.setCod(cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", ""));
+        }
+    }
     public void setInventario(String inventario) {
         this.inventario = inventario;
     }
@@ -124,16 +138,6 @@ public class Lente extends SyncStringId{
         this.stockMin = stockMin;
     }
 
-    public void setCodigo(String id, String marca, String color) {
-        if(id == null || id.equals(""))
-            id = "00";
-        if(marca == null || marca.equals(""))
-            marca = "00";
-        if(color == null || color.equals(""))
-            color = "00";
-        this.codigo = id.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "");
-    }
-
     public String getColor() {
         return color;
     }
@@ -172,10 +176,6 @@ public class Lente extends SyncStringId{
 
     public int getStockMin() {
         return stockMin;
-    }
-
-    public String getCodigo() {
-        return codigo;
     }
 
     @Override
