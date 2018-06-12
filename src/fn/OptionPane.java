@@ -26,6 +26,12 @@ public class OptionPane {
         JOptionPane.showMessageDialog(null, message, title, statusMsg);
     }
 
-    
+    public static boolean getConfirmation(String title, String message, int status){
+        int respuesta = JOptionPane.showConfirmDialog(null, message);
+        if(respuesta == JOptionPane.YES_OPTION){
+            return true;
+        }
+        return false;
+    }
 
 }

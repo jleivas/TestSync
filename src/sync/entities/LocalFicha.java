@@ -523,7 +523,7 @@ public class LocalFicha implements InterfaceSyncFicha{
     }
     /**
      * Obtiene el maximo id
-     * @param strParam
+     * @param strParam Si se desea obtener el id de la ficha debe indicarse el id del equipo
      * @param intParam
      * @param objParam
      * @return 
@@ -548,6 +548,9 @@ public class LocalFicha implements InterfaceSyncFicha{
             }
             if(objParam instanceof HistorialPago){
                 sql="SELECT COUNT(*) as id FROM historial_pago";
+            }
+            if(objParam instanceof Ficha){
+                sql="SELECT COUNT(*) as id FROM ficha WHERE fch_id LIKE%'"+strParam+"'%";
             }
             if(sql.contains("SELECT")){
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);

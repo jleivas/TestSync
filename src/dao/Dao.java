@@ -25,6 +25,7 @@ import fn.GlobalValues;
 import fn.Log;
 import fn.OptionPane;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -355,6 +356,10 @@ public class Dao{
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList<Object> listar(String param, Object type){
+        return GlobalValues.LOCAL_SYNC.listar(param, type);
     }
 //    public void sincronize() {
 //        Log.setLog(className,Log.getReg());
