@@ -88,7 +88,7 @@ public class GlobalValues {
     public static Local LOCAL_SYNC = new Local();
     public static Remote REMOTE_SYNC = new Remote();
     public static boolean IS_ONLINE = false;
-    public static Date LAST_UPDATE;
+    public static Date LAST_UPDATE = new Date();
     
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
@@ -207,12 +207,5 @@ public class GlobalValues {
                 }
         }
         return cont;
-    }
-    
-    public static int hourToInt(Date date){
-        DateFormat hourFormat = new SimpleDateFormat("HHmmss");
-        String formatHour = hourFormat.format(date);
-        int hora = Integer.parseInt(formatHour);
-        return hora;
     }
 }

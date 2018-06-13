@@ -24,6 +24,7 @@ import entities.ficha.HistorialPago;
 import fn.GlobalValues;
 import fn.Log;
 import fn.OptionPane;
+import fn.date.Cmp;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,10 +60,14 @@ public class Dao{
     */
     public boolean add(Object object) throws InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        if(object instanceof SyncStringId)
+        if(object instanceof SyncStringId){
             ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-        if(object instanceof SyncIntId)
+            ((SyncStringId)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+        }
+        if(object instanceof SyncIntId){
             ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncIntId)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+        }
         if(GlobalValues.isOnline()){
             if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
                 ((SyncIntId)object).setId(GlobalValues.REMOTE_SYNC.getMaxId(object));
@@ -100,10 +105,14 @@ public class Dao{
 
     public boolean update(Object object) {
         Log.setLog(className,Log.getReg());
-        if(object instanceof SyncStringId)
+        if(object instanceof SyncStringId){
             ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-        if(object instanceof SyncIntId)
+            ((SyncStringId)object).setLastHour(Cmp.hourToInt(new Date()));
+        }
+        if(object instanceof SyncIntId){
             ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncIntId)object).setLastHour(Cmp.hourToInt(new Date()));
+        }
         try {
             return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, object);
         } catch (SQLException | ClassNotFoundException ex) {
@@ -122,10 +131,12 @@ public class Dao{
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
                     ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 } 
                 if(temp instanceof SyncIntId){
                     ((SyncIntId)temp).setEstado(0);
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncIntId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
@@ -141,10 +152,12 @@ public class Dao{
                 if(temp instanceof SyncStringId){
                     ((SyncStringId)temp).setEstado(0);
                     ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 } 
                 if(temp instanceof SyncIntId){
                     ((SyncIntId)temp).setEstado(0);
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncIntId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
@@ -165,12 +178,14 @@ public class Dao{
             temp =  GlobalValues.REMOTE_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
-                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setEstado(1);
                     ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 } 
                 if(temp instanceof SyncIntId){
-                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setEstado(1);
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncIntId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);
@@ -184,12 +199,14 @@ public class Dao{
             temp =  GlobalValues.LOCAL_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
-                    ((SyncStringId)temp).setEstado(0);
+                    ((SyncStringId)temp).setEstado(1);
                     ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 } 
                 if(temp instanceof SyncIntId){
-                    ((SyncIntId)temp).setEstado(0);
+                    ((SyncIntId)temp).setEstado(1);
                     ((SyncIntId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                    ((SyncIntId)temp).setLastHour(Cmp.hourToInt(new Date()));
                 }
                 try {
                     return sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, temp);

@@ -723,8 +723,9 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +"', arm_estado = "+object.getEstado()
                                 +", arm_last_update = '"+sqlfecha
                                 +"',arm_last_hour = "+object.getLastHour()
-                                +" WHERE arm_id = '"+object.getCod()+"' AND (arm_last_update <= '"
-                                +sqlfecha+"' AND arm_last_hour < "+object.getLastHour()+")";
+                                +" WHERE arm_id = '"+object.getCod()
+                                + "' AND ((arm_last_update < '"+sqlfecha+"')OR"
+                                + "(arm_last_update = '"+sqlfecha+"' AND arm_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Despacho){
             Despacho object = (Despacho)objectParam;
@@ -737,8 +738,9 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +"', dsp_estado = "+object.getEstado()
                                 +", dsp_last_update = '"+sqlfecha2
                                 +"', dsp_last_hour = "+object.getLastHour()
-                                +" WHERE dsp_id = '"+object.getCod()+"' AND (dsp_last_update <= '"
-                                +sqlfecha2+"' AND dsp_last_hour < "+object.getLastHour()+")";
+                                +" WHERE dsp_id = '"+object.getCod()
+                                + "' AND ((dsp_last_update < '"+sqlfecha2+"')OR"
+                                + "(dsp_last_update = '"+sqlfecha2+"' AND dsp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof HistorialPago){
             HistorialPago object = (HistorialPago)objectParam;
@@ -751,8 +753,9 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +", ficha_fch_id = '"+object.getIdFicha()
                                 +"', hp_last_update = '"+sqlfecha2
                                 +"', hp_last_hour ="+object.getLastHour()
-                                +" WHERE hp_id = '"+object.getCod()+"' AND (hp_last_update <= '"
-                                +sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+")";
+                                +" WHERE hp_id = '"+object.getCod()
+                                + "' AND ((hp_last_update < '"+sqlfecha2+"')OR"
+                                + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Ficha){
             Ficha object = (Ficha)objectParam;
@@ -792,8 +795,9 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +"', fch_estado = "+object.getEstado()
                                 +", fch_last_update = '"+lastUpdate
                                 +"', fch_last_hour = "+object.getLastHour()
-                                +" WHERE fch_id = '"+object.getCod()+"' AND (fch_last_update <= '"
-                                +lastUpdate+"' AND fch_last_hour < "+object.getLastHour()+")";
+                                +" WHERE fch_id = '"+object.getCod()
+                                + "' AND ((fch_last_update < '"+lastUpdate+"')OR"
+                                + "(fch_last_update = '"+lastUpdate+"' AND fch_last_hour < "+object.getLastHour()+"))";
         }
         return null;
     }

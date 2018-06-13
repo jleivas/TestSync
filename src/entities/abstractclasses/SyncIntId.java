@@ -5,7 +5,7 @@
  */
 package entities.abstractclasses;
 
-import fn.GlobalValues;
+import fn.date.Cmp;
 import java.util.Date;
 
 /**
@@ -52,7 +52,7 @@ public abstract class SyncIntId {
     public void setLastHour(int hour) {
         if(hour < 1){
             if(lastUpdate != null)
-                this.lastHour = GlobalValues.hourToInt(lastUpdate);
+                this.lastHour = Cmp.hourToInt(lastUpdate);
             else{
                 this.lastHour = 0;
             }

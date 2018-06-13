@@ -6,16 +6,22 @@
 package view;
 
 import dao.Dao;
-import entities.Cliente;
 import entities.User;
 import fn.Boton;
+import fn.GlobalValues;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
+import fn.date.Cmp;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -24,11 +30,26 @@ import java.util.logging.Logger;
 public class VUsuarios extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
+    private static User staticUser = null;
+    TableRowSorter trs;
+    DefaultTableModel modelo = new DefaultTableModel() {
+           @Override
+           public boolean isCellEditable(int fila, int columna) {
+               return false; //Con esto conseguimos que la tabla no se pueda editar
+           }
+        };
     /**
      * Creates new form VClientes
      */
     public VUsuarios() {
+        GlobalValues.IS_ONLINE = true;
+        load.sincronize(new User());
         initComponents();
+        modelo.addColumn("Username");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Email");
+        modelo.addColumn("Tipo");
+        tblListar.setModel(modelo);
         load();
     }
 
@@ -49,8 +70,9 @@ public class VUsuarios extends javax.swing.JPanel {
         btnAbrir = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JLabel();
         btnRestaurar = new javax.swing.JLabel();
-        btnBuscar = new javax.swing.JLabel();
-        btnBuscar1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         pnlAddUser = new javax.swing.JPanel();
         lblNewName = new javax.swing.JLabel();
         lblNewUsername = new javax.swing.JLabel();
@@ -89,6 +111,18 @@ public class VUsuarios extends javax.swing.JPanel {
             }
         });
 
+        txtBuscar.setBorder(null);
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
+
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -97,7 +131,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Username", "Email", "Tipo"
+                "Username", "Nombre", "Email", "Tipo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -149,44 +183,14 @@ public class VUsuarios extends javax.swing.JPanel {
             }
         });
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Google_Web_Search_25px.png"))); // NOI18N
-        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseExited(evt);
-            }
-        });
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
 
-        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Google_Web_Search_25px.png"))); // NOI18N
-        btnBuscar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscar1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnBuscar1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnBuscar1MouseExited(evt);
-            }
-        });
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(btnBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscar1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnAbrir)
@@ -197,15 +201,31 @@ public class VUsuarios extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(13, 13, 13)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnBuscar1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,6 +234,11 @@ public class VUsuarios extends javax.swing.JPanel {
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pnlAddUser.setBackground(new java.awt.Color(255, 255, 255));
@@ -494,7 +519,7 @@ public class VUsuarios extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -532,7 +557,7 @@ public class VUsuarios extends javax.swing.JPanel {
 
     private void txtUpdateNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUpdateNameKeyTyped
         int largo = 45;
-        if(txtUpdateName.getText().length() >= largo || txtUpdateName.getText().length()<= largo-1){
+        if(txtUpdateName.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
@@ -557,7 +582,7 @@ public class VUsuarios extends javax.swing.JPanel {
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String username = tblListar.getValueAt(fila, 1).toString();
+            String username = tblListar.getValueAt(fila, 0).toString();
             
             abrirUsuario(username);
             
@@ -569,7 +594,7 @@ public class VUsuarios extends javax.swing.JPanel {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String username = tblListar.getValueAt(fila, 1).toString();
+            String username = tblListar.getValueAt(fila, 0).toString();
             User temp = (User)load.get(username, 0, new User());
             if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE)){
                 if(load.delete(username, 0, temp)){
@@ -577,29 +602,28 @@ public class VUsuarios extends javax.swing.JPanel {
                 }else{
                     OptionPane.showMsg("Eliminar usuario", "No se pudo eliminar el usuario", JOptionPane.WARNING_MESSAGE);
                 }
-                cargarDatos("");
+                cargarDatos("0");
             }
             
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario", "Seleccione usuario", JOptionPane.INFORMATION_MESSAGE);
+            OptionPane.showMsg("Seleccione usuario", "Debe seleccionar un usuario", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String username = tblListar.getValueAt(fila, 1).toString();
-            int respuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea restaurar este usuario?");
-            if(OptionPane){
+            String username = tblListar.getValueAt(fila, 0).toString();
+            if(OptionPane.getConfirmation("Confirmación de usuario", "¿Esta seguro que desea restaurar este usuario?", JOptionPane.INFORMATION_MESSAGE)){
                 if(load.restore(username, 0, new User())){
-                    JOptionPane.showMessageDialog(null, "El cliente ha sido restaurado", "Restaurar Cliente", JOptionPane.INFORMATION_MESSAGE);
+                    OptionPane.showMsg("Restaurar usuario", "El usuario ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo restaurar el cliente", "Restaurar Cliente", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar usuario", "No se pudo restaurar el usuario", JOptionPane.WARNING_MESSAGE);
                 }
-                cargarDatos("eliminados");
+                cargarDatos("-1");
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente", "Seleccione Cliente", JOptionPane.INFORMATION_MESSAGE);
+            OptionPane.showMsg("Seleccionar usuario", "Debe seleccionar un usuario", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
@@ -627,74 +651,28 @@ public class VUsuarios extends javax.swing.JPanel {
         btnRestaurar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnRestaurar.getIcon().toString()))));
     }//GEN-LAST:event_btnRestaurarMouseExited
 
-    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        String buscar = txtBuscar.getText();
-        buscarDatos(buscar,1);
-        limpiarTextField();
-    }//GEN-LAST:event_btnBuscarMouseClicked
-
-    private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnBuscar.getIcon().toString()))));
-    }//GEN-LAST:event_btnBuscarMouseEntered
-
-    private void btnBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseExited
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnBuscar.getIcon().toString()))));
-    }//GEN-LAST:event_btnBuscarMouseExited
-
-    private void btnBuscar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscar1MouseClicked
-        String buscar = txtBuscar.getText();
-        buscarDatos(buscar,0);
-        limpiarTextField();
-    }//GEN-LAST:event_btnBuscar1MouseClicked
-
-    private void btnBuscar1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscar1MouseEntered
-        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnBuscar1.getIcon().toString()))));
-    }//GEN-LAST:event_btnBuscar1MouseEntered
-
-    private void btnBuscar1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscar1MouseExited
-        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnBuscar1.getIcon().toString()))));
-    }//GEN-LAST:event_btnBuscar1MouseExited
-
     private void cboMostrarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMostrarItemStateChanged
         load();
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        String rut=txtNewName.getText();
-        FnValidaRut vr = new FnValidaRut();
-        if(vr.validarRut(rut)){
-            String nombre=txtNewUsername.getText();
-            System.out.println("|"+txtTelefonoNew1.getText()+"|");
-            String telefono=txtTelefonoNew1.getText();
-            if(!txtTelefonoNew2.getText().equals("")){
-                if(txtTelefonoNew1.getText().equals("")){
-                    telefono = txtTelefonoNew2.getText();
-                }else{
-                    telefono=txtTelefonoNew1.getText() + " / " + txtTelefonoNew2.getText();
-                }
-            }
-            String mail=txtNewEmail.getText();
-            String direccion=txtDireccionNew.getText().toUpperCase();
-            String comuna=txtComunaNew.getText().toUpperCase();
-            String ciudad=txtCiudadNew.getText().toUpperCase();
-            int sexo=cboNewTipo.getSelectedIndex();
-            int edad=(int) txtEdadNew.getValue();
-            int estado=1;
-
-            Cliente cliente= new Cliente(rut, nombre, telefono, mail, direccion, comuna, ciudad, sexo, edad, estado);
-            FnCliente fn = new FnCliente();
-            String mensaje="ERROR";
-            try {
-              mensaje=fn.guardar(cliente);  
-            } catch (Exception e) {
-                mensaje="ERROR"+e;
-            }
-
-            JOptionPane.showMessageDialog(null, mensaje, "Guardar Cliente", JOptionPane.INFORMATION_MESSAGE);
-            cargarDatos("");
-        }else{
-            JOptionPane.showMessageDialog(null, "El rut ingresado no existe", "Guardar Cliente", JOptionPane.INFORMATION_MESSAGE);
-        }
+        String nombre=txtNewName.getText();
+        String username=txtNewUsername.getText();
+        String email=txtNewEmail.getText();
+        int tipo = cboNewTipo.getSelectedIndex();
+        String pass=txtNewPass.getText();
+        User user = new User(0, nombre, username, email, pass, tipo, 1, null, 0);
+        User temp = null;
+        try {
+            temp = (User)load.get(username, 0, staticUser);
+            if(temp != null)
+                OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.", JOptionPane.WARNING_MESSAGE);
+            else
+                load.add(user);
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        cargarDatos("0");
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -706,37 +684,23 @@ public class VUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        String rut = txtUpdateName.getText();
-        String nombre= txtUpdateUsername.getText();
-        String telefono = txtTelefono1.getText();
-        if(txtTelefono2.getText().length() > 7){
-            if(txtTelefono1.getText().length() < 7){
-                telefono = txtTelefono2.getText();
-            }else{
-                telefono=txtTelefono1.getText() + " / " + txtTelefono2.getText();
-            }
-        }
-        String email = txtUpdateEmail.getText();
-        String direccion = txtDireccion.getText().toUpperCase();
-        String comuna = txtComuna.getText().toUpperCase();
-        String ciudad = txtCiudad.getText().toUpperCase();
-        int sexo = cboUpdateType.getSelectedIndex();
-        int edad = (int) txtEdad.getValue();
-        int estado = 1;
-        
-        Cliente cliente = new Cliente(rut, nombre, telefono, email, direccion, comuna, ciudad, sexo, edad, estado);
-        FnCliente load = new FnCliente();
+        staticUser.setEmail(txtUpdateEmail.getText());
+        staticUser.setNombre(txtUpdateName.getText());
+        staticUser.setPass(txtUpdatePass.getText());
+        staticUser.setTipo(cboUpdateType.getSelectedIndex());
+        staticUser.setUsername(txtUpdateUsername.getText());
+        System.out.println("modificauser;"+staticUser.getId());
+        User temp;
         try {
-            if(load.modificar(cliente))
-                JOptionPane.showMessageDialog(null, "Operación realizada con exito", "Modificar Cliente", JOptionPane.INFORMATION_MESSAGE);
+            temp = (User)load.get(staticUser.getUsername(), 0, staticUser);
+            if(temp != null && temp.getId()!=staticUser.getId())
+                OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", JOptionPane.WARNING_MESSAGE);
             else
-                JOptionPane.showMessageDialog(null, "No se pudo efectuar la operación", "Modificar Cliente", JOptionPane.WARNING_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error inesperado "+ex.getMessage(), "Modificar Cliente", JOptionPane.WARNING_MESSAGE);Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error inesperado "+ex.getMessage(), "Modificar Cliente", JOptionPane.WARNING_MESSAGE);Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cargarDatos("");
+                load.update(staticUser);
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        cargarDatos("0");
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
@@ -763,11 +727,31 @@ public class VUsuarios extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUpdatePassKeyTyped
 
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        txtBuscar.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyReleased(final KeyEvent e) {
+//                trs.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), 0,1,2,3,4,5,7,8,9,10));
+            }
+            
+        });
+        
+        
+        
+        trs = new TableRowSorter(modelo);
+        
+        tblListar.setRowSorter(trs);
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
-    private javax.swing.JLabel btnBuscar;
-    private javax.swing.JLabel btnBuscar1;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;
@@ -780,8 +764,11 @@ public class VUsuarios extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblNewEmail;
     private javax.swing.JLabel lblNewName;
     private javax.swing.JLabel lblNewPass;
@@ -805,12 +792,14 @@ public class VUsuarios extends javax.swing.JPanel {
         
         cboUpdateType.removeAllItems();
         cboUpdateType.addItem("Sin Seleccionar");
-        cboUpdateType.addItem("Femenino");
-        cboUpdateType.addItem("Masculino");
+        cboUpdateType.addItem("Administración");
+        cboUpdateType.addItem("Ventas");
+        cboUpdateType.addItem("Inventario");
         cboNewTipo.removeAllItems();
         cboNewTipo.addItem("Sin Seleccionar");
-        cboNewTipo.addItem("Femenino");
-        cboNewTipo.addItem("Masculino");
+        cboNewTipo.addItem("Administración");
+        cboNewTipo.addItem("Ventas");
+        cboNewTipo.addItem("Inventario");
     }
     
     private void load(){
@@ -828,43 +817,24 @@ public class VUsuarios extends javax.swing.JPanel {
             btnEliminar.setVisible(false);
             btnAbrir.setVisible(false);
             btnModificar.setVisible(false);
-            btnBuscar.setVisible(false);
-            btnBuscar1.setVisible(true);
         }else{
             btnRestaurar.setVisible(false);
             btnEliminar.setVisible(true);
             btnAbrir.setVisible(true);
             btnModificar.setVisible(true);
-            btnBuscar.setVisible(true);
-            btnBuscar1.setVisible(false);
         }
-            
-        txtUpdateName.setEditable(false);
-        DefaultTableModel modelo;
-        modelo = new DefaultTableModel() {
-           @Override
-           public boolean isCellEditable(int fila, int columna) {
-               return false; //Con esto conseguimos que la tabla no se pueda editar
-           }
-        };
         
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Username");
-        modelo.addColumn("Email");
-        modelo.addColumn("Tipo");
-        tblListar.setModel(modelo);
-        
-        int cont =0;
         try{
+            modelo.setNumRows(0);
             for (Object object : load.listar(listar, new User())) {
                 User temp = (User)object;
                 String tipo = "No asignado";
                 switch (temp.getTipo()){
                     case 1:
-                        tipo = "Administrador";
+                        tipo = "Administración";
                         break;
                     case 2:
-                        tipo = "Vendedor";
+                        tipo = "Ventas";
                         break;
                     case 3:
                         tipo = "Inventario";
@@ -873,15 +843,15 @@ public class VUsuarios extends javax.swing.JPanel {
                         break;
                 }
                 Object[] fila = new Object[4];
-                fila[0] = temp.getNombre();
-                fila[1] = temp.getUsername();
+                fila[0] = temp.getUsername();
+                fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
                 fila[3] = tipo;
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("Sin registros", "No existen usuarios registrados", JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("Sin registros", "No existen registros", JOptionPane.INFORMATION_MESSAGE);
             }
             
         }catch(Exception e){
@@ -889,75 +859,45 @@ public class VUsuarios extends javax.swing.JPanel {
         }
     }
 
-    private void abrirUsuario(String username) throws SQLException, ClassNotFoundException {
-            FnCliente load = new FnCliente();
-            Cliente temp = load.cargar(rut);
-            if(temp!=null){
-                txtUpdateName.setText(temp.getRut());
-                if(temp.getNombre().equals("null"))
-                    txtUpdateUsername.setText("");
-                else
-                    txtUpdateUsername.setText(temp.getNombre());
-                if(temp.getCiudad().equals("null"))
-                    txtCiudad.setText("");
-                else
-                    txtCiudad.setText(temp.getCiudad());;
-                if(temp.getComuna().equals("null"))
-                    txtComuna.setText("");
-                else
-                    txtComuna.setText(temp.getComuna());
-                if(temp.getDireccion().equals("null"))
-                    txtDireccion.setText("");
-                else
-                    txtDireccion.setText(temp.getDireccion());
-                txtEdad.setValue(temp.getEdad());
-                if(temp.getTelefono().equals("null")){
-                    txtTelefono1.setText("");
-                    txtTelefono2.setText("");
-                }
-                else{
-                    if(temp.getTelefono().contains("/")){
-                        int ind = temp.getTelefono().indexOf("/");
-                        txtTelefono1.setText(temp.getTelefono().substring(0, ind).replace("/", "").trim());
-                        txtTelefono2.setText(temp.getTelefono().substring(ind, temp.getTelefono().length()).replace("/", "").trim());
-                    }else
-                        txtTelefono1.setText(temp.getTelefono());
-                } 
-                if(temp.getEmail().equals("null"))
-                    txtUpdateEmail.setText("");
-                else
-                    txtUpdateEmail.setText(temp.getEmail());
-                
-                cboUpdateType.setSelectedIndex(temp.getSexo());
+    private void abrirUsuario(String username) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            staticUser = (User)load.get(username, 0, new User());
+            if(staticUser!=null){
+                txtUpdateName.setText(staticUser.getNombre());
+                txtUpdateEmail.setText(staticUser.getEmail());
+                txtUpdateUsername.setText(staticUser.getUsername());
+                txtUpdatePass.setText("Optica"+Cmp.dateToString(new Date(), "yyyy"));
+                cboUpdateType.setSelectedIndex(staticUser.getTipo());
                 
             }else{
-                JOptionPane.showMessageDialog(null, "Error al cargar el cliente", "Seleccione Cliente", JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("Seleccione Cliente","Error al cargar el cliente", JOptionPane.WARNING_MESSAGE);
             }
     }
 
     private void buscarDatos(String buscar, int i) {
-        DefaultTableModel modelo;
-        modelo = new DefaultTableModel() {
-           @Override
-           public boolean isCellEditable(int fila, int columna) {
-               return false; //Con esto conseguimos que la tabla no se pueda editar
-           }
-        };
         
-        modelo.addColumn("Rut");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Email");
-        modelo.addColumn("Teléfonos");
-        tblListar.setModel(modelo);
-        FnCliente datbd= new FnCliente();
-        int cont =0;
         try{
-            for (Cliente temp : datbd.buscar(buscar,i)) {
+            modelo.setNumRows(0);
+            for (Object object : load.listar(buscar, new User())) {
+                User temp = (User)object;
                 Object[] fila = new Object[4];
-                fila[0] = temp.getRut();
+                String tipo = "No asignado";
+                switch (temp.getTipo()){
+                    case 1:
+                        tipo = "Administración";
+                        break;
+                    case 2:
+                        tipo = "Ventas";
+                        break;
+                    case 3:
+                        tipo = "Inventario";
+                        break;
+                    default:
+                        break;
+                }
+                fila[0] = temp.getUsername();
                 fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
-                fila[3] = temp.getTelefono();
+                fila[3] = tipo;
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
@@ -977,30 +917,21 @@ public class VUsuarios extends javax.swing.JPanel {
 
     private void limpiarTextField() {
         txtUpdateName.setText("");
-        txtCiudad.setText("");
-        txtComuna.setText("");
-        txtDireccion.setText("");
-        txtEdad.setValue(4);
         txtUpdateEmail.setText("");
         txtUpdateUsername.setText("");
-        txtTelefono1.setText("");
-        txtTelefono2.setText("");
+        txtUpdatePass.setText("");
         cboUpdateType.removeAllItems();
         cboUpdateType.addItem("Sin Seleccionar");
-        cboUpdateType.addItem("Femenino");
-        cboUpdateType.addItem("Masculino");
+        cboUpdateType.addItem("Administración");
+        cboUpdateType.addItem("Ventas");
+        cboUpdateType.addItem("Inventario");
         txtNewName.setText("");
-        txtCiudadNew.setText("");
-        txtComunaNew.setText("");
-        txtDireccionNew.setText("");
-        txtEdadNew.setValue(4);
         txtNewEmail.setText("");
         txtNewUsername.setText("");
-        txtTelefonoNew1.setText("");
-        txtTelefonoNew2.setText("");
-        cboNewTipo.removeAllItems();
+        txtNewPass.setText("optica"+Cmp.dateToString(new Date(), "yyyy"));
         cboNewTipo.addItem("Sin Seleccionar");
-        cboNewTipo.addItem("Femenino");
-        cboNewTipo.addItem("Masculino");
+        cboNewTipo.addItem("Administración");
+        cboNewTipo.addItem("Ventas");
+        cboNewTipo.addItem("Inventario");
     }
 }

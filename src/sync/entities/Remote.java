@@ -1001,12 +1001,12 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if(type instanceof User){
-                String sql = "SELECT * FROM usuario WHERE usu_username='" + idParam + "'";
+                String sql = "SELECT * FROM usuario WHERE us_username='" + idParam + "'";
                 if (idParam.equals("0")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=1";
+                    sql = "SELECT * FROM usuario WHERE us_estado=1";
                 }
                 if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM usuario WHERE usu_estado=0";
+                    sql = "SELECT * FROM usuario WHERE us_estado=0";
                 }
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM usuario";
@@ -1708,7 +1708,8 @@ public class Remote implements InterfaceSync{
                             + object.getCantidad()+ ",'"
                             + object.getObs()+ "',"
                             + object.getEstado() + ",'"
-                            + sqlfecha2 + "')";
+                            + sqlfecha2 + "',"
+                            + object.getLastHour() + ")";
         }
         if(objectParam instanceof TipoPago){
             TipoPago object = (TipoPago)objectParam;
@@ -1717,7 +1718,8 @@ public class Remote implements InterfaceSync{
                             + object.getId()+ ",'"
                             + object.getNombre() + "',"
                             + object.getEstado() + ",'"
-                            + sqlfecha + "')";
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
         }
         if(objectParam instanceof User){
             User object = (User)objectParam;
@@ -1730,7 +1732,8 @@ public class Remote implements InterfaceSync{
                             + object.getPass() + "',"
                             + object.getTipo() + ","
                             + object.getEstado() + ",'"
-                            + sqlfecha + "')";
+                            + sqlfecha + "',"
+                            + object.getLastHour() + ")";
         }
         return null;
     }
@@ -1751,8 +1754,9 @@ public class Remote implements InterfaceSync{
                         + ", cli_estado = " + object.getEstado()
                         + ", cli_last_update = '" + sqlfecha
                         + "', cli_last_hour = " + object.getLastHour()
-                        + " WHERE cli_rut = '" + object.getCod() + "' AND (cli_last_update <= '" 
-                        + sqlfecha + "' AND cli_last_hour < "+object.getLastHour()+")";
+                        + " WHERE cli_rut = '" + object.getCod() 
+                        + "' AND ((cli_last_update < '"+sqlfecha+"')OR"
+                        + "(cli_last_update = '"+sqlfecha+"' AND cli_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Convenio){
             Convenio object = (Convenio)objectParam;
@@ -1771,8 +1775,9 @@ public class Remote implements InterfaceSync{
                         + ", cnv_estado = " + object.getEstado()
                         + ", cnv_last_update = '" + sqlfecha3
                         + "', cnv_last_hour = " + object.getLastHour()
-                        + " WHERE cnv_id = '" + object.getId()+ "' AND (cnv_last_update <= '" 
-                        + sqlfecha3 + "' AND cnv_last_hour < "+object.getLastHour()+")";
+                        + " WHERE cnv_id = '" + object.getId()
+                        + "' AND ((cnv_last_update < '"+sqlfecha3+"')OR"
+                        + "(cnv_last_update = '"+sqlfecha3+"' AND cnv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Cristal){
             Cristal object = (Cristal)objectParam;
@@ -1782,8 +1787,9 @@ public class Remote implements InterfaceSync{
                         + ", cri_estado = " + object.getEstado()
                         + ", cri_last_update = '" + sqlfecha
                         + "', cri_last_hour = " + object.getLastHour()
-                        + " WHERE cri_id = " + object.getId() + 
-                        " AND (cri_last_update <= '" + sqlfecha + "' AND cri_last_hour < "+object.getLastHour()+")";
+                        + " WHERE cri_id = " + object.getId() 
+                        + " AND ((cri_last_update < '"+sqlfecha+"')OR"
+                        + "(cri_last_update = '"+sqlfecha+"' AND cri_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Descuento){
             Descuento object = (Descuento)objectParam;
@@ -1795,8 +1801,9 @@ public class Remote implements InterfaceSync{
                         + ", des_estado = " + object.getEstado()
                         + ", des_last_update = '" + sqlfecha
                         + "', des_last_hour = " + object.getLastHour()
-                        + " WHERE des_id = " + object.getId() + " AND (des_last_update <= '" + sqlfecha 
-                        + "' AND des_last_hour < "+object.getLastHour()+")";
+                        + " WHERE des_id = " + object.getId() 
+                        + " AND ((des_last_update < '"+sqlfecha+"')OR"
+                        + "(des_last_update = '"+sqlfecha+"' AND des_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Doctor){
             Doctor object = (Doctor)objectParam;
@@ -1807,8 +1814,9 @@ public class Remote implements InterfaceSync{
                         + "', doc_estado = " + object.getEstado()
                         + ", doc_last_update = '" + sqlfecha
                         + "', doc_last_hour = " + object.getLastHour()
-                        + " WHERE doc_rut = '" + object.getCod() + "' AND (doc_last_update <= '" 
-                        + sqlfecha + "' AND doc_last_hour < "+object.getLastHour()+")";
+                        + " WHERE doc_rut = '" + object.getCod() 
+                        + "' AND ((doc_last_update < '"+sqlfecha+"')OR"
+                        + "(doc_last_update = '"+sqlfecha+"' AND doc_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Equipo){
             Equipo object = (Equipo)objectParam;
@@ -1818,8 +1826,9 @@ public class Remote implements InterfaceSync{
                         + "', eq_estado = " + object.getEstado()
                         + ", eq_last_update = '" + sqlfecha
                         + "', eq_last_hour = " + object.getLastHour()
-                        + " WHERE eq_id = " + object.getId()+ " AND (eq_last_update <= '" 
-                        + sqlfecha + "' AND eq_last_hour < "+object.getLastHour()+")";
+                        + " WHERE eq_id = " + object.getId()    
+                        + " AND ((eq_last_update < '"+sqlfecha+"')OR"
+                        + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Institucion){
             Institucion object = (Institucion)objectParam;
@@ -1833,8 +1842,9 @@ public class Remote implements InterfaceSync{
                         + "', ins_estado = " + object.getEstado()
                         + ", ins_last_update = '" + sqlfecha
                         + "', ins_last_hour = " + object.getLastHour()
-                        + " WHERE ins_id = " + object.getId()+ " AND (ins_last_update <= '" 
-                        + sqlfecha + "' AND ins_last_hour < "+object.getLastHour()+")";
+                        + " WHERE ins_id = " + object.getId()
+                        + " AND ((ins_last_update < '"+sqlfecha+"')OR"
+                        + "(ins_last_update = '"+sqlfecha+"' AND ins_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
@@ -1844,8 +1854,9 @@ public class Remote implements InterfaceSync{
                         + "', inv_estado = " + object.getEstado()
                         + ", inv_last_update = '" + sqlfecha
                         + "', inv_last_hour = " + object.getLastHour()
-                        + " WHERE inv_id = " + object.getId()+ " AND (inv_last_update <= '" 
-                        + sqlfecha + "' AND inv_last_hour < "+object.getLastHour()+")";
+                        + " WHERE inv_id = " + object.getId()
+                        + " AND ((inv_last_update < '"+sqlfecha+"')OR"
+                        + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Lente){
             Lente object = (Lente)objectParam;
@@ -1865,8 +1876,9 @@ public class Remote implements InterfaceSync{
                         + "', len_estado = " + object.getEstado()
                         + ", len_last_update = '" + sqlfecha
                         + "', len_last_hour = " + object.getLastHour()
-                        + " WHERE len_id = '" + object.getCod()+ "' AND (len_last_update <= '" 
-                        + sqlfecha + "' AND len_last_hour < "+object.getLastHour()+")";
+                        + " WHERE len_id = '" + object.getCod()
+                        + "' AND ((len_last_update < '"+sqlfecha+"')OR"
+                        + "(len_last_update = '"+sqlfecha+"' AND len_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Oficina){
             Oficina object = (Oficina)objectParam;
@@ -1881,8 +1893,9 @@ public class Remote implements InterfaceSync{
                         + "', of_estado = " + object.getEstado()
                         + ", of_last_update = '" + sqlfecha
                         + "', of_last_hour = " + object.getLastHour()
-                        + " WHERE of_id = " + object.getId() + " AND (of_last_update <= '" 
-                        + sqlfecha + "' AND of_last_hour < "+object.getLastHour()+")";
+                        + " WHERE of_id = " + object.getId() 
+                        + " AND ((of_last_update < '"+sqlfecha+"')OR"
+                        + "(of_last_update = '"+sqlfecha+"' AND of_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof RegistroBaja){
             RegistroBaja object = (RegistroBaja)objectParam;
@@ -1895,8 +1908,9 @@ public class Remote implements InterfaceSync{
                         + "', rb_estado = " + object.getEstado()
                         + ", rb_last_update = '" + sqlfecha2
                         + "', rb_last_hour = " + object.getLastHour()
-                        + " WHERE rb_id = '" + object.getCod()+ "' AND (rb_last_update <= '" 
-                        + sqlfecha2 + "' AND rb_last_hour < "+object.getLastHour()+")";
+                        + " WHERE rb_id = '" + object.getCod()
+                        + "' AND ((rb_last_update < '"+sqlfecha2+"')OR"
+                        + "(rb_last_update = '"+sqlfecha2+"' AND rb_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof TipoPago){
             TipoPago object = (TipoPago)objectParam;
@@ -1905,8 +1919,9 @@ public class Remote implements InterfaceSync{
                         + "', tp_estado = " + object.getEstado()
                         + ", tp_last_update = '" + sqlfecha
                         + "', tp_last_hour = " + object.getLastHour()
-                        + " WHERE tp_id = " + object.getId()+ " AND (tp_last_update <= '" 
-                        + sqlfecha + "' AND tp_last_hour < "+object.getLastHour()+")";
+                        + " WHERE tp_id = " + object.getId()
+                        + " AND ((tp_last_update < '"+sqlfecha+"')OR"
+                        + "(tp_last_update = '"+sqlfecha+"' AND tp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof User){
             User object = (User)objectParam;
@@ -1919,8 +1934,9 @@ public class Remote implements InterfaceSync{
                         + ", us_estado = " + object.getEstado()
                         + ", us_last_update = '" + sqlfecha
                         + "', us_last_hour = " + object.getLastHour()
-                        + " WHERE us_id = " + object.getId() + " AND (us_last_update <= '" 
-                        + sqlfecha + "' AND us_last_hour < "+object.getLastHour()+")";
+                        + " WHERE us_id = " + object.getId()
+                        + " AND ((us_last_update < '"+sqlfecha+"')OR"
+                        + "(us_last_update = '"+sqlfecha+"' AND us_last_hour < "+object.getLastHour()+"))";
         }
         return null;
     }
