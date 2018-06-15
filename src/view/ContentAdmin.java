@@ -269,7 +269,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
         lblName.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         lblName.setText("OptiData vX.X.X");
-        jpSuperior.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 0, -1, -1));
+        jpSuperior.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 0, -1, -1));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         lblTitle.setText("Nueva Ficha");
@@ -425,9 +425,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
             cerrar();
-        } catch (SQLException ex) {
-            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | InterruptedException ex) {
             Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowClosing
@@ -747,13 +745,11 @@ public class ContentAdmin extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    private void cerrar() throws SQLException, ClassNotFoundException{//cerrar con opciones en nueva implementacion
-        String botones1[] = {"Cerrar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cerrar la aplicación?", "Cerrar", 0, JOptionPane.INFORMATION_MESSAGE, null, botones1, this);
-        if(opcion == JOptionPane.YES_OPTION){
-            String botones2[] = {"Aceptar","Anular"};
+    private void cerrar() throws SQLException, ClassNotFoundException, InterruptedException{//cerrar con opciones en nueva implementacion
+        if(OptionPane.getConfirmation("Cerrar", "¿Desea cerrar la aplicación?", JOptionPane.INFORMATION_MESSAGE)){
+            OptionPane.showMsg("Opcion sincronizar", "Sincronizar bases de datos", JOptionPane.INFORMATION_MESSAGE);
             if(GlobalValues.IS_ONLINE && GlobalValues.LICENCE)
-                OptionPane.showMsg("Opcion sincronizar", "Sincrinizar bases de datos", JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("Opcion sincronizar", "Sincronizar bases de datos", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }   
     }

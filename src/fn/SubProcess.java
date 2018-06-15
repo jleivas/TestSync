@@ -5,6 +5,7 @@
  */
 package fn;
 
+import fn.mail.Send;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,5 +48,13 @@ public class SubProcess {
         }
         System.out.println("Luego añadir todos los registros en las listas estaticas.");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void report(String title, String message){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            Send mail = new Send();
+            mail.sendReportMail(title, message);
+        });
     }
 }

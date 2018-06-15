@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -29,6 +27,7 @@ import sync.Cmp;
 import sync.entities.Global;
 import sync.entities.Local;
 import sync.entities.Remote;
+import view.opanel.OPanel;
 
 /**
  *
@@ -37,8 +36,8 @@ import sync.entities.Remote;
 public class GlobalValues {
     private static String className="GlobalValues";
     /*  Nombres de sistema  */
-    public static String PROJECTNAME="";
-    public static String VERSION = "4.0.0";
+    public static String PROJECTNAME="DCS Optics";
+    public static String VERSION = "v4.0.0";
     
     /* Bases de datos*/
     public static String BD_URL_REMOTE = NoGit.URL;
@@ -103,6 +102,7 @@ public class GlobalValues {
     public static ArrayList<TipoPago> TMP_LIST_TIPOS_PAGO = new ArrayList<TipoPago>();
     
     /* Joption Pane del sistema */
+    public static OPanel INFOPANEL = new OPanel();
     public static String PANELTITLE ="";
     public static int MSG_STATUS;
     public static String ICON_INFO = "/icons/show_info_50px.png";
@@ -121,6 +121,13 @@ public class GlobalValues {
         FILES_PATH = LOCAL_PATH+"files"+File.separator;
     }
     
+    public static String getMailSystemName() {
+        return MAIL_ADDRES;
+    }
+    
+    public static String getMailSystemPass() {
+        return MAIL_PASS;
+    }
     
     public static String getLocalBdUser() {
         return BD_USER_LOCAL;

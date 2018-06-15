@@ -43,6 +43,7 @@ public class VUsuarios extends javax.swing.JPanel {
      */
     public VUsuarios() {
         GlobalValues.IS_ONLINE = true;
+        ContentAdmin.lblTitle.setText("Registro de usuarios");
         load.sincronize(new User());
         initComponents();
         modelo.addColumn("Username");
@@ -71,7 +72,6 @@ public class VUsuarios extends javax.swing.JPanel {
         btnEliminar = new javax.swing.JLabel();
         btnRestaurar = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         pnlAddUser = new javax.swing.JPanel();
         lblNewName = new javax.swing.JLabel();
@@ -183,8 +183,6 @@ public class VUsuarios extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
-
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -209,11 +207,6 @@ public class VUsuarios extends javax.swing.JPanel {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,11 +227,6 @@ public class VUsuarios extends javax.swing.JPanel {
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pnlAddUser.setBackground(new java.awt.Color(255, 255, 255));
@@ -661,6 +649,12 @@ public class VUsuarios extends javax.swing.JPanel {
         String email=txtNewEmail.getText();
         int tipo = cboNewTipo.getSelectedIndex();
         String pass=txtNewPass.getText();
+        if(nombre.length() < 3 || username.length() < 3){
+            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+            
         User user = new User(0, nombre, username, email, pass, tipo, 1, null, 0);
         User temp = null;
         try {
@@ -689,7 +683,10 @@ public class VUsuarios extends javax.swing.JPanel {
         staticUser.setPass(txtUpdatePass.getText());
         staticUser.setTipo(cboUpdateType.getSelectedIndex());
         staticUser.setUsername(txtUpdateUsername.getText());
-        System.out.println("modificauser;"+staticUser.getId());
+        if(staticUser.getNombre().length() < 3 || staticUser.getUsername().length() < 3){
+            OptionPane.showMsg("Modificar usuario", "Debe ingresar un nombre o username válido,"
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
+        }
         User temp;
         try {
             temp = (User)load.get(staticUser.getUsername(), 0, staticUser);
@@ -764,7 +761,6 @@ public class VUsuarios extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
