@@ -6,6 +6,8 @@
 package fn;
 
 import java.awt.BorderLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static view.opanel.OPanel.OpanelContent;
 import view.opanel.OpanelConfirm;
@@ -20,7 +22,7 @@ public class OptionPane {
     private static int alto = 220;
     private static int locat = 5;
     private static String className = "OptionPane";
-    private static boolean confirm = true;
+    private static boolean confirm = false;
     
     public static void showPanel(javax.swing.JPanel p1, String title){
         GlobalValues.INFOPANEL.lblTitle.setText(title);
@@ -60,7 +62,16 @@ public class OptionPane {
     }
 
     public static boolean getConfirmation(String title, String message, int statusMsg){
-        showConfirm(title, message, statusMsg);
+        int resp = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(resp == JOptionPane.YES_OPTION)
+            return true;
+        return false;
+    }
+    public static boolean getConfirm(){
+        if(confirm){
+            setConfirm(false);
+            return true;
+        }
         return confirm;
     }
     private static void showConfirm(String title, String message, int statusMsg){

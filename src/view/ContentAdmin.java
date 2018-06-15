@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import view.opanel.OpanelUserData;
 
 /**
  *
@@ -153,6 +154,9 @@ public class ContentAdmin extends javax.swing.JFrame {
 
         btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Account_25px.png"))); // NOI18N
         btnUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUserMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnUserMouseEntered(evt);
             }
@@ -669,6 +673,10 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnMinimizeWindow.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnMinimizeWindow.getIcon().toString()))));
     }//GEN-LAST:event_btnMinimizeWindowMouseExited
 
+    private void btnUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUserMouseClicked
+        OptionPane.showPanel(new OpanelUserData(), "Mis Datos");
+    }//GEN-LAST:event_btnUserMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -747,10 +755,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
     private void cerrar() throws SQLException, ClassNotFoundException, InterruptedException{//cerrar con opciones en nueva implementacion
         if(OptionPane.getConfirmation("Cerrar", "¿Desea cerrar la aplicación?", JOptionPane.INFORMATION_MESSAGE)){
-            OptionPane.showMsg("Opcion sincronizar", "Sincronizar bases de datos", JOptionPane.INFORMATION_MESSAGE);
-            if(GlobalValues.IS_ONLINE && GlobalValues.LICENCE)
-                OptionPane.showMsg("Opcion sincronizar", "Sincronizar bases de datos", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
-        }   
+        }
     }
 }

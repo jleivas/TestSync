@@ -5,7 +5,6 @@
  */
 package fn.mail;
 
-import com.sun.mail.util.MailSSLSocketFactory;
 import fn.GlobalValues;
 import java.security.GeneralSecurityException;
 import java.util.Date;
@@ -19,7 +18,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import sync.Cmp;
 
 /**
  *
