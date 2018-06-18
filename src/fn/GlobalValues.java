@@ -54,7 +54,7 @@ public class GlobalValues {
     public static String PASS;
     
     /* LICENCIA */
-    public static String COMPANY_NAME;
+    public static String COMPANY_NAME = "DCS Optics";
     public static boolean LICENCE = true;
     public static String EXP_DATE = "00-00-0000";
     public static String API_URI;
@@ -75,7 +75,7 @@ public class GlobalValues {
     public static String LOCAL_PATH = "";
     
     /* Variables del sistema */
-    public static String USERNAME = "";
+    public static User USER;
     public static int ID_USER = 0;
     public static String TMP_RUT_DOCTOR;
     public static int TMP_ID_INSTITUCION;
@@ -87,7 +87,7 @@ public class GlobalValues {
     public static Local LOCAL_SYNC = new Local();
     public static Remote REMOTE_SYNC = new Remote();
     public static boolean IS_ONLINE = false;
-    public static Date LAST_UPDATE = new Date();
+    public static Date LAST_UPDATE = new Date(213312);
     
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
@@ -214,5 +214,16 @@ public class GlobalValues {
                 }
         }
         return cont;
+    }
+    
+    public static String strToName(String param){
+        if(param == null)
+            return null;
+        String[] str = param.split(" ");
+        String value = null;
+        for (String temp : str) {
+            value = value + " " + Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
+        }
+        return value.replaceFirst("null", "").replaceFirst(" ", "");
     }
 }

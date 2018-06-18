@@ -5,12 +5,12 @@
  */
 package view.opanel;
 
-import dao.Dao;
-import fn.Boton;
+import entities.User;
+import fn.Crypt;
 import fn.GlobalValues;
 import fn.Icons;
 import fn.OptionPane;
-import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,11 +49,11 @@ public class OpanelUserData extends javax.swing.JPanel {
         jSeparator3 = new javax.swing.JSeparator();
         cboTipo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtPass = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
-        txtPass1 = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
+        txtPass2 = new javax.swing.JPasswordField();
+        txtPass1 = new javax.swing.JPasswordField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -103,12 +103,27 @@ public class OpanelUserData extends javax.swing.JPanel {
 
         txtNombre.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
         txtNombre.setBorder(null);
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtUsername.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
         txtUsername.setBorder(null);
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsernameKeyTyped(evt);
+            }
+        });
 
         txtMail.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
         txtMail.setBorder(null);
+        txtMail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMailKeyTyped(evt);
+            }
+        });
 
         cboTipo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         cboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -116,14 +131,22 @@ public class OpanelUserData extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         jLabel7.setText("Clave");
 
-        txtPass.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
-        txtPass.setBorder(null);
-
-        txtPass1.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
-        txtPass1.setBorder(null);
-
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         jLabel8.setText("Repita clave");
+
+        txtPass2.setBorder(null);
+        txtPass2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPass2KeyTyped(evt);
+            }
+        });
+
+        txtPass1.setBorder(null);
+        txtPass1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPass1KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -141,33 +164,35 @@ public class OpanelUserData extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addGap(12, 12, 12)
                         .addComponent(btnCancelar)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jSeparator2)
-                                    .addComponent(txtNombre)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtMail)
-                                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jSeparator2)
+                                .addComponent(txtNombre)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtMail)
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(180, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jSeparator5)
+                                .addGap(144, 144, 144)
+                                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtPass1)
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPass2)))
+                        .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,23 +209,22 @@ public class OpanelUserData extends javax.swing.JPanel {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPass2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparator6)
+                    .addComponent(jSeparator5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -229,7 +253,20 @@ public class OpanelUserData extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelarMousePressed
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        
+        String pass = null;
+        if(txtPass1.getText().length() > 4){
+            if(txtPass1.getText().equals(txtPass2.getText()))
+                pass = Crypt.en(txtPass1.getText());
+        }
+        User user = (User)GlobalValues.LOCAL_SYNC.getElement(GlobalValues.USER.getUsername(),0, new User());
+        if(user !=  null){
+            if(pass != null)
+                GlobalValues.USER.setPass(pass);
+            GlobalValues.USER.setEmail(txtMail.getText());
+            GlobalValues.USER.setNombre(txtNombre.getText());
+            GlobalValues.USER.setUsername(txtUsername.getText());
+            GlobalValues.USER.setTipo(cboTipo.getSelectedIndex());
+        }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -243,6 +280,46 @@ public class OpanelUserData extends javax.swing.JPanel {
     private void btnGuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarMousePressed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        int largo = 45;
+        if(txtNombre.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtUsernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyTyped
+        int largo = 45;
+        if(txtUsername.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El username solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtUsernameKeyTyped
+
+    private void txtMailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMailKeyTyped
+        int largo = 45;
+        if(txtMail.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtMailKeyTyped
+
+    private void txtPass1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPass1KeyTyped
+        int largo = 25;
+        if(txtPass1.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El password solo debe contener hasta 25 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtPass1KeyTyped
+
+    private void txtPass2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPass2KeyTyped
+        int largo = 25;
+        if(txtPass2.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El password solo debe contener hasta 25 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_txtPass2KeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,12 +339,16 @@ public class OpanelUserData extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTextField txtMail;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPass;
-    private javax.swing.JTextField txtPass1;
+    private javax.swing.JPasswordField txtPass1;
+    private javax.swing.JPasswordField txtPass2;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     private void cargarCboTipo() {
+        if(GlobalValues.USER.getTipo() == 1)
+            cboTipo.setEditable(true);
+        else
+            cboTipo.setEditable(false);
         cboTipo.removeAllItems();
         cboTipo.addItem("Sin asignar");
         cboTipo.addItem("Administrativo");

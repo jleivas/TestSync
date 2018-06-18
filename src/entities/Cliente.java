@@ -21,12 +21,12 @@ public class Cliente extends SyncStringId{
     private String comuna;
     private String ciudad;
     private int sexo;
-    private int edad;
+    private Date nacimiento;
 
     public Cliente() {
     }
 
-    public Cliente(String rut, String nombre, String telefono1, String telefono2, String email, String direccion, String comuna, String ciudad, int sexo, int edad, int estado, Date lastUpdate, int lastHour) {
+    public Cliente(String rut, String nombre, String telefono1, String telefono2, String email, String direccion, String comuna, String ciudad, int sexo, Date nacimiento, int estado, Date lastUpdate, int lastHour) {
         setCod(rut);
         setNombre(nombre);
         setTelefono1(telefono1);
@@ -36,7 +36,7 @@ public class Cliente extends SyncStringId{
         setComuna(comuna);
         setCiudad(ciudad);
         setSexo(sexo);
-        setEdad(edad);
+        setNacimiento(nacimiento);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
@@ -74,8 +74,8 @@ public class Cliente extends SyncStringId{
         this.sexo = sexo;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setNacimiento(Date nacimiento) {
+        this.nacimiento = nacimiento;
     }
 
     public String getNombre() {
@@ -110,8 +110,8 @@ public class Cliente extends SyncStringId{
         return sexo;
     }
 
-    public int getEdad() {
-        return edad;
+    public Date getNacimiento() {
+        return nacimiento;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Cliente extends SyncStringId{
                 + ", comuna="+ comuna +"\n"
                 + ", ciudad=" + ciudad+"\n" 
                 + ", sexo=" + sexo+"\n" 
-                + ", edad=" + edad+"\n" 
+                + ", fecha nac.=" + nacimiento+"\n" 
                 + ", estado=" + getEstado()+"\n" 
                 + ", lastUpdate=" + getLastUpdate() + '}';
     }

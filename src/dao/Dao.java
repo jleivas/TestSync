@@ -219,7 +219,18 @@ public class Dao{
         }
         return false;
     }
-
+    
+    /**
+     * Retorna un elemento de la base de datos local
+     * @param cod
+     * @param id
+     * @param type
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException 
+     */
     public Object get(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
         return GlobalValues.LOCAL_SYNC.getElement(cod,id,type);

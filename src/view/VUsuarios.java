@@ -8,6 +8,7 @@ package view;
 import dao.Dao;
 import entities.User;
 import fn.Boton;
+import fn.Crypt;
 import fn.GlobalValues;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -44,7 +45,7 @@ public class VUsuarios extends javax.swing.JPanel {
     public VUsuarios() {
         GlobalValues.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de usuarios");
-        load.sincronize(new User());
+//        load.sincronize(new User());
         initComponents();
         modelo.addColumn("Username");
         modelo.addColumn("Nombre");
@@ -648,7 +649,7 @@ public class VUsuarios extends javax.swing.JPanel {
         String username=txtNewUsername.getText();
         String email=txtNewEmail.getText();
         int tipo = cboNewTipo.getSelectedIndex();
-        String pass=txtNewPass.getText();
+        String pass=Crypt.en(txtNewPass.getText());
         if(nombre.length() < 3 || username.length() < 3){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
                     + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
@@ -664,7 +665,9 @@ public class VUsuarios extends javax.swing.JPanel {
             else
                 load.add(user);
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
+                    + "No se pudo insertar el usuario\n\n"
+                    + ex, JOptionPane.ERROR_MESSAGE);
         } 
         cargarDatos("0");
     }//GEN-LAST:event_btnGuardarMouseClicked
@@ -680,7 +683,7 @@ public class VUsuarios extends javax.swing.JPanel {
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         staticUser.setEmail(txtUpdateEmail.getText());
         staticUser.setNombre(txtUpdateName.getText());
-        staticUser.setPass(txtUpdatePass.getText());
+        staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
         staticUser.setTipo(cboUpdateType.getSelectedIndex());
         staticUser.setUsername(txtUpdateUsername.getText());
         if(staticUser.getNombre().length() < 3 || staticUser.getUsername().length() < 3){
@@ -861,7 +864,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 txtUpdateName.setText(staticUser.getNombre());
                 txtUpdateEmail.setText(staticUser.getEmail());
                 txtUpdateUsername.setText(staticUser.getUsername());
-                txtUpdatePass.setText("Optica"+Cmp.dateToString(new Date(), "yyyy"));
+                txtUpdatePass.setText(GlobalValues.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
                 cboUpdateType.setSelectedIndex(staticUser.getTipo());
                 
             }else{
@@ -924,7 +927,7 @@ public class VUsuarios extends javax.swing.JPanel {
         txtNewName.setText("");
         txtNewEmail.setText("");
         txtNewUsername.setText("");
-        txtNewPass.setText("optica"+Cmp.dateToString(new Date(), "yyyy"));
+        txtNewPass.setText(GlobalValues.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
         cboNewTipo.addItem("Sin Seleccionar");
         cboNewTipo.addItem("Administración");
         cboNewTipo.addItem("Ventas");

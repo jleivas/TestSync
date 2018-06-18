@@ -55,8 +55,8 @@ public class TestSync {
 //        GlobalValues.IS_ONLINE = true;
 //        Dao load = new Dao();
 //        System.out.println(""+((Lente)load.get("id1-m-c", 0, new Lente())).getLastHour());
-            System.out.println(Cmp.dateToString(new Date(), "dd/mm/yyyy").replaceAll("-", " del "));
-        
+//            System.out.println(Cmp.dateToString(new Date(), "dd/mm/yyyy").replaceAll("-", " del "));
+        System.out.println(GlobalValues.strToName(null));
 //        System.out.println(""+GlobalValues.LAST_UPDATE.getYear());
 //        Dao load = new Dao();
 //        lentes();
@@ -121,7 +121,7 @@ GlobalValues.IS_ONLINE = true;
     
     private static void clientes() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Cliente c1 = new Cliente("18188881-0", "amamam", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, 27, 1, null,0);
+        Cliente c1 = new Cliente("18188881-0", "amamam", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, new Date(), 1, null,0);
         Dao load = new Dao();
         load.add(c1);
         for (Cliente cli : GlobalValues.TMP_LIST_CLIENTES) {

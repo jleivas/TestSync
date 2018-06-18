@@ -656,7 +656,7 @@ public class Local implements InterfaceSync {
                         datos.getString("cli_comuna"),
                         datos.getString("cli_ciudad"),
                         datos.getInt("cli_sexo"),
-                        datos.getInt("cli_edad"),
+                        datos.getDate("cli_nacimiento"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update"),
                         datos.getInt("cli_last_hour")
@@ -1069,7 +1069,7 @@ public class Local implements InterfaceSync {
                         datos.getString("cli_comuna"),
                         datos.getString("cli_ciudad"),
                         datos.getInt("cli_sexo"),
-                        datos.getInt("cli_edad"),
+                        datos.getDate("cli_nacimiento"),
                         datos.getInt("cli_estado"),
                         datos.getDate("cli_last_update"),
                         datos.getInt("cli_last_hour")
@@ -1555,7 +1555,8 @@ public class Local implements InterfaceSync {
         
         if(objectParam instanceof Cliente){
             Cliente object = (Cliente)objectParam;
-            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getNacimiento().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
             return  "INSERT INTO cliente VALUES('"
                     + object.getCod() + "','"
                     + object.getNombre() + "','"
@@ -1565,10 +1566,10 @@ public class Local implements InterfaceSync {
                     + object.getDireccion() + "','"
                     + object.getComuna() + "','"
                     + object.getCiudad() + "',"
-                    + object.getSexo() + ","
-                    + object.getEdad() + ","
+                    + object.getSexo() + ",'"
+                    + sqlfecha1 + "',"
                     + object.getEstado() + ",'"
-                    + sqlfecha + "',"
+                    + sqlfecha2 + "',"
                     + object.getLastHour() + ")";
         }
         if(objectParam instanceof Convenio){
@@ -1745,7 +1746,8 @@ public class Local implements InterfaceSync {
     private String sqlUpdate(Object objectParam) {
         if(objectParam instanceof Cliente){
             Cliente object = (Cliente)objectParam;
-            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getNacimiento().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
             return "UPDATE cliente set cli_nombre = '" + object.getNombre()
                         + "', cli_telefono1 = '" + object.getTelefono1()
                         + "', cli_telefono2 = '" + object.getTelefono2()
@@ -1754,13 +1756,13 @@ public class Local implements InterfaceSync {
                         + "', cli_comuna = '" + object.getComuna()
                         + "', cli_ciudad = '" + object.getCiudad()
                         + "', cli_sexo = " + object.getSexo()
-                        + ", cli_edad = " + object.getEdad()
-                        + ", cli_estado = " + object.getEstado()
-                        + ", cli_last_update = '" + sqlfecha
+                        + ", cli_nacimiento = '" + sqlfecha1
+                        + "', cli_estado = " + object.getEstado()
+                        + ", cli_last_update = '" + sqlfecha2
                         + "', cli_last_hour = " + object.getLastHour()
                         + " WHERE cli_rut = '" + object.getCod() 
-                        + "' AND ((cli_last_update < '"+sqlfecha+"')OR"
-                        + "(cli_last_update = '"+sqlfecha+"' AND cli_last_hour < "+object.getLastHour()+"))";
+                        + "' AND ((cli_last_update < '"+sqlfecha2+"')OR"
+                        + "(cli_last_update = '"+sqlfecha2+"' AND cli_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Convenio){
             Convenio object = (Convenio)objectParam;

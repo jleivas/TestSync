@@ -169,7 +169,7 @@ public class Send {
             
             sendMail("Reporte de error en equipo: "+GlobalValues.LOCAL_ID+", Optica: "+GlobalValues.COMPANY_NAME,
                     GlobalValues.MAIL_REPORT, title, content,
-                    "Usuario: "+GlobalValues.USERNAME, GlobalValues.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
+                    "Usuario: "+GlobalValues.USER.getUsername(), GlobalValues.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;

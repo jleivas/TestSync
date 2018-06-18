@@ -8,6 +8,7 @@ package fn;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
 import static view.ContentAdmin.principalAdmin;
+import view.VClientes;
 import view.VUsuarios;
 
 /**
@@ -90,15 +91,15 @@ public class Boton {
 //        principalAdmin.repaint();
 //    }
 //    
-//    public void clientes() throws SQLException, ClassNotFoundException{
-//        VClientes p1 = new VClientes();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
+    public void clientes() throws SQLException, ClassNotFoundException{
+        VClientes p1 = new VClientes();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
 //    
 //    public void doctores() throws SQLException, ClassNotFoundException{
 //        VDoctores p1 = new VDoctores();

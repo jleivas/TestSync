@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import view.opanel.OpanelUserData;
 
 /**
@@ -38,7 +37,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     public ContentAdmin() throws SQLException, ClassNotFoundException{
         initComponents();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.lblUserName.setText(GlobalValues.USERNAME);
+//        this.lblUserName.setText(GlobalValues.USER.getNombre());
         this.lblName.setText(GlobalValues.PROJECTNAME+" "+GlobalValues.VERSION);
         this.lblTitle.setText(GlobalValues.PROJECTNAME);
         centrarPantalla();
@@ -56,7 +55,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         
         this.setTitle("Optidata "+GlobalValues.VERSION+"     "+licencia);
         try {
-            boton.usuarios();
+            boton.clientes();
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Es probable que el servidor no se haya iniciado, Inicie el servicio y vuelva a abrir el programa.","Error de conexion",JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);//opcion cerrar
