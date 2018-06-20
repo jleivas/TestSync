@@ -23,6 +23,9 @@ public class Convenio extends SyncIntId{
     private int idDescuento;
     private int idInstitucion;
 
+    public Convenio() {
+    }
+
     public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento,int estado, int idInstitucion, Date lastUpdate,int lastHour) {
         setId(id);
         this.nombre = nombre;
