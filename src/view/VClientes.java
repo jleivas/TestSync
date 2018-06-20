@@ -17,10 +17,7 @@ import fn.ValidaRut;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -44,7 +41,7 @@ public class VClientes extends javax.swing.JPanel {
     public VClientes() {
         GlobalValues.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de clientes");
-//        load.sincronize(new Cliente());
+        load.sincronize(new Cliente());
         initComponents();
         modelo.addColumn("Rut");
         modelo.addColumn("Nombre");
@@ -429,11 +426,12 @@ public class VClientes extends javax.swing.JPanel {
                             .addComponent(jLabel7)
                             .addComponent(txtCiudadNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(cboSexoNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtFechaNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaNew, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(cboSexoNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)))
                         .addContainerGap())
                     .addComponent(btnGuardar)))
         );
@@ -689,7 +687,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 10;
         if(txtRutNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El rut solo debe contener entre 9 y 10 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El rut solo debe contener entre 9 y 10 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtRutNewKeyTyped
 
@@ -697,7 +695,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombreNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El nombre solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtNombreNewKeyTyped
 
@@ -705,7 +703,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoNew1.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El teléfono solo debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtTelefonoNew1KeyTyped
 
@@ -713,7 +711,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmailNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El Email solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtEmailNewKeyTyped
 
@@ -721,7 +719,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccionNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La dirección solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtDireccionNewKeyTyped
 
@@ -729,7 +727,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtComunaNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La comuna solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtComunaNewKeyTyped
 
@@ -737,7 +735,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudadNew.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La ciudad solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtCiudadNewKeyTyped
 
@@ -745,7 +743,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 10;
         if(txtRut.getText().length() >= largo || txtRut.getText().length()<= largo-1){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El rut solo debe contener entre 9 y 10 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El rut solo debe contener entre 9 y 10 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtRutKeyTyped
 
@@ -753,7 +751,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombre.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El nombre solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtNombreKeyTyped
 
@@ -761,7 +759,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefono1.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El telefono solo debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtTelefono1KeyTyped
 
@@ -769,7 +767,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmail.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El email solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtEmailKeyTyped
 
@@ -777,7 +775,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccion.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La dirección solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtDireccionKeyTyped
 
@@ -785,7 +783,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtComuna.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La comuna solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtComunaKeyTyped
 
@@ -793,7 +791,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudad.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La ciudad solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtCiudadKeyTyped
 
@@ -801,7 +799,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoNew2.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El teléfono solo debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtTelefonoNew2KeyTyped
 
@@ -809,7 +807,7 @@ public class VClientes extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefono2.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El teléfono solo debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_txtTelefono2KeyTyped
 
@@ -821,7 +819,8 @@ public class VClientes extends javax.swing.JPanel {
             abrirCliente(rut);
             
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente", "Seleccione Cliente", JOptionPane.INFORMATION_MESSAGE);
+            OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".",  JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAbrirMouseClicked
 
@@ -839,8 +838,10 @@ public class VClientes extends javax.swing.JPanel {
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
-                    + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "es posible que no se haya seleccionado un registro:\n"
+                    + "Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".\n"
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
@@ -1182,7 +1183,7 @@ public class VClientes extends javax.swing.JPanel {
                 
             }else{
                 OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
-                    + "es posible que no hay seleccionado un registro\n"
+                    + "es posible que no se haya seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
             }
     }
