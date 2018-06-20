@@ -595,7 +595,11 @@ public class VUsuarios extends javax.swing.JPanel {
             }
             
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione usuario", "Debe seleccionar un usuario", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Seleccione Usuario","Error al cargar valores,\n"
+                    + "es posible que no se haya seleccionado un registro:\n"
+                    + "Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".\n"
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
