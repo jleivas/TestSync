@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import dao.Dao;
 import entities.Convenio;
 import entities.Descuento;
@@ -15,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
-import fn.ValidaRut;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -44,11 +44,13 @@ public class VConvenios extends javax.swing.JPanel {
     /**
      * Creates new form VClientes
      */
-    public VConvenios() {
+    public VConvenios() throws SQLException, ClassNotFoundException {
         GlobalValues.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Convenios");
         load.sincronize(new Convenio());
+        
         initComponents();
+        autocompletar();
         modelo.addColumn("Id");
         modelo.addColumn("Convenio");
         modelo.addColumn("Institución");
@@ -502,7 +504,6 @@ public class VConvenios extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -664,7 +665,7 @@ public class VConvenios extends javax.swing.JPanel {
             OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String nombre = txtNombreU.getText();
+        String nombre = GlobalValues.strToName(txtNombreU.getText());
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
@@ -750,7 +751,7 @@ public class VConvenios extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
        
-        String nombre = txtNombreN.getText();
+        String nombre = GlobalValues.strToName(txtNombreN.getText());
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
@@ -899,7 +900,7 @@ public class VConvenios extends javax.swing.JPanel {
             modelo.setNumRows(0);
             for (Object object : load.listar(listar, new Convenio())) {
                 Convenio temp = (Convenio)object;
-                Object ins = (Institucion)load.get(null, temp.getIdInstitucion(), new Institucion());
+                Institucion ins = (Institucion)load.get(null, temp.getIdInstitucion(), new Institucion());
                 String insName = "No asignada";
                 if(ins != null)
                     insName = ((Institucion)ins).getNombre();
@@ -915,7 +916,7 @@ public class VConvenios extends javax.swing.JPanel {
             }
             
         }catch(Exception e){
-            OptionPane.showMsg("Ocurrió un error inesperado", "Error, ["+e.getMessage()+"]",JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Ocurrió un error inesperado", "Ocurrió un error inesperado al cargar valores en la tabla, ["+e.getMessage()+"]",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -933,7 +934,10 @@ public class VConvenios extends javax.swing.JPanel {
                 txtMontoPpU.setValue((int)stConvenio.getMontoPp());
                 txtCantidadClientesU.setValue((int)stConvenio.getMaximoClientes());
                 cboDescuentoU.setSelectedIndex(stConvenio.getIdDescuento());
-                txtInstitucionU.setText("["+stConvenio.getIdInstitucion()+"]"+((Institucion)load.get(null, stConvenio.getIdInstitucion(), new Institucion())).getNombre());
+                if(stConvenio.getIdInstitucion()==0)
+                    txtInstitucionU.setText("");
+                else
+                    txtInstitucionU.setText("["+stConvenio.getIdInstitucion()+"] "+((Institucion)load.get(null, stConvenio.getIdInstitucion(), new Institucion())).getNombre());
                 
             }else{
                 OptionPane.showMsg("Seleccione registro","Error al cargar valores,\n"
@@ -963,5 +967,22 @@ public class VConvenios extends javax.swing.JPanel {
         cboDescuentoU.removeAllItems();
         cboDescuentoN.removeAllItems();
         cargarCbos();
+    }
+
+    private void autocompletar() throws SQLException, ClassNotFoundException {
+        TextAutoCompleter textAutoCompleter1 = new TextAutoCompleter(txtInstitucionN);
+        TextAutoCompleter textAutoCompleter2 = new TextAutoCompleter(txtInstitucionU);
+        
+        textAutoCompleter1.setMode(0);
+        textAutoCompleter2.setMode(0);
+        for (Object object : load.listar("0", new Institucion())) {
+            Institucion temp = (Institucion)object;
+            
+            textAutoCompleter1.addItem("["+temp.getId()+"] "+temp.getNombre());
+            textAutoCompleter1.setMode(0);
+            
+            textAutoCompleter2.addItem("["+temp.getId()+"] "+temp.getNombre());
+            textAutoCompleter2.setMode(0);
+        }
     }
 }

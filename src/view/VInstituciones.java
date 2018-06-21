@@ -6,7 +6,7 @@
 package view;
 
 import dao.Dao;
-import entities.Cliente;
+import entities.Institucion;
 import fn.Boton;
 import fn.GlobalValues;
 import javax.swing.JOptionPane;
@@ -25,9 +25,10 @@ import javax.swing.table.TableRowSorter;
  *
  * @author home
  */
-public class VClientes extends javax.swing.JPanel {
+public class VInstituciones extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
+    private static Institucion stInstitucion = null;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -38,17 +39,18 @@ public class VClientes extends javax.swing.JPanel {
     /**
      * Creates new form VClientes
      */
-    public VClientes() {
+    public VInstituciones() {
         GlobalValues.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de clientes");
-        load.sincronize(new Cliente());
+        load.sincronize(new Institucion());
         initComponents();
-        modelo.addColumn("Rut");
+        modelo.addColumn("Id");
         modelo.addColumn("Nombre");
         modelo.addColumn("Email");
-        modelo.addColumn("Telefonos");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Comuna");
         tblListar.setModel(modelo);
-        ContentAdmin.lblTitle.setText("Registro de Clientes");
+        ContentAdmin.lblTitle.setText("Instituciones");
         load();
     }
 
@@ -72,49 +74,33 @@ public class VClientes extends javax.swing.JPanel {
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtRutNew = new javax.swing.JTextField();
-        txtNombreNew = new javax.swing.JTextField();
-        txtTelefonoNew1 = new javax.swing.JTextField();
+        txtNombreN = new javax.swing.JTextField();
+        txtTelefonoN = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtEmailNew = new javax.swing.JTextField();
+        txtEmailN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtDireccionNew = new javax.swing.JTextField();
+        txtDireccionN = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtComunaNew = new javax.swing.JTextField();
+        txtComunaN = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtCiudadNew = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        cboSexoNew = new javax.swing.JComboBox<>();
-        jLabel9 = new javax.swing.JLabel();
-        txtTelefonoNew2 = new javax.swing.JTextField();
+        txtCiudadN = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JLabel();
-        chkRut = new javax.swing.JCheckBox();
-        txtFechaNew = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtRut = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
-        txtTelefono1 = new javax.swing.JTextField();
+        txtNombreU = new javax.swing.JTextField();
+        txtTelefonoU = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtEmailU = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JTextField();
+        txtDireccionU = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtComuna = new javax.swing.JTextField();
+        txtComunaU = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        txtCiudad = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        cboSexo = new javax.swing.JComboBox<>();
-        jLabel18 = new javax.swing.JLabel();
-        txtTelefono2 = new javax.swing.JTextField();
+        txtCiudadU = new javax.swing.JTextField();
         btnModificar = new javax.swing.JLabel();
-        btnMostrarFichas1 = new javax.swing.JLabel();
-        txtFecha = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -131,13 +117,13 @@ public class VClientes extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Rut", "Nombre", "Email", "Telefonos"
+                "Id", "Nombre", "Email", "Telefono", "Comuna"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
@@ -240,10 +226,7 @@ public class VClientes extends javax.swing.JPanel {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Agregar cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel1.setText("Rut");
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Crear nuevo registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel2.setText("Nombre");
@@ -251,82 +234,61 @@ public class VClientes extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel3.setText("Teléfonos");
 
-        txtRutNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombreN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtRutNewKeyTyped(evt);
+                txtNombreNKeyTyped(evt);
             }
         });
 
-        txtNombreNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTelefonoN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreNewKeyTyped(evt);
-            }
-        });
-
-        txtTelefonoNew1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefonoNew1KeyTyped(evt);
+                txtTelefonoNKeyTyped(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel4.setText("Email");
 
-        txtEmailNew.addActionListener(new java.awt.event.ActionListener() {
+        txtEmailN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailNewActionPerformed(evt);
+                txtEmailNActionPerformed(evt);
             }
         });
-        txtEmailNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtEmailN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtEmailNewKeyTyped(evt);
+                txtEmailNKeyTyped(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel5.setText("Dirección");
 
-        txtDireccionNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtDireccionN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDireccionNewKeyTyped(evt);
+                txtDireccionNKeyTyped(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel6.setText("Comuna");
 
-        txtComunaNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtComunaN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtComunaNewKeyTyped(evt);
+                txtComunaNKeyTyped(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel7.setText("Ciudad");
 
-        txtCiudadNew.addActionListener(new java.awt.event.ActionListener() {
+        txtCiudadN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCiudadNewActionPerformed(evt);
+                txtCiudadNActionPerformed(evt);
             }
         });
-        txtCiudadNew.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCiudadN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCiudadNewKeyTyped(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel8.setText("Sexo");
-
-        cboSexoNew.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboSexoNew.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel9.setText("Nacimiento");
-
-        txtTelefonoNew2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefonoNew2KeyTyped(evt);
+                txtCiudadNKeyTyped(evt);
             }
         });
 
@@ -343,9 +305,6 @@ public class VClientes extends javax.swing.JPanel {
             }
         });
 
-        chkRut.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
-        chkRut.setText("Extrangero");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -355,92 +314,63 @@ public class VClientes extends javax.swing.JPanel {
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cboSexoNew, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRutNew)
-                            .addComponent(txtNombreNew)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtTelefonoNew1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtTelefonoNew2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtNombreN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(txtTelefonoN))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4))
-                    .addComponent(txtDireccionNew, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudadNew, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtDireccionN, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtEmailNew)
+                        .addComponent(txtEmailN)
                         .addGap(10, 10, 10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaNew)
+                        .addComponent(txtComunaN, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtFechaNew, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(chkRut)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtRutNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkRut))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombreNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtTelefonoNew1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefonoN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtEmailNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefonoNew2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmailN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtDireccionNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccionN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(txtComunaNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtComunaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtCiudadNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFechaNew, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8)
-                                .addComponent(cboSexoNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)))
-                        .addContainerGap())
+                            .addComponent(txtCiudadN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(45, Short.MAX_VALUE))
                     .addComponent(btnGuardar)))
         );
 
         jPanel3.setBackground(new java.awt.Color(108, 217, 186));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Abrir cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel10.setText("Rut");
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Editar registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel11.setText("Nombre");
@@ -448,82 +378,61 @@ public class VClientes extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel12.setText("Fonos");
 
-        txtRut.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombreU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtRutKeyTyped(evt);
+                txtNombreUKeyTyped(evt);
             }
         });
 
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTelefonoU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreKeyTyped(evt);
-            }
-        });
-
-        txtTelefono1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefono1KeyTyped(evt);
+                txtTelefonoUKeyTyped(evt);
             }
         });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel13.setText("Email");
 
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+        txtEmailU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
+                txtEmailUActionPerformed(evt);
             }
         });
-        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtEmailU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtEmailKeyTyped(evt);
+                txtEmailUKeyTyped(evt);
             }
         });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel14.setText("Dirección");
 
-        txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtDireccionU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDireccionKeyTyped(evt);
+                txtDireccionUKeyTyped(evt);
             }
         });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel15.setText("Comuna");
 
-        txtComuna.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtComunaU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtComunaKeyTyped(evt);
+                txtComunaUKeyTyped(evt);
             }
         });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel16.setText("Ciudad");
 
-        txtCiudad.addActionListener(new java.awt.event.ActionListener() {
+        txtCiudadU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCiudadActionPerformed(evt);
+                txtCiudadUActionPerformed(evt);
             }
         });
-        txtCiudad.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCiudadU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCiudadKeyTyped(evt);
-            }
-        });
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel17.setText("Sexo");
-
-        cboSexo.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel18.setText("Nacimiento");
-
-        txtTelefono2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefono2KeyTyped(evt);
+                txtCiudadUKeyTyped(evt);
             }
         });
 
@@ -540,19 +449,6 @@ public class VClientes extends javax.swing.JPanel {
             }
         });
 
-        btnMostrarFichas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_List_50px.png"))); // NOI18N
-        btnMostrarFichas1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMostrarFichas1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnMostrarFichas1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnMostrarFichas1MouseExited(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -562,82 +458,57 @@ public class VClientes extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel18))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRut)
-                            .addComponent(txtNombre)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtNombreU, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(txtTelefonoU))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13))
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudad, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtDireccionU, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCiudadU, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtEmail)
+                        .addComponent(txtEmailU)
                         .addGap(10, 10, 10))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComuna)
+                        .addComponent(txtComunaU, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
-                        .addComponent(btnMostrarFichas1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnModificar)
                         .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefonoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmailU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccionU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(txtComuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtComunaU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel17)
-                            .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnModificar)
-                    .addComponent(btnMostrarFichas1)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16)
+                        .addComponent(txtCiudadU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnModificar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -667,156 +538,124 @@ public class VClientes extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtEmailNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailNewActionPerformed
+    private void txtEmailNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailNActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailNewActionPerformed
+    }//GEN-LAST:event_txtEmailNActionPerformed
 
-    private void txtCiudadNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadNewActionPerformed
+    private void txtCiudadNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadNActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCiudadNewActionPerformed
+    }//GEN-LAST:event_txtCiudadNActionPerformed
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+    private void txtEmailUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailUActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
+    }//GEN-LAST:event_txtEmailUActionPerformed
 
-    private void txtCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadActionPerformed
+    private void txtCiudadUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadUActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCiudadActionPerformed
+    }//GEN-LAST:event_txtCiudadUActionPerformed
 
-    private void txtRutNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutNewKeyTyped
-        int largo = 10;
-        if(txtRutNew.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El rut solo debe contener entre 9 y 10 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtRutNewKeyTyped
-
-    private void txtNombreNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNewKeyTyped
+    private void txtNombreNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNKeyTyped
         int largo = 45;
-        if(txtNombreNew.getText().length() >= largo){
+        if(txtNombreN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtNombreNewKeyTyped
+    }//GEN-LAST:event_txtNombreNKeyTyped
 
-    private void txtTelefonoNew1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoNew1KeyTyped
+    private void txtTelefonoNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoNKeyTyped
         int largo = 12;
-        if(txtTelefonoNew1.getText().length() >= largo){
+        if(txtTelefonoN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtTelefonoNew1KeyTyped
+    }//GEN-LAST:event_txtTelefonoNKeyTyped
 
-    private void txtEmailNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailNewKeyTyped
+    private void txtEmailNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailNKeyTyped
         int largo = 45;
-        if(txtEmailNew.getText().length() >= largo){
+        if(txtEmailN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtEmailNewKeyTyped
+    }//GEN-LAST:event_txtEmailNKeyTyped
 
-    private void txtDireccionNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionNewKeyTyped
+    private void txtDireccionNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionNKeyTyped
         int largo = 45;
-        if(txtDireccionNew.getText().length() >= largo){
+        if(txtDireccionN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtDireccionNewKeyTyped
+    }//GEN-LAST:event_txtDireccionNKeyTyped
 
-    private void txtComunaNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaNewKeyTyped
+    private void txtComunaNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaNKeyTyped
         int largo = 45;
-        if(txtComunaNew.getText().length() >= largo){
+        if(txtComunaN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtComunaNewKeyTyped
+    }//GEN-LAST:event_txtComunaNKeyTyped
 
-    private void txtCiudadNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadNewKeyTyped
+    private void txtCiudadNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadNKeyTyped
         int largo = 45;
-        if(txtCiudadNew.getText().length() >= largo){
+        if(txtCiudadN.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtCiudadNewKeyTyped
+    }//GEN-LAST:event_txtCiudadNKeyTyped
 
-    private void txtRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutKeyTyped
-        int largo = 10;
-        if(txtRut.getText().length() >= largo || txtRut.getText().length()<= largo-1){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El rut solo debe contener entre 9 y 10 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtRutKeyTyped
-
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+    private void txtNombreUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUKeyTyped
         int largo = 45;
-        if(txtNombre.getText().length() >= largo){
+        if(txtNombreU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtNombreKeyTyped
+    }//GEN-LAST:event_txtNombreUKeyTyped
 
-    private void txtTelefono1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono1KeyTyped
+    private void txtTelefonoUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoUKeyTyped
         int largo = 12;
-        if(txtTelefono1.getText().length() >= largo){
+        if(txtTelefonoU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtTelefono1KeyTyped
+    }//GEN-LAST:event_txtTelefonoUKeyTyped
 
-    private void txtEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyTyped
+    private void txtEmailUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailUKeyTyped
         int largo = 45;
-        if(txtEmail.getText().length() >= largo){
+        if(txtEmailU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtEmailKeyTyped
+    }//GEN-LAST:event_txtEmailUKeyTyped
 
-    private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
+    private void txtDireccionUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionUKeyTyped
         int largo = 45;
-        if(txtDireccion.getText().length() >= largo){
+        if(txtDireccionU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtDireccionKeyTyped
+    }//GEN-LAST:event_txtDireccionUKeyTyped
 
-    private void txtComunaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaKeyTyped
+    private void txtComunaUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaUKeyTyped
         int largo = 45;
-        if(txtComuna.getText().length() >= largo){
+        if(txtComunaU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtComunaKeyTyped
+    }//GEN-LAST:event_txtComunaUKeyTyped
 
-    private void txtCiudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadKeyTyped
+    private void txtCiudadUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadUKeyTyped
         int largo = 45;
-        if(txtCiudad.getText().length() >= largo){
+        if(txtCiudadU.getText().length() >= largo){
             evt.consume();
             OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_txtCiudadKeyTyped
-
-    private void txtTelefonoNew2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoNew2KeyTyped
-        int largo = 12;
-        if(txtTelefonoNew2.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtTelefonoNew2KeyTyped
-
-    private void txtTelefono2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono2KeyTyped
-        int largo = 12;
-        if(txtTelefono2.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtTelefono2KeyTyped
+    }//GEN-LAST:event_txtCiudadUKeyTyped
 
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
+            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
             
-            abrirCliente(rut);
+            abrirInstitucion(id);
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
@@ -827,17 +666,17 @@ public class VClientes extends javax.swing.JPanel {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            Cliente temp = (Cliente)load.get(rut,0,new Cliente());
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar al cliente "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(rut,0, temp))
-                    OptionPane.showMsg("Eliminar Cliente", "El cliente ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
+            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            Institucion temp = (Institucion)load.get(null,id,new Institucion());
+            if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
+                if(load.delete(null,id, temp))
+                    OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
                 else
-                    OptionPane.showMsg("Eliminar Cliente", "No se pudo eliminar el cliente", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
             cargarDatos("0");
             
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
@@ -848,17 +687,17 @@ public class VClientes extends javax.swing.JPanel {
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Confirmación de cliente", "¿Esta seguro que desea restaurar este cliente?", JOptionPane.INFORMATION_MESSAGE)){
-                if(load.restore(rut, 0, new Cliente())){
-                    OptionPane.showMsg("Restaurar cliente", "El cliente ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+            int id = (int)tblListar.getValueAt(fila, 0);
+            if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+                if(load.restore(null, id, new Institucion())){
+                    OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    OptionPane.showMsg("Restaurar cliente", "No se pudo restaurar el cliente", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
                 }
                 cargarDatos("-1");
             }
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no hay seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
         }
@@ -893,52 +732,31 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        String rut=txtRutNew.getText();
-        if(!ValidaRut.validarRut(rut) && !chkRut.isSelected()){
-            OptionPane.showMsg("Guardar Cliente", "El rut ingresado no existe\n"
-                    + "Si el cliente es extrangero, marque la casilla \"Extrangero\".", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        try {
-            if(load.get(rut,0, new Cliente()) != null){
-                if(!OptionPane.getConfirmation("El cliente ya existe", "El rut o dni ingresados ya existe,\n"
-                        + "¿Desea modificar los nuevos valores ingresados?", JOptionPane.WARNING_MESSAGE))
-                    return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el cliente\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String nombre=txtNombreNew.getText();
+        
+        String nombre=txtNombreN.getText();
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String telefono1=txtTelefonoNew1.getText();
-        String telefono2=txtTelefonoNew2.getText();
-        String mail=txtEmailNew.getText().toLowerCase();
-        if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
+        String telefono=txtTelefonoN.getText();
+        String mail=txtEmailN.getText().toLowerCase();
+        if(telefono.isEmpty() && mail.isEmpty()){
+            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion=GlobalValues.strToName(txtDireccionNew.getText());
-        String comuna=GlobalValues.strToName(txtComunaNew.getText());
-        String ciudad=GlobalValues.strToName(txtCiudadNew.getText());
-        int sexo=cboSexoNew.getSelectedIndex();
-        Date nacimiento = txtFechaNew.getDate();
-        int estado=1;
+        String direccion=GlobalValues.strToName(txtDireccionN.getText());
+        String comuna=GlobalValues.strToName(txtComunaN.getText());
+        String ciudad=GlobalValues.strToName(txtCiudadN.getText());
 
-        Cliente cliente= new Cliente(rut, nombre, telefono1,telefono2, mail, direccion, comuna, ciudad, sexo, nacimiento, estado,null,0);
+        Institucion institucion= new Institucion(GlobalValues.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail, direccion, comuna, ciudad, 1, null, 0);
         try {
-            load.add(cliente);
+            load.add(institucion);
         } catch (InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar el cliente\n\n"
+                    + "No se pudo insertar la institucion\n\n"
                     + ex, JOptionPane.ERROR_MESSAGE);
         }
         cargarDatos("0");
@@ -953,29 +771,35 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        String rut = txtRut.getText();
-        String nombre= txtNombre.getText();
+        String nombre= txtNombreU.getText();
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Modificar Cliente", "El cliente debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String telefono1 = txtTelefono1.getText();
-        String telefono2 = txtTelefono2.getText();
-        String email = txtEmail.getText();
-        String direccion = GlobalValues.strToName(txtDireccion.getText());
-        String comuna = GlobalValues.strToName(txtComuna.getText());
-        String ciudad = GlobalValues.strToName(txtCiudad.getText());
-        int sexo = cboSexo.getSelectedIndex();
-        Date nacimiento = txtFecha.getDate();
-        int estado = 1;
+        String telefono = txtTelefonoU.getText();
+        String email = txtEmailU.getText();
+        if(telefono.isEmpty() && email.isEmpty()){
+            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
+                    + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String direccion = GlobalValues.strToName(txtDireccionU.getText());
+        String comuna = GlobalValues.strToName(txtComunaU.getText());
+        String ciudad = GlobalValues.strToName(txtCiudadU.getText());
         
-        Cliente cliente = new Cliente(rut, nombre, telefono1,telefono2, email, direccion, comuna, ciudad, sexo, nacimiento, estado,null,0);
-        if(load.update(cliente))
-            OptionPane.showMsg("Modificar Cliente", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
+        stInstitucion.setCiudad(ciudad);
+        stInstitucion.setComuna(comuna);
+        stInstitucion.setDireccion(direccion);
+        stInstitucion.setEmail(email);
+        stInstitucion.setNombre(nombre);
+        stInstitucion.setTelefono(telefono);
+        
+        if(load.update(stInstitucion))
+            OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
         else
-            OptionPane.showMsg("Modificar Cliente", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar Institucion", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
         cargarDatos("0");
     }//GEN-LAST:event_btnModificarMouseClicked
 
@@ -986,24 +810,6 @@ public class VClientes extends javax.swing.JPanel {
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnModificar.getIcon().toString()))));// TODO add your handling code here:
     }//GEN-LAST:event_btnModificarMouseExited
-
-    private void btnMostrarFichas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseClicked
-//        String rut = txtRut.getText();
-//        try {
-//            GlobalValues.TMP_LIST_FICHAS = load.listarPorRut(rut);
-//            boton.fichas();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Error desconocido: "+ex.getMessage(),"Cargar Datos",JOptionPane.WARNING_MESSAGE);
-//        }
-    }//GEN-LAST:event_btnMostrarFichas1MouseClicked
-
-    private void btnMostrarFichas1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseEntered
-        btnMostrarFichas1.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnMostrarFichas1.getIcon().toString()))));// TODO add your handling code here:
-    }//GEN-LAST:event_btnMostrarFichas1MouseEntered
-
-    private void btnMostrarFichas1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseExited
-        btnMostrarFichas1.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnMostrarFichas1.getIcon().toString()))));// TODO add your handling code here:
-    }//GEN-LAST:event_btnMostrarFichas1MouseExited
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
@@ -1033,22 +839,14 @@ public class VClientes extends javax.swing.JPanel {
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;
-    private javax.swing.JLabel btnMostrarFichas1;
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JComboBox<String> cboMostrar;
-    private javax.swing.JComboBox<String> cboSexo;
-    private javax.swing.JComboBox<String> cboSexoNew;
-    private javax.swing.JCheckBox chkRut;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1056,8 +854,6 @@ public class VClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1065,36 +861,20 @@ public class VClientes extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCiudad;
-    private javax.swing.JTextField txtCiudadNew;
-    private javax.swing.JTextField txtComuna;
-    private javax.swing.JTextField txtComunaNew;
-    private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtDireccionNew;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtEmailNew;
-    private com.toedter.calendar.JDateChooser txtFecha;
-    private com.toedter.calendar.JDateChooser txtFechaNew;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNombreNew;
-    private javax.swing.JTextField txtRut;
-    private javax.swing.JTextField txtRutNew;
-    private javax.swing.JTextField txtTelefono1;
-    private javax.swing.JTextField txtTelefono2;
-    private javax.swing.JTextField txtTelefonoNew1;
-    private javax.swing.JTextField txtTelefonoNew2;
+    private javax.swing.JTextField txtCiudadN;
+    private javax.swing.JTextField txtCiudadU;
+    private javax.swing.JTextField txtComunaN;
+    private javax.swing.JTextField txtComunaU;
+    private javax.swing.JTextField txtDireccionN;
+    private javax.swing.JTextField txtDireccionU;
+    private javax.swing.JTextField txtEmailN;
+    private javax.swing.JTextField txtEmailU;
+    private javax.swing.JTextField txtNombreN;
+    private javax.swing.JTextField txtNombreU;
+    private javax.swing.JTextField txtTelefonoN;
+    private javax.swing.JTextField txtTelefonoU;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarCbos(){
-        cboSexo.removeAllItems();
-        cboSexo.addItem("Sin Seleccionar");
-        cboSexo.addItem("Femenino");
-        cboSexo.addItem("Masculino");
-        cboSexoNew.removeAllItems();
-        cboSexoNew.addItem("Sin Seleccionar");
-        cboSexoNew.addItem("Femenino");
-        cboSexoNew.addItem("Masculino");
-    }
     
     private void load(){
         if(cboMostrar.getSelectedIndex()==0){//en nueva version cargar ventana completa con lista de clientes estatica global
@@ -1104,7 +884,6 @@ public class VClientes extends javax.swing.JPanel {
         }
     }
     private void cargarDatos(String listar) {
-        cargarCbos();
         limpiarTextField();
         if(listar.equals("-1")){
             btnRestaurar.setVisible(true);
@@ -1117,25 +896,21 @@ public class VClientes extends javax.swing.JPanel {
             btnAbrir.setVisible(true);
             btnModificar.setVisible(true);
         }
-            
-        txtRut.setEditable(false);
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new Cliente())) {
-                Cliente temp = (Cliente)object;
-                String tel =temp.getTelefono1();
-                Object[] fila = new Object[4];
-                fila[0] = temp.getCod();
+            for (Object object : load.listar(listar, new Institucion())) {
+                Institucion temp = (Institucion)object;
+                Object[] fila = new Object[5];
+                fila[0] = temp.getId();
                 fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
-                if(!temp.getTelefono2().isEmpty())
-                    tel = tel +" / "+temp.getTelefono2();
-                fila[3] = tel;
+                fila[3] = temp.getTelefono();
+                fila[4] = temp.getComuna();
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("No existen clientes", "No existen clientes registrados.",JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("No existen Instituciones", "No existen instituciones registradas.",JOptionPane.INFORMATION_MESSAGE);
             }
             
         }catch(Exception e){
@@ -1143,75 +918,54 @@ public class VClientes extends javax.swing.JPanel {
         }
     }
 
-    private void abrirCliente(String rut) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-            Cliente temp = (Cliente)load.get(rut,0,new Cliente());
-            if(temp!=null){
-                txtRut.setText(temp.getCod());
-                if(temp.getNombre().isEmpty() || temp.getNombre().equals("null"))
-                    txtNombre.setText("");
+    private void abrirInstitucion(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            stInstitucion = (Institucion)load.get(null,id,new Institucion());
+            if(stInstitucion!=null){
+                if(stInstitucion.getNombre().isEmpty() || stInstitucion.getNombre().equals("null"))
+                    txtNombreU.setText("");
                 else
-                    txtNombre.setText(temp.getNombre());
-                if(temp.getCiudad().isEmpty() || temp.getCiudad().equals("null"))
-                    txtCiudad.setText("");
+                    txtNombreU.setText(stInstitucion.getNombre());
+                if(stInstitucion.getCiudad().isEmpty() || stInstitucion.getCiudad().equals("null"))
+                    txtCiudadU.setText("");
                 else
-                    txtCiudad.setText(temp.getCiudad());
-                if(temp.getComuna().isEmpty() || temp.getComuna().equals("null"))
-                    txtComuna.setText("");
+                    txtCiudadU.setText(stInstitucion.getCiudad());
+                if(stInstitucion.getComuna().isEmpty() || stInstitucion.getComuna().equals("null"))
+                    txtComunaU.setText("");
                 else
-                    txtComuna.setText(temp.getComuna());
-                if(temp.getDireccion().isEmpty() || temp.getDireccion().equals("null"))
-                    txtDireccion.setText("");
+                    txtComunaU.setText(stInstitucion.getComuna());
+                if(stInstitucion.getDireccion().isEmpty() || stInstitucion.getDireccion().equals("null"))
+                    txtDireccionU.setText("");
                 else
-                    txtDireccion.setText(temp.getDireccion());
-                txtFecha.setDate(temp.getNacimiento());
-                if(temp.getTelefono1().isEmpty() || temp.getTelefono1().equals("null")){
-                    txtTelefono1.setText("");
+                    txtDireccionU.setText(stInstitucion.getDireccion());
+                if(stInstitucion.getTelefono().isEmpty() || stInstitucion.getTelefono().equals("null")){
+                    txtTelefonoU.setText("");
                 }else{
-                    txtTelefono1.setText(temp.getTelefono1());
+                    txtTelefonoU.setText(stInstitucion.getTelefono());
                 }
-                if(temp.getTelefono2().isEmpty() || temp.getTelefono2().equals("null")){
-                    txtTelefono2.setText("");
-                }else{
-                    txtTelefono2.setText(temp.getTelefono2());
-                }
-                if(temp.getEmail().isEmpty() || temp.getEmail().equals("null"))
-                    txtEmail.setText("");
+                if(stInstitucion.getEmail().isEmpty() || stInstitucion.getEmail().equals("null"))
+                    txtEmailU.setText("");
                 else
-                    txtEmail.setText(temp.getEmail());
-                
-                cboSexo.setSelectedIndex(temp.getSexo());
+                    txtEmailU.setText(stInstitucion.getEmail());
                 
             }else{
-                OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
+                OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
             }
     }
 
     private void limpiarTextField() {
-        txtRut.setText("");
-        txtCiudad.setText("");
-        txtComuna.setText("");
-        txtDireccion.setText("");
-        txtEmail.setText("");
-        txtNombre.setText("");
-        txtTelefono1.setText("");
-        txtTelefono2.setText("");
-        cboSexo.removeAllItems();
-        cboSexo.addItem("Sin Seleccionar");
-        cboSexo.addItem("Femenino");
-        cboSexo.addItem("Masculino");
-        txtRutNew.setText("");
-        txtCiudadNew.setText("");
-        txtComunaNew.setText("");
-        txtDireccionNew.setText("");
-        txtEmailNew.setText("");
-        txtNombreNew.setText("");
-        txtTelefonoNew1.setText("");
-        txtTelefonoNew2.setText("");
-        cboSexoNew.removeAllItems();
-        cboSexoNew.addItem("Sin Seleccionar");
-        cboSexoNew.addItem("Femenino");
-        cboSexoNew.addItem("Masculino");
+        txtCiudadU.setText("");
+        txtComunaU.setText("");
+        txtDireccionU.setText("");
+        txtEmailU.setText("");
+        txtNombreU.setText("");
+        txtTelefonoU.setText("");
+        txtCiudadN.setText("");
+        txtComunaN.setText("");
+        txtDireccionN.setText("");
+        txtEmailN.setText("");
+        txtNombreN.setText("");
+        txtTelefonoN.setText("");
     }
 }
