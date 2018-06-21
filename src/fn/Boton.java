@@ -9,6 +9,10 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 import static view.ContentAdmin.principalAdmin;
 import view.VClientes;
+import view.VConvenios;
+import view.VCristales;
+import view.VDescuentos;
+import view.VInstituciones;
 import view.VUsuarios;
 
 /**
@@ -61,15 +65,7 @@ public class Boton {
 //    }
 //    
 //    
-//    public void descuentos() throws SQLException, ClassNotFoundException{
-//        VDescuentos p1 = new VDescuentos();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
+    
 //    
 //    public void tipoPago() throws SQLException, ClassNotFoundException{
 //        VTipoPago p1 = new VTipoPago();
@@ -91,8 +87,58 @@ public class Boton {
 //        principalAdmin.repaint();
 //    }
 //    
+    public void cristales() throws SQLException, ClassNotFoundException {
+        VCristales p1 = new VCristales();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
     public void clientes() throws SQLException, ClassNotFoundException{
         VClientes p1 = new VClientes();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
+    public void convenios() throws SQLException, ClassNotFoundException {
+        VConvenios p1 = new VConvenios();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
+    public void descuentos() throws SQLException, ClassNotFoundException{
+        VDescuentos p1 = new VDescuentos();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
+    public void instituciones() throws SQLException, ClassNotFoundException{
+        VInstituciones p1 = new VInstituciones();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
+    public void usuarios() throws SQLException, ClassNotFoundException {
+        VUsuarios p1 = new VUsuarios();
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         principalAdmin.removeAll();
@@ -111,15 +157,7 @@ public class Boton {
 //        principalAdmin.repaint();
 //    }
 //    
-//    public void instituciones() throws SQLException, ClassNotFoundException{
-//        VInstituciones p1 = new VInstituciones();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
+    
 //    
 //    public void fichas() throws SQLException, ClassNotFoundException{
 //        VMostrarFichas p1 = new VMostrarFichas();
@@ -149,15 +187,7 @@ public class Boton {
 //        p1.setVisible(true);
 //    }
 //
-//    public void cristales() throws SQLException, ClassNotFoundException {
-//        VCristales p1 = new VCristales();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
+    
 //
 //    public void lentes() throws SQLException, ClassNotFoundException {
 //        VLentes p1 = new VLentes();
@@ -179,15 +209,7 @@ public class Boton {
 //        principalAdmin.repaint();
 //    }
 
-    public void usuarios() throws SQLException, ClassNotFoundException {
-        VUsuarios p1 = new VUsuarios();
-        p1.setSize(ancho, alto);
-        p1.setLocation(locat, locat);
-        principalAdmin.removeAll();
-        principalAdmin.add(p1,BorderLayout.CENTER);
-        principalAdmin.revalidate();
-        principalAdmin.repaint();
-    }
+    
 //
 //    public void reporteVentas() throws SQLException, ClassNotFoundException {
 //        VReporteFichas p1 = new VReporteFichas();
