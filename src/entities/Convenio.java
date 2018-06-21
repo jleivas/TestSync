@@ -26,7 +26,7 @@ public class Convenio extends SyncIntId{
     public Convenio() {
     }
 
-    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento,int estado, int idInstitucion, Date lastUpdate,int lastHour) {
+    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
         setId(id);
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
