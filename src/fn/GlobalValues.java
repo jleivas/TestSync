@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -217,13 +218,26 @@ public class GlobalValues {
     }
     
     public static String strToName(String param){
-        if(param == null)
-            return null;
+        if(param == null || param.isEmpty())
+            return "";
         String[] str = param.split(" ");
         String value = null;
         for (String temp : str) {
             value = value + " " + Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
         }
         return value.replaceFirst("null", "").replaceFirst(" ", "");
+    }
+    
+    public static String strToPrice(int monto){
+        DecimalFormat formateador = new DecimalFormat("###,###,###");
+        return "$ "+formateador.format (monto);
+    }
+
+    public static boolean strCompare(String str1, String str2) {
+        str1 = str1.toLowerCase();
+        str1 = str1.replaceAll(" ", "");
+        str2 = str2.toLowerCase();
+        str2 = str2.replaceAll(" ", "");
+        return str1.equals(str2);
     }
 }
