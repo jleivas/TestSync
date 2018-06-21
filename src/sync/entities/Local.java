@@ -20,6 +20,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import fn.GlobalValues;
 
 import fn.Log;
 import fn.OptionPane;
@@ -1389,7 +1390,7 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Descuento){
                 for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
-                    if (((Descuento) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
+                    if (GlobalValues.strCompare(((Descuento) object).getNombre(),cod)) {
                         return object;
                     }
                 }
@@ -1581,11 +1582,11 @@ public class Local implements InterfaceSync {
                     + object.getId()+ ",'"
                     + object.getNombre() + "','"
                     + sqlfecha1+ "','"
-                    + sqlfecha2+ "','"
-                    + object.getCuotas()+ "','"
-                    + object.getMontoMaximo()+ "','"
-                    + object.getMontoPp()+ "','"
-                    + object.getMaximoClientes()+ "',"
+                    + sqlfecha2+ "',"
+                    + object.getCuotas()+ ","
+                    + object.getMontoMaximo()+ ","
+                    + object.getMontoPp()+ ","
+                    + object.getMaximoClientes()+ ","
                     + object.getIdDescuento()+ ","
                     + object.getIdInstitucion()+ ","
                     + object.getEstado() + ",'"
@@ -1781,8 +1782,8 @@ public class Local implements InterfaceSync {
                         + ", cnv_estado = " + object.getEstado()
                         + ", cnv_last_update = '" + sqlfecha3
                         + "', cnv_last_hour = " + object.getLastHour()
-                        + " WHERE cnv_id = '" + object.getId()
-                        + "' AND ((cnv_last_update < '"+sqlfecha3+"')OR"
+                        + " WHERE cnv_id = " + object.getId()
+                        + " AND ((cnv_last_update < '"+sqlfecha3+"')OR"
                         + "(cnv_last_update = '"+sqlfecha3+"' AND cnv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Cristal){
