@@ -660,7 +660,7 @@ public class VUsuarios extends javax.swing.JPanel {
             return;
         }
             
-        User user = new User(0, nombre, username, email, pass, tipo, 1, null, 0);
+        User user = new User(0, GlobalValues.strToName(nombre), username, email, pass, tipo, 1, null, 0);
         User temp = null;
         try {
             temp = (User)load.get(username, 0, staticUser);
@@ -686,7 +686,7 @@ public class VUsuarios extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         staticUser.setEmail(txtUpdateEmail.getText());
-        staticUser.setNombre(txtUpdateName.getText());
+        staticUser.setNombre(GlobalValues.strToName(txtUpdateName.getText()));
         staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
         staticUser.setTipo(cboUpdateType.getSelectedIndex());
         staticUser.setUsername(txtUpdateUsername.getText());
