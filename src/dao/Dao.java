@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
@@ -249,6 +250,15 @@ public class Dao{
                         sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
                     }
                 }
+                /*Convenio*/
+                if(type instanceof Convenio){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Convenio())) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Convenio)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,new Convenio())) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Convenio)object);
+                    }
+                }
                 /*Cristal*/
                 if(type instanceof Cristal){
                     for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,new Cristal())) {
@@ -364,6 +374,9 @@ public class Dao{
             }else{
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (User)object);
+                }
+                for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Convenio())) {//falta opcion en listar
+                    sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Convenio)object);
                 }
                 for (Object object : GlobalValues.LOCAL_SYNC.listar("-2",new Cliente())) {//falta opcion en listar
                     sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Cliente)object);
