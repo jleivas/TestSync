@@ -440,7 +440,7 @@ public class Local implements InterfaceSync {
             }
             if(objectParam instanceof Inventario){
                 Inventario object = (Inventario)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id='" + object.getCod()+ "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha = new Date();
@@ -865,7 +865,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getInt("inv_id"),
+                        datos.getString("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -1215,7 +1215,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getInt("inv_id"),
+                        datos.getString("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -1417,8 +1417,8 @@ public class Local implements InterfaceSync {
                 }
             }
             if(type instanceof Inventario){
-                for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
-                    if (((Inventario) object).getId() == id) {
+                for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                    if (((Inventario) object).getCod()== cod) {
                         return object;
                     }
                 }
@@ -1521,7 +1521,7 @@ public class Local implements InterfaceSync {
             }
         }
         if (object instanceof Inventario) {
-            if (getElement(null,((Inventario) object).getId(),object) != null) {
+            if (getElement(((Inventario) object).getCod(),0,object) != null) {
                 return true;
             }
         }
@@ -1658,8 +1658,8 @@ public class Local implements InterfaceSync {
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO inventario VALUES("
-                            + object.getId()+ ",'"
+            return  "INSERT INTO inventario VALUES('"
+                            + object.getCod()+ "','"
                             + object.getNombre() + "','"
                             + object.getDescripcion()+ "',"
                             + object.getEstado() + ",'"
@@ -1861,8 +1861,8 @@ public class Local implements InterfaceSync {
                         + "', inv_estado = " + object.getEstado()
                         + ", inv_last_update = '" + sqlfecha
                         + "', inv_last_hour = " + object.getLastHour()
-                        + " WHERE inv_id = " + object.getId()
-                        + " AND ((inv_last_update < '"+sqlfecha+"')OR"
+                        + " WHERE inv_id = '" + object.getCod()
+                        + "' AND ((inv_last_update < '"+sqlfecha+"')OR"
                         + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Lente){
@@ -1946,5 +1946,16 @@ public class Local implements InterfaceSync {
                         + "(us_last_update = '"+sqlfecha+"' AND us_last_hour < "+object.getLastHour()+"))";
         }
         return null;
+    }
+    /**
+     * Retorna el cod de la entidad ingresada por parámetros (Equipo-id)
+     * donde equipo es el numero correlativo consultado en la bd equipos asignada a
+     * la dirección mac del equipo actual e id es el numero correlativo de los
+     * registros insertados en la bd por el mismo equipo
+     * @param type
+     * @return 
+     */
+    public static String getMaxCod(Object type){
+        return "null";
     }
 }

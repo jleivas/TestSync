@@ -6,13 +6,14 @@
 package view;
 
 import dao.Dao;
-import entities.Institucion;
+import entities.Doctor;
 import fn.Boton;
 import fn.GlobalValues;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
+import fn.ValidaRut;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -23,10 +24,10 @@ import javax.swing.table.TableRowSorter;
  *
  * @author home
  */
-public class VInstituciones extends javax.swing.JPanel {
+public class VDoctores extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
-    private static Institucion stInstitucion = null;
+    private static Doctor stDoctor = null;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -37,18 +38,17 @@ public class VInstituciones extends javax.swing.JPanel {
     /**
      * Creates new form VClientes
      */
-    public VInstituciones() {
+    public VDoctores() {
         GlobalValues.IS_ONLINE = true;
-        ContentAdmin.lblTitle.setText("Registro de institucion.");
-        load.sincronize(new Institucion());
+        ContentAdmin.lblTitle.setText("Registro de clientes");
+//        load.sincronize(new Doctor());
         initComponents();
-        modelo.addColumn("Id");
+        modelo.addColumn("Rut");
         modelo.addColumn("Nombre");
         modelo.addColumn("Email");
         modelo.addColumn("Telefono");
-        modelo.addColumn("Comuna");
         tblListar.setModel(modelo);
-        ContentAdmin.lblTitle.setText("Instituciones");
+        ContentAdmin.lblTitle.setText("Doctores");
         load();
     }
 
@@ -78,13 +78,10 @@ public class VInstituciones extends javax.swing.JPanel {
         txtTelefonoN = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtEmailN = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtDireccionN = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtComunaN = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtCiudadN = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JLabel();
+        txtRutN = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        chkRut = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -92,13 +89,9 @@ public class VInstituciones extends javax.swing.JPanel {
         txtTelefonoU = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtEmailU = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        txtDireccionU = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        txtComunaU = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        txtCiudadU = new javax.swing.JTextField();
         btnModificar = new javax.swing.JLabel();
+        txtRutU = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -230,7 +223,7 @@ public class VInstituciones extends javax.swing.JPanel {
         jLabel2.setText("Nombre");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel3.setText("Teléfonos");
+        jLabel3.setText("Teléfono");
 
         txtNombreN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -258,38 +251,6 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel5.setText("Dirección");
-
-        txtDireccionN.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDireccionNKeyTyped(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel6.setText("Comuna");
-
-        txtComunaN.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtComunaNKeyTyped(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel7.setText("Ciudad");
-
-        txtCiudadN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCiudadNActionPerformed(evt);
-            }
-        });
-        txtCiudadN.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCiudadNKeyTyped(evt);
-            }
-        });
-
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
         btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -303,45 +264,55 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
+        txtRutN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutNKeyTyped(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel5.setText("Rut");
+
+        chkRut.setText("Extrangero");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombreN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(txtTelefonoN))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4))
-                    .addComponent(txtDireccionN, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombreN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(txtTelefonoN)
+                    .addComponent(txtRutN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtEmailN)
                         .addGap(10, 10, 10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaN, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                        .addGap(0, 365, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addContainerGap())))
+                        .addComponent(chkRut)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRutN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(chkRut))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -352,19 +323,7 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(txtEmailN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtDireccionN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtComunaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtCiudadN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(45, Short.MAX_VALUE))
-                    .addComponent(btnGuardar)))
+                .addComponent(btnGuardar))
         );
 
         jPanel3.setBackground(new java.awt.Color(108, 217, 186));
@@ -374,7 +333,7 @@ public class VInstituciones extends javax.swing.JPanel {
         jLabel11.setText("Nombre");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel12.setText("Fonos");
+        jLabel12.setText("Telefono");
 
         txtNombreU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -402,38 +361,6 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel14.setText("Dirección");
-
-        txtDireccionU.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDireccionUKeyTyped(evt);
-            }
-        });
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel15.setText("Comuna");
-
-        txtComunaU.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtComunaUKeyTyped(evt);
-            }
-        });
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel16.setText("Ciudad");
-
-        txtCiudadU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCiudadUActionPerformed(evt);
-            }
-        });
-        txtCiudadU.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCiudadUKeyTyped(evt);
-            }
-        });
-
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -447,38 +374,43 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
+        txtRutU.setEditable(false);
+        txtRutU.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutUKeyTyped(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel14.setText("Rut");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombreU, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(txtTelefonoU))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel13))
-                    .addComponent(txtDireccionU, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudadU, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombreU, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(txtTelefonoU)
+                    .addComponent(txtRutU, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(txtEmailU)
                         .addGap(10, 10, 10))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaU, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 363, Short.MAX_VALUE)
                         .addComponent(btnModificar)
                         .addContainerGap())))
         );
@@ -486,6 +418,10 @@ public class VInstituciones extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRutU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -496,17 +432,7 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(txtEmailU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtDireccionU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(txtComunaU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel16)
-                        .addComponent(txtCiudadU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnModificar)))
+                .addComponent(btnModificar))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -540,17 +466,9 @@ public class VInstituciones extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailNActionPerformed
 
-    private void txtCiudadNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCiudadNActionPerformed
-
     private void txtEmailUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailUActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailUActionPerformed
-
-    private void txtCiudadUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCiudadUActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCiudadUActionPerformed
 
     private void txtNombreNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNKeyTyped
         int largo = 45;
@@ -576,30 +494,6 @@ public class VInstituciones extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtEmailNKeyTyped
 
-    private void txtDireccionNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionNKeyTyped
-        int largo = 45;
-        if(txtDireccionN.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtDireccionNKeyTyped
-
-    private void txtComunaNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaNKeyTyped
-        int largo = 45;
-        if(txtComunaN.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtComunaNKeyTyped
-
-    private void txtCiudadNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadNKeyTyped
-        int largo = 45;
-        if(txtCiudadN.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtCiudadNKeyTyped
-
     private void txtNombreUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUKeyTyped
         int largo = 45;
         if(txtNombreU.getText().length() >= largo){
@@ -624,36 +518,12 @@ public class VInstituciones extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtEmailUKeyTyped
 
-    private void txtDireccionUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionUKeyTyped
-        int largo = 45;
-        if(txtDireccionU.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtDireccionUKeyTyped
-
-    private void txtComunaUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComunaUKeyTyped
-        int largo = 45;
-        if(txtComunaU.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtComunaUKeyTyped
-
-    private void txtCiudadUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadUKeyTyped
-        int largo = 45;
-        if(txtCiudadU.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_txtCiudadUKeyTyped
-
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            String rut = tblListar.getValueAt(fila, 0).toString();
             
-            abrirInstitucion(id);
+            abrirDoctor(rut);
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
@@ -664,17 +534,17 @@ public class VInstituciones extends javax.swing.JPanel {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Institucion temp = (Institucion)load.get(null,id,new Institucion());
-            if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(null,id, temp))
-                    OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
+            String rut = tblListar.getValueAt(fila, 0).toString();
+            Doctor temp = (Doctor)load.get(rut,0,new Doctor());
+            if(OptionPane.getConfirmation("Eliminar Doctor", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
+                if(load.delete(rut,0, temp))
+                    OptionPane.showMsg("Eliminar Doctor", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
                 else
-                    OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Eliminar Doctor", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
             cargarDatos("0");
             
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
@@ -685,17 +555,17 @@ public class VInstituciones extends javax.swing.JPanel {
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = (int)tblListar.getValueAt(fila, 0);
-            if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
-                if(load.restore(null, id, new Institucion())){
-                    OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+            String rut = tblListar.getValueAt(fila, 0).toString();
+            if(OptionPane.getConfirmation("Confirmación de Doctor", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+                if(load.restore(rut, 0, new Doctor())){
+                    OptionPane.showMsg("Restaurar Doctor", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar Doctor", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
                 }
                 cargarDatos("-1");
             }
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
                     + "es posible que no hay seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
         }
@@ -730,12 +600,29 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        
+        String rut = txtRutN.getText();
+        if(!ValidaRut.validarRut(rut) && !chkRut.isSelected()){
+            OptionPane.showMsg("Guardar Doctor", "El rut ingresado no existe\n"
+                    + "Si el doctor es extrangero, marque la casilla \"Extrangero\".", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        try {
+            if(load.get(rut,0, new Doctor()) != null){
+                if(!OptionPane.getConfirmation("El Doctor ya existe", "El rut o dni ingresados ya existe,\n"
+                        + "¿Desea modificar los nuevos valores ingresados?", JOptionPane.WARNING_MESSAGE))
+                    return;
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
+                    + "No se pudo insertar el cliente\n\n"
+                    + ex, JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String nombre=txtNombreN.getText();
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Guardar Doctor", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
         String telefono=txtTelefonoN.getText();
@@ -745,16 +632,13 @@ public class VInstituciones extends javax.swing.JPanel {
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion=GlobalValues.strToName(txtDireccionN.getText());
-        String comuna=GlobalValues.strToName(txtComunaN.getText());
-        String ciudad=GlobalValues.strToName(txtCiudadN.getText());
 
-        Institucion institucion= new Institucion(GlobalValues.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail, direccion, comuna, ciudad, 1, null, 0);
+        Doctor doctor= new Doctor(rut, nombre, telefono, mail, 1, null, 0);
         try {
-            load.add(institucion);
+            load.add(doctor);
         } catch (InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la institucion\n\n"
+                    + "No se pudo insertar la doctor\n\n"
                     + ex, JOptionPane.ERROR_MESSAGE);
         }
         cargarDatos("0");
@@ -773,31 +657,25 @@ public class VInstituciones extends javax.swing.JPanel {
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar Doctor", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
         String telefono = txtTelefonoU.getText();
-        String email = txtEmailU.getText();
+        String email = txtEmailU.getText().toLowerCase();
         if(telefono.isEmpty() && email.isEmpty()){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
+            OptionPane.showMsg("Guardar Doctor", "El nuevo registro debe tener al menos un registro de contacto.\n"
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion = GlobalValues.strToName(txtDireccionU.getText());
-        String comuna = GlobalValues.strToName(txtComunaU.getText());
-        String ciudad = GlobalValues.strToName(txtCiudadU.getText());
         
-        stInstitucion.setCiudad(ciudad);
-        stInstitucion.setComuna(comuna);
-        stInstitucion.setDireccion(direccion);
-        stInstitucion.setEmail(email);
-        stInstitucion.setNombre(nombre);
-        stInstitucion.setTelefono(telefono);
+        stDoctor.setEmail(email);
+        stDoctor.setNombre(nombre);
+        stDoctor.setTelefono(telefono);
         
-        if(load.update(stInstitucion))
-            OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
+        if(load.update(stDoctor))
+            OptionPane.showMsg("Modificar Doctor", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
         else
-            OptionPane.showMsg("Modificar Institucion", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar Doctor", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
         cargarDatos("0");
     }//GEN-LAST:event_btnModificarMouseClicked
 
@@ -818,7 +696,6 @@ public class VInstituciones extends javax.swing.JPanel {
 
             @Override
             public void keyReleased(final KeyEvent e) {
-//                trs.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1));
                 trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), 0,1,2,3,4,5,7,8,9,10));
             }
             
@@ -831,6 +708,14 @@ public class VInstituciones extends javax.swing.JPanel {
         tblListar.setRowSorter(trs);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void txtRutNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutNKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutNKeyTyped
+
+    private void txtRutUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutUKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutUKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
@@ -839,19 +724,16 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JLabel btnModificar;
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JComboBox<String> cboMostrar;
+    private javax.swing.JCheckBox chkRut;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -859,16 +741,12 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCiudadN;
-    private javax.swing.JTextField txtCiudadU;
-    private javax.swing.JTextField txtComunaN;
-    private javax.swing.JTextField txtComunaU;
-    private javax.swing.JTextField txtDireccionN;
-    private javax.swing.JTextField txtDireccionU;
     private javax.swing.JTextField txtEmailN;
     private javax.swing.JTextField txtEmailU;
     private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreU;
+    private javax.swing.JTextField txtRutN;
+    private javax.swing.JTextField txtRutU;
     private javax.swing.JTextField txtTelefonoN;
     private javax.swing.JTextField txtTelefonoU;
     // End of variables declaration//GEN-END:variables
@@ -896,19 +774,18 @@ public class VInstituciones extends javax.swing.JPanel {
         }
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new Institucion())) {
-                Institucion temp = (Institucion)object;
+            for (Object object : load.listar(listar, new Doctor())) {
+                Doctor temp = (Doctor)object;
                 Object[] fila = new Object[5];
-                fila[0] = temp.getId();
+                fila[0] = temp.getCod();
                 fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
                 fila[3] = temp.getTelefono();
-                fila[4] = temp.getComuna();
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("No existen Instituciones", "No existen instituciones registradas.",JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("No existen Doctores", "No existen doctores registradas.",JOptionPane.INFORMATION_MESSAGE);
             }
             
         }catch(Exception e){
@@ -916,34 +793,26 @@ public class VInstituciones extends javax.swing.JPanel {
         }
     }
 
-    private void abrirInstitucion(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-            stInstitucion = (Institucion)load.get(null,id,new Institucion());
-            if(stInstitucion!=null){
-                if(stInstitucion.getNombre().isEmpty() || stInstitucion.getNombre().equals("null"))
+    private void abrirDoctor(String rut) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            stDoctor = (Doctor)load.get(rut,0,new Doctor());
+            if(stDoctor!=null){
+                if(stDoctor.getCod().isEmpty() || stDoctor.getCod().equals("null"))
+                    txtRutU.setText("");
+                else
+                    txtRutU.setText(stDoctor.getCod());
+                if(stDoctor.getNombre().isEmpty() || stDoctor.getNombre().equals("null"))
                     txtNombreU.setText("");
                 else
-                    txtNombreU.setText(stInstitucion.getNombre());
-                if(stInstitucion.getCiudad().isEmpty() || stInstitucion.getCiudad().equals("null"))
-                    txtCiudadU.setText("");
-                else
-                    txtCiudadU.setText(stInstitucion.getCiudad());
-                if(stInstitucion.getComuna().isEmpty() || stInstitucion.getComuna().equals("null"))
-                    txtComunaU.setText("");
-                else
-                    txtComunaU.setText(stInstitucion.getComuna());
-                if(stInstitucion.getDireccion().isEmpty() || stInstitucion.getDireccion().equals("null"))
-                    txtDireccionU.setText("");
-                else
-                    txtDireccionU.setText(stInstitucion.getDireccion());
-                if(stInstitucion.getTelefono().isEmpty() || stInstitucion.getTelefono().equals("null")){
+                    txtNombreU.setText(stDoctor.getNombre());
+                if(stDoctor.getTelefono().isEmpty() || stDoctor.getTelefono().equals("null")){
                     txtTelefonoU.setText("");
                 }else{
-                    txtTelefonoU.setText(stInstitucion.getTelefono());
+                    txtTelefonoU.setText(stDoctor.getTelefono());
                 }
-                if(stInstitucion.getEmail().isEmpty() || stInstitucion.getEmail().equals("null"))
+                if(stDoctor.getEmail().isEmpty() || stDoctor.getEmail().equals("null"))
                     txtEmailU.setText("");
                 else
-                    txtEmailU.setText(stInstitucion.getEmail());
+                    txtEmailU.setText(stDoctor.getEmail());
                 
             }else{
                 OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
@@ -953,17 +822,13 @@ public class VInstituciones extends javax.swing.JPanel {
     }
 
     private void limpiarTextField() {
-        txtCiudadU.setText("");
-        txtComunaU.setText("");
-        txtDireccionU.setText("");
         txtEmailU.setText("");
         txtNombreU.setText("");
         txtTelefonoU.setText("");
-        txtCiudadN.setText("");
-        txtComunaN.setText("");
-        txtDireccionN.setText("");
         txtEmailN.setText("");
         txtNombreN.setText("");
         txtTelefonoN.setText("");
+        txtRutN.setText("");
+        txtRutU.setText("");
     }
 }

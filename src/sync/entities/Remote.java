@@ -436,7 +436,7 @@ public class Remote implements InterfaceSync{
             }
             if(objectParam instanceof Inventario){
                 Inventario object = (Inventario)objectParam;
-                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id='" + object.getCod()+ "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha = new Date();
@@ -861,7 +861,7 @@ public class Remote implements InterfaceSync{
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getInt("inv_id"),
+                        datos.getString("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -1211,7 +1211,7 @@ public class Remote implements InterfaceSync{
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getInt("inv_id"),
+                        datos.getString("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -1413,8 +1413,8 @@ public class Remote implements InterfaceSync{
                 }
             }
             if(type instanceof Inventario){
-                for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
-                    if (((Inventario) object).getId() == id) {
+                for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                    if (((Inventario) object).getCod()== cod) {
                         return object;
                     }
                 }
@@ -1517,7 +1517,7 @@ public class Remote implements InterfaceSync{
             }
         }
         if (object instanceof Inventario) {
-            if (getElement(null,((Inventario) object).getId(),object) != null) {
+            if (getElement(((Inventario) object).getCod(),0,object) != null) {
                 return true;
             }
         }
@@ -1654,8 +1654,8 @@ public class Remote implements InterfaceSync{
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO inventario VALUES("
-                            + object.getId()+ ",'"
+            return  "INSERT INTO inventario VALUES('"
+                            + object.getCod()+ "','"
                             + object.getNombre() + "','"
                             + object.getDescripcion()+ "',"
                             + object.getEstado() + ",'"
@@ -1857,8 +1857,8 @@ public class Remote implements InterfaceSync{
                         + "', inv_estado = " + object.getEstado()
                         + ", inv_last_update = '" + sqlfecha
                         + "', inv_last_hour = " + object.getLastHour()
-                        + " WHERE inv_id = " + object.getId()
-                        + " AND ((inv_last_update < '"+sqlfecha+"')OR"
+                        + " WHERE inv_id = '" + object.getCod()
+                        + "' AND ((inv_last_update < '"+sqlfecha+"')OR"
                         + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Lente){

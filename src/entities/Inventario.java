@@ -5,19 +5,22 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author sdx
  */
-public class Inventario extends SyncIntId{
+public class Inventario extends SyncStringId{
     private String nombre;
     private String descripcion;
 
-    public Inventario(int id,String nombre, String descripcion,int estado,Date lastUpdate, int lastHour) {
-        setId(id);
+    public Inventario() {
+    }
+    
+    public Inventario(String cod,String nombre, String descripcion,int estado,Date lastUpdate, int lastHour) {
+        setCod(cod);
         this.nombre = nombre;
         this.descripcion = descripcion;
         setEstado(estado);

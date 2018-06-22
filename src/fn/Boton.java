@@ -12,6 +12,7 @@ import view.VClientes;
 import view.VConvenios;
 import view.VCristales;
 import view.VDescuentos;
+import view.VDoctores;
 import view.VInstituciones;
 import view.VUsuarios;
 
@@ -127,6 +128,16 @@ public class Boton {
         principalAdmin.repaint();
     }
     
+    public void doctores() throws SQLException, ClassNotFoundException{
+        VDoctores p1 = new VDoctores();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
     public void instituciones() throws SQLException, ClassNotFoundException{
         VInstituciones p1 = new VInstituciones();
         p1.setSize(ancho, alto);
@@ -146,16 +157,7 @@ public class Boton {
         principalAdmin.revalidate();
         principalAdmin.repaint();
     }
-//    
-//    public void doctores() throws SQLException, ClassNotFoundException{
-//        VDoctores p1 = new VDoctores();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
+    
 //    
     
 //    

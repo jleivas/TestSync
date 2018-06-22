@@ -55,7 +55,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         
         this.setTitle("Optidata "+GlobalValues.VERSION+"     "+licencia);
         try {
-            boton.convenios();
+            boton.usuarios();
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Es probable que el servidor no se haya iniciado, Inicie el servicio y vuelva a abrir el programa.","Error de conexion",JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);//opcion cerrar
