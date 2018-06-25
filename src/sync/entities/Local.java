@@ -272,6 +272,9 @@ public class Local implements InterfaceSync {
                 }
                 OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
+            }else{
+                OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         }catch(SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
@@ -1946,16 +1949,5 @@ public class Local implements InterfaceSync {
                         + "(us_last_update = '"+sqlfecha+"' AND us_last_hour < "+object.getLastHour()+"))";
         }
         return null;
-    }
-    /**
-     * Retorna el cod de la entidad ingresada por parámetros (Equipo-id)
-     * donde equipo es el numero correlativo consultado en la bd equipos asignada a
-     * la dirección mac del equipo actual e id es el numero correlativo de los
-     * registros insertados en la bd por el mismo equipo
-     * @param type
-     * @return 
-     */
-    public static String getMaxCod(Object type){
-        return "null";
     }
 }

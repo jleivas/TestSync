@@ -6,13 +6,16 @@
 package sync.entities;
 
 import bd.RmBd;
+import entities.Inventario;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
+import entities.ficha.ResF;
 import fn.GlobalValues;
 import fn.Log;
 import fn.OptionPane;
+import fn.date.Cmp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,6 +89,23 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     return true;
                 }
             }
+            if(objectParam instanceof Inventario){
+                Inventario object = (Inventario)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT inv_id FROM inventario WHERE inv_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    RmBd.cerrar();
+                    return update(object);
+                }  
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlInsert(object)
+                               );
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+
+                    return true;
+                }
+            }
             if(objectParam instanceof Ficha){
                 Ficha object = (Ficha)objectParam;
                 
@@ -104,6 +124,9 @@ public class RemoteFicha implements InterfaceSyncFicha{
 
                     return true;
                 }
+            }else{
+                OptionPane.showMsg("Error de tipo de dato", "No se pudo insertar registro en "+className+"."
+                        + "\nTipo de dato no soportado.", JOptionPane.WARNING_MESSAGE);
             }
         }   catch ( ClassNotFoundException | SQLException ex) {
             Logger.getLogger(LocalFicha.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,6 +220,59 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     return true;
                 }
             }
+            if(objectParam instanceof HistorialPago){
+                HistorialPago object = (HistorialPago)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM historial_pago WHERE hp_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha= new Date();
+                    try {
+                        dsp_fecha = datos.getDate("hp_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+
+                    return true;
+                }
+                else{
+                    RmBd.cerrar();
+                    return true;
+                }
+            }if(objectParam instanceof Inventario){
+                Inventario object = (Inventario)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id='"+object.getCod()+"'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha= new Date();
+                    try {
+                        dsp_fecha = datos.getDate("inv_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                if(insert.executeUpdate()!=0){
+                    RmBd.cerrar();
+
+                    return true;
+                }
+                else{
+                    RmBd.cerrar();
+                    return true;
+                }
+            }
             if(objectParam instanceof Ficha){
                 Ficha object = (Ficha)objectParam;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='"+object.getCod()+"'");
@@ -223,6 +299,9 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     RmBd.cerrar();
                     return true;
                 }
+            }else{
+                OptionPane.showMsg("Error de tipo de dato", "No se pudo insertar registro en "+className+"."
+                        + "\nTipo de dato no soportado.", JOptionPane.WARNING_MESSAGE);
             }
         }catch(SQLException | ClassNotFoundException ex){
             Logger.getLogger(Remote.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,6 +414,58 @@ public class RemoteFicha implements InterfaceSyncFicha{
                             , datos.getString("ficha_fch_id")
                             , datos.getDate("hp_last_update")
                             , datos.getInt("hp_last_hour")
+                            )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof ResF){
+                String sql="SELECT fch_id as folio," +
+                "fch_fecha as fecha," +
+                "(SELECT cliente.cli_nombre from cliente where cliente.cli_rut=cliente_cli_rut) as cliente," +
+                "(SELECT cliente.cli_comuna from cliente where cliente.cli_rut=cliente_cli_rut) as comuna," +
+                "(SELECT cliente.cli_ciudad from cliente where cliente.cli_rut=cliente_cli_rut) as ciudad," +
+                "fch_estado as estado," +
+                "fch_valor_total as total," +
+                "(SELECT usuario.us_nombre from usuario where usuario.us_id=usuario_us_id) as vendedor" +
+                "FROM ficha ORDER BY fch_fecha DESC";
+                if(idParam.equals("0")){
+                    sql="SELECT fch_id as folio," +
+                "fch_fecha as fecha," +
+                "(SELECT cliente.cli_nombre from cliente where cliente.cli_rut=cliente_cli_rut) as cliente," +
+                "(SELECT cliente.cli_comuna from cliente where cliente.cli_rut=cliente_cli_rut) as comuna," +
+                "(SELECT cliente.cli_ciudad from cliente where cliente.cli_rut=cliente_cli_rut) as ciudad," +
+                "fch_estado as estado," +
+                "fch_valor_total as total," +
+                "(SELECT usuario.us_nombre from usuario where usuario.us_id=usuario_us_id) as vendedor" +
+                "FROM ficha WHERE fch_estado >= 1 ORDER BY fch_fecha DESC";
+                }
+                if(idParam.equals("-1")){
+                    sql="SELECT fch_id as folio," +
+                "fch_fecha as fecha," +
+                "(SELECT cliente.cli_nombre from cliente where cliente.cli_rut=cliente_cli_rut) as cliente," +
+                "(SELECT cliente.cli_comuna from cliente where cliente.cli_rut=cliente_cli_rut) as comuna," +
+                "(SELECT cliente.cli_ciudad from cliente where cliente.cli_rut=cliente_cli_rut) as ciudad," +
+                "fch_estado as estado," +
+                "fch_valor_total as total," +
+                "(SELECT usuario.us_nombre from usuario where usuario.us_id=usuario_us_id) as vendedor" +
+                "FROM ficha WHERE fch_estado = 0 ORDER BY fch_fecha DESC";
+                }
+                
+        
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new ResF(
+                            datos.getString("folio")
+                            , Cmp.dateToString(datos.getDate("fecha"), "dd/mm/yyyy") 
+                            , datos.getString("cliente")
+                            , datos.getString("comuna")
+                            , datos.getString("ciudad")
+                            , datos.getInt("estado")
+                            , datos.getInt("total")
+                            , datos.getString("vendedor")
                             )
                     );
                 }
@@ -469,19 +600,19 @@ public class RemoteFicha implements InterfaceSyncFicha{
     }
     /**
      * Obtiene el maximo id
-     * @param strParam
+     * @param strParam Si se desea obtener el id de la ficha debe indicarse el id del equipo
      * @param intParam
      * @param objParam
      * @return 
      */
-    @Override
-    public int getMaxId(String strParam, int intParam, Object objParam) {
+    
+    private int getMaxId(String strParam, int intParam, Object objParam) {
         Log.setLog(className,Log.getReg());
         String sql = "";
         try {
             if(objParam instanceof Armazon){
                 if(armIsValid(strParam,intParam)){
-                    sql="SELECT COUNT(*) as id FROM armazon";
+                    sql="SELECT COUNT(*) as id FROM armazon WHERE arm_id LIKE '%"+GlobalValues.EQUIPO+"%'";
                 }else{
                     OptionPane.showMsg("No se puede insertar registro", "Ocurrió un error de duplicación de datos"
                             + "\nPor favor intente nuevamente."
@@ -490,10 +621,16 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 }
             }
             if(objParam instanceof Despacho){
-                sql="SELECT COUNT(*) as id FROM despacho";
+                sql="SELECT COUNT(*) as id FROM despacho WHERE dsp_id LIKE '%"+GlobalValues.EQUIPO+"%'";
             }
             if(objParam instanceof HistorialPago){
-                sql="SELECT COUNT(*) as id FROM historial_pago";
+                sql="SELECT COUNT(*) as id FROM historial_pago WHERE hp_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+            }
+            if(objParam instanceof Inventario){
+                sql="SELECT COUNT(*) as id FROM inventario WHERE inv_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+            }
+            if(objParam instanceof Ficha){
+                sql="SELECT COUNT(*) as id FROM ficha WHERE fch_id LIKE '%"+GlobalValues.EQUIPO+"%'";
             }
             if(sql.contains("SELECT")){
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
@@ -506,13 +643,13 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 return id+1;
             }else 
                 return -1;
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(RemoteFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
     
-    private boolean armIsValid(String idFicha, int tipo) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+    private boolean armIsValid(String idFicha, int tipo) throws ClassNotFoundException, SQLException {
         Log.setLog(className,Log.getReg());
         String sql="SELECT COUNT(*) as cantidad FROM armazon WHERE ficha_fch_id = '"+idFicha+"' and arm_tipo = "+tipo+"";
 
@@ -531,21 +668,43 @@ public class RemoteFicha implements InterfaceSyncFicha{
      * @param intParam válido solo para Armazon
      * @param type Debe ir el tipo de Clase que se necesita
      * @return Id del nuevo registro correlativo con el numero de 
-     * equipo registrado. si es "Error-" o "-0" no se debe continuar con la inserción
+     * equipo registrado. si es null no se debe continuar con la inserción
      */
     @Override
     public String getId(String strParam, int intParam, Object type) {
-        String value = GlobalValues.getIndexId();
-        if(type instanceof Armazon){
-            return value+getMaxId(strParam, intParam, new Armazon());
+        String value = "-"+getIndexId();
+        int id = getMaxId(strParam, intParam, type);
+        if(id < 1)
+            return null;
+        return id+value;
+    }
+    
+    /**
+     * Obtiene el numero del equipo desde la licencia actual para insertar en base de datos
+     * Ejemplo: "7000-1" donde 1 es el número del equipo y 7000 es el id correlativo
+     * @return parte del Id para asignarlo a la respectiva clase
+     */
+    private static int getIndexId(){
+        Log.setLog(className, Log.getReg());
+        int id = 0;
+        try{
+            String sql = "SELECT eq_id as id FROM equipo WHERE eq_nombre = '"+GlobalValues.EQUIPO+"'";
+            
+            if(sql.length()>2){
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    id = datos.getInt("id");
+                }
+                RmBd.cerrar();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            OptionPane.showMsg("Error Fatal", "Se ha detectado un error fatal en su sistema,"
+                    + "\nsi continúa insertando registros puede dañar todos los datos de su empresa."
+                    + "\nLe recomendamos contactarse con su proveedor de software inmediatamente."
+                    + "\nPuede estar siendo víctima de una adulteración de licencia.", JOptionPane.ERROR_MESSAGE);
         }
-        if(type instanceof Despacho){
-            return value+getMaxId(strParam, intParam, new Despacho());
-        }
-        if(type instanceof HistorialPago){
-            return value+getMaxId(strParam, intParam, new HistorialPago());
-        }
-        return value+"0";
+        return id;
     }
 
     private String sqlInsert(Object objectParam) {
@@ -594,10 +753,21 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +object.getCod()+"', '"
                                 +sqlfecha1+"', "
                                 +object.getAbono()+", "
-                                +object.getEstado()+", "
                                 +object.getIdTipoPago()+", '"
-                                +object.getIdFicha()+"', '"
+                                +object.getIdFicha()+"', "
+                                +object.getEstado()+", '"
                                 +sqlfecha2+"', "
+                                +object.getLastHour()+")";
+        }
+        if(objectParam instanceof Inventario){
+            Inventario object = (Inventario)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "INSERT INTO inventario VALUES('"
+                                +object.getCod()+"', '"
+                                +object.getNombre()+"', '"
+                                +object.getDescripcion()+"', "
+                                +object.getEstado()+", '"
+                                +sqlfecha+"', "
                                 +object.getLastHour()+")";
         }
         if(objectParam instanceof Ficha){
@@ -667,7 +837,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +", arm_last_update = '"+sqlfecha
                                 +"',arm_last_hour = "+object.getLastHour()
                                 +" WHERE arm_id = '"+object.getCod()
-                                + "' AND ((arm_last_update < '"+sqlfecha+"')OR"
+                                + "' AND ((arm_last_update < '"+sqlfecha+"') OR"
                                 + "(arm_last_update = '"+sqlfecha+"' AND arm_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Despacho){
@@ -682,7 +852,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +", dsp_last_update = '"+sqlfecha2
                                 +"', dsp_last_hour = "+object.getLastHour()
                                 +" WHERE dsp_id = '"+object.getCod()
-                                + "' AND ((dsp_last_update < '"+sqlfecha2+"')OR"
+                                + "' AND ((dsp_last_update < '"+sqlfecha2+"') OR"
                                 + "(dsp_last_update = '"+sqlfecha2+"' AND dsp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof HistorialPago){
@@ -697,8 +867,20 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +"', hp_last_update = '"+sqlfecha2
                                 +"', hp_last_hour ="+object.getLastHour()
                                 +" WHERE hp_id = '"+object.getCod()
-                                + "' AND ((hp_last_update < '"+sqlfecha2+"')OR"
+                                + "' AND ((hp_last_update < '"+sqlfecha2+"') OR"
                                 + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof Inventario){
+            Inventario object = (Inventario)objectParam;
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE inventario set inv_nombre = '"+object.getNombre()
+                                +"', inv_descripcion = '"+object.getDescripcion()
+                                +"', inv_estado = "+object.getEstado()
+                                +", inv_last_update = '"+sqlfecha
+                                +"', inv_last_hour ="+object.getLastHour()
+                                +" WHERE inv_id = '"+object.getCod()
+                                + "' AND ((inv_last_update < '"+sqlfecha+"') OR"
+                                + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Ficha){
             Ficha object = (Ficha)objectParam;

@@ -167,7 +167,7 @@ public class Send {
             height = 50;
             color1 =  turquesa;
             
-            sendMail("Reporte de error en equipo: "+GlobalValues.LOCAL_ID+", Optica: "+GlobalValues.COMPANY_NAME,
+            sendMail("Reporte de error en equipo: "+GlobalValues.EQUIPO+", Optica: "+GlobalValues.COMPANY_NAME,
                     GlobalValues.MAIL_REPORT, title, content,
                     "Usuario: "+GlobalValues.USER.getUsername(), GlobalValues.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 

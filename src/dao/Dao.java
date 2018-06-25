@@ -11,6 +11,7 @@ import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Institucion;
+import entities.Inventario;
 import entities.Lente;
 import entities.Oficina;
 import entities.RegistroBaja;
@@ -293,6 +294,15 @@ public class Dao{
                     }
                     for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
                         sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Institucion)object);
+                    }
+                }
+                /*Institucion*/
+                if(type instanceof Inventario){
+                    for (Object object : GlobalValues.REMOTE_SYNC_FICHA.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC_FICHA, GlobalValues.REMOTE_SYNC_FICHA, (Inventario)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC_FICHA.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC_FICHA, GlobalValues.REMOTE_SYNC_FICHA, (Inventario)object);
                     }
                 }
                 /*Lente*/

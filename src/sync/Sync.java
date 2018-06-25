@@ -19,9 +19,7 @@ public class Sync {
      * Add or update new objct in static variables, local data base and remote data base.
      * @param localData
      * @param remoteData
-     * @param globalData
      * @param object
-     * @param objectId
      * @return true if insert in static variables and local data base or remote data base, false if don't insert in static variables
      * @throws SQLException
      * @throws ClassNotFoundException 
@@ -33,7 +31,24 @@ public class Sync {
             remoteData.add(object);
         }
         return true;
+    }
+    /**
+     * Add or update new object in static variables, local data base and remote data base.
+     * @param localData
+     * @param remoteData
+     * @param object
+     * @return true if insert in static variables and local data base or remote data base, false if don't insert in static variables
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
+    public static boolean add(InterfaceSyncFicha localData, InterfaceSyncFicha remoteData, Object object) throws SQLException, ClassNotFoundException{        
+        Log.setLog(className,Log.getReg());
+        localData.add(object);
+        if(GlobalValues.isOnline()){
+            remoteData.add(object);
         }
+        return true;
+    }
 
     
 }

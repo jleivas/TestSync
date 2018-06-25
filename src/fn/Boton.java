@@ -14,6 +14,7 @@ import view.VCristales;
 import view.VDescuentos;
 import view.VDoctores;
 import view.VInstituciones;
+import view.VInventarios;
 import view.VUsuarios;
 
 /**
@@ -140,6 +141,16 @@ public class Boton {
     
     public void instituciones() throws SQLException, ClassNotFoundException{
         VInstituciones p1 = new VInstituciones();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
+    public void inventarios() throws SQLException, ClassNotFoundException {
+        VInventarios p1 = new VInventarios();
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         principalAdmin.removeAll();
