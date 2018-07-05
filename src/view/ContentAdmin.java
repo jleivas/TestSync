@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import view.opanel.OpanelConfig;
+import view.opanel.OpanelInventario;
 import view.opanel.OpanelUserData;
 
 /**
@@ -55,7 +57,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         
         this.setTitle("Optidata "+GlobalValues.VERSION+"     "+licencia);
         try {
-            boton.inventarios();
+            boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Es probable que el servidor no se haya iniciado, Inicie el servicio y vuelva a abrir el programa.","Error de conexion",JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);//opcion cerrar
@@ -99,6 +101,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnVentas = new javax.swing.JLabel();
         btnClientes = new javax.swing.JLabel();
         btnInstituciones = new javax.swing.JLabel();
+        btnConvenios = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -361,6 +364,19 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
         });
 
+        btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
+        btnConvenios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConveniosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnConveniosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnConveniosMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpLeftBarLayout = new javax.swing.GroupLayout(jpLeftBar);
         jpLeftBar.setLayout(jpLeftBarLayout);
         jpLeftBarLayout.setHorizontalGroup(
@@ -372,7 +388,8 @@ public class ContentAdmin extends javax.swing.JFrame {
                     .addComponent(btnVentas)
                     .addComponent(btnClientes)
                     .addComponent(btnDoctores)
-                    .addComponent(btnInstituciones))
+                    .addComponent(btnInstituciones)
+                    .addComponent(btnConvenios))
                 .addGap(0, 10, Short.MAX_VALUE))
         );
         jpLeftBarLayout.setVerticalGroup(
@@ -390,7 +407,9 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(btnDoctores)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInstituciones)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnConvenios)
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -402,7 +421,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(jpLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpUpBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1305, Short.MAX_VALUE)
+                    .addComponent(jpUpBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1295, Short.MAX_VALUE)
                     .addComponent(jpSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(principalAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -446,11 +465,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
-        // TODO add your handling code here:
+        OptionPane.showPanel(new OpanelConfig(), "Configuración");
     }//GEN-LAST:event_btnConfigMouseClicked
 
     private void btnInventMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventMouseClicked
-        // TODO add your handling code here:
+        OptionPane.showPanel(new OpanelInventario(), "Inventario");
     }//GEN-LAST:event_btnInventMouseClicked
 
     private void btnSyncronize4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize4MouseClicked
@@ -544,11 +563,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSizeWindowMouseExited
 
     private void btnCrearFichaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichaMouseClicked
-//        try {
-//            boton.nuevaFicha();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            boton.crearFicha();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCrearFichaMouseClicked
 
     private void btnCrearFichaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichaMousePressed
@@ -556,11 +575,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearFichaMousePressed
 
     private void btnDoctoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDoctoresMouseClicked
-//        try {
-//            boton.doctores();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            boton.doctores();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnDoctoresMouseClicked
 
     private void btnListarFichasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListarFichasMouseClicked
@@ -576,19 +595,19 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentasMouseClicked
 
     private void btnClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClientesMouseClicked
-//        try {
-//            boton.clientes();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            boton.clientes();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnClientesMouseClicked
 
     private void btnInstitucionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInstitucionesMouseClicked
-//        try {
-//            boton.instituciones();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            boton.instituciones();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnInstitucionesMouseClicked
 
     private void btnCrearFichaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichaMouseEntered
@@ -676,6 +695,22 @@ public class ContentAdmin extends javax.swing.JFrame {
         OptionPane.showPanel(new OpanelUserData(), "Mis Datos");
     }//GEN-LAST:event_btnUserMouseClicked
 
+    private void btnConveniosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseClicked
+        try {
+            boton.convenios();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConveniosMouseClicked
+
+    private void btnConveniosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseEntered
+        btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnConvenios.getIcon().toString()))));
+    }//GEN-LAST:event_btnConveniosMouseEntered
+
+    private void btnConveniosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseExited
+        btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnConvenios.getIcon().toString()))));
+    }//GEN-LAST:event_btnConveniosMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -722,6 +757,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnClientes;
     private javax.swing.JLabel btnClose;
     private javax.swing.JLabel btnConfig;
+    private javax.swing.JLabel btnConvenios;
     private javax.swing.JLabel btnCrearFicha;
     private javax.swing.JLabel btnDoctores;
     private javax.swing.JLabel btnInstituciones;

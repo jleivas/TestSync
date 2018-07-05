@@ -6,7 +6,7 @@
 package view;
 
 import dao.Dao;
-import entities.Inventario;
+import entities.TipoPago;
 import fn.Boton;
 import fn.GlobalValues;
 import javax.swing.JOptionPane;
@@ -23,10 +23,10 @@ import javax.swing.table.TableRowSorter;
  *
  * @author home
  */
-public class VInventarios extends javax.swing.JPanel {
+public class VTipoPagos extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
-    private static Inventario stInventario = null;
+    private static TipoPago stTipoPago = null;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -37,15 +37,13 @@ public class VInventarios extends javax.swing.JPanel {
     /**
      * Creates new form VClientes
      */
-    public VInventarios() {
+    public VTipoPagos() {
         GlobalValues.IS_ONLINE = true;
-        ContentAdmin.lblTitle.setText("Registro de inventarios");
-        load.sincronize(new Inventario());
+        ContentAdmin.lblTitle.setText("Tipos de pago");
+        load.sincronize(new TipoPago());
         initComponents();
-        modelo.addColumn("Id");
-        modelo.addColumn("Inventario");
+        modelo.addColumn("Tipo");
         tblListar.setModel(modelo);
-        ContentAdmin.lblTitle.setText("Inventarios");
         load();
     }
 
@@ -70,18 +68,12 @@ public class VInventarios extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtNombreN = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtDescN = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         txtNombreU = new javax.swing.JTextField();
         btnModificar = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtDescU = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -98,13 +90,13 @@ public class VInventarios extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Id", "Inventario"
+                "Tipo"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
@@ -212,9 +204,6 @@ public class VInventarios extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel2.setText("Nombre");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel3.setText("Descripcion");
-
         txtNombreN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreNKeyTyped(evt);
@@ -234,40 +223,29 @@ public class VInventarios extends javax.swing.JPanel {
             }
         });
 
-        txtDescN.setColumns(20);
-        txtDescN.setRows(5);
-        jScrollPane2.setViewportView(txtDescN);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGuardar)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
-            .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnGuardar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(108, 217, 186));
@@ -275,9 +253,6 @@ public class VInventarios extends javax.swing.JPanel {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel11.setText("Nombre");
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel12.setText("Descripcion");
 
         txtNombreU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -298,42 +273,28 @@ public class VInventarios extends javax.swing.JPanel {
             }
         });
 
-        txtDescU.setColumns(20);
-        txtDescU.setRows(5);
-        jScrollPane3.setViewportView(txtDescU);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnModificar)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnModificar)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9))
-                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(btnModificar)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -382,9 +343,9 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            String nombre = tblListar.getValueAt(fila, 0).toString();
             
-            abrirInventario(id);
+            abrirTipoPago(nombre);
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
@@ -395,17 +356,17 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Inventario temp = (Inventario)load.get(null,id,new Inventario());
-            if(OptionPane.getConfirmation("Eliminar Inventario", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(null,id, temp))
-                    OptionPane.showMsg("Eliminar Inventario", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
+            String nombre = tblListar.getValueAt(fila, 0).toString();
+            TipoPago temp = (TipoPago)load.get(nombre,0,new TipoPago());
+            if(OptionPane.getConfirmation("Eliminar tipo de pago", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
+                if(load.delete(nombre,0, temp))
+                    OptionPane.showMsg("Eliminar tipo de pago", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
                 else
-                    OptionPane.showMsg("Eliminar Inventario", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Eliminar tipo de pago", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
             cargarDatos("0");
             
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Inventario","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione tipo de pago","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
@@ -416,17 +377,17 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = (int)tblListar.getValueAt(fila, 0);
-            if(OptionPane.getConfirmation("Confirmación de Inventario", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
-                if(load.restore(null, id, new Inventario())){
-                    OptionPane.showMsg("Restaurar Inventario", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+            String nombre = tblListar.getValueAt(fila, 0).toString();
+            if(OptionPane.getConfirmation("Confirmación de tipo de pago", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+                if(load.restore(nombre, 0, new TipoPago())){
+                    OptionPane.showMsg("Restaurar tipo de pago", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    OptionPane.showMsg("Restaurar Inventario", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar tipo de pago", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
                 }
                 cargarDatos("-1");
             }
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione Inventario","Error al cargar valores,\n"
+            OptionPane.showMsg("Seleccione tipo de pago","Error al cargar valores,\n"
                     + "es posible que no hay seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
         }
@@ -466,20 +427,17 @@ public class VInventarios extends javax.swing.JPanel {
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Guardar Inventario", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Guardar tipo de pago", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String desc=txtDescN.getText();
-        if(desc.isEmpty()){
-            desc = "";
-        }
+        
 
-        Inventario inventario= new Inventario(GlobalValues.LOCAL_SYNC_FICHA.getId(null, 0, new Inventario()), nombre, desc, 1, null, 0);
+        TipoPago tipoPago= new TipoPago(GlobalValues.LOCAL_SYNC.getMaxId(new TipoPago()), nombre, 1, null, 0);
         try {
-            load.add(inventario);
+            load.add(tipoPago);
         } catch (InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la inventario\n\n"
+                    + "No se pudo insertar tipo de pago\n\n"
                     + ex, JOptionPane.ERROR_MESSAGE);
         }
         cargarDatos("0");
@@ -498,18 +456,16 @@ public class VInventarios extends javax.swing.JPanel {
         if(!nombre.isEmpty() || nombre.length()>3)
             nombre = GlobalValues.strToName(nombre);
         else{
-            OptionPane.showMsg("Modificar inventario", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar tipo de pago", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String desc = txtDescU.getText();
-        if(desc.isEmpty()){
-            desc = "";
+        
+        stTipoPago.setNombre(nombre);
+        if(GlobalValues.LOCAL_SYNC.exist(stTipoPago)){
+            OptionPane.showMsg("Modificar tipo de pago", "Ya existe un registro con el mismo nombre.", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        
-        stInventario.setNombre(nombre);
-        stInventario.setDescripcion(desc);
-        
-        if(load.update(stInventario))
+        if(load.update(stTipoPago))
             OptionPane.showMsg("Modificar Inventario", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
         else
             OptionPane.showMsg("Modificar Inventario", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
@@ -554,21 +510,15 @@ public class VInventarios extends javax.swing.JPanel {
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JComboBox<String> cboMostrar;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextArea txtDescN;
-    private javax.swing.JTextArea txtDescU;
     private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreU;
     // End of variables declaration//GEN-END:variables
@@ -596,16 +546,15 @@ public class VInventarios extends javax.swing.JPanel {
         }
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new Inventario())) {
-                Inventario temp = (Inventario)object;
-                Object[] fila = new Object[2];
-                fila[0] = temp.getCod();
-                fila[1] = temp.getNombre();
+            for (Object object : load.listar(listar, new TipoPago())) {
+                TipoPago temp = (TipoPago)object;
+                Object[] fila = new Object[1];
+                fila[0] = temp.getNombre();
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("No existen Inventarios", "No existen inventarios registradas.",JOptionPane.INFORMATION_MESSAGE);
+                OptionPane.showMsg("No existen registros", "No existen tipos de pago registrados.",JOptionPane.INFORMATION_MESSAGE);
             }
             
         }catch(Exception e){
@@ -613,20 +562,16 @@ public class VInventarios extends javax.swing.JPanel {
         }
     }
 
-    private void abrirInventario(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-            stInventario = (Inventario)load.get(null,id,new Inventario());
-            if(stInventario!=null){
-                if(stInventario.getNombre().isEmpty() || stInventario.getNombre().equals("null"))
+    private void abrirTipoPago(String nombre) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            stTipoPago = (TipoPago)load.get(nombre,0,new TipoPago());
+            if(stTipoPago!=null){
+                if(stTipoPago.getNombre().isEmpty() || stTipoPago.getNombre().equals("null"))
                     txtNombreU.setText("");
                 else
-                    txtNombreU.setText(stInventario.getNombre());
-                if(stInventario.getDescripcion().isEmpty() || stInventario.getDescripcion().equals("null"))
-                    txtDescU.setText("");
-                else
-                    txtDescU.setText(stInventario.getDescripcion());
+                    txtNombreU.setText(stTipoPago.getNombre());
                 
             }else{
-                OptionPane.showMsg("Seleccione Inventario","Error al cargar valores,\n"
+                OptionPane.showMsg("Seleccione Tipo de pago","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
             }
@@ -634,8 +579,6 @@ public class VInventarios extends javax.swing.JPanel {
 
     private void limpiarTextField() {
         txtNombreU.setText("");
-        txtDescN.setText("");
         txtNombreN.setText("");
-        txtDescU.setText("");
     }
 }

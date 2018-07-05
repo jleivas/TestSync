@@ -45,7 +45,7 @@ public class VUsuarios extends javax.swing.JPanel {
     public VUsuarios() {
         GlobalValues.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de usuarios");
-//        load.sincronize(new User());
+        load.sincronize(new User());
         initComponents();
         modelo.addColumn("Username");
         modelo.addColumn("Nombre");

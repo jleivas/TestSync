@@ -34,6 +34,7 @@ public class OptionPane {
         OpanelContent.revalidate();
         OpanelContent.repaint();
     }
+    
     public static void showMsg(String title, String message, int statusMsg){
         if(title.length() > 40){
             message = title.toUpperCase()+"\n\n"+message;
@@ -57,7 +58,7 @@ public class OptionPane {
         OpanelContent.repaint();
     }
 
-    public static void closeOPanel() {
+    public static void closeInfoPanel() {
         GlobalValues.INFOPANEL.setVisible(false);
     }
 

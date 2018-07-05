@@ -41,6 +41,7 @@ public class GlobalValues {
     public static String PROJECTNAME="DCS Optics";
     public static String VERSION = "v4.0.0";
     public static String EQUIPO="VSTGO";//el nombre debe concatenarse con la fecha de instalacion
+    public static String INVENTARIO_ID = "INV";
     
     /* Bases de datos*/
     public static String BD_URL_REMOTE = NoGit.URL;

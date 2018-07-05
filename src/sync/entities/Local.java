@@ -982,7 +982,7 @@ public class Local implements InterfaceSync {
                 return lista;
             }
             if (type instanceof TipoPago) {
-                String sql = "SELECT * FROM tipo_pago WHERE tp_id=" + idParam + "";
+                String sql = "SELECT * FROM tipo_pago WHERE tp_nombre=" + idParam + "";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
                 }
@@ -1448,15 +1448,15 @@ public class Local implements InterfaceSync {
                 }
             }
             if (type instanceof TipoPago) {
-                for (Object object : listar(""+id, type)) {//id debe ser el id de la ficha
-                    if (((TipoPago) object).getId() == id) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                    if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
             }
             if(type instanceof User){
                 for (Object object : listar(cod, type)) {//idParam debe ser el rut
-                    if (((User) object).getUsername().toLowerCase().equals(cod.toLowerCase())) {
+                    if (((User) object).getUsername().trim().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
                 }
@@ -1477,7 +1477,7 @@ public class Local implements InterfaceSync {
      * RegistroBaja=>cod,
      * User=>username,
      * Institucion=>id,
-     * TipoPago=>id
+     * TipoPago=>nombre
      * @param object
      * @return 
      */
@@ -1544,7 +1544,7 @@ public class Local implements InterfaceSync {
             }
         }
         if (object instanceof TipoPago) {
-            if (getElement(null,((TipoPago) object).getId(), object) != null) {
+            if (getElement(((TipoPago) object).getNombre(),0, object) != null) {
                 return true;
             }
         }

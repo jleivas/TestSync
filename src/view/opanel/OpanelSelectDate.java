@@ -5,15 +5,10 @@
  */
 package view.opanel;
 
-import dao.Dao;
-import fn.Boton;
 import fn.GlobalValues;
 import fn.Icons;
 import fn.OptionPane;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -176,8 +171,7 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSyncronize19MouseClicked
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        OptionPane op = new OptionPane();
-        op.closeOPanel();
+        OptionPane.closeInfoPanel();
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -193,9 +187,6 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelMousePressed
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        Dao load = new Dao();
-        Boton boton = new Boton();
-        GlobalValues.INFOPANEL.setVisible(false);
         if(txtFecha1.getDate() == null){
             if(txtFecha2.getDate() == null){
                 GlobalValues.TMP_DATE_FROM = new Date();
@@ -216,6 +207,7 @@ public class OpanelSelectDate extends javax.swing.JPanel {
 //        try {
 //            GlobalValues.TMP_LIST_FICHAS = load.listarPorFecha(GlobalValues.TMP_DATE_FROM,GlobalValues.TMP_DATE_TO);
 //            boton.fichas();
+//            OptionPane.closeInfoPanel();
 //        } catch (SQLException | ClassNotFoundException ex) {
 //            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
 //        }

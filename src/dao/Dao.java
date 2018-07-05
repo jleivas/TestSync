@@ -495,4 +495,5 @@ public class Dao{
             sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Ficha)object);
         }
     }
+
 }

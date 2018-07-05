@@ -8,7 +8,6 @@ package view.opanel;
 import fn.GlobalValues;
 import fn.Icons;
 import fn.OptionPane;
-import fn.SubProcess;
 import javax.swing.JOptionPane;
 
 /**
@@ -178,7 +177,7 @@ public class OpanelConfirm extends javax.swing.JPanel {
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         OptionPane.setConfirm(false);
-        OptionPane.closeOPanel();
+        OptionPane.closeInfoPanel();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
@@ -195,7 +194,7 @@ public class OpanelConfirm extends javax.swing.JPanel {
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
         OptionPane.setConfirm(true);
-        OptionPane.closeOPanel();
+        OptionPane.closeInfoPanel();
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered

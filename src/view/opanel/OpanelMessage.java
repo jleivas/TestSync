@@ -153,7 +153,7 @@ public class OpanelMessage extends javax.swing.JPanel {
         if(GlobalValues.MSG_STATUS == JOptionPane.ERROR || GlobalValues.MSG_STATUS == JOptionPane.ERROR_MESSAGE){
             SubProcess.report(lblTitle.getText(), lblMessage.getText());
         }
-        OptionPane.closeOPanel();
+        OptionPane.closeInfoPanel();
     }//GEN-LAST:event_btnAceptarMouseClicked
 
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
