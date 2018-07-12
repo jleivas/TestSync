@@ -40,8 +40,9 @@ public class GlobalValues {
     /*  Nombres de sistema  */
     public static String PROJECTNAME="DCS Optics";
     public static String VERSION = "v4.0.0";
-    public static String EQUIPO="VSTGO";//el nombre debe concatenarse con la fecha de instalacion
-    public static String INVENTARIO_ID = "INV";
+    public static String EQUIPO="jorge";//el nombre debe concatenarse con la fecha de instalacion
+    public static int EQUIPO_ID = 1;
+    public static String INVENTARIO = "INV";
     
     /* Bases de datos*/
     public static String BD_URL_REMOTE = NoGit.URL;
@@ -80,9 +81,6 @@ public class GlobalValues {
     /* Variables del sistema */
     public static User USER;
     public static int ID_USER = 0;
-    public static String TMP_RUT_DOCTOR;
-    public static int TMP_ID_INSTITUCION;
-    public static int TMP_ID_DESCUENTO;
     public static Date TMP_DATE_FROM = null;
     public static Date TMP_DATE_TO =null;
     /*  Sincronizacion */
@@ -124,6 +122,11 @@ public class GlobalValues {
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
         LOCAL_PATH = System.getProperty("user.dir")+File.separator;
         FILES_PATH = LOCAL_PATH+"files"+File.separator;
+    }
+    
+    public static void setInventarioLocal(String inventario){
+        INVENTARIO = inventario;
+        saveXMLProperties();
     }
     
     public static String getMailSystemName() {
@@ -225,5 +228,29 @@ public class GlobalValues {
         str2 = str2.toLowerCase();
         str2 = str2.replaceAll(" ", "");
         return str1.equals(str2);
+    }
+    public static String formatoHora(int hora, int min) {
+        String h = "";
+        String m = "";
+        if(hora < 10)
+        h = "0";
+        if(min < 10)
+        m = "0";
+            
+        return h+hora+":"+m+min;
+    }
+    
+    public static boolean containIntegrs(String arg){
+        String temp = arg.trim().toLowerCase().replaceAll("[0-9]", "");
+        if(!temp.equals(arg.toLowerCase()))
+            return true;
+        return false;
+    }
+
+    /**
+     * Actualiza archivo local de propiedades del sistema con los valores estaticos
+     */
+    private static void saveXMLProperties() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
