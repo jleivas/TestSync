@@ -496,4 +496,15 @@ public class Dao{
         }
     }
 
+    /**
+     * 
+     * @param strParam id de Ficha (Válido sólo para Armazónes).
+     * @param intParam tipo de armazon [0: Cerca, 1: Lejos] (Válido sólo para Armazónes).
+     * @param type tipo de clase a consultar
+     * @return 
+     */
+    public String getCurrentCod(String strParam, int intParam, Object type){
+        Log.setLog(className,Log.getReg());
+        return GlobalValues.LOCAL_SYNC_FICHA.getId(strParam, intParam, type);
+    }
 }
