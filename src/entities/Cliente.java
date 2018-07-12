@@ -79,31 +79,31 @@ public class Cliente extends SyncStringId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getTelefono1() {
-        return telefono1;
+        return getStr(telefono1);
     }
     
     public String getTelefono2() {
-        return telefono2;
+        return getStr(telefono2);
     }
 
     public String getEmail() {
-        return email;
+        return getStr(email);
     }
 
     public String getDireccion() {
-        return direccion;
+        return getStr(direccion);
     }
 
     public String getComuna() {
-        return comuna;
+        return getStr(comuna);
     }
 
     public String getCiudad() {
-        return ciudad;
+        return getStr(ciudad);
     }
 
     public int getSexo() {

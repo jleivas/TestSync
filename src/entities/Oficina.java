@@ -68,31 +68,31 @@ public class Oficina extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getDireccion() {
-        return direccion;
+        return getStr(direccion);
     }
 
     public String getCiudad() {
-        return ciudad;
+        return getStr(ciudad);
     }
 
     public String getTelefono1() {
-        return telefono1;
+        return getStr(telefono1);
     }
 
     public String getTelefono2() {
-        return telefono2;
+        return getStr(telefono2);
     }
 
     public String getEmail() {
-        return email;
+        return getStr(email);
     }
 
     public String getWeb() {
-        return web;
+        return getStr(web);
     }
 
     @Override
@@ -101,6 +101,4 @@ public class Oficina extends SyncIntId{
                 + " CIUDAD: "+getCiudad()+",\n TELEFONO 1: "+getTelefono1()+",\n TELEFONO 2: "+getTelefono2()+",\n"
                 + " EMAIL: "+getEmail()+",\n WEB: "+getWeb()+",\n ESTADO: "+getEstado()+",\n LAST UPDATE: "+getLastUpdate()+"}";
     }
-    
-    
 }

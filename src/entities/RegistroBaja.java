@@ -54,7 +54,7 @@ public class RegistroBaja extends SyncStringId{
     }
 
     public String getIdLente() {
-        return idLente;
+        return getStr(idLente);
     }
 
     public int getCantidad() {
@@ -62,8 +62,6 @@ public class RegistroBaja extends SyncStringId{
     }
 
     public String getObs() {
-        return obs;
+        return getStr(obs);
     }
-    
-    
 }

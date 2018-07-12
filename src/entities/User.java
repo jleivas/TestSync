@@ -40,7 +40,7 @@ public class User extends SyncIntId{
     }
 
     public String getEmail() {
-        return email;
+        return getStr(email);
     }
 
     public void setUsername(String username) {
@@ -48,7 +48,7 @@ public class User extends SyncIntId{
     }
 
     public String getUsername() {
-        return username;
+        return getStr(username);
     }
 
     public void setNombre(String nombre) {
@@ -64,11 +64,11 @@ public class User extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getPass() {
-        return pass;
+        return getStr(pass);
     }
 
     public int getTipo() {
@@ -86,6 +86,4 @@ public class User extends SyncIntId{
                 " - LAST_UPDATE:"+fn.date.Cmp.dateToString(getLastUpdate(), "dd-mm-yyyy")+
                 " - Estado:"+getEstado();
     }
-    
-    
 }

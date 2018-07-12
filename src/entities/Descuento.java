@@ -55,11 +55,11 @@ public class Descuento extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return getStr(descripcion);
     }
 
     public int getPorcetange() {

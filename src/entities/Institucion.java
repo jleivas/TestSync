@@ -62,35 +62,31 @@ public class Institucion extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getTelefono() {
-        return telefono;
+        return getStr(telefono);
     }
 
     public String getEmail() {
-        return email;
+        return getStr(email);
     }
 
     public String getDireccion() {
-        return direccion;
+        return getStr(direccion);
     }
 
     public String getComuna() {
-        return comuna;
+        return getStr(comuna);
     }
 
     public String getCiudad() {
-        return ciudad;
+        return getStr(ciudad);
     }
 
     @Override
     public String toString() {
         return "Institucion{" + "id=" + getId()+ ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + ", comuna=" + comuna + ", ciudad=" + ciudad + ", estado=" + getEstado() + '}';
     }
-    
-    
-    
-    
 }

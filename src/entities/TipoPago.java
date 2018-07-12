@@ -31,14 +31,11 @@ public class TipoPago extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     @Override
     public String toString() {
         return "tipoPago{" + "id=" + getId()+ ", nombre=" + nombre + '}';
     }
-    
-    
-    
 }

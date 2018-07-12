@@ -34,12 +34,11 @@ public class Equipo extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getLicencia() {
-        return licencia;
+        return getStr(licencia);
     }
-    
     
 }

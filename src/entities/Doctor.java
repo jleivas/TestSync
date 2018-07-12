@@ -44,15 +44,15 @@ public class Doctor extends SyncStringId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public String getTelefono() {
-        return telefono;
+        return getStr(telefono);
     }
 
     public String getEmail() {
-        return email;
+        return getStr(email);
     }
 
     @Override
@@ -63,12 +63,5 @@ public class Doctor extends SyncStringId{
                 + ", email=" + email+"\n" 
                 + ", estado=" + getEstado()+"\n" 
                 + ", lastUpdate=" + getLastUpdate() + '}';
-    }
-    
-    
-    
-    
-    
-    
-    
+    } 
 }

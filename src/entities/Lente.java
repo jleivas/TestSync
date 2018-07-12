@@ -87,7 +87,7 @@ public class Lente extends SyncStringId{
     }
 
     public String getInventario() {
-        return inventario;
+        return getStr(inventario);
     }
 
     public void setTipo(String tipo) {
@@ -95,7 +95,7 @@ public class Lente extends SyncStringId{
     }
 
     public String getTipo() {
-        return tipo;
+        return getStr(tipo);
     }
 
     public void setColor(String color) {
@@ -139,15 +139,15 @@ public class Lente extends SyncStringId{
     }
 
     public String getColor() {
-        return color;
+        return getStr(color);
     }
 
     public String getMarca() {
-        return marca;
+        return getStr(marca);
     }
 
     public String getMaterial() {
-        return material;
+        return getStr(material);
     }
 
     public int getFlex() {
@@ -159,7 +159,7 @@ public class Lente extends SyncStringId{
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return getStr(descripcion);
     }
 
     public int getPrecioRef() {
@@ -187,6 +187,4 @@ public class Lente extends SyncStringId{
                 " - lastUpdate:"+getLastUpdate()+
                 " - Estado:"+getEstado();
     }
-    
-    
 }

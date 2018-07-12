@@ -37,7 +37,7 @@ public class Cristal extends SyncIntId{
     }
 
     public String getNombre() {
-        return nombre;
+        return getStr(nombre);
     }
 
     public int getPrecio() {
