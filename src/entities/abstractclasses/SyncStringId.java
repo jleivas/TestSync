@@ -60,4 +60,11 @@ public abstract class SyncStringId {
             this.lastHour = hour;
         }
     }
+    
+    public String getStr(String arg){
+        if(arg == null || arg.isEmpty())
+            return "";
+        else
+            return arg;
+    }
 }
