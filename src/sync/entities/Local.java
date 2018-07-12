@@ -169,6 +169,23 @@ public class Local implements InterfaceSync {
                 OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+            if(objectParam instanceof Inventario){
+                Inventario object = (Inventario)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT inv_id FROM inventario WHERE inv_id="+object.getId()+"");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    LcBd.cerrar();
+                    return update(object);
+                }  
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        sqlInsert(object)
+                               );
+                if(insert.executeUpdate()!=0){
+                    LcBd.cerrar();
+
+                    return true;
+                }
+            }
             if(objectParam instanceof Lente){
                 Lente object = (Lente)objectParam;
                 if (object != null) {
@@ -443,7 +460,7 @@ public class Local implements InterfaceSync {
             }
             if(objectParam instanceof Inventario){
                 Inventario object = (Inventario)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id='" + object.getCod()+ "'");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     Date dsp_fecha = new Date();
@@ -853,7 +870,7 @@ public class Local implements InterfaceSync {
                 return lista;
             }
             if (type instanceof Inventario){
-                String sql = "SELECT * FROM inventario WHERE inv_id =" + idParam + "";
+                String sql = "SELECT * FROM inventario WHERE inv_nombre = '" + idParam + "'";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM inventario WHERE inv_estado=1";
                 }
@@ -868,7 +885,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getString("inv_id"),
+                        datos.getInt("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -890,6 +907,9 @@ public class Local implements InterfaceSync {
                 }
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM lente";
+                }
+                if (idParam.equals("st")) {
+                    sql = "SELECT * FROM lente WHERE len_estado=1 AND len_stock > 0";
                 }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
@@ -1042,6 +1062,7 @@ public class Local implements InterfaceSync {
         } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return lista;
     }
     /**
@@ -1218,7 +1239,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Inventario(
-                        datos.getString("inv_id"),
+                        datos.getInt("inv_id"),
                         datos.getString("inv_nombre"),
                         datos.getString("inv_descripcion"),
                         datos.getInt("inv_estado"),
@@ -1355,6 +1376,7 @@ public class Local implements InterfaceSync {
      * Cristal=>nombre,
      * Descuento=>nombre,
      * Doctor=>rut,
+     * Inventario=>nombre,
      * Lente=>cod,
      * Oficina=>nombre,
      * RegistroBaja=>cod,
@@ -1400,9 +1422,15 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Doctor){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
-                    if (((Doctor) object).getCod().equals(cod)) {
-                        return object;
-                    }
+                    if(GlobalValues.containIntegrs(cod)){//comparar por el rut
+                        if (((Doctor) object).getCod().equals(cod)) {
+                            return object;
+                        }
+                    }else{//comparar por el nombre
+                        if (((Doctor) object).getNombre().equals(cod)) {
+                            return object;
+                        }
+                    }  
                 }
             }
             if(type instanceof Equipo){
@@ -1421,7 +1449,7 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Inventario){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
-                    if (((Inventario) object).getCod()== cod) {
+                    if (((Inventario) object).getNombre().equals(cod)) {
                         return object;
                     }
                 }
@@ -1524,7 +1552,7 @@ public class Local implements InterfaceSync {
             }
         }
         if (object instanceof Inventario) {
-            if (getElement(((Inventario) object).getCod(),0,object) != null) {
+            if (getElement(((Inventario) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
@@ -1661,8 +1689,8 @@ public class Local implements InterfaceSync {
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO inventario VALUES('"
-                            + object.getCod()+ "','"
+            return  "INSERT INTO inventario VALUES("
+                            + object.getId()+ ",'"
                             + object.getNombre() + "','"
                             + object.getDescripcion()+ "',"
                             + object.getEstado() + ",'"
@@ -1864,8 +1892,8 @@ public class Local implements InterfaceSync {
                         + "', inv_estado = " + object.getEstado()
                         + ", inv_last_update = '" + sqlfecha
                         + "', inv_last_hour = " + object.getLastHour()
-                        + " WHERE inv_id = '" + object.getCod()
-                        + "' AND ((inv_last_update < '"+sqlfecha+"')OR"
+                        + " WHERE inv_id = " + object.getId()
+                        + " AND ((inv_last_update < '"+sqlfecha+"')OR"
                         + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Lente){

@@ -6,7 +6,6 @@
 package sync.entities;
 
 import bd.RmBd;
-import entities.Inventario;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
 import entities.ficha.Ficha;
@@ -75,23 +74,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
             if(objectParam instanceof HistorialPago){
                 HistorialPago object = (HistorialPago)objectParam;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT hp_id FROM historial_pago WHERE hp_id='"+object.getCod()+"'");
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    RmBd.cerrar();
-                    return update(object);
-                }  
-                PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        sqlInsert(object)
-                               );
-                if(insert.executeUpdate()!=0){
-                    RmBd.cerrar();
-
-                    return true;
-                }
-            }
-            if(objectParam instanceof Inventario){
-                Inventario object = (Inventario)objectParam;
-                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT inv_id FROM inventario WHERE inv_id='"+object.getCod()+"'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     RmBd.cerrar();
@@ -228,32 +210,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
                     Date dsp_fecha= new Date();
                     try {
                         dsp_fecha = datos.getDate("hp_last_update");
-                    } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
-                    }
-                    if(!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)){
-                        return false;
-                    }
-                }
-                PreparedStatement insert = RmBd.obtener().prepareStatement(
-                        sqlUpdate(object));
-                if(insert.executeUpdate()!=0){
-                    RmBd.cerrar();
-
-                    return true;
-                }
-                else{
-                    RmBd.cerrar();
-                    return true;
-                }
-            }if(objectParam instanceof Inventario){
-                Inventario object = (Inventario)objectParam;
-                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id='"+object.getCod()+"'");
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    Date dsp_fecha= new Date();
-                    try {
-                        dsp_fecha = datos.getDate("inv_last_update");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha","Se cayó al intentar convertir la fecha.\nDetalle:"+e.getMessage()+"\n"+Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
@@ -626,9 +582,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
             if(objParam instanceof HistorialPago){
                 sql="SELECT COUNT(*) as id FROM historial_pago WHERE hp_id LIKE '%"+GlobalValues.EQUIPO+"%'";
             }
-            if(objParam instanceof Inventario){
-                sql="SELECT COUNT(*) as id FROM inventario WHERE inv_id LIKE '%"+GlobalValues.EQUIPO+"%'";
-            }
             if(objParam instanceof Ficha){
                 sql="SELECT COUNT(*) as id FROM ficha WHERE fch_id LIKE '%"+GlobalValues.EQUIPO+"%'";
             }
@@ -759,17 +712,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +sqlfecha2+"', "
                                 +object.getLastHour()+")";
         }
-        if(objectParam instanceof Inventario){
-            Inventario object = (Inventario)objectParam;
-            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return "INSERT INTO inventario VALUES('"
-                                +object.getCod()+"', '"
-                                +object.getNombre()+"', '"
-                                +object.getDescripcion()+"', "
-                                +object.getEstado()+", '"
-                                +sqlfecha+"', "
-                                +object.getLastHour()+")";
-        }
         if(objectParam instanceof Ficha){
             Ficha object = (Ficha)objectParam;
             java.sql.Date fecha  = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
@@ -869,18 +811,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +" WHERE hp_id = '"+object.getCod()
                                 + "' AND ((hp_last_update < '"+sqlfecha2+"') OR"
                                 + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
-        }
-        if(objectParam instanceof Inventario){
-            Inventario object = (Inventario)objectParam;
-            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return "UPDATE inventario set inv_nombre = '"+object.getNombre()
-                                +"', inv_descripcion = '"+object.getDescripcion()
-                                +"', inv_estado = "+object.getEstado()
-                                +", inv_last_update = '"+sqlfecha
-                                +"', inv_last_hour ="+object.getLastHour()
-                                +" WHERE inv_id = '"+object.getCod()
-                                + "' AND ((inv_last_update < '"+sqlfecha+"') OR"
-                                + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Ficha){
             Ficha object = (Ficha)objectParam;
