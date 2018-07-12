@@ -102,6 +102,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnClientes = new javax.swing.JLabel();
         btnInstituciones = new javax.swing.JLabel();
         btnConvenios = new javax.swing.JLabel();
+        btnOficinas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -144,10 +145,12 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnSizeWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 10, -1, -1));
         jpUpBar.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 242, 13));
 
+        jTextField1.setToolTipText("Ingrese folio");
         jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jpUpBar.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 240, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
+        jLabel2.setToolTipText("Cargar una Ficha");
         jpUpBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         lblUserName.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
@@ -155,6 +158,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(lblUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 240, 20));
 
         btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Account_25px.png"))); // NOI18N
+        btnUser.setToolTipText("Mis datos");
         btnUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnUserMouseClicked(evt);
@@ -169,6 +173,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
 
         btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Uninstalling_Updates_25px.png"))); // NOI18N
+        btnSyncronize.setToolTipText("Sincronizar");
         btnSyncronize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSyncronizeMouseClicked(evt);
@@ -183,6 +188,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnSyncronize, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
 
         btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Settings_25px.png"))); // NOI18N
+        btnConfig.setToolTipText("Configuracion");
         btnConfig.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnConfigMouseClicked(evt);
@@ -197,6 +203,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
 
         btnInvent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Choice_25px.png"))); // NOI18N
+        btnInvent.setToolTipText("Inventario");
         btnInvent.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnInventMouseClicked(evt);
@@ -211,6 +218,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnInvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, -1));
 
         btnSyncronize4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Next_25px.png"))); // NOI18N
+        btnSyncronize4.setToolTipText("Buscar");
         btnSyncronize4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSyncronize4MouseClicked(evt);
@@ -225,6 +233,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnSyncronize4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
 
         btnTools.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Maintenance_25px.png"))); // NOI18N
+        btnTools.setToolTipText("Herramientas");
         btnTools.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnToolsMouseClicked(evt);
@@ -284,6 +293,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpLeftBar.setBackground(new java.awt.Color(108, 217, 186));
 
         btnCrearFicha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_New_Resume_Template_50px.png"))); // NOI18N
+        btnCrearFicha.setToolTipText("Nueva Ficha");
         btnCrearFicha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCrearFichaMouseClicked(evt);
@@ -300,6 +310,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnDoctores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Lab_Coat_50px.png"))); // NOI18N
+        btnDoctores.setToolTipText("Profesionales");
         btnDoctores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDoctoresMouseClicked(evt);
@@ -313,6 +324,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnListarFichas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_List_50px.png"))); // NOI18N
+        btnListarFichas.setToolTipText("Fichas");
         btnListarFichas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnListarFichasMouseClicked(evt);
@@ -326,6 +338,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cash_Counter_50px.png"))); // NOI18N
+        btnVentas.setToolTipText("Ventas");
         btnVentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVentasMouseClicked(evt);
@@ -339,6 +352,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Reception_50px.png"))); // NOI18N
+        btnClientes.setToolTipText("Clientes");
         btnClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnClientesMouseClicked(evt);
@@ -352,6 +366,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnInstituciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Organization_50px.png"))); // NOI18N
+        btnInstituciones.setToolTipText("Instituciones");
         btnInstituciones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnInstitucionesMouseClicked(evt);
@@ -365,6 +380,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
 
         btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
+        btnConvenios.setToolTipText("Convenios");
         btnConvenios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnConveniosMouseClicked(evt);
@@ -374,6 +390,20 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnConveniosMouseExited(evt);
+            }
+        });
+
+        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
+        btnOficinas.setToolTipText("Oficinas");
+        btnOficinas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOficinasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnOficinasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnOficinasMouseExited(evt);
             }
         });
 
@@ -389,8 +419,9 @@ public class ContentAdmin extends javax.swing.JFrame {
                     .addComponent(btnClientes)
                     .addComponent(btnDoctores)
                     .addComponent(btnInstituciones)
-                    .addComponent(btnConvenios))
-                .addGap(0, 10, Short.MAX_VALUE))
+                    .addComponent(btnConvenios)
+                    .addComponent(btnOficinas))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jpLeftBarLayout.setVerticalGroup(
             jpLeftBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,7 +440,9 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(btnInstituciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConvenios)
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOficinas)
+                .addContainerGap(181, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -417,11 +450,10 @@ public class ContentAdmin extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
                 .addComponent(jpLeftBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpUpBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1295, Short.MAX_VALUE)
+                    .addComponent(jpUpBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(principalAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -711,6 +743,18 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnConvenios.getIcon().toString()))));
     }//GEN-LAST:event_btnConveniosMouseExited
 
+    private void btnOficinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOficinasMouseClicked
+
+    private void btnOficinasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOficinasMouseEntered
+
+    private void btnOficinasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOficinasMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -764,6 +808,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnInvent;
     private javax.swing.JLabel btnListarFichas;
     private javax.swing.JLabel btnMinimizeWindow;
+    private javax.swing.JLabel btnOficinas;
     private javax.swing.JLabel btnSizeWindow;
     private javax.swing.JLabel btnSyncronize;
     private javax.swing.JLabel btnSyncronize4;

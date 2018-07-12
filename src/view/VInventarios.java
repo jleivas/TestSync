@@ -42,7 +42,6 @@ public class VInventarios extends javax.swing.JPanel {
         ContentAdmin.lblTitle.setText("Registro de inventarios");
         load.sincronize(new Inventario());
         initComponents();
-        modelo.addColumn("Id");
         modelo.addColumn("Inventario");
         tblListar.setModel(modelo);
         ContentAdmin.lblTitle.setText("Inventarios");
@@ -68,6 +67,7 @@ public class VInventarios extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        btnAsignar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -98,18 +98,19 @@ public class VInventarios extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Id", "Inventario"
+                "Inventario"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
 
         btnAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Eye_50px.png"))); // NOI18N
+        btnAbrir.setToolTipText("Cargar");
         btnAbrir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAbrirMouseClicked(evt);
@@ -123,6 +124,7 @@ public class VInventarios extends javax.swing.JPanel {
         });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Trash_50px.png"))); // NOI18N
+        btnEliminar.setToolTipText("Eliminar");
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEliminarMouseClicked(evt);
@@ -136,6 +138,7 @@ public class VInventarios extends javax.swing.JPanel {
         });
 
         btnRestaurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Data_Backup_50px.png"))); // NOI18N
+        btnRestaurar.setToolTipText("Restaurar");
         btnRestaurar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnRestaurarMouseClicked(evt);
@@ -150,6 +153,7 @@ public class VInventarios extends javax.swing.JPanel {
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
 
+        txtBuscar.setToolTipText("Buscar");
         txtBuscar.setBorder(null);
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +163,20 @@ public class VInventarios extends javax.swing.JPanel {
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyTyped(evt);
+            }
+        });
+
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Data_Backup_50px.png"))); // NOI18N
+        btnAsignar.setToolTipText("Asignar como inventario local");
+        btnAsignar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseExited(evt);
             }
         });
 
@@ -182,6 +200,8 @@ public class VInventarios extends javax.swing.JPanel {
                         .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btnRestaurar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAsignar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -202,7 +222,8 @@ public class VInventarios extends javax.swing.JPanel {
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnAbrir, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAsignar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(36, 36, 36))
         );
 
@@ -382,9 +403,9 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            String nombre = tblListar.getValueAt(fila, 0).toString();
             
-            abrirInventario(id);
+            abrirInventario(nombre);
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
@@ -395,10 +416,10 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Inventario temp = (Inventario)load.get(null,id,new Inventario());
+            String nombre = tblListar.getValueAt(fila, 0).toString();
+            Inventario temp = (Inventario)load.get(nombre,0,new Inventario());
             if(OptionPane.getConfirmation("Eliminar Inventario", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(null,id, temp))
+                if(load.delete(nombre,0, temp))
                     OptionPane.showMsg("Eliminar Inventario", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
                 else
                     OptionPane.showMsg("Eliminar Inventario", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
@@ -416,9 +437,9 @@ public class VInventarios extends javax.swing.JPanel {
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
             int fila = tblListar.getSelectedRow();
-            int id = (int)tblListar.getValueAt(fila, 0);
+            String nombre = tblListar.getValueAt(fila, 0).toString();
             if(OptionPane.getConfirmation("Confirmación de Inventario", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
-                if(load.restore(null, id, new Inventario())){
+                if(load.restore(nombre, 0, new Inventario())){
                     OptionPane.showMsg("Restaurar Inventario", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     OptionPane.showMsg("Restaurar Inventario", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
@@ -474,7 +495,7 @@ public class VInventarios extends javax.swing.JPanel {
             desc = "";
         }
 
-        Inventario inventario= new Inventario(GlobalValues.LOCAL_SYNC_FICHA.getId(null, 0, new Inventario()), nombre, desc, 1, null, 0);
+        Inventario inventario= new Inventario(0, nombre, desc, 1, null, 0);
         try {
             load.add(inventario);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -545,9 +566,31 @@ public class VInventarios extends javax.swing.JPanel {
         tblListar.setRowSorter(trs);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void btnAsignarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseClicked
+        try{
+            int fila = tblListar.getSelectedRow();
+            String nombre = tblListar.getValueAt(fila, 0).toString();
+            
+            GlobalValues.setInventarioLocal(nombre);
+            
+        }catch(Exception e){
+            OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".",  JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAsignarMouseClicked
+
+    private void btnAsignarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseEntered
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnAsignar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnAsignarMouseEntered
+
+    private void btnAsignarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseExited
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnAsignar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnAsignarMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
+    private javax.swing.JLabel btnAsignar;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;
@@ -598,9 +641,8 @@ public class VInventarios extends javax.swing.JPanel {
             modelo.setNumRows(0);
             for (Object object : load.listar(listar, new Inventario())) {
                 Inventario temp = (Inventario)object;
-                Object[] fila = new Object[2];
-                fila[0] = temp.getCod();
-                fila[1] = temp.getNombre();
+                Object[] fila = new Object[1];
+                fila[0] = temp.getNombre();
                 modelo.addRow(fila);
             }
             tblListar.updateUI();
@@ -613,8 +655,8 @@ public class VInventarios extends javax.swing.JPanel {
         }
     }
 
-    private void abrirInventario(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-            stInventario = (Inventario)load.get(null,id,new Inventario());
+    private void abrirInventario(String nombre) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            stInventario = (Inventario)load.get(nombre,0,new Inventario());
             if(stInventario!=null){
                 if(stInventario.getNombre().isEmpty() || stInventario.getNombre().equals("null"))
                     txtNombreU.setText("");
