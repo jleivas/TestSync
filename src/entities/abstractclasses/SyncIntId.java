@@ -62,10 +62,10 @@ public abstract class SyncIntId {
     }
     
     public String getStr(String arg){
-        if(arg == null || arg.isEmpty())
+        if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
         else
-            return arg;
+            return arg.trim();
     }
     
 }
