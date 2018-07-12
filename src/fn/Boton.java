@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.sql.SQLException;
 import static view.ContentAdmin.principalAdmin;
 import view.VClientes;
+import view.VOficinas;
 import view.VConvenios;
 import view.VCrearFicha;
 import view.VCristales;
@@ -170,6 +171,16 @@ public class Boton {
         principalAdmin.repaint();
     }
     
+    public void oficinas() throws SQLException, ClassNotFoundException {
+        VOficinas p1 = new VOficinas();
+        p1.setSize(ancho, alto);
+        p1.setLocation(locat, locat);
+        principalAdmin.removeAll();
+        principalAdmin.add(p1,BorderLayout.CENTER);
+        principalAdmin.revalidate();
+        principalAdmin.repaint();
+    }
+    
     public void tipoPagos() throws SQLException, ClassNotFoundException{
         VTipoPagos p1 = new VTipoPagos();
         p1.setSize(ancho, alto);
@@ -245,4 +256,5 @@ public class Boton {
 //        principalAdmin.revalidate();
 //        principalAdmin.repaint();
 //    }
+
 }
