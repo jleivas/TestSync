@@ -393,8 +393,8 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
-        btnOficinas.setToolTipText("Oficinas");
+        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Shop_50px.png"))); // NOI18N
+        btnOficinas.setToolTipText("Locales");
         btnOficinas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnOficinasMouseClicked(evt);
@@ -744,15 +744,19 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConveniosMouseExited
 
     private void btnOficinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseClicked
-        // TODO add your handling code here:
+        try {
+            boton.oficinas();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnOficinasMouseClicked
 
     private void btnOficinasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseEntered
-        // TODO add your handling code here:
+        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnOficinas.getIcon().toString()))));
     }//GEN-LAST:event_btnOficinasMouseEntered
 
     private void btnOficinasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseExited
-        // TODO add your handling code here:
+        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnOficinas.getIcon().toString()))));
     }//GEN-LAST:event_btnOficinasMouseExited
 
     /**

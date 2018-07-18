@@ -513,9 +513,9 @@
             <Component class="javax.swing.JLabel" name="btnOficinas">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/icons8_Handshake_50px.png"/>
+                  <Image iconType="3" name="/icons/icons8_Shop_50px.png"/>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Oficinas"/>
+                <Property name="toolTipText" type="java.lang.String" value="Locales"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnOficinasMouseClicked"/>
