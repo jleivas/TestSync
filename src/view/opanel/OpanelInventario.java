@@ -132,19 +132,23 @@ public class OpanelInventario extends javax.swing.JPanel {
         try{
             switch (cboOption.getSelectedIndex()){
                 case 0:
+                    OptionPane.closeInfoPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1://inventarios
-                    boton.inventarios();
                     OptionPane.closeInfoPanel();
+                    boton.inventarios();
+                    
                     break;
                 case 2://armazones
-                    boton.lentes();
                     OptionPane.closeInfoPanel();
+                    boton.lentes();
+                    
                     break;
                 case 3://cristales
-                    boton.cristales();
                     OptionPane.closeInfoPanel();
+                    boton.cristales();
+                    
                     break;
                 case 4://exportar inventario
                     break;
@@ -153,6 +157,7 @@ public class OpanelInventario extends javax.swing.JPanel {
                 case 6://registro de bajas
                     break;
                 default:
+                    OptionPane.closeInfoPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
             }
