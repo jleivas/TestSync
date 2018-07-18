@@ -23,7 +23,7 @@ public class InternMail extends SyncIntId{
     public InternMail() {
     }
 
-    public InternMail(int id, User remitente, User destinatario, String asunto, String contenido, int estado, Date fecha, String hora) {
+    public InternMail(int id, User remitente, User destinatario, String asunto, String contenido, Date fecha, String hora,int estado,Date lastUpdate,int lastHour) {
         setId(id);
         this.remitente = remitente;
         this.destinatario = destinatario;
@@ -32,6 +32,8 @@ public class InternMail extends SyncIntId{
         setEstado(estado);
         this.fecha = fecha;
         this.hora = hora;
+        setLastUpdate(lastUpdate);
+        setLastHour(lastHour);
     }
 
     public User getRemitente() {
@@ -81,4 +83,30 @@ public class InternMail extends SyncIntId{
     public void setHora(String hora) {
         this.hora = hora;
     }
+
+    /**
+     * 0: eliminado (No se visualizará en la vista),
+     * 1: no leido
+     * 2: leido
+     * @param estado 
+     */
+    @Override
+    public void setEstado(int estado) {
+        super.setEstado(estado); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * 0: eliminado (No se visualizará en la vista),
+     * 1: no leido
+     * 2: leido
+     * @return 
+     */
+    @Override
+    public int getEstado() {
+        return super.getEstado(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
+    
 }
