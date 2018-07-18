@@ -8,6 +8,7 @@ package view;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import dao.Dao;
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
@@ -47,11 +48,12 @@ public class VCrearFicha extends javax.swing.JPanel {
      * Creates new form VNuevaFicha
      */
     public VCrearFicha() throws SQLException, ClassNotFoundException {
-        initComponents();
         
+        initComponents();
+        cargarCbos();
         ContentAdmin.lblTitle.setText("Nueva Ficha");
         txtTotal.setText("0");
-        cargarCbos();
+        
         autocompletar();
         
        // JFormattedTextField.COMMIT_OR_REVERT. Esta es la opción por defecto y la más útil. Si el texto introducido es incorrecto, se vuelve automáticamente al último valor bueno conocido. Si el texto no es válido, se muestra el último valor bueno conocido.<>
@@ -1338,8 +1340,12 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void cboTipoPagoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTipoPagoItemStateChanged
 
         String nombre = (String) cboTipoPago.getSelectedItem();
+        if(nombre == null || nombre.isEmpty())
+            return;
         try {
-            stTipoPago = (TipoPago)load.get(nombre,0,new TipoPago());
+            if(!nombre.trim().toLowerCase().equals("seleccione")){
+                stTipoPago = (TipoPago)load.get(nombre,0,new TipoPago());
+            }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             JOptionPane.showMessageDialog(null, "Error inesparado: "+ex);
         }
@@ -1839,7 +1845,10 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_chkConvenioActionPerformed
 
     private void chkConvenioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chkConvenioKeyPressed
-        // TODO add your handling code here:
+        if(chkConvenio.isSelected())
+            cboConvenio.setVisible(true);
+        else
+            cboConvenio.setVisible(false);
     }//GEN-LAST:event_chkConvenioKeyPressed
 
     private void chkConvenioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chkConvenioKeyTyped
@@ -1987,6 +1996,18 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         if(contDscto > 0)
             cboDescuento.setSelectedIndex(1);
+        
+        cboConvenio.setVisible(false);
+        cboConvenio.removeAllItems();
+        cboConvenio.addItem("Sin convenio");
+        int contConvenio = 0;
+        for (Object object : load.listar("0", new Convenio())) {
+            cboConvenio.addItem(((Convenio)object).getNombre());
+            contConvenio++;
+        }
+        if(contConvenio > 0)
+            cboConvenio.setSelectedIndex(1);
+        
         cboTipoPago.removeAllItems();
         cboTipoPago.addItem("Seleccione");
         for (Object temp : load.listar("0", new TipoPago())) {
