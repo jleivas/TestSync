@@ -1362,7 +1362,8 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error de conexion", "Ocurrió un error inesperado en: "+className+"\n"
+                    + "Detalle: \n"+ex.getMessage()+"\n\n"+ex, JOptionPane.ERROR_MESSAGE);
         }
         return lista;
     }
