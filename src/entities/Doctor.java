@@ -32,15 +32,15 @@ public class Doctor extends SyncStringId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.telefono = getStr(telefono);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = getStr(email).toLowerCase();
     }
 
     public String getNombre() {

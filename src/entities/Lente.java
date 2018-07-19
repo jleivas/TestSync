@@ -50,17 +50,17 @@ public class Lente extends SyncStringId{
      * @param lastUpdate 
      */
     public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,String inventario, int estado, Date lastUpdate, int lastHour) {
-        this.color = color;
-        this.tipo = tipo;
-        this.marca = marca;
-        this.material = material;
-        this.flex = flex;
-        this.clasificacion = clasificacion;
-        this.descripcion = descripcion;
-        this.precioRef = precioRef;
-        this.precioAct = precioAct;
-        this.stock = stock;
-        this.stockMin = stockMin;
+        setColor(color);
+        setTipo(tipo);
+        setMarca(marca);
+        setMaterial(material);
+        setFlex(flex);
+        setClasificacion(clasificacion);
+        setDescripcion(descripcion);
+        setPrecioRef(precioRef);
+        setPrecioAct(precioAct);
+        setStock(stock);
+        setStockMin(stockMin);
         setInventario(inventario);
         setCod(cod);
         setEstado(estado);
@@ -83,7 +83,7 @@ public class Lente extends SyncStringId{
         }
     }
     public void setInventario(String inventario) {
-        this.inventario = inventario;
+        this.inventario = getStr(inventario);
     }
 
     public String getInventario() {
@@ -91,7 +91,7 @@ public class Lente extends SyncStringId{
     }
 
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        this.tipo = getStr(tipo);
     }
 
     public String getTipo() {
@@ -99,15 +99,15 @@ public class Lente extends SyncStringId{
     }
 
     public void setColor(String color) {
-        this.color = color;
+        this.color = getStr(color);
     }
 
     public void setMarca(String marca) {
-        this.marca = marca;
+        this.marca = getStr(marca);
     }
 
     public void setMaterial(String material) {
-        this.material = material;
+        this.material = getStr(material);
     }
 
     public void setFlex(int flex) {
@@ -119,7 +119,7 @@ public class Lente extends SyncStringId{
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = getStr(descripcion);
     }
 
     public void setPrecioRef(int precioRef) {

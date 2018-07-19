@@ -25,13 +25,13 @@ public class InternMail extends SyncIntId{
 
     public InternMail(int id, User remitente, User destinatario, String asunto, String contenido, Date fecha, String hora,int estado,Date lastUpdate,int lastHour) {
         setId(id);
-        this.remitente = remitente;
-        this.destinatario = destinatario;
-        this.asunto = asunto;
-        this.contenido = contenido;
+        setRemitente(remitente);
+        setDestinatario(destinatario);
+        setAsunto(asunto);
+        setContenido(contenido);
         setEstado(estado);
-        this.fecha = fecha;
-        this.hora = hora;
+        setFecha(fecha);
+        setHora(hora);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
@@ -69,11 +69,11 @@ public class InternMail extends SyncIntId{
     }
 
     public void setAsunto(String asunto) {
-        this.asunto = asunto;
+        this.asunto = getStr(asunto);
     }
 
     public void setContenido(String contenido) {
-        this.contenido = contenido;
+        this.contenido = getStr(contenido);
     }
 
     public void setFecha(Date fecha) {

@@ -17,6 +17,7 @@ public class Institucion extends SyncIntId{
     private String nombre;
     private String telefono;
     private String email;
+    private String web;
     private String direccion;
     private String comuna;
     private String ciudad;
@@ -24,11 +25,12 @@ public class Institucion extends SyncIntId{
     public Institucion() {
     }
 
-    public Institucion(int id, String nombre, String telefono, String email, String direccion, String comuna, String ciudad, int estado, Date lastUpdate, int lastHour) {
+    public Institucion(int id, String nombre, String telefono, String email, String web, String direccion, String comuna, String ciudad, int estado, Date lastUpdate, int lastHour) {
         setId(id);
         setNombre(nombre);
         setTelefono(telefono);
         setEmail(email);
+        setWeb(web);
         setDireccion(direccion);
         setComuna(comuna);
         setCiudad(ciudad);
@@ -38,27 +40,31 @@ public class Institucion extends SyncIntId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.telefono = getStr(telefono);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = getStr(email).toLowerCase();
     }
-
+    
+    public void setWeb(String web){
+        this.web = getStr(web).toLowerCase();
+    }
+    
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = getToName(direccion);
     }
 
     public void setComuna(String comuna) {
-        this.comuna = comuna;
+        this.comuna = getToName(comuna);
     }
 
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        this.ciudad = getToName(ciudad);
     }
 
     public String getNombre() {
@@ -72,7 +78,10 @@ public class Institucion extends SyncIntId{
     public String getEmail() {
         return getStr(email);
     }
-
+    
+    public String getWeb(){
+        return getStr(web);
+    }
     public String getDireccion() {
         return getStr(direccion);
     }

@@ -28,22 +28,22 @@ public class Convenio extends SyncIntId{
 
     public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
         setId(id);
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.cuotas = cuotas;
-        this.montoMaximo = montoMaximo;
-        this.montoPp = montoPp;
-        this.maximoClientes = maximoClientes;
-        this.idDescuento = idDescuento;
-        this.idInstitucion = idInstitucion;
+        setNombre(nombre);
+        setFechaInicio(fechaInicio);
+        setFechaFin(fechaFin);
+        setCuotas(cuotas);
+        setMontoMaximo(montoMaximo);
+        setMontoPp(montoPp);
+        setMaximoClientes(maximoClientes);
+        setIdDescuento(idDescuento);
+        setIdInstitucion(idInstitucion);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setFechaInicio(Date fechaInicio) {

@@ -27,44 +27,44 @@ public class Oficina extends SyncIntId{
     public Oficina(int id, String nombre, String direccion, String ciudad, String telefono1,
             String telefono2, String email, String web, int estado, Date lastUpdate, int lastHour) {
         setId(id);
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.ciudad = ciudad;
-        this.telefono1 = telefono1;
-        this.telefono2 = telefono2;
-        this.email = email;
-        this.web = web;
+        setNombre(nombre);
+        setDireccion(direccion);
+        setCiudad(ciudad);
+        setTelefono1(telefono1);
+        setTelefono2(telefono2);
+        setEmail(email);
+        setWeb(web);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = getToName(direccion);
     }
 
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        this.ciudad = getToName(ciudad);
     }
 
     public void setTelefono1(String telefono1) {
-        this.telefono1 = telefono1;
+        this.telefono1 = getStr(telefono1);
     }
 
     public void setTelefono2(String telefono2) {
-        this.telefono2 = telefono2;
+        this.telefono2 = getStr(telefono2);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = getStr(email).toLowerCase();
     }
 
     public void setWeb(String web) {
-        this.web = web;
+        this.web = getStr(web).toLowerCase();
     }
 
     public String getNombre() {

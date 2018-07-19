@@ -24,10 +24,10 @@ public class RegistroBaja extends SyncStringId{
     public RegistroBaja(String cod, Date fecha, String idLente, int cantidad,
             String obs, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
-        this.fecha = fecha;
-        this.idLente = idLente;
-        this.cantidad = cantidad;
-        this.obs = obs;
+        setFecha(fecha);
+        setIdLente(idLente);
+        setCantidad(cantidad);
+        setObs(obs);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
@@ -38,7 +38,7 @@ public class RegistroBaja extends SyncStringId{
     }
 
     public void setIdLente(String idLente) {
-        this.idLente = idLente;
+        this.idLente = getStr(idLente);
     }
 
     public void setCantidad(int cantidad) {
@@ -46,7 +46,7 @@ public class RegistroBaja extends SyncStringId{
     }
 
     public void setObs(String obs) {
-        this.obs = obs;
+        this.obs = getStr(obs);
     }
 
     public Date getFecha() {

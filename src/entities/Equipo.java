@@ -18,19 +18,19 @@ public class Equipo extends SyncIntId{
 
     public Equipo(int id,String nombre, String licencia, int estado, Date lastUpdate, int lastHour) {
         setId(id);
-        this.nombre = nombre;
-        this.licencia = licencia;
+        setNombre(nombre);
+        setLicencia(licencia);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setLicencia(String licencia) {
-        this.licencia = licencia;
+        this.licencia = getStr(licencia);
     }
 
     public String getNombre() {

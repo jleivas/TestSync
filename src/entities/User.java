@@ -36,7 +36,7 @@ public class User extends SyncIntId{
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = getStr(email).toLowerCase();
     }
 
     public String getEmail() {
@@ -44,7 +44,7 @@ public class User extends SyncIntId{
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = getStr(username);
     }
 
     public String getUsername() {
@@ -52,11 +52,11 @@ public class User extends SyncIntId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setPass(String pass) {
-        this.pass = pass;
+        this.pass = getStr(pass);
     }
 
     public void setTipo(int tipo) {

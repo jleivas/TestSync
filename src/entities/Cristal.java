@@ -29,7 +29,7 @@ public class Cristal extends SyncIntId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setPrecio(int precio) {

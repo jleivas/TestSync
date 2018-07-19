@@ -42,12 +42,12 @@ public class Descuento extends SyncIntId{
 
     public void setNombre(String nombre) {
        
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
         
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = getStr(descripcion);
     }
 
     public void setPorcetange(int porcetange) {

@@ -43,31 +43,31 @@ public class Cliente extends SyncStringId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setTelefono1(String telefono1) {
-        this.telefono1 = telefono1;
+        this.telefono1 = getStr(telefono1);
     }
     
     public void setTelefono2(String telefono2) {
-        this.telefono2 = telefono2;
+        this.telefono2 = getStr(telefono2);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = getStr(email).toLowerCase();
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = getToName(direccion);
     }
 
     public void setComuna(String comuna) {
-        this.comuna = comuna;
+        this.comuna = getToName(comuna);
     }
 
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        this.ciudad = getToName(ciudad);
     }
 
     public void setSexo(int sexo) {

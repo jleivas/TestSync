@@ -21,19 +21,19 @@ public class Inventario extends SyncIntId{
     
     public Inventario(int id,String nombre, String descripcion,int estado,Date lastUpdate, int lastHour) {
         setId(id);
-        this.nombre = nombre;
-        this.descripcion = descripcion;
+        setNombre(nombre);
+        setDescripcion(descripcion);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = getToName(nombre);
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = getStr(nombre);
     }
 
     public String getNombre() {
