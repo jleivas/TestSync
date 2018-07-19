@@ -899,6 +899,7 @@ public class Remote implements InterfaceSync{
                         datos.getString("ins_nombre"),
                         datos.getString("ins_telefono"),
                         datos.getString("ins_mail"),
+                        datos.getString("ins_web"),
                         datos.getString("ins_direccion"),
                         datos.getString("ins_comuna"),
                         datos.getString("ins_ciudad"),
@@ -1262,6 +1263,7 @@ public class Remote implements InterfaceSync{
                         datos.getString("ins_nombre"),
                         datos.getString("ins_telefono"),
                         datos.getString("ins_mail"),
+                        datos.getString("ins_web"),
                         datos.getString("ins_direccion"),
                         datos.getString("ins_comuna"),
                         datos.getString("ins_ciudad"),
@@ -1749,6 +1751,7 @@ public class Remote implements InterfaceSync{
                             + object.getNombre() + "','"
                             + object.getTelefono() + "','"
                             + object.getEmail() + "','"
+                            + object.getWeb()+ "','"
                             + object.getDireccion()+ "','"
                             + object.getComuna()+ "','"
                             + object.getCiudad()+ "',"
@@ -1960,6 +1963,7 @@ public class Remote implements InterfaceSync{
             return  "UPDATE institucion set ins_nombre = '" + object.getNombre()
                         + "', ins_telefono = '" + object.getTelefono()
                         + "', ins_mail = '" + object.getEmail()
+                        + "', ins_web = '" + object.getWeb()
                         + "', ins_direccion = '" + object.getDireccion()
                         + "', ins_comuna = '" + object.getComuna()
                         + "', ins_ciudad = '" + object.getCiudad()
@@ -2117,3 +2121,4 @@ public class Remote implements InterfaceSync{
         return lista;
     }
 }
+
