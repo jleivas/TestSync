@@ -61,6 +61,19 @@ public abstract class SyncIntId {
         }
     }
     
+    public String getToName(String param){
+        String[] str = getStr(param).split(" ");
+        StringBuffer value = new StringBuffer();
+        for (String temp : str) {
+            if(temp.length() > 1){
+                value.append(Character.toUpperCase(temp.charAt(0))).append(temp.substring(1)).append(" ");
+            }else{
+                value.append(temp.toUpperCase()).append(" ");
+            }
+        }
+        return value.toString().trim();
+    }
+    
     public String getStr(String arg){
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
