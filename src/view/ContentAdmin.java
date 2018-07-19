@@ -5,6 +5,7 @@
  */
 package view;
 
+import entities.User;
 import fn.Boton;
 import fn.GlobalValues;
 import fn.Icons;
@@ -53,8 +54,17 @@ public class ContentAdmin extends javax.swing.JFrame {
             licencia = "La licencia de este producto ha caducado";
             lblLicence.setForeground(Color.RED);
         }
+        //****************************
+        //cargar user por defecto, eliminar
+        dao.Dao load = new dao.Dao();
+        try {
+            GlobalValues.USER = (User)load.get("root", 0, new User());
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //******************************
         lblLicence.setText(licencia);
-        
+        lblUserName.setText(GlobalValues.USER.getNombre());
         this.setTitle("Optidata "+GlobalValues.VERSION+"     "+licencia);
         try {
             boton.crearFicha();
@@ -83,7 +93,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblUserName = new javax.swing.JLabel();
         btnUser = new javax.swing.JLabel();
-        btnSyncronize = new javax.swing.JLabel();
+        btnMessage = new javax.swing.JLabel();
         btnConfig = new javax.swing.JLabel();
         btnInvent = new javax.swing.JLabel();
         btnSyncronize4 = new javax.swing.JLabel();
@@ -172,20 +182,20 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
         jpUpBar.add(btnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
 
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Uninstalling_Updates_25px.png"))); // NOI18N
-        btnSyncronize.setToolTipText("Sincronizar");
-        btnSyncronize.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Msg_1_25px.png"))); // NOI18N
+        btnMessage.setToolTipText("Mensajes");
+        btnMessage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSyncronizeMouseClicked(evt);
+                btnMessageMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSyncronizeMouseEntered(evt);
+                btnMessageMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSyncronizeMouseExited(evt);
+                btnMessageMouseExited(evt);
             }
         });
-        jpUpBar.add(btnSyncronize, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
+        jpUpBar.add(btnMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, -1, -1));
 
         btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Settings_25px.png"))); // NOI18N
         btnConfig.setToolTipText("Configuracion");
@@ -492,9 +502,9 @@ public class ContentAdmin extends javax.swing.JFrame {
 //            this.setState(JFrame.MAXIMIZED_BOTH);
     }//GEN-LAST:event_btnSizeWindowMouseClicked
 
-    private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSyncronizeMouseClicked
+    private void btnMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMessageMouseClicked
+        boton.mensajes();
+    }//GEN-LAST:event_btnMessageMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
         OptionPane.showPanel(new OpanelConfig(), "Configuración");
@@ -569,14 +579,13 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnUser.getIcon().toString()))));
     }//GEN-LAST:event_btnUserMouseExited
 
-    private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
-        
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIconIfConnected(btnSyncronize.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronizeMouseEntered
+    private void btnMessageMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMessageMouseEntered
+        btnMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnMessage.getIcon().toString()))));
+    }//GEN-LAST:event_btnMessageMouseEntered
 
-    private void btnSyncronizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseExited
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronizeMouseExited
+    private void btnMessageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMessageMouseExited
+        btnMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnMessage.getIcon().toString()))));
+    }//GEN-LAST:event_btnMessageMouseExited
 
     private void btnSizeWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSizeWindowMouseEntered
         String img = btnSizeWindow.getIcon().toString();
@@ -811,10 +820,10 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnInstituciones;
     private javax.swing.JLabel btnInvent;
     private javax.swing.JLabel btnListarFichas;
+    private javax.swing.JLabel btnMessage;
     private javax.swing.JLabel btnMinimizeWindow;
     private javax.swing.JLabel btnOficinas;
     private javax.swing.JLabel btnSizeWindow;
-    private javax.swing.JLabel btnSyncronize;
     private javax.swing.JLabel btnSyncronize4;
     private javax.swing.JLabel btnTools;
     private javax.swing.JLabel btnUser;
@@ -829,7 +838,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel lblLicence;
     private javax.swing.JLabel lblName;
     public static javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblUserName;
+    public static javax.swing.JLabel lblUserName;
     public static javax.swing.JPanel principalAdmin;
     // End of variables declaration//GEN-END:variables
 

@@ -298,6 +298,15 @@ public class Dao{
                         sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (Institucion)object);
                     }
                 }
+                /*InternMail*/
+                if(type instanceof InternMail){
+                    for (Object object : GlobalValues.REMOTE_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (InternMail)object);
+                    }
+                    for (Object object : GlobalValues.LOCAL_SYNC.listar(GlobalValues.LAST_UPDATE,type)) {
+                        sync.Sync.add(GlobalValues.LOCAL_SYNC, GlobalValues.REMOTE_SYNC, (InternMail)object);
+                    }
+                }
                 /*Institucion*/
                 if(type instanceof Inventario){
                     for (Object object : GlobalValues.REMOTE_SYNC_FICHA.listar(GlobalValues.LAST_UPDATE,type)) {
@@ -423,7 +432,7 @@ public class Dao{
      * @return 
      */
     public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
-        return GlobalValues.LOCAL_SYNC.mensajes(remitente, destinatario, estado);
+        return GlobalValues.REMOTE_SYNC.mensajes(remitente, destinatario, estado);
     }
 //    public void sincronize() {
 //        Log.setLog(className,Log.getReg());

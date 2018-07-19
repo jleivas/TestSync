@@ -589,10 +589,8 @@ public class VDescuentos extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
        
-        String nombre = GlobalValues.strToName(txtNombreN.getText());
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        String nombre = (txtNombreN.getText());
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Agregar Descuento", "El descuento debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -650,10 +648,8 @@ public class VDescuentos extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreUKeyTyped
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        String nombre= GlobalValues.strToName(txtNombreU.getText());
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        String nombre= (txtNombreU.getText());
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Modificar Descuento", "El desuento debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }

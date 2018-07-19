@@ -85,6 +85,8 @@ public class VInstituciones extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txtCiudadN = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtWebN = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -99,6 +101,8 @@ public class VInstituciones extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         txtCiudadU = new javax.swing.JTextField();
         btnModificar = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtWebU = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -307,6 +311,20 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel8.setText("Web");
+
+        txtWebN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtWebNActionPerformed(evt);
+            }
+        });
+        txtWebN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtWebNKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -314,9 +332,10 @@ public class VInstituciones extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -326,7 +345,8 @@ public class VInstituciones extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4))
                     .addComponent(txtDireccionN, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtWebN, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -335,7 +355,7 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaN, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                        .addComponent(txtComunaN, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -363,11 +383,15 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(txtComunaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(txtCiudadN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(45, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtWebN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addComponent(btnGuardar)))
         );
 
@@ -451,6 +475,20 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
+        jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel17.setText("Web");
+
+        txtWebU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtWebUActionPerformed(evt);
+            }
+        });
+        txtWebU.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtWebUKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -460,7 +498,8 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
@@ -470,7 +509,8 @@ public class VInstituciones extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13))
                     .addComponent(txtDireccionU, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCiudadU, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtCiudadU, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtWebU, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -479,7 +519,7 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaU, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                        .addComponent(txtComunaU)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -506,10 +546,16 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(jLabel15)
                     .addComponent(txtComunaU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel16)
-                        .addComponent(txtCiudadU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(txtCiudadU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(txtWebU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addComponent(btnModificar)))
         );
 
@@ -521,10 +567,10 @@ public class VInstituciones extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -736,9 +782,7 @@ public class VInstituciones extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
         String nombre=txtNombreN.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre == null || nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -749,11 +793,12 @@ public class VInstituciones extends javax.swing.JPanel {
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion=GlobalValues.strToName(txtDireccionN.getText());
-        String comuna=GlobalValues.strToName(txtComunaN.getText());
-        String ciudad=GlobalValues.strToName(txtCiudadN.getText());
+        String direccion=txtDireccionN.getText();
+        String comuna=txtComunaN.getText();
+        String ciudad=txtCiudadN.getText();
+        String web = txtWebN.getText();
 
-        Institucion institucion= new Institucion(GlobalValues.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail, direccion, comuna, ciudad, 1, null, 0);
+        Institucion institucion= new Institucion(GlobalValues.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
         try {
             load.add(institucion);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -774,9 +819,7 @@ public class VInstituciones extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         String nombre= txtNombreU.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre == null || nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -787,16 +830,14 @@ public class VInstituciones extends javax.swing.JPanel {
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion = GlobalValues.strToName(txtDireccionU.getText());
-        String comuna = GlobalValues.strToName(txtComunaU.getText());
-        String ciudad = GlobalValues.strToName(txtCiudadU.getText());
         
-        stInstitucion.setCiudad(ciudad);
-        stInstitucion.setComuna(comuna);
-        stInstitucion.setDireccion(direccion);
+        stInstitucion.setCiudad(txtCiudadU.getText());
+        stInstitucion.setComuna(txtComunaU.getText());
+        stInstitucion.setDireccion(txtDireccionU.getText());
         stInstitucion.setEmail(email);
         stInstitucion.setNombre(nombre);
         stInstitucion.setTelefono(telefono);
+        stInstitucion.setWeb(txtWebU.getText());
         
         if(load.update(stInstitucion))
             OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
@@ -835,6 +876,22 @@ public class VInstituciones extends javax.swing.JPanel {
         tblListar.setRowSorter(trs);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void txtWebNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWebNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtWebNActionPerformed
+
+    private void txtWebNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtWebNKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtWebNKeyTyped
+
+    private void txtWebUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtWebUActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtWebUActionPerformed
+
+    private void txtWebUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtWebUKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtWebUKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
@@ -849,6 +906,7 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -856,6 +914,7 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -875,6 +934,8 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JTextField txtNombreU;
     private javax.swing.JTextField txtTelefonoN;
     private javax.swing.JTextField txtTelefonoU;
+    private javax.swing.JTextField txtWebN;
+    private javax.swing.JTextField txtWebU;
     // End of variables declaration//GEN-END:variables
 
     
@@ -923,32 +984,13 @@ public class VInstituciones extends javax.swing.JPanel {
     private void abrirInstitucion(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
             stInstitucion = (Institucion)load.get(null,id,new Institucion());
             if(stInstitucion!=null){
-                if(stInstitucion.getNombre().isEmpty() || stInstitucion.getNombre().equals("null"))
-                    txtNombreU.setText("");
-                else
-                    txtNombreU.setText(stInstitucion.getNombre());
-                if(stInstitucion.getCiudad().isEmpty() || stInstitucion.getCiudad().equals("null"))
-                    txtCiudadU.setText("");
-                else
-                    txtCiudadU.setText(stInstitucion.getCiudad());
-                if(stInstitucion.getComuna().isEmpty() || stInstitucion.getComuna().equals("null"))
-                    txtComunaU.setText("");
-                else
-                    txtComunaU.setText(stInstitucion.getComuna());
-                if(stInstitucion.getDireccion().isEmpty() || stInstitucion.getDireccion().equals("null"))
-                    txtDireccionU.setText("");
-                else
-                    txtDireccionU.setText(stInstitucion.getDireccion());
-                if(stInstitucion.getTelefono().isEmpty() || stInstitucion.getTelefono().equals("null")){
-                    txtTelefonoU.setText("");
-                }else{
-                    txtTelefonoU.setText(stInstitucion.getTelefono());
-                }
-                if(stInstitucion.getEmail().isEmpty() || stInstitucion.getEmail().equals("null"))
-                    txtEmailU.setText("");
-                else
-                    txtEmailU.setText(stInstitucion.getEmail());
-                
+                txtNombreU.setText(stInstitucion.getNombre());
+                txtCiudadU.setText(stInstitucion.getCiudad());
+                txtComunaU.setText(stInstitucion.getComuna());
+                txtDireccionU.setText(stInstitucion.getDireccion());
+                txtTelefonoU.setText(stInstitucion.getTelefono());
+                txtEmailU.setText(stInstitucion.getEmail());
+                txtWebU.setText(stInstitucion.getWeb());
             }else{
                 OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
@@ -962,6 +1004,8 @@ public class VInstituciones extends javax.swing.JPanel {
         txtDireccionU.setText("");
         txtEmailU.setText("");
         txtNombreU.setText("");
+        txtWebN.setText("");
+        txtWebU.setText("");
         txtTelefonoU.setText("");
         txtCiudadN.setText("");
         txtComunaN.setText("");

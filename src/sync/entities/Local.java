@@ -916,6 +916,31 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
+            if (type instanceof InternMail){
+                String sql = "SELECT * FROM message WHERE msg_id =" + idParam + "";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    User rem = (User)getElement(null, datos.getInt("us_id_remitente"), new User());
+                    User des = (User)getElement(null, datos.getInt("us_id_destinatario"), new User());
+                    lista.add(new InternMail(
+                        datos.getInt("msg_id"),
+                        rem,
+                        des,
+                        datos.getString("msg_asunto"),
+                        datos.getString("msg_content"),
+                        datos.getDate("msg_fecha"),
+                        datos.getString("msg_hora"),
+                        datos.getInt("msg_estado"),
+                        datos.getDate("msg_last_update"),
+                        datos.getInt("msg_last_hour")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
             if (type instanceof Inventario){
                 String sql = "SELECT * FROM inventario WHERE inv_nombre = '" + idParam + "'";
                 if (idParam.equals("0")) {
@@ -1077,6 +1102,9 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof User){
                 String sql = "SELECT * FROM usuario WHERE us_username='" + idParam + "'";
+                if(!idParam.equals("0") && isNumber(idParam)){
+                    sql = "SELECT * FROM usuario WHERE us_id=" + idParam + "";
+                }
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM usuario WHERE us_estado=1";
                 }
@@ -1086,7 +1114,7 @@ public class Local implements InterfaceSync {
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM usuario";
                 }
-
+                
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
@@ -1250,6 +1278,31 @@ public class Local implements InterfaceSync {
                         datos.getInt("eq_estado"),
                         datos.getDate("eq_last_update"),
                         datos.getInt("eq_last_hour")
+                        )
+                    );
+                }
+                LcBd.cerrar();
+                return lista;
+            }
+            if (type instanceof InternMail){
+                String sql = "SELECT * FROM message WHERE msg_last_update >='" + param + "'";
+
+                PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    User rem = (User)getElement(null, datos.getInt("us_id_remitente"), new User());
+                    User des = (User)getElement(null, datos.getInt("us_id_destinatario"), new User());
+                    lista.add(new InternMail(
+                        datos.getInt("msg_id"),
+                        rem,
+                        des,
+                        datos.getString("msg_asunto"),
+                        datos.getString("msg_content"),
+                        datos.getDate("msg_fecha"),
+                        datos.getString("msg_hora"),
+                        datos.getInt("msg_estado"),
+                        datos.getDate("msg_last_update"),
+                        datos.getInt("msg_last_hour")
                         )
                     );
                 }
@@ -1551,9 +1604,17 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if(type instanceof User){
-                for (Object object : listar(cod, type)) {//idParam debe ser el rut
-                    if (((User) object).getUsername().trim().toLowerCase().equals(cod.toLowerCase())) {
-                        return object;
+                if(cod == null){
+                    for (Object object : listar(""+id, type)) {
+                        if (((User) object).getId() == id) {
+                            return object;
+                        }
+                    }
+                }else{
+                    for (Object object : listar(cod, type)) {
+                        if (((User) object).getUsername().trim().toLowerCase().equals(cod.toLowerCase())) {
+                            return object;
+                        }
                     }
                 }
                 return null;
@@ -2089,24 +2150,40 @@ public class Local implements InterfaceSync {
         }
         return null;
     }
-
+    
+    private boolean isNumber(String arg){
+        if(arg == null)
+            return false;
+        arg = arg.replaceAll("[^0-9]", "");
+        if(arg.isEmpty())
+            return false;
+        return true;
+    }
     public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";
         if(remitente > 0){
-            sql = "SELECT * FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado > 0";
+            sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                    + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
+                    + "FROM message WHERE us_id_remitente = "+remitente+" AND msg_estado > 0";
             if(estado > 0)
-                sql = "SELECT * FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado = "+estado;
+                sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                        + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
+                        + "FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado = "+estado;
         }else{
-            sql = "SELECT * FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado > 0";
+            sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                    + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
+                    + "FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado > 0";
             if(estado > 0)
-                sql = "SELECT * FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado = "+estado;
+                sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                        + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
+                        + "FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado = "+estado;
         }
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
         ResultSet datos = consulta.executeQuery();
         while (datos.next()) {
-            User rem = (User)getElement(null, remitente, new User());
-            User des = (User)getElement(null, datos.getInt("us_id_destinatario"), new User());
+            User rem = (User)getElement(datos.getString("rem"), 0, new User());
+            User des = (User)getElement(datos.getString("des"), 0, new User());
             lista.add(new InternMail(
                 datos.getInt("msg_id"),
                 rem,

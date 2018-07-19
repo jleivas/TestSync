@@ -5,11 +5,13 @@
  */
 package testsync;
 
+import fn.print.jcPrint;
 import dao.Dao;
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Equipo;
 import entities.Lente;
 import entities.Oficina;
 import entities.User;
@@ -35,119 +37,59 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-//        Oficina of = new Oficina(1, "nom", "dir", "ciudad", "tel1", "tel2", "email", "web", 1, null);
-//        System.out.println(""+of.toString());
-//        Cristal cri = new Cristal(1, "nom", 2000, 1, null);
-//        System.out.println(""+cri.toString());
-//        Cliente cli = new Cliente("123312", "sc", "sd", "adlkj", "alihl", "adlfk", "hadsfo", "aslfnk", 0, 0, 0, null);
-//        System.out.println(""+cli.toString());
-//        Descuento ds = new Descuento(1, "lakdjsljkd", "asdljdasl", 0, 0, 0, null);
-//        System.out.println(""+ds.toString());
-//        Doctor dc = new Doctor("sdlkj", "dalj", "alsdkjadjkls", "asdlj", 23, null);
-//        Doctor dc2 = new Doctor("segundo", "otro", "okey", "ultim", 24, new Date(124244123));
-//        System.out.println(""+dc.toString());
-//        System.out.println(""+dc2.toString());
-//        Local load = new Local();
-//        SubProcess.isOnline();
-//        sync.Cmp.getPublicIp();
-
-//        GlobalValues.LAST_UPDATE = new Date(213312);
-//        GlobalValues.IS_ONLINE = true;
-//        Dao load = new Dao();
-//        System.out.println(""+((Lente)load.get("id1-m-c", 0, new Lente())).getLastHour());
-//            System.out.println(Cmp.dateToString(new Date(), "dd/mm/yyyy").replaceAll("-", " del "));
-        System.out.println(GlobalValues.strToName(null));
-//        System.out.println(""+GlobalValues.LAST_UPDATE.getYear());
-//        Dao load = new Dao();
-//        lentes();
-//        oficinas();
-//        load.sincronize(new Oficina());
-//        cristales();
-//        load.sincronize(new Cristal());
-//        clientes();
-//        load.sincronize(new Cliente());
-//        descuentos();
-//        load.sincronize(new Descuento());
-//        docs();
-    }
-    
-    private static ArrayList<Object> lista(){
-        User u1 = new User(1, "name", "user","name@itc.cl", "pass", 1, 1, new Date(),0);
-        User u2 = new User(2, "name2", "user2","name2@itc.cl", "pass2", 1, 1, new Date(),0);
-        ArrayList<Object> list = new ArrayList<>();
-        list.add(u2);
-        list.add(u1);
-        return list;
-    }
-    
-    private static void setValue(Object ob){
-        if(ob instanceof User)
-            System.out.println("es user");
-        if(ob instanceof Descuento)
-            System.out.println("es desc");
-        if(ob instanceof Cliente)
-            System.out.println("es cli");
-    }
-    private static void cristales() throws InterruptedException, InstantiationException, IllegalAccessException {
-        SubProcess.isOnline();
-        Cristal c1 = new Cristal(0, "CRISTAL-8080", 19990, 1, null,0);
-        Dao load = new Dao();
-        load.add(c1);
-        for (Cristal cristal : GlobalValues.TMP_LIST_CRISTAL) {
-            System.out.println(""+cristal.toString());
-        }
-
-    }
-    
-    private static void lentes() throws InterruptedException, InstantiationException, IllegalAccessException {
-//        SubProcess.isOnline();
-GlobalValues.IS_ONLINE = true;
-        Lente len = new Lente("cod1", "color", "tipo", "marca", "Material1414", 1, 2, "sdf", 2, 1, 1, 1, "sdñlk", 1, null,0);
-        Dao load = new Dao();
-        load.add(len);
-        load.sincronize(len);
-
-    }
-    
-    private static void descuentos() throws InterruptedException, InstantiationException, IllegalAccessException {
         
-        Descuento d1 = new Descuento(0, "XX por ciento", "descuento total", 50, 0, 1, null,0);
-        Dao load = new Dao();
-        load.add(d1);
-        for (Descuento des : GlobalValues.TMP_LIST_DESCUENTO) {
-            System.out.println(""+des.toString());
-        }
+        System.out.println(isNumber("-1"));
+        
     }
     
-    private static void clientes() throws InterruptedException, InstantiationException, IllegalAccessException {
-        
-        Cliente c1 = new Cliente("18188881-0", "amamam", "98383838", "829391293", "josd@gmail.com", "las lomas", "Paine", "Paine", 1, new Date(), 1, null,0);
-        Dao load = new Dao();
-        load.add(c1);
-        for (Cliente cli : GlobalValues.TMP_LIST_CLIENTES) {
-            System.out.println(""+cli.toString());
-        }
+    private static boolean isNumber(String arg){
+        arg = arg.replaceAll("[^0-9]", "");
+        if(arg.isEmpty())
+            return false;
+        return true;
     }
     
-    private static void docs() throws InterruptedException, InstantiationException, IllegalAccessException {
-        
-        Doctor doc = new Doctor("2222222-2", "name3", "phone3", "mail3", 1, null,0);
-        Dao load = new Dao();
-        load.add(doc);
-        for (Doctor d : GlobalValues.TMP_LIST_DOCTORES) {
-            System.out.println(""+d.toString());
+    public static String getUserName(String arg){
+        if(arg == null || arg.replaceAll(" ", "").isEmpty())
+            return "";
+        arg = arg.trim();
+        if(arg.contains("<") && !arg.endsWith("<")){
+            arg=arg.substring(arg.indexOf("<")+1).replaceAll(">", "");
         }
+        return arg;
     }
     
-    private static void oficinas() throws InterruptedException, InstantiationException, IllegalAccessException {
-        
-        Oficina of = new Oficina(1, "Stgo", "Mcyver", "Stgo CEntro", "9983748239", "2312341342","info@itc.cl", "www.itc.cl", 1, null,0);
-        Dao load = new Dao();
-        of.toString();
-        load.add(of);
-        for (Oficina o : GlobalValues.TMP_LIST_OFICINAS) {
-            System.out.println(""+o.toString());
+    public static String getToName(String param){
+        String[] str = param.trim().split(" ");
+        StringBuffer value = new StringBuffer();
+        for (String temp : str) {
+            if(temp.length() > 1){
+                value.append(Character.toUpperCase(temp.charAt(0))).append(temp.substring(1)).append(" ");
+            }else{
+                value.append(temp.toUpperCase()).append(" ");
+            }
         }
+        return value.toString().trim();
+    }
+    private static ArrayList<String> listar(){
+        ArrayList<String> rutDoctores = new ArrayList<>();
+        rutDoctores.add("1-0");
+        rutDoctores.add("2-0");
+        rutDoctores.add("3-0");
+        rutDoctores.add("4-0");
+        rutDoctores.add("5-0");
+        rutDoctores.add("6-0");
+        return rutDoctores;
+        
+    }
+    private static int getNumbers(String arg){
+        if(arg == null || !arg.contains("-"))
+            return -1;
+        String[] temp = arg.split("-");
+        arg = temp[0].replaceAll("[^0-9]", "");
+        if(arg.isEmpty())
+            return -1;
+        return Integer.parseInt(arg)-1;
     }
     
     

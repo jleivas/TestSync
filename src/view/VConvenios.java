@@ -669,10 +669,8 @@ public class VConvenios extends javax.swing.JPanel {
             OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String nombre = GlobalValues.strToName(txtNombreU.getText());
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        String nombre = (txtNombreU.getText());
+        if(nombre.isEmpty() || nombre.length()>3){
             OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -755,10 +753,8 @@ public class VConvenios extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
        
-        String nombre = GlobalValues.strToName(txtNombreN.getText());
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        String nombre = (txtNombreN.getText());
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Agregar convenio", "El convenio debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }

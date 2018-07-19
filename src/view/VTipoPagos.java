@@ -428,9 +428,7 @@ public class VTipoPagos extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
         String nombre=txtNombreN.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Guardar tipo de pago", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -457,9 +455,7 @@ public class VTipoPagos extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         String nombre= txtNombreU.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Modificar tipo de pago", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }

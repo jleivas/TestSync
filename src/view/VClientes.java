@@ -917,9 +917,7 @@ public class VClientes extends javax.swing.JPanel {
             return;
         }
         String nombre=txtNombreNew.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Guardar Cliente", "El cliente debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -931,9 +929,9 @@ public class VClientes extends javax.swing.JPanel {
                     + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String direccion=GlobalValues.strToName(txtDireccionNew.getText());
-        String comuna=GlobalValues.strToName(txtComunaNew.getText());
-        String ciudad=GlobalValues.strToName(txtCiudadNew.getText());
+        String direccion=(txtDireccionNew.getText());
+        String comuna=(txtComunaNew.getText());
+        String ciudad=(txtCiudadNew.getText());
         int sexo=cboSexoNew.getSelectedIndex();
         Date nacimiento = txtFechaNew.getDate();
         int estado=1;
@@ -960,18 +958,16 @@ public class VClientes extends javax.swing.JPanel {
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         String rut = txtRut.getText();
         String nombre= txtNombre.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = GlobalValues.strToName(nombre);
-        else{
+        if(nombre.isEmpty() || nombre.length()<3){
             OptionPane.showMsg("Modificar Cliente", "El cliente debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
             return;
         }
         String telefono1 = txtTelefono1.getText();
         String telefono2 = txtTelefono2.getText();
         String email = txtEmail.getText();
-        String direccion = GlobalValues.strToName(txtDireccion.getText());
-        String comuna = GlobalValues.strToName(txtComuna.getText());
-        String ciudad = GlobalValues.strToName(txtCiudad.getText());
+        String direccion = (txtDireccion.getText());
+        String comuna = (txtComuna.getText());
+        String ciudad = (txtCiudad.getText());
         int sexo = cboSexo.getSelectedIndex();
         Date nacimiento = txtFecha.getDate();
         int estado = 1;
