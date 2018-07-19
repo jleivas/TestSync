@@ -11,6 +11,7 @@ import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Institucion;
+import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
 import entities.Oficina;
@@ -46,9 +47,10 @@ public class Dao{
      * @param object
      * @return 
      */
-    public boolean create (SyncStringId object){
+    public boolean sendMessage (InternMail msg) throws InstantiationException, IllegalAccessException{
         Log.setLog(className,Log.getReg());
-        return false;
+        msg.setEstado(1);
+        return add(msg);
     }
    /**
     * Agrega registros a la base de datos, si ya existen los actualiza, útil para sincronización de bases de datos.
@@ -411,6 +413,17 @@ public class Dao{
     
     public ArrayList<Object> listar(String param, Object type){
         return GlobalValues.LOCAL_SYNC.listar(param, type);
+    }
+    
+    /**
+     * 
+     * @param remitente 0 si no se necesita
+     * @param destinatario 0 si no se necesita
+     * @param estado 0: todos, 1: no leidos, 2 leidos
+     * @return 
+     */
+    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+        return GlobalValues.LOCAL_SYNC.mensajes(remitente, destinatario, estado);
     }
 //    public void sincronize() {
 //        Log.setLog(className,Log.getReg());
