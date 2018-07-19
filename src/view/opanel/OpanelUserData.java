@@ -10,6 +10,9 @@ import fn.Crypt;
 import fn.GlobalValues;
 import fn.Icons;
 import fn.OptionPane;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,13 +20,14 @@ import javax.swing.JOptionPane;
  * @author sdx
  */
 public class OpanelUserData extends javax.swing.JPanel {
-
+    private static User stUser = GlobalValues.USER;
     /**
      * Creates new form OpanelSelectDate
      */
     public OpanelUserData() {
         initComponents();
         cargarCboTipo();
+        loadData();
     }
 
     /**
@@ -254,18 +258,51 @@ public class OpanelUserData extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         String pass = null;
-        if(txtPass1.getText().length() > 4){
-            if(txtPass1.getText().equals(txtPass2.getText()))
-                pass = Crypt.en(txtPass1.getText());
-        }
-        User user = (User)GlobalValues.LOCAL_SYNC.getElement(GlobalValues.USER.getUsername(),0, new User());
-        if(user !=  null){
-            if(pass != null)
-                GlobalValues.USER.setPass(pass);
-            GlobalValues.USER.setEmail(txtMail.getText());
-            GlobalValues.USER.setNombre(txtNombre.getText());
-            GlobalValues.USER.setUsername(txtUsername.getText());
-            GlobalValues.USER.setTipo(cboTipo.getSelectedIndex());
+        String userName = txtUsername.getText();
+        
+        String temp = txtPass1.getText().trim().replaceAll(" ","");
+        if(OptionPane.getConfirmation("Modificar mis datos", "¿Estas seguro que deseas modificar tus datos?", JOptionPane.INFORMATION_MESSAGE)){
+            if(temp.length() > 4){
+                if(temp.equals(txtPass2.getText().trim()))
+                    pass = Crypt.en(txtPass1.getText().trim());
+                else{
+                    OptionPane.showMsg("Clave incorrecta", "Ambas claves ingresadas deben ser iguales\n"
+                            + "\nLa clave debe ser:\n"
+                            + "Sin espacios\nSin caracteres especiales\nDebe contener mas de cuatro caracteres", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+            if(stUser !=  null){
+                dao.Dao load = new dao.Dao();
+                if(pass != null){
+                    stUser.setPass(pass);
+                }
+                if(!stUser.getUsername().equals(userName)){
+                    try {
+                        if(load.get(userName, 0, new User())!= null){
+                            OptionPane.showMsg("No se puede modificar", "El nombre de usuario "+userName+" ya se encuentra en uso\n"
+                                    + "Intente con otro valor...",JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                    } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                        OptionPane.showMsg("Error inesperado", "Ocurrió un error al intentar consultar el nombre de usuario\n"
+                                + "en la base de datos.\nDetalle:"+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                stUser.setEmail(txtMail.getText());
+                stUser.setNombre(txtNombre.getText());
+                stUser.setUsername(txtUsername.getText());
+                stUser.setTipo(cboTipo.getSelectedIndex());
+                GlobalValues.USER = stUser;
+                
+                load.update(stUser);
+                OptionPane.closeInfoPanel();
+            }else{
+                OptionPane.showMsg("Error", "No se puede cargar el usuario", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }else{
+            return;
         }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
@@ -354,5 +391,16 @@ public class OpanelUserData extends javax.swing.JPanel {
         cboTipo.addItem("Administrativo");
         cboTipo.addItem("Ventas");
         cboTipo.addItem("Inventario");
+    }
+
+    private void loadData() {
+        if(stUser != null){
+            txtMail.setText(stUser.getEmail());
+            txtNombre.setText(stUser.getNombre());
+            txtUsername.setText(stUser.getUsername());
+            cboTipo.setSelectedIndex(stUser.getTipo());
+        }else{
+            OptionPane.showMsg("Error al cargar usuario", "No se pueden cargar los datos del usuario para ser modificados.", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
