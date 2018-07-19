@@ -14,6 +14,7 @@ import entities.Descuento;
 import entities.Doctor;
 import entities.Equipo;
 import entities.Institucion;
+import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
 import entities.Oficina;
@@ -167,6 +168,26 @@ public class Local implements InterfaceSync {
                     }
                 }
                 OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if(objectParam instanceof InternMail){
+                InternMail object = (InternMail)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT msg_id FROM message WHERE msg_id=" + object.getId()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Mensaje: " + object.getAsunto()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             if(objectParam instanceof Inventario){
@@ -458,6 +479,28 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return true;
             }
+            if(objectParam instanceof InternMail){
+                InternMail object = (InternMail)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM message WHERE msg_id=" + object.getId()+ "");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Date dsp_fecha = new Date();
+                    try {
+                        dsp_fecha = datos.getDate("msg_last_update");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
             if(objectParam instanceof Inventario){
                 Inventario object = (Inventario)objectParam;
                 PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
@@ -620,6 +663,9 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Institucion){
                 sql = "SELECT MAX(ins_id) as id FROM institucion";
+            }
+            if(type instanceof InternMail){
+                sql = "SELECT MAX(msg_id) as id FROM message";
             }
             if(type instanceof Inventario){
                 sql = "SELECT MAX(inv_id) as id FROM inventario";
@@ -1398,6 +1444,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Convenio){
                 for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
@@ -1405,6 +1452,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Cristal){
                 for (Object object : listar(cod, type)) {//id debe ser el nombre del cristal
@@ -1412,6 +1460,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Descuento){
                 for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
@@ -1419,6 +1468,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Doctor){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
@@ -1432,6 +1482,7 @@ public class Local implements InterfaceSync {
                         }
                     }  
                 }
+                return null;
             }
             if(type instanceof Equipo){
                 for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
@@ -1439,6 +1490,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Institucion){
                 for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
@@ -1446,6 +1498,15 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
+            }
+            if(type instanceof InternMail){
+                for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
+                    if (((InternMail) object).getId() == id) {
+                        return object;
+                    }
+                }
+                return null;
             }
             if(type instanceof Inventario){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
@@ -1453,6 +1514,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof Lente){
                 for (Object object : listar(cod, type)) {//id debe ser el id de la institucion
@@ -1460,6 +1522,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if (type instanceof Oficina) {
                 for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
@@ -1467,6 +1530,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if (type instanceof RegistroBaja) {
                 for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
@@ -1474,6 +1538,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if (type instanceof TipoPago) {
                 for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
@@ -1481,6 +1546,7 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
             if(type instanceof User){
                 for (Object object : listar(cod, type)) {//idParam debe ser el rut
@@ -1488,10 +1554,13 @@ public class Local implements InterfaceSync {
                         return object;
                     }
                 }
+                return null;
             }
         }catch(Exception ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
+        OptionPane.showMsg("Instancia no encontrada", "No se encuentra la instancia, se retornará un valor vacío,"
+                + "\nUbicación:"+ className+"\nDetalle: "+Log.getLog(), JOptionPane.ERROR_MESSAGE);
         return null;
     }
     /**
@@ -1548,6 +1617,11 @@ public class Local implements InterfaceSync {
         }
         if (object instanceof Institucion) {
             if (getElement(null,((Institucion) object).getId(),object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof InternMail) {
+            if (getElement(null,((InternMail) object).getId(),object) != null) {
                 return true;
             }
         }
@@ -1685,6 +1759,22 @@ public class Local implements InterfaceSync {
                             + object.getEstado() + ",'"
                             + sqlfecha + "',"
                             + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof InternMail){
+            InternMail object = (InternMail)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO message VALUES("
+                            + object.getId()+ ","
+                            + object.getRemitente().getId() + ","
+                            + object.getDestinatario().getId()+ ",'"
+                            + object.getAsunto()+ "','"
+                            + object.getContenido()+ "','"
+                            + sqlfecha1+ "','"
+                            + object.getHora() + "',"
+                            + object.getEstado()+ ",'"
+                            + sqlfecha2 + "',"
+                            + object.getLastHour()+ ")";
         }
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
@@ -1884,6 +1974,23 @@ public class Local implements InterfaceSync {
                         + " AND ((ins_last_update < '"+sqlfecha+"')OR"
                         + "(ins_last_update = '"+sqlfecha+"' AND ins_last_hour < "+object.getLastHour()+"))";
         }
+        if(objectParam instanceof InternMail){
+            InternMail object = (InternMail)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE message set us_id_remitente = " + object.getRemitente().getId()
+                        + ", us_id_destinatario = " + object.getDestinatario().getId()
+                        + ", msg_asunto = '" + object.getAsunto()
+                        + "', msg_content = '" + object.getContenido()
+                        + "', msg_fecha = '" + sqlfecha1
+                        + "', msg_hora = '" + object.getHora()
+                        + "', msg_estado = " + object.getEstado()
+                        + ", msg_last_update = '" + sqlfecha2
+                        + "', msg_last_hour = " + object.getLastHour()
+                        + " WHERE msg_id = " + object.getId()
+                        + " AND ((msg_last_update < '"+sqlfecha2+"')OR"
+                        + "(msg_last_update = '"+sqlfecha2+"' AND msg_last_hour < "+object.getLastHour()+"))";
+        }
         if(objectParam instanceof Inventario){
             Inventario object = (Inventario)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -1977,5 +2084,40 @@ public class Local implements InterfaceSync {
                         + "(us_last_update = '"+sqlfecha+"' AND us_last_hour < "+object.getLastHour()+"))";
         }
         return null;
+    }
+
+    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        ArrayList<InternMail> lista = new ArrayList<>();
+        String sql = "";
+        if(remitente > 0){
+            sql = "SELECT * FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado > 0";
+            if(estado > 0)
+                sql = "SELECT * FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado = "+estado;
+        }else{
+            sql = "SELECT * FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado > 0";
+            if(estado > 0)
+                sql = "SELECT * FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado = "+estado;
+        }
+        PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
+        ResultSet datos = consulta.executeQuery();
+        while (datos.next()) {
+            User rem = (User)getElement(null, remitente, new User());
+            User des = (User)getElement(null, datos.getInt("us_id_destinatario"), new User());
+            lista.add(new InternMail(
+                datos.getInt("msg_id"),
+                rem,
+                des,
+                datos.getString("msg_asunto"),
+                datos.getString("msg_content"),
+                datos.getDate("msg_fecha"),
+                datos.getString("msg_hora"),
+                datos.getInt("msg_estado"),
+                datos.getDate("msg_last_update"),
+                datos.getInt("msg_last_hour")
+                )
+            );
+        }
+        LcBd.cerrar();
+        return lista;
     }
 }
