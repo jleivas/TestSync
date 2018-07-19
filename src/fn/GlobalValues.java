@@ -89,7 +89,7 @@ public class GlobalValues {
     public static LocalFicha LOCAL_SYNC_FICHA = new LocalFicha();
     public static Remote REMOTE_SYNC = new Remote();
     public static RemoteFicha REMOTE_SYNC_FICHA = new RemoteFicha();
-    public static boolean IS_ONLINE = false;
+    public static boolean IS_ONLINE = true;
     public static Date LAST_UPDATE = new Date(213312);
     
     //LISTAS TEMPORALES
@@ -206,7 +206,7 @@ public class GlobalValues {
         return cont;
     }
     
-    public static String strToName(String param){
+    public static String getToName(String param){
         if(param == null || param.isEmpty())
             return "";
         String[] str = param.split(" ");
