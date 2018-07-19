@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import view.ContentAdmin;
 
 /**
  *
@@ -129,8 +130,10 @@ public class OpanelUserData extends javax.swing.JPanel {
             }
         });
 
+        cboTipo.setEditable(true);
         cboTipo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         cboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipo.setEnabled(false);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         jLabel7.setText("Clave");
@@ -296,6 +299,7 @@ public class OpanelUserData extends javax.swing.JPanel {
                 GlobalValues.USER = stUser;
                 
                 load.update(stUser);
+                ContentAdmin.lblUserName.setText(GlobalValues.USER.getNombre());
                 OptionPane.closeInfoPanel();
             }else{
                 OptionPane.showMsg("Error", "No se puede cargar el usuario", JOptionPane.ERROR_MESSAGE);
