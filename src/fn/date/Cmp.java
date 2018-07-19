@@ -39,10 +39,15 @@ public class Cmp {
             return fmt.format((java.sql.Date)date);
         return "date-error";
     }
+    
     public static int hourToInt(Date date){
         DateFormat hourFormat = new SimpleDateFormat("HHmmss");
         String formatHour = hourFormat.format(date);
         int hora = Integer.parseInt(formatHour);
         return hora;
+    }
+    public static String DateToStrHour(Date date){
+        DateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        return hourFormat.format(date);
     }
 }
