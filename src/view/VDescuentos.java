@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Descuento;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -41,7 +41,7 @@ public class VDescuentos extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VDescuentos() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Descuentos");
         load.sincronize(new Descuento());
         initComponents();
@@ -624,7 +624,7 @@ public class VDescuentos extends javax.swing.JPanel {
             monto = (int)txtMontoN.getValue();
         }
         
-        Descuento descuento= new Descuento(GlobalValues.REMOTE_SYNC.getMaxId(new Descuento()), nombre, desc, porc, monto, 1, null, 0);
+        Descuento descuento= new Descuento(GV.REMOTE_SYNC.getMaxId(new Descuento()), nombre, desc, porc, monto, 1, null, 0);
         try {
             load.add(descuento);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -809,7 +809,7 @@ public class VDescuentos extends javax.swing.JPanel {
                 Descuento temp = (Descuento)object;
                 String descuento = temp.getPorcetange()+"%";
                 if(temp.getPorcetange() == 0)
-                    descuento = GlobalValues.strToPrice(temp.getMonto());
+                    descuento = GV.strToPrice(temp.getMonto());
                 Object[] fila = new Object[4];
                 fila[0] = temp.getId();
                 fila[1] = temp.getNombre();

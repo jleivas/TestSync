@@ -5,7 +5,7 @@
  */
 package bd;
 
-import fn.GlobalValues;
+import fn.GV;
 import fn.Log;
 import fn.OptionPane;
 import java.sql.Connection;
@@ -24,7 +24,7 @@ public class LcBd{
     {
         Log.setLog(className,Log.getReg());
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        conn = DriverManager.getConnection("jdbc:derby://"+GlobalValues.getLocalBdUrl()+"/"+GlobalValues.getLocalBdName(),GlobalValues.getLocalBdUser(),GlobalValues.getLocalBdPass());
+        conn = DriverManager.getConnection("jdbc:derby://"+GV.getLocalBdUrl()+"/"+GV.getLocalBdName(),GV.getLocalBdUser(),GV.getLocalBdPass());
         if(conn == null)
             OptionPane.showMsg("Error en Base de datos local", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDatelle: "+Log.getLog(), JOptionPane.ERROR_MESSAGE);
         return conn;

@@ -11,7 +11,7 @@ import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import entities.ficha.ResF;
-import fn.GlobalValues;
+import fn.GV;
 import fn.Log;
 import fn.OptionPane;
 import fn.date.Cmp;
@@ -568,7 +568,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
         try {
             if(objParam instanceof Armazon){
                 if(armIsValid(strParam,intParam)){
-                    sql="SELECT COUNT(*) as id FROM armazon WHERE arm_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+                    sql="SELECT COUNT(*) as id FROM armazon WHERE arm_id LIKE '%"+GV.EQUIPO+"%'";
                 }else{
                     OptionPane.showMsg("No se puede insertar registro", "Ocurrió un error de duplicación de datos"
                             + "\nPor favor intente nuevamente."
@@ -577,13 +577,13 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 }
             }
             if(objParam instanceof Despacho){
-                sql="SELECT COUNT(*) as id FROM despacho WHERE dsp_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+                sql="SELECT COUNT(*) as id FROM despacho WHERE dsp_id LIKE '%"+GV.EQUIPO+"%'";
             }
             if(objParam instanceof HistorialPago){
-                sql="SELECT COUNT(*) as id FROM historial_pago WHERE hp_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+                sql="SELECT COUNT(*) as id FROM historial_pago WHERE hp_id LIKE '%"+GV.EQUIPO+"%'";
             }
             if(objParam instanceof Ficha){
-                sql="SELECT COUNT(*) as id FROM ficha WHERE fch_id LIKE '%"+GlobalValues.EQUIPO+"%'";
+                sql="SELECT COUNT(*) as id FROM ficha WHERE fch_id LIKE '%"+GV.EQUIPO+"%'";
             }
             if(sql.contains("SELECT")){
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
@@ -641,7 +641,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
         Log.setLog(className, Log.getReg());
         int id = 0;
         try{
-            String sql = "SELECT eq_id as id FROM equipo WHERE eq_nombre = '"+GlobalValues.EQUIPO+"'";
+            String sql = "SELECT eq_id as id FROM equipo WHERE eq_nombre = '"+GV.EQUIPO+"'";
             
             if(sql.length()>2){
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);

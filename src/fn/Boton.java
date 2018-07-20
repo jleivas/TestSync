@@ -6,9 +6,14 @@
 package fn;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Frame;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.RootPaneContainer;
+import view.ContentAdmin;
 import static view.ContentAdmin.principalAdmin;
 import view.VClientes;
 import view.VOficinas;
@@ -121,6 +126,7 @@ public class Boton {
     }
     
     public void mensajes() {
+        GV.cursor();
         openView(new VMessages());
     }
     
@@ -137,6 +143,8 @@ public class Boton {
     }
     
     private void openView(JPanel p1){
+        
+        
         try{
             p1.setSize(ancho, alto);
             p1.setLocation(locat, locat);
@@ -149,6 +157,7 @@ public class Boton {
                     + "se enviará un reporte para solucionar este problema,\n"
                     + "póngase en contacto con su proveedor de software.", JOptionPane.ERROR_MESSAGE);
         }
+        principalAdmin.setCursor(Cursor.getDefaultCursor());
     }
     
 //    

@@ -9,7 +9,7 @@ import dao.Dao;
 import entities.Inventario;
 import entities.Lente;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -43,7 +43,7 @@ public class VLentes extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VLentes() throws SQLException, ClassNotFoundException {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Lentes");
 //        load.sincronize(new Lente());
         
@@ -1238,7 +1238,7 @@ public class VLentes extends javax.swing.JPanel {
             stLente.setColor(txtCol2.getText());
             stLente.setDescripcion(txtDsc2.getText());
             stLente.setFlex(cboFlex2.getSelectedIndex());
-            stLente.setInventario(GlobalValues.INVENTARIO);
+            stLente.setInventario(GV.INVENTARIO);
             stLente.setMarca(txtMar2.getText());
             stLente.setMaterial(txtMat2.getText());
             txtPrecAct2.commitEdit();

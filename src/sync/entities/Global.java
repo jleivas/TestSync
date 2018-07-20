@@ -15,7 +15,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
-import fn.GlobalValues;
+import fn.GV;
 import fn.Log;
 import fn.date.Cmp;
 import java.util.ArrayList;
@@ -35,94 +35,94 @@ public class Global implements InterfaceSync{
             return false;
         else{
             if(object instanceof User){
-                for (User temp : GlobalValues.TMP_LIST_USERS) {
+                for (User temp : GV.TMP_LIST_USERS) {
                     if(temp.getId()== ((User)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((User)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_USERS.indexOf(temp);
-                            GlobalValues.TMP_LIST_USERS.add(index, (User)object);
-                            GlobalValues.TMP_LIST_USERS.remove(index+1);
+                            int index = GV.TMP_LIST_USERS.indexOf(temp);
+                            GV.TMP_LIST_USERS.add(index, (User)object);
+                            GV.TMP_LIST_USERS.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_USERS.add((User)object);
+                GV.TMP_LIST_USERS.add((User)object);
             }
             if(object instanceof Cristal){
-                for (Cristal temp : GlobalValues.TMP_LIST_CRISTAL) {
+                for (Cristal temp : GV.TMP_LIST_CRISTAL) {
                     if(temp.getId()== ((Cristal)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Cristal)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_CRISTAL.indexOf(temp);
-                            GlobalValues.TMP_LIST_CRISTAL.add(index, (Cristal)object);
-                            GlobalValues.TMP_LIST_CRISTAL.remove(index+1);
+                            int index = GV.TMP_LIST_CRISTAL.indexOf(temp);
+                            GV.TMP_LIST_CRISTAL.add(index, (Cristal)object);
+                            GV.TMP_LIST_CRISTAL.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_CRISTAL.add((Cristal)object);
+                GV.TMP_LIST_CRISTAL.add((Cristal)object);
             }
             if(object instanceof Descuento){
-                for (Descuento temp : GlobalValues.TMP_LIST_DESCUENTO) {
+                for (Descuento temp : GV.TMP_LIST_DESCUENTO) {
                     if(temp.getId() == ((Descuento)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Descuento)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_DESCUENTO.indexOf(temp);
-                            GlobalValues.TMP_LIST_DESCUENTO.add(index, (Descuento)object);
-                            GlobalValues.TMP_LIST_DESCUENTO.remove(index+1);
+                            int index = GV.TMP_LIST_DESCUENTO.indexOf(temp);
+                            GV.TMP_LIST_DESCUENTO.add(index, (Descuento)object);
+                            GV.TMP_LIST_DESCUENTO.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_DESCUENTO.add((Descuento)object);
+                GV.TMP_LIST_DESCUENTO.add((Descuento)object);
             }
             if(object instanceof Cliente){
-                for (Cliente temp : GlobalValues.TMP_LIST_CLIENTES) {
+                for (Cliente temp : GV.TMP_LIST_CLIENTES) {
                     if(temp.getCod().equals(((Cliente)object).getCod())){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Cliente)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_CLIENTES.indexOf(temp);
-                            GlobalValues.TMP_LIST_CLIENTES.add(index, (Cliente)object);
-                            GlobalValues.TMP_LIST_CLIENTES.remove(index+1);
+                            int index = GV.TMP_LIST_CLIENTES.indexOf(temp);
+                            GV.TMP_LIST_CLIENTES.add(index, (Cliente)object);
+                            GV.TMP_LIST_CLIENTES.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_CLIENTES.add((Cliente)object);
+                GV.TMP_LIST_CLIENTES.add((Cliente)object);
             }
             if(object instanceof Doctor){
-                for (Doctor temp : GlobalValues.TMP_LIST_DOCTORES) {
+                for (Doctor temp : GV.TMP_LIST_DOCTORES) {
                     if(temp.getCod().equals(((Doctor)object).getCod())){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Doctor)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_DOCTORES.indexOf(temp);
-                            GlobalValues.TMP_LIST_DOCTORES.add(index, (Doctor)object);
-                            GlobalValues.TMP_LIST_DOCTORES.remove(index+1);
+                            int index = GV.TMP_LIST_DOCTORES.indexOf(temp);
+                            GV.TMP_LIST_DOCTORES.add(index, (Doctor)object);
+                            GV.TMP_LIST_DOCTORES.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_DOCTORES.add((Doctor)object);
+                GV.TMP_LIST_DOCTORES.add((Doctor)object);
             }
             if(object instanceof Oficina){
-                for (Oficina temp : GlobalValues.TMP_LIST_OFICINAS) {
+                for (Oficina temp : GV.TMP_LIST_OFICINAS) {
                     if(temp.getId() == ((Oficina)object).getId()){
                         if(!Cmp.localIsNewOrEqual(temp.getLastUpdate(), ((Oficina)object).getLastUpdate())){
-                            int index = GlobalValues.TMP_LIST_OFICINAS.indexOf(temp);
-                            GlobalValues.TMP_LIST_OFICINAS.add(index, (Oficina)object);
-                            GlobalValues.TMP_LIST_OFICINAS.remove(index+1);
+                            int index = GV.TMP_LIST_OFICINAS.indexOf(temp);
+                            GV.TMP_LIST_OFICINAS.add(index, (Oficina)object);
+                            GV.TMP_LIST_OFICINAS.remove(index+1);
                             return true;
                         }else
                             return false;
                     }
                         
                 }
-                GlobalValues.TMP_LIST_OFICINAS.add((Oficina)object);
+                GV.TMP_LIST_OFICINAS.add((Oficina)object);
             }
         } 
         return true;
@@ -173,61 +173,61 @@ public class Global implements InterfaceSync{
     public Object getElement(String cod, int id, Object type) {
         Log.setLog(className,Log.getReg());
         if(type instanceof Cliente){
-            for (Cliente object : GlobalValues.TMP_LIST_CLIENTES) {
+            for (Cliente object : GV.TMP_LIST_CLIENTES) {
                 if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Cristal){
-            for (Cristal object : GlobalValues.TMP_LIST_CRISTAL) {
+            for (Cristal object : GV.TMP_LIST_CRISTAL) {
                 if((object.getNombre().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Descuento){
-            for (Descuento object : GlobalValues.TMP_LIST_DESCUENTO) {
+            for (Descuento object : GV.TMP_LIST_DESCUENTO) {
                 if((object.getNombre().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Doctor){
-            for (Doctor object : GlobalValues.TMP_LIST_DOCTORES) {
+            for (Doctor object : GV.TMP_LIST_DOCTORES) {
                 if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Institucion){
-            for (Institucion object : GlobalValues.TMP_LIST_INSTITUCIONES) {
+            for (Institucion object : GV.TMP_LIST_INSTITUCIONES) {
                 if(object.getId() == id)
                     return object;
             }
         }
         if(type instanceof Lente){
-            for (Lente object : GlobalValues.TMP_LIST_LENTES) {
+            for (Lente object : GV.TMP_LIST_LENTES) {
                 if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof Oficina){
-            for (Oficina object : GlobalValues.TMP_LIST_OFICINAS) {
+            for (Oficina object : GV.TMP_LIST_OFICINAS) {
                 if(object.getNombre().toLowerCase().equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof RegistroBaja){
-            for (RegistroBaja object : GlobalValues.TMP_LIST_REGISTROS_BAJAS) {
+            for (RegistroBaja object : GV.TMP_LIST_REGISTROS_BAJAS) {
                 if(object.getCod().toLowerCase().equals(cod.toLowerCase()))
                     return object;
             }
         }
         if(type instanceof TipoPago){
-            for (TipoPago object : GlobalValues.TMP_LIST_TIPOS_PAGO) {
+            for (TipoPago object : GV.TMP_LIST_TIPOS_PAGO) {
                 if(object.getId() == id)
                     return object;
             }
         }
         if(type instanceof User){
-            for (User object : GlobalValues.TMP_LIST_USERS) {
+            for (User object : GV.TMP_LIST_USERS) {
                 if((object.getUsername().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }

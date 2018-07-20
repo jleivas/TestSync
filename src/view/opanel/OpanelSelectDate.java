@@ -5,7 +5,7 @@
  */
 package view.opanel;
 
-import fn.GlobalValues;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.util.Date;
@@ -189,23 +189,23 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         if(txtFecha1.getDate() == null){
             if(txtFecha2.getDate() == null){
-                GlobalValues.TMP_DATE_FROM = new Date();
-                GlobalValues.TMP_DATE_TO   = new Date();
+                GV.TMP_DATE_FROM = new Date();
+                GV.TMP_DATE_TO   = new Date();
             }else{
-                GlobalValues.TMP_DATE_FROM = txtFecha2.getDate();
-                GlobalValues.TMP_DATE_TO   = txtFecha2.getDate();
+                GV.TMP_DATE_FROM = txtFecha2.getDate();
+                GV.TMP_DATE_TO   = txtFecha2.getDate();
             }
         }else{
             if(txtFecha2.getDate() == null){
-                GlobalValues.TMP_DATE_FROM = txtFecha1.getDate();
-                GlobalValues.TMP_DATE_TO   = txtFecha1.getDate();
+                GV.TMP_DATE_FROM = txtFecha1.getDate();
+                GV.TMP_DATE_TO   = txtFecha1.getDate();
             }else{
-                GlobalValues.TMP_DATE_FROM = txtFecha1.getDate();
-                GlobalValues.TMP_DATE_TO   = txtFecha2.getDate();
+                GV.TMP_DATE_FROM = txtFecha1.getDate();
+                GV.TMP_DATE_TO   = txtFecha2.getDate();
             }
         }
 //        try {
-//            GlobalValues.TMP_LIST_FICHAS = load.listarPorFecha(GlobalValues.TMP_DATE_FROM,GlobalValues.TMP_DATE_TO);
+//            GV.TMP_LIST_FICHAS = load.listarPorFecha(GV.TMP_DATE_FROM,GV.TMP_DATE_TO);
 //            boton.fichas();
 //            OptionPane.closeInfoPanel();
 //        } catch (SQLException | ClassNotFoundException ex) {

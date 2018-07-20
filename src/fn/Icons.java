@@ -17,7 +17,7 @@ public class Icons {
 
     public static String getEnteredIconIfActive(String stIcon) {
         stIcon = stIcon.substring(stIcon.indexOf("/icons"));
-        if(GlobalValues.LICENCE)
+        if(GV.LICENCE)
             return stIcon.replaceAll(".png", "_1.png");
         else
             return stIcon.replaceAll(".png", "_2.png");
@@ -30,7 +30,7 @@ public class Icons {
 
     public static String getEnteredIconIfConnected(String stIcon) {
         stIcon = stIcon.substring(stIcon.indexOf("/icons"));
-        if(GlobalValues.isOnline())
+        if(GV.isOnline())
             return stIcon.replaceAll(".png", "_1.png");
         else
             return stIcon.replaceAll(".png", "_2.png");

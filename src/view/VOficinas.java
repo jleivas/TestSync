@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Oficina;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -38,7 +38,7 @@ public class VOficinas extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VOficinas() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de oficinas");
         load.sincronize(new Oficina());
         initComponents();

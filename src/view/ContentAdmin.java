@@ -7,16 +7,19 @@ package view;
 
 import entities.User;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.RootPaneContainer;
 import view.opanel.OpanelConfig;
 import view.opanel.OpanelInventario;
 import view.opanel.OpanelUserData;
@@ -40,15 +43,15 @@ public class ContentAdmin extends javax.swing.JFrame {
     public ContentAdmin() throws SQLException, ClassNotFoundException{
         initComponents();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-//        this.lblUserName.setText(GlobalValues.USER.getNombre());
-        this.lblName.setText(GlobalValues.PROJECTNAME+" "+GlobalValues.VERSION);
-        this.lblTitle.setText(GlobalValues.PROJECTNAME);
+//        this.lblUserName.setText(GV.USER.getNombre());
+        this.lblName.setText(GV.PROJECTNAME+" "+GV.VERSION);
+        this.lblTitle.setText(GV.PROJECTNAME);
         centrarPantalla();
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png"));
         setIconImage(icon);
         String licencia = "";
-        if(GlobalValues.LICENCE){
-            licencia = "Producto bajo licencia hasta el "+GlobalValues.EXP_DATE;
+        if(GV.LICENCE){
+            licencia = "Producto bajo licencia hasta el "+GV.EXP_DATE;
         }
         else{
             licencia = "La licencia de este producto ha caducado";
@@ -58,22 +61,39 @@ public class ContentAdmin extends javax.swing.JFrame {
         //cargar user por defecto, eliminar
         dao.Dao load = new dao.Dao();
         try {
-            GlobalValues.USER = (User)load.get("root", 0, new User());
+            GV.USER = (User)load.get("root", 0, new User());
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         //******************************
         lblLicence.setText(licencia);
-        lblUserName.setText(GlobalValues.USER.getNombre());
-        this.setTitle("Optidata "+GlobalValues.VERSION+"     "+licencia);
+        lblUserName.setText(GV.USER.getNombre());
+        this.setTitle("Optidata "+GV.VERSION+"     "+licencia);
         try {
             boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Es probable que el servidor no se haya iniciado, Inicie el servicio y vuelva a abrir el programa.","Error de conexion",JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);//opcion cerrar
         }
-        
     }
+    
+    public void setWaitCursor() {
+        JFrame frame = ContentAdmin.this;
+        if (frame != null) {
+            RootPaneContainer root = (RootPaneContainer) frame.getRootPane().getTopLevelAncestor();
+            root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            root.getGlassPane().setVisible(true);
+        }
+    }
+
+    public void setDefaultCursor() {
+        JFrame frame = ContentAdmin.this;
+        if (frame != null) {
+            RootPaneContainer root = (RootPaneContainer) frame.getRootPane().getTopLevelAncestor();
+            root.getGlassPane().setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,6 +135,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnOficinas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

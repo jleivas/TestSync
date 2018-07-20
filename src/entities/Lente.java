@@ -6,7 +6,7 @@
 package entities;
 
 import entities.abstractclasses.SyncStringId;
-import fn.GlobalValues;
+import fn.GV;
 import java.util.Date;
 
 /**
@@ -70,7 +70,7 @@ public class Lente extends SyncStringId{
 
     @Override
     public void setCod(String cod) {
-        if(GlobalValues.contChar('-', cod) == 2){
+        if(GV.contChar('-', cod) == 2){
             super.setCod(cod);
         }else{
             if(cod == null || cod.equals(""))

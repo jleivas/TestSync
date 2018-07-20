@@ -5,7 +5,7 @@
  */
 package fn.mail;
 
-import fn.GlobalValues;
+import fn.GV;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Properties;
@@ -36,8 +36,8 @@ public class Send {
         // SMTP server information
         String host = "smtp.gmail.com";
         String port = "587";
-        String mailFrom = GlobalValues.getMailSystemName();
-        String password = GlobalValues.getMailSystemPass();
+        String mailFrom = GV.getMailSystemName();
+        String password = GV.getMailSystemPass();
  
         // outgoing message information
  
@@ -162,14 +162,14 @@ public class Send {
     }
     
     public void sendReportMail(String title,String content){
-        if(GlobalValues.isOnline()){
+        if(GV.isOnline()){
             width = 25;
             height = 50;
             color1 =  turquesa;
             
-            sendMail("Reporte de error en equipo: "+GlobalValues.EQUIPO+", Optica: "+GlobalValues.COMPANY_NAME,
-                    GlobalValues.MAIL_REPORT, title, content,
-                    "Usuario: "+GlobalValues.USER.getUsername(), GlobalValues.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
+            sendMail("Reporte de error en equipo: "+GV.EQUIPO+", Optica: "+GV.COMPANY_NAME,
+                    GV.MAIL_REPORT, title, content,
+                    "Usuario: "+GV.USER.getUsername(), GV.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;
@@ -190,7 +190,7 @@ public class Send {
             p.put("mail.smtp.ssl.trust", "smtp.gmail.com");
             p.setProperty("mail.smtp.starttls.enable", "true");
             p.setProperty("mail.smtp.port", "587");
-            p.setProperty("mail.smtp.user", GlobalValues.MAIL_ADDRES);
+            p.setProperty("mail.smtp.user", GV.MAIL_ADDRES);
             p.setProperty("mail.smtp.auth", "true");
  
         // creates a new session with an authenticator

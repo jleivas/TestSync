@@ -7,7 +7,7 @@ package view.opanel;
 
 import entities.User;
 import fn.Crypt;
-import fn.GlobalValues;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ import view.ContentAdmin;
  * @author sdx
  */
 public class OpanelUserData extends javax.swing.JPanel {
-    private static User stUser = GlobalValues.USER;
+    private static User stUser = GV.USER;
     /**
      * Creates new form OpanelSelectDate
      */
@@ -296,10 +296,10 @@ public class OpanelUserData extends javax.swing.JPanel {
                 stUser.setNombre(txtNombre.getText());
                 stUser.setUsername(txtUsername.getText());
                 stUser.setTipo(cboTipo.getSelectedIndex());
-                GlobalValues.USER = stUser;
+                GV.USER = stUser;
                 
                 load.update(stUser);
-                ContentAdmin.lblUserName.setText(GlobalValues.USER.getNombre());
+                ContentAdmin.lblUserName.setText(GV.USER.getNombre());
                 OptionPane.closeInfoPanel();
             }else{
                 OptionPane.showMsg("Error", "No se puede cargar el usuario", JOptionPane.ERROR_MESSAGE);
@@ -386,7 +386,7 @@ public class OpanelUserData extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarCboTipo() {
-        if(GlobalValues.USER.getTipo() == 1)
+        if(GV.USER.getTipo() == 1)
             cboTipo.setEditable(true);
         else
             cboTipo.setEditable(false);

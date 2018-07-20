@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Doctor;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -39,7 +39,7 @@ public class VDoctores extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VDoctores() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de clientes");
 //        load.sincronize(new Doctor());
         initComponents();

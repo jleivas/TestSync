@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Cristal;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -41,7 +41,7 @@ public class VCristales extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VCristales() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Cristales");
         load.sincronize(new Cristal());
         initComponents();
@@ -507,7 +507,7 @@ public class VCristales extends javax.swing.JPanel {
         
         precio = (int)txtPrecioN.getValue();
         
-        Cristal cristal= new Cristal(GlobalValues.REMOTE_SYNC.getMaxId(new Cristal()), nombre, precio, 1, null, 0);
+        Cristal cristal= new Cristal(GV.REMOTE_SYNC.getMaxId(new Cristal()), nombre, precio, 1, null, 0);
         try {
             load.add(cristal);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -635,7 +635,7 @@ public class VCristales extends javax.swing.JPanel {
                 Object[] fila = new Object[4];
                 fila[0] = temp.getId();
                 fila[1] = temp.getNombre();
-                fila[2] = GlobalValues.strToPrice(temp.getPrecio());
+                fila[2] = GV.strToPrice(temp.getPrecio());
                 modelo.addRow(fila);
             }
             tblListar.updateUI();

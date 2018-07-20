@@ -5,7 +5,7 @@
  */
 package sync;
 
-import fn.GlobalValues;
+import fn.GV;
 import fn.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,9 +28,9 @@ public class Cmp {
         Log.setLog(className,Log.getReg());
         String comando = "ping www.softdirex.cl";//ping -c 1 google.com
         try{
-            GlobalValues.IS_ONLINE = (Runtime.getRuntime().exec (comando).waitFor() == 0);
+            GV.IS_ONLINE = (Runtime.getRuntime().exec (comando).waitFor() == 0);
         }catch(IOException | InterruptedException e){
-            GlobalValues.IS_ONLINE = false;
+            GV.IS_ONLINE = false;
         }
     }
     

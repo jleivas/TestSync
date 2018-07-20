@@ -15,6 +15,8 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import java.awt.Cursor;
+import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -22,6 +24,7 @@ import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JPanel;
 import newpackage.NoGit;
 import sync.Cmp;
 import sync.entities.Global;
@@ -35,7 +38,7 @@ import view.opanel.OPanel;
  *
  * @author sdx
  */
-public class GlobalValues {
+public class GV {
     private static String className="GlobalValues";
     /*  Nombres de sistema  */
     public static String PROJECTNAME="DCS Optics";
@@ -79,6 +82,7 @@ public class GlobalValues {
     public static String LOCAL_PATH = "";
     
     /* Variables del sistema */
+    public static boolean CURSOR_DEFAULT = true;
     public static User USER;
     public static int ID_USER = 0;
     public static Date TMP_DATE_FROM = null;
@@ -246,7 +250,26 @@ public class GlobalValues {
             return true;
         return false;
     }
-
+    
+    public static void cursor(){
+        if(CURSOR_DEFAULT){
+            Frame.getFrames()[0].setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            CURSOR_DEFAULT = false;
+        }else{
+            Frame.getFrames()[0].setCursor(Cursor.getDefaultCursor());
+            CURSOR_DEFAULT = true;
+        }
+    }
+    
+    public static void cursor(JPanel panel){
+        if(CURSOR_DEFAULT){
+            panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            CURSOR_DEFAULT = false;
+        }else{
+            panel.setCursor(Cursor.getDefaultCursor());
+            CURSOR_DEFAULT = true;
+        }
+    }
     /**
      * Actualiza archivo local de propiedades del sistema con los valores estaticos
      */

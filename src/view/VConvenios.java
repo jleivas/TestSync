@@ -11,7 +11,7 @@ import entities.Convenio;
 import entities.Descuento;
 import entities.Institucion;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -45,7 +45,7 @@ public class VConvenios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VConvenios() throws SQLException, ClassNotFoundException {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Convenios");
         load.sincronize(new Convenio());
         
@@ -777,7 +777,7 @@ public class VConvenios extends javax.swing.JPanel {
                                 .substring((txtInstitucionN.getText().toString().indexOf("["))+1, 
                                             txtInstitucionN.getText().toString().indexOf("]")));
 
-        Convenio convenio= new Convenio(GlobalValues.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas, montoMax, montoPp, cantClientes, idDescuento, 1, idInstitucion, null, 0);
+        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas, montoMax, montoPp, cantClientes, idDescuento, 1, idInstitucion, null, 0);
         try {
             load.add(convenio);
         } catch (InstantiationException | IllegalAccessException ex) {

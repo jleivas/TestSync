@@ -43,7 +43,7 @@ public class SubProcess {
     }
 
     static void sincronizeAll() {
-        if(GlobalValues.isOnline()){
+        if(GV.isOnline()){
             System.out.println("Sincronizar todos los Dao en Subprocesos");
         }
         System.out.println("Luego añadir todos los registros en las listas estaticas.");

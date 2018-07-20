@@ -25,8 +25,8 @@ public class OptionPane {
     private static boolean confirm = false;
     
     public static void showPanel(javax.swing.JPanel p1, String title){
-        GlobalValues.INFOPANEL.lblTitle.setText(title);
-        GlobalValues.INFOPANEL.setVisible(true);
+        GV.INFOPANEL.lblTitle.setText(title);
+        GV.INFOPANEL.setVisible(true);
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         OpanelContent.removeAll();
@@ -40,15 +40,15 @@ public class OptionPane {
             message = title.toUpperCase()+"\n\n"+message;
             title = title.substring(0,38)+"...";
         }
-        GlobalValues.MSG_STATUS = statusMsg;
+        GV.MSG_STATUS = statusMsg;
         OpanelMessage p1 = new OpanelMessage();
-        GlobalValues.INFOPANEL.lblTitle.setText(title);
+        GV.INFOPANEL.lblTitle.setText(title);
         if(p1 instanceof OpanelMessage){
             ((OpanelMessage) p1).lblTitle.setText(title);
             ((OpanelMessage) p1).lblMessage.setText(message);
         }
         
-        GlobalValues.INFOPANEL.setVisible(true);
+        GV.INFOPANEL.setVisible(true);
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         
@@ -59,7 +59,7 @@ public class OptionPane {
     }
 
     public static void closeInfoPanel() {
-        GlobalValues.INFOPANEL.setVisible(false);
+        GV.INFOPANEL.setVisible(false);
     }
 
     public static boolean getConfirmation(String title, String message, int statusMsg){
@@ -80,15 +80,15 @@ public class OptionPane {
             message = title.toUpperCase()+"\n\n"+message;
             title = title.substring(0,38)+"...";
         }
-        GlobalValues.MSG_STATUS = statusMsg;
+        GV.MSG_STATUS = statusMsg;
         OpanelConfirm p1 = new OpanelConfirm();
-        GlobalValues.INFOPANEL.lblTitle.setText(title);
+        GV.INFOPANEL.lblTitle.setText(title);
         if(p1 instanceof OpanelConfirm){
             ((OpanelConfirm) p1).lblTitle.setText(title);
             ((OpanelConfirm) p1).lblMessage.setText(message);
         }
         
-        GlobalValues.INFOPANEL.setVisible(true);
+        GV.INFOPANEL.setVisible(true);
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         

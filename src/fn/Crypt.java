@@ -18,7 +18,7 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class Crypt {
     public static String ds(String textContent){
-        String secretKey = GlobalValues.SALT; //llave para desenciptar datos
+        String secretKey = GV.SALT; //llave para desenciptar datos
         String base64EncryptedString = "";
  
         try {
@@ -41,7 +41,7 @@ public class Crypt {
     }
     
     public static String en(String texto) {
-        String secretKey = GlobalValues.SALT; //llave para encriptar datos
+        String secretKey = GV.SALT; //llave para encriptar datos
         String base64EncryptedString = "";
  
         try {

@@ -9,7 +9,7 @@ import dao.Dao;
 import entities.User;
 import fn.Boton;
 import fn.Crypt;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -43,7 +43,7 @@ public class VUsuarios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VUsuarios() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de usuarios");
         load.sincronize(new User());
         initComponents();
@@ -872,7 +872,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 txtUpdateName.setText(staticUser.getNombre());
                 txtUpdateEmail.setText(staticUser.getEmail());
                 txtUpdateUsername.setText(staticUser.getUsername());
-                txtUpdatePass.setText(GlobalValues.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
+                txtUpdatePass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
                 cboUpdateType.setSelectedIndex(staticUser.getTipo());
                 
             }else{
@@ -935,7 +935,7 @@ public class VUsuarios extends javax.swing.JPanel {
         txtNewName.setText("");
         txtNewEmail.setText("");
         txtNewUsername.setText("");
-        txtNewPass.setText(GlobalValues.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
+        txtNewPass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
         cboNewTipo.addItem("Sin Seleccionar");
         cboNewTipo.addItem("Administración");
         cboNewTipo.addItem("Ventas");

@@ -5,7 +5,7 @@
  */
 package view.opanel;
 
-import fn.GlobalValues;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import fn.SubProcess;
@@ -23,18 +23,18 @@ public class OpanelMessage extends javax.swing.JPanel {
      */
     public OpanelMessage() {
         initComponents();
-        switch (GlobalValues.MSG_STATUS){
+        switch (GV.MSG_STATUS){
             case JOptionPane.INFORMATION_MESSAGE:
-                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GlobalValues.ICON_INFO)));
+                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GV.ICON_INFO)));
                 break;
             case JOptionPane.WARNING_MESSAGE:
-                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GlobalValues.ICON_WARN)));
+                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GV.ICON_WARN)));
                 break;
             case JOptionPane.ERROR_MESSAGE:
-                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GlobalValues.ICON_ERROR)));
+                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GV.ICON_ERROR)));
                 break;
             case JOptionPane.ERROR:
-                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GlobalValues.ICON_ERROR)));
+                imgIconMessage.setIcon(new javax.swing.ImageIcon(getClass().getResource(GV.ICON_ERROR)));
                 break;
         }
     }
@@ -150,7 +150,7 @@ public class OpanelMessage extends javax.swing.JPanel {
     }//GEN-LAST:event_imgIconMessageMousePressed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
-        if(GlobalValues.MSG_STATUS == JOptionPane.ERROR || GlobalValues.MSG_STATUS == JOptionPane.ERROR_MESSAGE){
+        if(GV.MSG_STATUS == JOptionPane.ERROR || GV.MSG_STATUS == JOptionPane.ERROR_MESSAGE){
             SubProcess.report(lblTitle.getText(), lblMessage.getText());
         }
         OptionPane.closeInfoPanel();

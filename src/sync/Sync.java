@@ -5,7 +5,7 @@
  */
 package sync;
 
-import fn.GlobalValues;
+import fn.GV;
 import fn.Log;
 import java.sql.SQLException;
 
@@ -27,7 +27,7 @@ public class Sync {
     public static boolean add(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
         localData.add(object);
-        if(GlobalValues.isOnline()){
+        if(GV.isOnline()){
             remoteData.add(object);
         }
         return true;
@@ -44,7 +44,7 @@ public class Sync {
     public static boolean add(InterfaceSyncFicha localData, InterfaceSyncFicha remoteData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
         localData.add(object);
-        if(GlobalValues.isOnline()){
+        if(GV.isOnline()){
             remoteData.add(object);
         }
         return true;

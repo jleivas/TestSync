@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Institucion;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -38,7 +38,7 @@ public class VInstituciones extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VInstituciones() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de institucion.");
         load.sincronize(new Institucion());
         initComponents();
@@ -798,7 +798,7 @@ public class VInstituciones extends javax.swing.JPanel {
         String ciudad=txtCiudadN.getText();
         String web = txtWebN.getText();
 
-        Institucion institucion= new Institucion(GlobalValues.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
+        Institucion institucion= new Institucion(GV.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
         try {
             load.add(institucion);
         } catch (InstantiationException | IllegalAccessException ex) {

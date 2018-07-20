@@ -16,7 +16,7 @@ import entities.Institucion;
 import entities.Lente;
 import entities.TipoPago;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import fn.Icons;
 import fn.ValidaRut;
 import java.awt.Color;
@@ -1987,7 +1987,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         for (Object object : load.listar("0", new Descuento())) {
             Descuento temp = (Descuento)object;
             if(temp.getPorcetange() == 0){
-                cboDescuento.addItem(temp.getNombre()+" ("+GlobalValues.strToPrice(temp.getMonto())+")");
+                cboDescuento.addItem(temp.getNombre()+" ("+GV.strToPrice(temp.getMonto())+")");
             }else{
                 cboDescuento.addItem(temp.getNombre()+" ("+temp.getPorcetange()+"%)");
             }
@@ -2082,7 +2082,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        int descuento = 0;
 //        int porcentaje = 0;
 //        if(!chkDescuento.isSelected() || cboDescuento.getSelectedIndex()==0){
-//            GlobalValues.TMP_ID_DESCUENTO=0;
+//            GV.TMP_ID_DESCUENTO=0;
 //            txtDescuento.setText("0");
 ////            lblIdTipoPago.setText("0");
 //            
@@ -2094,7 +2094,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                txtSaldo.setForeground(Color.black);
 //            }
 //        }else{
-//            GlobalValues.TMP_ID_DESCUENTO = 0;
+//            GV.TMP_ID_DESCUENTO = 0;
 ////            lblIdTipoPago.setText("0");
 //            cboDescuento.setVisible(true);
 //            lblDescuento.setVisible(true);
@@ -2114,7 +2114,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                try {
 //                    Descuento des = load.buscarDescuento(seleccionado);
 //                    if(des != null){
-//                        GlobalValues.TMP_ID_DESCUENTO = des.getId();
+//                        GV.TMP_ID_DESCUENTO = des.getId();
 //                        porcentaje = des.getPorcetange();
 //                        descuento = (total*porcentaje)/100;
 //                        txtDescuento.setText("$ "+descuento);
@@ -2241,7 +2241,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        Descuento dscto = null;
 //        int idTipoPago = Integer.parseInt(this.lblIdTipoPago.getText());
 //
-//        int idInstitucion = GlobalValues.TMP_ID_INSTITUCION;
+//        int idInstitucion = GV.TMP_ID_INSTITUCION;
 //        int idFicha = 0;
 //        try {
 //            idFicha = load.obtenerFolio();
@@ -2265,7 +2265,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            }
 //        }
 //
-//        String rutDoctor = GlobalValues.TMP_RUT_DOCTOR;
+//        String rutDoctor = GV.TMP_RUT_DOCTOR;
 //        Date fecha = new Date();
 //        Date fechaEntrega = txtFecha.getDate();
 //        String lugarEntrega = txtEntrega.getText().toUpperCase();
@@ -2297,12 +2297,12 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            return;
 //        }
 //        if(chkConvenio.isSelected()){
-//            if(GlobalValues.TMP_ID_DESCUENTO == 0){
+//            if(GV.TMP_ID_DESCUENTO == 0){
 //                JOptionPane.showMessageDialog(null, "Debe seleccionar un descuento", "Seleccione un descuento", JOptionPane.INFORMATION_MESSAGE);
 //                return;
 //            }
 //            try {
-//                dscto = load.cargarDescuento(GlobalValues.TMP_ID_DESCUENTO);
+//                dscto = load.cargarDescuento(GV.TMP_ID_DESCUENTO);
 //            } catch (SQLException ex) {
 //                JOptionPane.showMessageDialog(null, "No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
 //                return;
@@ -2497,7 +2497,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                }
 //
 //                
-//                if(load.guardarFicha(ficha,GlobalValues.ID_USER)){
+//                if(load.guardarFicha(ficha,GV.ID_USER)){
 //                    load.imprimir(ficha);
 //                    limpiarDatos();
 //

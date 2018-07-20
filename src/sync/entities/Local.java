@@ -21,7 +21,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
-import fn.GlobalValues;
+import fn.GV;
 
 import fn.Log;
 import fn.OptionPane;
@@ -1519,7 +1519,7 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Descuento){
                 for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
-                    if (GlobalValues.strCompare(((Descuento) object).getNombre(),cod)) {
+                    if (GV.strCompare(((Descuento) object).getNombre(),cod)) {
                         return object;
                     }
                 }
@@ -1527,7 +1527,7 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Doctor){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
-                    if(GlobalValues.containIntegrs(cod)){//comparar por el rut
+                    if(GV.containIntegrs(cod)){//comparar por el rut
                         if (((Doctor) object).getCod().equals(cod)) {
                             return object;
                         }

@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.TipoPago;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -38,7 +38,7 @@ public class VTipoPagos extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VTipoPagos() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Tipos de pago");
         load.sincronize(new TipoPago());
         initComponents();
@@ -434,7 +434,7 @@ public class VTipoPagos extends javax.swing.JPanel {
         }
         
 
-        TipoPago tipoPago= new TipoPago(GlobalValues.LOCAL_SYNC.getMaxId(new TipoPago()), nombre, 1, null, 0);
+        TipoPago tipoPago= new TipoPago(GV.LOCAL_SYNC.getMaxId(new TipoPago()), nombre, 1, null, 0);
         try {
             load.add(tipoPago);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -461,7 +461,7 @@ public class VTipoPagos extends javax.swing.JPanel {
         }
         
         stTipoPago.setNombre(nombre);
-        if(GlobalValues.LOCAL_SYNC.exist(stTipoPago)){
+        if(GV.LOCAL_SYNC.exist(stTipoPago)){
             OptionPane.showMsg("Modificar tipo de pago", "Ya existe un registro con el mismo nombre.", JOptionPane.WARNING_MESSAGE);
             return;
         }

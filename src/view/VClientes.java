@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Cliente;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -39,7 +39,7 @@ public class VClientes extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VClientes() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de clientes");
         load.sincronize(new Cliente());
         initComponents();
@@ -991,7 +991,7 @@ public class VClientes extends javax.swing.JPanel {
     private void btnMostrarFichas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseClicked
 //        String rut = txtRut.getText();
 //        try {
-//            GlobalValues.TMP_LIST_FICHAS = load.listarPorRut(rut);
+//            GV.TMP_LIST_FICHAS = load.listarPorRut(rut);
 //            boton.fichas();
 //        } catch (SQLException | ClassNotFoundException ex) {
 //            JOptionPane.showMessageDialog(null, "Error desconocido: "+ex.getMessage(),"Cargar Datos",JOptionPane.WARNING_MESSAGE);

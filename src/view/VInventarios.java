@@ -8,7 +8,7 @@ package view;
 import dao.Dao;
 import entities.Inventario;
 import fn.Boton;
-import fn.GlobalValues;
+import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
@@ -38,7 +38,7 @@ public class VInventarios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VInventarios() {
-        GlobalValues.IS_ONLINE = true;
+        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de inventarios");
         load.sincronize(new Inventario());
         initComponents();
@@ -567,7 +567,7 @@ public class VInventarios extends javax.swing.JPanel {
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 0).toString();
             
-            GlobalValues.setInventarioLocal(nombre);
+            GV.setInventarioLocal(nombre);
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
