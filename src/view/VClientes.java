@@ -1215,4 +1215,8 @@ public class VClientes extends javax.swing.JPanel {
         cboSexoNew.addItem("Femenino");
         cboSexoNew.addItem("Masculino");
     }
+    
+    private void cursor(){
+        GV.cursor(VClientes.this);
+    }
 }

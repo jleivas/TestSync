@@ -1700,4 +1700,8 @@ public class VLentes extends javax.swing.JPanel {
                 break;
         }
     }
+    
+    private void cursor(){
+        GV.cursor(VLentes.this);
+    }
 }

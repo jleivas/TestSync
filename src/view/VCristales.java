@@ -673,4 +673,8 @@ public class VCristales extends javax.swing.JPanel {
         txtPrecioU.setVisible(true);
         lblPorc2.setVisible(true);
     }
+    
+    private void cursor(){
+        GV.cursor(VCristales.this);
+    }
 }

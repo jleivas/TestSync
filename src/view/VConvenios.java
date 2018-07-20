@@ -985,4 +985,8 @@ public class VConvenios extends javax.swing.JPanel {
             textAutoCompleter2.setMode(0);
         }
     }
+    
+    private void cursor(){
+        GV.cursor(VConvenios.this);
+    }
 }

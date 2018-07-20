@@ -831,4 +831,8 @@ public class VDoctores extends javax.swing.JPanel {
         txtRutN.setText("");
         txtRutU.setText("");
     }
+    
+    private void cursor(){
+        GV.cursor(VDoctores.this);
+    }
 }

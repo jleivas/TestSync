@@ -2522,6 +2522,9 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            return;
 //        }
     }
-
+    
+    private void cursor(){
+        GV.cursor(VCrearFicha.this);
+    }
     
 }

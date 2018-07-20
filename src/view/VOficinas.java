@@ -1070,4 +1070,7 @@ public class VOficinas extends javax.swing.JPanel {
             pnl2.setVisible(false);
         }
     }
+    private void cursor(){
+        GV.cursor(VOficinas.this);
+    }
 }

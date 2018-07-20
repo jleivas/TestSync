@@ -676,4 +676,8 @@ public class VInventarios extends javax.swing.JPanel {
         txtNombreN.setText("");
         txtDescU.setText("");
     }
+    
+    private void cursor(){
+        GV.cursor(VInventarios.this);
+    }
 }

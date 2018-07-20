@@ -1014,4 +1014,8 @@ public class VInstituciones extends javax.swing.JPanel {
         txtNombreN.setText("");
         txtTelefonoN.setText("");
     }
+    
+    private void cursor(){
+        GV.cursor(VInstituciones.this);
+    }
 }

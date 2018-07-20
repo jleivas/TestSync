@@ -941,4 +941,8 @@ public class VUsuarios extends javax.swing.JPanel {
         cboNewTipo.addItem("Ventas");
         cboNewTipo.addItem("Inventario");
     }
+    
+    private void cursor(){
+        GV.cursor(VUsuarios.this);
+    }
 }
