@@ -577,6 +577,7 @@ public class VMessages extends javax.swing.JPanel {
 
     private void btnEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnviarMouseClicked
         txtAsunto.setEditable(true);
+        txtUserDestino.setEditable(true);
         if(txtUserDestino.getForeground() == Color.black){
             String userName = getUserName(txtUserDestino.getText());
             String asunto = txtAsunto.getText();
@@ -653,7 +654,23 @@ public class VMessages extends javax.swing.JPanel {
     }//GEN-LAST:event_txtAsunto2KeyTyped
 
     private void btnReenviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReenviarMouseClicked
-        // TODO add your handling code here:
+        stAsunto = txtAsunto2.getText();
+        stContent = txtMessageContent2.getText();
+        stDestino = null;
+        try {
+            stDestino = (User)load.get(getUserName(txtUserRemitente.getText()), 0, new User());
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("Error al responder mensaje", "No se pudo cargar el destinatario,\n"
+                    + "es imposible enviar la respuesta.", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        load();
+        txtAsunto.setText("RW:"+stAsunto);
+        txtAsunto.setEditable(false);
+        
+        txtMessageContent.setText("Remitente original: "+stDestino.getNombre()+" <"+stDestino.getUsername()+">\n\n"+stContent);
+        txtUserDestino.setText(stDestino.getNombre()+" <"+stDestino.getUsername()+">");
+        btnCancelar.setVisible(true);
     }//GEN-LAST:event_btnReenviarMouseClicked
 
     private void btnReenviarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReenviarMouseEntered
@@ -698,8 +715,11 @@ public class VMessages extends javax.swing.JPanel {
         load();
         txtAsunto.setText("RE:"+stAsunto);
         txtAsunto.setEditable(false);
+        
         txtMessageContent.setText(stContent);
         txtUserDestino.setText(stDestino.getNombre()+" <"+stDestino.getUsername()+">");
+        txtUserDestino.setEditable(false);
+        btnCancelar.setVisible(true);
     }//GEN-LAST:event_btnResponderMouseClicked
 
     private void btnResponderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResponderMouseEntered
@@ -732,16 +752,17 @@ public class VMessages extends javax.swing.JPanel {
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         txtAsunto.setEditable(true);
+        txtUserDestino.setEditable(true);
         load();
         
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
-        // TODO add your handling code here:
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnCancelar.getIcon().toString()))));
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-        // TODO add your handling code here:
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));
     }//GEN-LAST:event_btnCancelarMouseExited
 
     private void validateUserInput(){
@@ -763,7 +784,7 @@ public class VMessages extends javax.swing.JPanel {
         if(arg.contains("<") && !arg.endsWith("<")){
             arg=arg.substring(arg.indexOf("<")+1).replaceAll(">", "");
         }
-        return arg;
+        return "0";
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -871,6 +892,7 @@ public class VMessages extends javax.swing.JPanel {
     }
 
     private void limpiarTextField() {
+        btnCancelar.setVisible(false);
         txtAsunto.setText("");
         txtUserDestino.setText("");
         txtMessageContent.setText("");
