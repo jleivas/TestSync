@@ -268,6 +268,11 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtDoctorFocusLost(evt);
             }
         });
+        txtDoctor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDoctorKeyTyped(evt);
+            }
+        });
 
         iconDoctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Account_25px.png"))); // NOI18N
         iconDoctor.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1858,6 +1863,10 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void chkConvenioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chkConvenioKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_chkConvenioKeyTyped
+
+    private void txtDoctorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDoctorKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDoctorKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

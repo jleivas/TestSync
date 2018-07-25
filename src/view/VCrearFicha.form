@@ -365,6 +365,7 @@
         <Component class="javax.swing.JTextField" name="txtDoctor">
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtDoctorFocusLost"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDoctorKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="iconDoctor">
