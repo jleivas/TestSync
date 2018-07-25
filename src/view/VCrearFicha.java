@@ -18,6 +18,7 @@ import entities.TipoPago;
 import fn.Boton;
 import fn.GV;
 import fn.Icons;
+import fn.OptionPane;
 import fn.ValidaRut;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -1346,7 +1347,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 stTipoPago = (TipoPago)load.get(nombre,0,new TipoPago());
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            JOptionPane.showMessageDialog(null, "Error inesparado: "+ex);
+            OptionPane.showMsg("Error inesperado", "Error en ItemStateChanged: "+ex,JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_cboTipoPagoItemStateChanged
 
@@ -1358,6 +1359,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtCristalCerca.getText().length() >= largo){
             evt.consume();
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtCristalCercaKeyTyped
 
@@ -1380,7 +1382,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtAddCerca.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtAddCercaKeyTyped
 
@@ -1388,7 +1390,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOICercaA.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOICercaAKeyTyped
 
@@ -1396,7 +1398,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOICercaCIL.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOICercaCILKeyTyped
 
@@ -1404,7 +1406,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOICercaESF.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOICercaESFKeyTyped
 
@@ -1412,7 +1414,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODCercaA.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODCercaAKeyTyped
 
@@ -1420,7 +1422,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODCercaCIL.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODCercaCILKeyTyped
 
@@ -1428,7 +1430,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODCercaESF.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODCercaESFKeyTyped
 
@@ -1440,6 +1442,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtArmazonCerca.getText().length() >= largo){
             evt.consume();
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtArmazonCercaKeyTyped
 
@@ -1461,6 +1464,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtCristalLejos.getText().length() >= largo){
             evt.consume();
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtCristalLejosKeyTyped
 
@@ -1483,7 +1487,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOILejosA.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOILejosAKeyTyped
 
@@ -1491,7 +1495,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOILejosESF.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOILejosCILKeyTyped
 
@@ -1499,7 +1503,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtOILejosESF.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtOILejosESFKeyTyped
 
@@ -1507,7 +1511,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODLejosA.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODLejosAKeyTyped
 
@@ -1515,7 +1519,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODLejosCIL.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODLejosCILKeyTyped
 
@@ -1523,7 +1527,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtODLejosESF.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtODLejosESFKeyTyped
 
@@ -1531,6 +1535,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtArmazonLejos.getText().length() >= largo){
             evt.consume();
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtArmazonLejosKeyTyped
 
@@ -1593,7 +1598,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtEntrega.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Datos mal ingresados", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtEntregaKeyTyped
 
@@ -1641,7 +1646,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoCliente1.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El teléfono debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtTelefonoCliente1KeyTyped
 
@@ -1653,7 +1658,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudad.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La ciudad debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtCiudadKeyTyped
 
@@ -1661,7 +1666,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtComuna.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La comuna debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtComunaKeyTyped
 
@@ -1669,7 +1674,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccionCliente.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La dirección debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtDireccionClienteKeyTyped
 
@@ -1677,7 +1682,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtMailCliente.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El email debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtMailClienteKeyTyped
 
@@ -1689,7 +1694,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoCliente2.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El teléfono debe contener hasta 12 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtTelefonoCliente2KeyTyped
 
@@ -1697,7 +1702,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombreCliente.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "El nombre debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtNombreClienteKeyTyped
 
@@ -1777,7 +1782,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         int largo = 45;
         if(txtInstitucion.getText().length() >= largo){
             evt.consume();
-            JOptionPane.showMessageDialog(null, "La institucion solo debe contener hasta 45 caracteres", "Error de ingreso de datos", JOptionPane.WARNING_MESSAGE);
+            errorLargo(largo);
         }
     }//GEN-LAST:event_txtInstitucionKeyTyped
 
@@ -2127,9 +2132,9 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                        }
 //                    }
 //                } catch (SQLException ex) {
-//                    JOptionPane.showMessageDialog(null, "Error inesperado: "+ex);
+//                    OptionPane.showMsg(null, "Error inesperado: "+ex);
 //                } catch (ClassNotFoundException ex) {
-//                    JOptionPane.showMessageDialog(null, "Error inesperado: "+ex);
+//                    OptionPane.showMsg(null, "Error inesperado: "+ex);
 //                }
 //        }
         
@@ -2246,21 +2251,21 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        try {
 //            idFicha = load.obtenerFolio();
 //            if(!load.actualizarFolio(idFicha)){
-//                JOptionPane.showMessageDialog(null, "Ocurrió un error al comunicarse con la base de datos,/nNo se pudo actualizar el Id del folio","Error al actualizar numero de folio",JOptionPane.WARNING_MESSAGE);
+//                OptionPane.showMsg("Ocurrió un error al comunicarse con la base de datos,/nNo se pudo actualizar el Id del folio","Error al actualizar numero de folio",JOptionPane.WARNING_MESSAGE);
 //                return;
 //            }
 //
 //        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg(null, "Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
 //            return;
 //        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg("Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
 //        String rutCliente = txtRutCliente.getText();
 //        if(!chkExtranjero.isSelected()){
 //            if(!vr.validarRut(rutCliente)){
-//                JOptionPane.showMessageDialog(null, "El rut ingresado del cliente no existe", "Error de Rut",JOptionPane.WARNING_MESSAGE);
+//                OptionPane.showMsg("El rut ingresado del cliente no existe", "Error de Rut",JOptionPane.WARNING_MESSAGE);
 //                return;
 //            }
 //        }
@@ -2275,12 +2280,12 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        int min2 = (int) txtMinuto2.getValue();
 //
 //        if(fechaEntrega == null || lugarEntrega.length() < 3 || hora1 == 0 || hora2 == 0){
-//            JOptionPane.showMessageDialog(null, "Debe ingresar datos de entrega.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
+//            OptionPane.showMsg(null, "Debe ingresar datos de entrega.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
 //            return;
 //        }
 //
 //        if(!compararHoras(hora1,min1,hora2,min2)){
-//            JOptionPane.showMessageDialog(null, "Las horas están mal ingresadas,\nLa segunda hora debe ser mayor que la primera.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
+//            OptionPane.showMsg( "Las horas están mal ingresadas,\nLa segunda hora debe ser mayor que la primera.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
 //            return;
 //        }
 //        String horaEntrega1 = formatoHora(hora1,min1);
@@ -2293,21 +2298,21 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        if(saldo == 0)
 //        estado = 2;//pagado
 //        if(saldo < 0){
-//            JOptionPane.showMessageDialog(null, "El abono ingresado no es correcto", "Corrija los datos", JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg( "El abono ingresado no es correcto", "Corrija los datos", JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
 //        if(chkConvenio.isSelected()){
 //            if(GV.TMP_ID_DESCUENTO == 0){
-//                JOptionPane.showMessageDialog(null, "Debe seleccionar un descuento", "Seleccione un descuento", JOptionPane.INFORMATION_MESSAGE);
+//                OptionPane.showMsg("Debe seleccionar un descuento", "Seleccione un descuento", JOptionPane.INFORMATION_MESSAGE);
 //                return;
 //            }
 //            try {
 //                dscto = load.cargarDescuento(GV.TMP_ID_DESCUENTO);
 //            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
+//                OptionPane.showMsg( "No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
 //                return;
 //            } catch (ClassNotFoundException ex) {
-//                JOptionPane.showMessageDialog(null, "No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
+//                OptionPane.showMsg("No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
 //                return;
 //            }
 //        }
@@ -2317,10 +2322,10 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            //validar si cliente existe, si no existe guardar, si existe modificar
 //            cliente = load.cargarCliente(rutCliente);
 //        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
 //            return;
 //        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
 //
@@ -2379,14 +2384,14 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        cerca.setTipo(0);
 //
 //        if((cerca.getCristal().length()<1 && lejos.getCristal().length() < 1) || (cerca.getMarca().length() < 1 && lejos.getMarca().length() < 1)){
-//            JOptionPane.showMessageDialog(null, "Debe agregar al menos un armazón a la ficha", "Faltan valores", JOptionPane.INFORMATION_MESSAGE);
+//            OptionPane.showMsg(null, "Debe agregar al menos un armazón a la ficha", "Faltan valores", JOptionPane.INFORMATION_MESSAGE);
 //            return;
 //        }
 //
 //        //crear historial de pago
 //        int abono = (int) txtAbono.getValue();
 //        if(abono > 0 && cboTipoPago.getSelectedIndex() == 0 && idTipoPago==0){
-//            JOptionPane.showMessageDialog(null, "Error, Debe seleccionsr un tipo de pago","Selecciona tipo de pago",JOptionPane.INFORMATION_MESSAGE);
+//            OptionPane.showMsg(null, "Error, Debe seleccionsr un tipo de pago","Selecciona tipo de pago",JOptionPane.INFORMATION_MESSAGE);
 //            return;
 //        }
 //        HistorialPago hp = null;
@@ -2437,7 +2442,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                }
 //                //actualizar
 //                if(!load.actualizarCliente(cliente)){
-//                    JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1100]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1100]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
 //            }else{
@@ -2459,7 +2464,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                ficha.setCliente(cliente);
 //                //guardar
 //                if(!load.guardarCliente(cliente)){
-//                    JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1102]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1102]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
 //            }
@@ -2470,28 +2475,28 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                //Guardar valores en BD
 //                //guardar armazones
 //                if(!load.guardarArmazon(ficha.getCerca())){
-//                    JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1104]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1104]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
 //                if(!load.guardarArmazon(ficha.getLejos())){
-//                    JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1106]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1106]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
 //                //guardar historial de pago
 //                if(!load.guardarHitorialPago(hp) && abono > 0){
-//                    JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
 //                //descontar de inventario
 //                if(load.cargarLente(ficha.getCerca().getMarca()) != null){//prgunta si existe un lente con los datos ingresados para poder descontar stock
 //                    if(!load.descontarStock(ficha.getCerca().getMarca())){
-//                        JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1110]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                        OptionPane.showMsg(null, "No se pudo completar la operación [1110]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                        return;
 //                    }
 //                }
 //                if(load.cargarLente(ficha.getLejos().getMarca()) != null){//prgunta si existe un lente con los datos ingresados para poder descontar stock
 //                    if(!load.descontarStock(ficha.getLejos().getMarca())){
-//                        JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1112]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                        OptionPane.showMsg(null, "No se pudo completar la operación [1112]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                        return;
 //                    }
 //                }
@@ -2504,27 +2509,32 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                    try {
 //                        boton.crearFicha();
 //                    } catch (SQLException | ClassNotFoundException ex) {
-//                        JOptionPane.showMessageDialog(null, "Error inesperado "+ex.getMessage(), "Abrir ventana Nueva Ficha", JOptionPane.WARNING_MESSAGE);
+//                        OptionPane.showMsg(null, "Error inesperado "+ex.getMessage(), "Abrir ventana Nueva Ficha", JOptionPane.WARNING_MESSAGE);
 //                    }
 //                    return;
 //                }
-//                JOptionPane.showMessageDialog(null, "No se pudo completar la operación [1114]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                OptionPane.showMsg(null, "No se pudo completar la operación [1114]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                return;
 //
 //            }else{
 //                return;
 //            }
 //        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //            return;
 //        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//            OptionPane.showMsg(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
     }
     
     private void cursor(){
         GV.cursor(VCrearFicha.this);
+    }
+
+    private void errorLargo(int largo) {
+        OptionPane.showMsg( "Datos mal ingresados", "Error de ingreso de datos, \n"
+                    + "los datos ingresados deben tener un maximo de "+largo+" caracteres.", JOptionPane.WARNING_MESSAGE);
     }
     
 }
