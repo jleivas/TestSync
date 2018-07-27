@@ -48,7 +48,7 @@ public class Institucion extends SyncIntId{
     }
 
     public void setEmail(String email) {
-        this.email = getStr(email).toLowerCase();
+        this.email = mailValidate(email);
     }
     
     public void setWeb(String web){

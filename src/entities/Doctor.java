@@ -40,7 +40,7 @@ public class Doctor extends SyncStringId{
     }
 
     public void setEmail(String email) {
-        this.email = getStr(email).toLowerCase();
+        this.email = mailValidate(email);
     }
 
     public String getNombre() {
