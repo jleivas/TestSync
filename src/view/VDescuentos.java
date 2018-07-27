@@ -877,8 +877,10 @@ public class VDescuentos extends javax.swing.JPanel {
         lblMonto2.setVisible(false);
         cargarCbos();
     }
-    
-    private void cursor(){
-        GV.cursor(VDescuentos.this);
+    private void cWT(){
+        GV.cursorWAIT(this);
+    }
+    private void cDF(){
+        GV.cursorDF(this);
     }
 }

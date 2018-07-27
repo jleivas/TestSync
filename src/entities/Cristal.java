@@ -29,7 +29,7 @@ public class Cristal extends SyncIntId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = getToName(nombre);
+        this.nombre = getStr(nombre).toUpperCase();
     }
 
     public void setPrecio(int precio) {
@@ -37,7 +37,7 @@ public class Cristal extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre).toUpperCase();
     }
 
     public int getPrecio() {

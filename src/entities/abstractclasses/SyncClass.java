@@ -53,7 +53,7 @@ public abstract class SyncClass {
     }
     
     public String getToName(String param){
-        String[] str = getStr(param).split(" ");
+        String[] str = getStr(param).toLowerCase().split(" ");
         StringBuffer value = new StringBuffer();
         for (String temp : str) {
             if(temp.length() > 1){
@@ -69,11 +69,11 @@ public abstract class SyncClass {
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
         else
-            return arg.trim().toLowerCase();
+            return arg.trim();
     }
     
     public String mailValidate(String email){
-        email = getStr(email);
+        email = getStr(email).toLowerCase();
         // Patrón para validar el email
         Pattern pattern = Pattern
                 .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

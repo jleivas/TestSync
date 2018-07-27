@@ -2537,9 +2537,6 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        }
     }
     
-    private void cursor(){
-        GV.cursor(VCrearFicha.this);
-    }
 
     private void errorLargo(int largo) {
         OptionPane.showMsg( "Datos mal ingresados", "Error de ingreso de datos, \n"

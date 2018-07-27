@@ -68,7 +68,7 @@ public class Institucion extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getTelefono() {
@@ -83,15 +83,15 @@ public class Institucion extends SyncIntId{
         return getStr(web);
     }
     public String getDireccion() {
-        return getStr(direccion);
+        return getToName(direccion);
     }
 
     public String getComuna() {
-        return getStr(comuna);
+        return getToName(comuna);
     }
 
     public String getCiudad() {
-        return getStr(ciudad);
+        return getToName(ciudad);
     }
 
     @Override

@@ -9,7 +9,6 @@ import dao.Dao;
 import entities.Institucion;
 import fn.Boton;
 import fn.GV;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
@@ -40,7 +39,7 @@ public class VInstituciones extends javax.swing.JPanel {
     public VInstituciones() {
         GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de institucion.");
-        load.sincronize(new Institucion());
+//        load.sincronize(new Institucion());
         initComponents();
         modelo.addColumn("Id");
         modelo.addColumn("Nombre");
@@ -50,6 +49,9 @@ public class VInstituciones extends javax.swing.JPanel {
         tblListar.setModel(modelo);
         ContentAdmin.lblTitle.setText("Instituciones");
         load();
+        loadPanels(1);
+        GV.cursorDF();
+        cDF();
     }
 
     /**
@@ -71,7 +73,7 @@ public class VInstituciones extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        jPanel2 = new javax.swing.JPanel();
+        pnl1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtNombreN = new javax.swing.JTextField();
@@ -87,7 +89,7 @@ public class VInstituciones extends javax.swing.JPanel {
         btnGuardar = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtWebN = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
+        pnl2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtNombreU = new javax.swing.JTextField();
@@ -103,6 +105,7 @@ public class VInstituciones extends javax.swing.JPanel {
         btnModificar = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         txtWebU = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -231,8 +234,8 @@ public class VInstituciones extends javax.swing.JPanel {
                 .addGap(36, 36, 36))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Crear nuevo registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
+        pnl1.setBackground(new java.awt.Color(255, 255, 255));
+        pnl1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Crear nuevo registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel2.setText("Nombre");
@@ -325,21 +328,21 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+        javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
+        pnl1.setLayout(pnl1Layout);
+        pnl1Layout.setHorizontalGroup(
+            pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl1Layout.createSequentialGroup()
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl1Layout.createSequentialGroup()
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNombreN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(txtTelefonoN))
                         .addGap(18, 18, 18)
@@ -348,55 +351,55 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtWebN, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl1Layout.createSequentialGroup()
                         .addComponent(txtEmailN)
                         .addGap(10, 10, 10))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(pnl1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtComunaN, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                        .addComponent(txtComunaN)
                         .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(pnl1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addContainerGap())))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnl1Layout.setVerticalGroup(
+            pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtTelefonoN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(txtEmailN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtDireccionN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(txtComunaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl1Layout.createSequentialGroup()
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(txtCiudadN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(txtWebN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addComponent(btnGuardar)))
         );
 
-        jPanel3.setBackground(new java.awt.Color(108, 217, 186));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Editar registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
+        pnl2.setBackground(new java.awt.Color(108, 217, 186));
+        pnl2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Editar registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel11.setText("Nombre");
@@ -489,21 +492,34 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cancel_50px.png"))); // NOI18N
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
+        pnl2.setLayout(pnl2Layout);
+        pnl2Layout.setHorizontalGroup(
+            pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl2Layout.createSequentialGroup()
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl2Layout.createSequentialGroup()
+                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNombreU, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(txtTelefonoU))
                         .addGap(18, 18, 18)
@@ -512,51 +528,54 @@ public class VInstituciones extends javax.swing.JPanel {
                     .addComponent(txtCiudadU, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtWebU, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl2Layout.createSequentialGroup()
                         .addComponent(txtEmailU)
                         .addGap(10, 10, 10))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnl2Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtComunaU)
                         .addContainerGap())
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(pnl2Layout.createSequentialGroup()
+                        .addGap(0, 213, Short.MAX_VALUE)
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnModificar)
                         .addContainerGap())))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        pnl2Layout.setVerticalGroup(
+            pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(pnl2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(txtTelefonoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(txtEmailU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtDireccionU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(txtComunaU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnl2Layout.createSequentialGroup()
+                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
                             .addComponent(txtCiudadU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
                             .addComponent(txtWebU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
-                    .addComponent(btnModificar)))
+                    .addComponent(btnModificar)
+                    .addComponent(btnCancelar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -567,10 +586,13 @@ public class VInstituciones extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 25, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnl1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,9 +600,9 @@ public class VInstituciones extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -606,7 +628,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombreN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNombreNKeyTyped
 
@@ -614,7 +636,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefonoNKeyTyped
 
@@ -622,7 +644,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmailN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtEmailNKeyTyped
 
@@ -630,7 +652,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccionN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtDireccionNKeyTyped
 
@@ -638,7 +660,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtComunaN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtComunaNKeyTyped
 
@@ -646,7 +668,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudadN.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtCiudadNKeyTyped
 
@@ -654,7 +676,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombreU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNombreUKeyTyped
 
@@ -662,7 +684,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefonoUKeyTyped
 
@@ -670,7 +692,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmailU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtEmailUKeyTyped
 
@@ -678,7 +700,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccionU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtDireccionUKeyTyped
 
@@ -686,7 +708,7 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtComunaU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtComunaUKeyTyped
 
@@ -694,61 +716,70 @@ public class VInstituciones extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudadU.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtCiudadUKeyTyped
 
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
             
             abrirInstitucion(id);
-            
+            cDF();
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".",  JOptionPane.WARNING_MESSAGE);
+                    + "Luego presione el botón \"Ver\".",  2);
+            cDF();
         }
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
             Institucion temp = (Institucion)load.get(null,id,new Institucion());
-            if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(null,id, temp))
-                    OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
-                else
-                    OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
+            if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+                cWT();
+                if(load.delete(null,id, temp)){
+                    OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", 1);
+                }else{
+                    OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", 2);
+                }
+            }
             cargarDatos("0");
-            
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
         }
+        cDF();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             int id = (int)tblListar.getValueAt(fila, 0);
-            if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+            if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", 1)){
+                cWT();
                 if(load.restore(null, id, new Institucion())){
-                    OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+                    OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", 1);
                 }else{
-                    OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", 2);
                 }
                 cargarDatos("-1");
             }
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "o el valor seleccionado no tiene un identificador válido.",2);
         }
+        cDF();
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
     private void btnAbrirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseEntered
@@ -776,21 +807,25 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRestaurarMouseExited
 
     private void cboMostrarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMostrarItemStateChanged
+        cWT();
         load();
+        cDF();
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        
+        cWT();
         String nombre=txtNombreN.getText();
         if(nombre == null || nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", 2);
+            cDF();
             return;
         }
         String telefono=txtTelefonoN.getText();
         String mail=txtEmailN.getText().toLowerCase();
         if(telefono.isEmpty() && mail.isEmpty()){
             OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
+                    + "Ingrese un teléfono o correo electrónico.", 2);
+            cDF();
             return;
         }
         String direccion=txtDireccionN.getText();
@@ -800,13 +835,15 @@ public class VInstituciones extends javax.swing.JPanel {
 
         Institucion institucion= new Institucion(GV.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
         try {
+            cWT();
             load.add(institucion);
         } catch (InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
                     + "No se pudo insertar la institucion\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
+                    + ex, 3);
         }
         cargarDatos("0");
+        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -818,16 +855,19 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        cWT();
         String nombre= txtNombreU.getText();
         if(nombre == null || nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", 2);
+            cDF();
             return;
         }
         String telefono = txtTelefonoU.getText();
         String email = txtEmailU.getText();
         if(telefono.isEmpty() && email.isEmpty()){
             OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
+                    + "Ingrese un teléfono o correo electrónico.", 2);
+            cDF();
             return;
         }
         
@@ -838,12 +878,14 @@ public class VInstituciones extends javax.swing.JPanel {
         stInstitucion.setNombre(nombre);
         stInstitucion.setTelefono(telefono);
         stInstitucion.setWeb(txtWebU.getText());
-        
-        if(load.update(stInstitucion))
-            OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
-        else
-            OptionPane.showMsg("Modificar Institucion", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
+        cWT();
+        if(load.update(stInstitucion)){
+            OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  1);
+        }else{
+            OptionPane.showMsg("Modificar Institucion", "No se pudo efectuar la operación", 2);
+        }
         cargarDatos("0");
+        cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
@@ -892,9 +934,23 @@ public class VInstituciones extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtWebUKeyTyped
 
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        limpiarTextField();
+        loadPanels(1);
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnCancelar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
+    private javax.swing.JLabel btnCancelar;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;
@@ -916,10 +972,10 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel pnl1;
+    private javax.swing.JPanel pnl2;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCiudadN;
@@ -948,6 +1004,7 @@ public class VInstituciones extends javax.swing.JPanel {
     }
     private void cargarDatos(String listar) {
         limpiarTextField();
+        loadPanels(1);
         if(listar.equals("-1")){
             btnRestaurar.setVisible(true);
             btnEliminar.setVisible(false);
@@ -973,16 +1030,17 @@ public class VInstituciones extends javax.swing.JPanel {
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("No existen Instituciones", "No existen instituciones registradas.",JOptionPane.INFORMATION_MESSAGE);
+                GV.emptyTable(cboMostrar, txtBuscar, "Instituciones");
             }
             
         }catch(Exception e){
-            OptionPane.showMsg("Ocurrió un error inesperado", "Error al cargar valores en la tabla, ["+e.getMessage()+"]",JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Ocurrió un error inesperado", "Error al cargar valores en la tabla, ["+e.getMessage()+"]",3);
         }
     }
 
     private void abrirInstitucion(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-            stInstitucion = (Institucion)load.get(null,id,new Institucion());
+        loadPanels(2);
+        stInstitucion = (Institucion)load.get(null,id,new Institucion());
             if(stInstitucion!=null){
                 txtNombreU.setText(stInstitucion.getNombre());
                 txtCiudadU.setText(stInstitucion.getCiudad());
@@ -994,7 +1052,7 @@ public class VInstituciones extends javax.swing.JPanel {
             }else{
                 OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "o el valor seleccionado no tiene un identificador válido.",2);
             }
     }
 
@@ -1015,7 +1073,20 @@ public class VInstituciones extends javax.swing.JPanel {
         txtTelefonoN.setText("");
     }
     
-    private void cursor(){
-        GV.cursor(VInstituciones.this);
+    private void cWT(){
+        GV.cursorWAIT(this);
+    }
+    private void cDF(){
+        GV.cursorDF(this);
+    }
+
+    private void loadPanels(int option) {
+        if(option == 2){
+            pnl1.setVisible(false);
+            pnl2.setVisible(true);
+        }else{
+            pnl1.setVisible(true);
+            pnl2.setVisible(false);
+        }
     }
 }

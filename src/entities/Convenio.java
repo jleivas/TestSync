@@ -79,7 +79,7 @@ public class Convenio extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public Date getFechaInicio() {

@@ -37,7 +37,7 @@ public class Inventario extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getDescripcion() {

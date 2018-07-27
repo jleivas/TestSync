@@ -31,7 +31,7 @@ public class TipoPago extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     @Override

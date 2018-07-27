@@ -15,9 +15,10 @@ import entities.Equipo;
 import entities.Lente;
 import entities.Oficina;
 import entities.User;
-import fn.GlobalValues;
+import fn.GV;
 import fn.SubProcess;
 import fn.date.Cmp;
+import fn.mail.Send;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
@@ -25,6 +26,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import sync.entities.Local;
 
 /**
@@ -37,8 +40,8 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
+        System.out.println(strToNumber("jorge"));
         
-        System.out.println(isNumber("-1"));
         
     }
     
@@ -90,6 +93,15 @@ public class TestSync {
         if(arg.isEmpty())
             return -1;
         return Integer.parseInt(arg)-1;
+    }
+    
+    private static int strToNumber(String arg){
+        if(arg == null || arg.isEmpty())
+            return 0;
+        arg = arg.replaceAll("[^0-9]", "");
+        if(arg.isEmpty())
+            return 0;
+        return Integer.parseInt(arg);
     }
     
     

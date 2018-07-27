@@ -30,15 +30,15 @@ public class Equipo extends SyncIntId{
     }
 
     public void setLicencia(String licencia) {
-        this.licencia = getStr(licencia);
+        this.licencia = licencia;
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getLicencia() {
-        return getStr(licencia);
+        return licencia;
     }
     
 }

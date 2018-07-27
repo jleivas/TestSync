@@ -582,7 +582,10 @@ public class VTipoPagos extends javax.swing.JPanel {
         txtNombreN.setText("");
     }
     
-    private void cursor(){
-        GV.cursor(VTipoPagos.this);
+    private void cWT(){
+        GV.cursorWAIT(this);
+    }
+    private void cDF(){
+        GV.cursorDF(this);
     }
 }

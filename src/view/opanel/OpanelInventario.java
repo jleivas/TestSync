@@ -143,12 +143,10 @@ public class OpanelInventario extends javax.swing.JPanel {
                 case 2://armazones
                     OptionPane.closeInfoPanel();
                     boton.lentes();
-                    
                     break;
                 case 3://cristales
                     OptionPane.closeInfoPanel();
                     boton.cristales();
-                    
                     break;
                 case 4://exportar inventario
                     break;

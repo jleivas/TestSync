@@ -44,7 +44,7 @@ public class Doctor extends SyncStringId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getTelefono() {

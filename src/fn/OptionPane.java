@@ -35,12 +35,31 @@ public class OptionPane {
         OpanelContent.repaint();
     }
     
+    /**
+     * 
+     * @param title
+     * @param message
+     * @param statusMsg 1: Information, 2: Warning, 3: Error
+     */
     public static void showMsg(String title, String message, int statusMsg){
         if(title.length() > 40){
             message = title.toUpperCase()+"\n\n"+message;
             title = title.substring(0,38)+"...";
         }
-        GV.MSG_STATUS = statusMsg;
+        switch(statusMsg){
+            case 1:
+                GV.MSG_STATUS = JOptionPane.INFORMATION_MESSAGE;
+                break;
+            case 2: 
+                GV.MSG_STATUS = JOptionPane.WARNING_MESSAGE;
+                break;
+            case 3:
+                GV.MSG_STATUS = JOptionPane.ERROR_MESSAGE;
+                break;
+            default:
+                GV.MSG_STATUS = JOptionPane.INFORMATION_MESSAGE;
+                break;
+        }
         OpanelMessage p1 = new OpanelMessage();
         GV.INFOPANEL.lblTitle.setText(title);
         if(p1 instanceof OpanelMessage){

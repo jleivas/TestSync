@@ -9,7 +9,6 @@ import dao.Dao;
 import entities.Oficina;
 import fn.Boton;
 import fn.GV;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
@@ -40,7 +39,7 @@ public class VOficinas extends javax.swing.JPanel {
     public VOficinas() {
         GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de oficinas");
-        load.sincronize(new Oficina());
+//        load.sincronize(new Oficina());
         initComponents();
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
@@ -48,6 +47,9 @@ public class VOficinas extends javax.swing.JPanel {
         tblListar.setModel(modelo);
         ContentAdmin.lblTitle.setText("Registro de oficinas");
         load();
+        loadPanels(1);
+        GV.cursorDF();
+        cDF();
     }
 
     /**
@@ -594,7 +596,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombreNew.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNombreNewKeyTyped
 
@@ -602,7 +604,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoNew1.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefonoNew1KeyTyped
 
@@ -610,7 +612,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmailNew.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El Email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtEmailNewKeyTyped
 
@@ -618,7 +620,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccionNew.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtDireccionNewKeyTyped
 
@@ -626,7 +628,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtWebNew.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La comuna solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtWebNewKeyTyped
 
@@ -634,7 +636,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudadNew.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtCiudadNewKeyTyped
 
@@ -642,12 +644,13 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefonoNew2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El teléfono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefonoNew2KeyTyped
 
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 0).toString();
             
@@ -655,47 +658,58 @@ public class VOficinas extends javax.swing.JPanel {
             
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".",  JOptionPane.WARNING_MESSAGE);
+                    + "Luego presione el botón \"Ver\".",  2);
         }
+        cDF();
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 0).toString();
             Oficina temp = (Oficina)load.get(nombre,0,new Oficina());
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar la oficina: "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE))
-                if(load.delete(nombre,0, temp))
-                    OptionPane.showMsg("Eliminar Oficina", "El registro ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
-                else
-                    OptionPane.showMsg("Eliminar Oficina", "No se pudo eliminar el registro", JOptionPane.WARNING_MESSAGE);
+            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar la oficina: "+temp.getNombre()+"?", 2)){
+                cWT();
+                if(load.delete(nombre,0, temp)){
+                    OptionPane.showMsg("Eliminar Oficina", "El registro ha sido eliminado", 1);
+                }else{
+                    OptionPane.showMsg("Eliminar Oficina", "No se pudo eliminar el registro", 2);
+                }
+            }
             cargarDatos("0");
-            
+            cDF();
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Oficina","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+            cDF();
         }
+        cDF();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
         try{
+            cWT();
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Confirmación de Oficina", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+            if(OptionPane.getConfirmation("Confirmación de Oficina", "¿Esta seguro que desea restaurar este registro?", 1)){
+                cWT();
                 if(load.restore(nombre, 0, new Oficina())){
-                    OptionPane.showMsg("Restaurar Oficina", "El registro ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+                    OptionPane.showMsg("Restaurar Oficina", "El registro ha sido restaurado", 1);
                 }else{
-                    OptionPane.showMsg("Restaurar Oficina", "No se pudo restaurar el registro", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar Oficina", "No se pudo restaurar el registro", 2);
                 }
                 cargarDatos("-1");
+                cDF();
             }
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Oficina","Error al cargar valores,\n"
                     + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "o el valor seleccionado no tiene un identificador válido.",2);
+            cDF();
         }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
@@ -724,30 +738,38 @@ public class VOficinas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRestaurarMouseExited
 
     private void cboMostrarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMostrarItemStateChanged
+        cWT();
         load();
+        cDF();
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        cWT();
         String nombre=txtNombreNew.getText();
         if(nombre == null || nombre.isEmpty()){
             OptionPane.showMsg("Error de ingreso de datos","El nombre ingresado no es válido."
-                    , JOptionPane.WARNING_MESSAGE);
+                    , 2);
+            cDF();
             return;
         }
         try {
+            cWT();
             if(load.get(nombre,0, new Oficina()) != null){
                 OptionPane.getConfirmation("El registro ya existe", "El nombre ingresado ya existe.", 
-                        JOptionPane.WARNING_MESSAGE);
+                        2);
+                cDF();
                 return;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
                     + "No se pudo insertar el registro\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
+                    + ex, 3);
+            cDF();
             return;
         }
         if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", 2);
+            cDF();
             return;
         }
         String telefono1=txtTelefonoNew1.getText();
@@ -756,7 +778,8 @@ public class VOficinas extends javax.swing.JPanel {
         String web=txtWebNew.getText().toLowerCase();
         if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
             OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
+                    + "Ingrese un teléfono o correo electrónico.", 2);
+            cDF();
             return;
         }
         String direccion=(txtDireccionNew.getText());
@@ -765,13 +788,18 @@ public class VOficinas extends javax.swing.JPanel {
 
         Oficina oficina= new Oficina(0, nombre, direccion, ciudad, telefono1, telefono2, mail, web, estado, null, 0);
         try {
+            cWT();
             load.add(oficina);
+            cDF();
         } catch (InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
                     + "No se pudo insertar la oficina\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
+                    + ex, 3);
+            cDF();
         }
+        cWT();
         cargarDatos("0");
+        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -808,7 +836,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtNombre2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNombre2KeyTyped
 
@@ -816,7 +844,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefono1_2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefono1_2KeyTyped
 
@@ -828,7 +856,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtEmail2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtEmail2KeyTyped
 
@@ -836,7 +864,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtDireccion2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtDireccion2KeyTyped
 
@@ -844,7 +872,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 100;
         if(txtWeb2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La dirección web solo debe contener hasta 100 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La dirección web solo debe contener hasta 100 caracteres", 2);
         }
     }//GEN-LAST:event_txtWeb2KeyTyped
 
@@ -856,7 +884,7 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 45;
         if(txtCiudad2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "La ciudad solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtCiudad2KeyTyped
 
@@ -864,41 +892,49 @@ public class VOficinas extends javax.swing.JPanel {
         int largo = 12;
         if(txtTelefono2_2.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El telefono solo debe contener hasta 12 caracteres", 2);
         }
     }//GEN-LAST:event_txtTelefono2_2KeyTyped
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        cWT();
         String nombre=txtNombre2.getText();
         if(stOficina != null){
 
             if(nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", 2);
+                cDF();
                 return;
             }
             try {
                 if(!stOficina.getNombre().equals(nombre.trim())){
+                    cWT();
                     if(load.get(nombre,0, new Oficina()) != null){
                         OptionPane.getConfirmation("El registro ya existe", "El nombre ingresado ya existe.", 
-                                JOptionPane.WARNING_MESSAGE);
+                                2);
+                        cDF();
                         return;
                     }
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
                         + "No se pudo insertar el registro\n\n"
-                        + ex, JOptionPane.ERROR_MESSAGE);
+                        + ex, 3);
+                cDF();
                 return;
             }
             String telefono1 = (txtTelefono1_2.getText());
             String telefono2 = (txtTelefono2_2.getText());
             String mail = (txtEmail2.getText());
             stOficina.setWeb(txtWeb2.getText());
+            cWT();
             if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
                 OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                        + "Ingrese un teléfono o correo electrónico.", JOptionPane.WARNING_MESSAGE);
+                        + "Ingrese un teléfono o correo electrónico.", 2);
+                cDF();
                 return;
             }
+            stOficina.setNombre(nombre);
             stOficina.setTelefono1(telefono1);
             stOficina.setTelefono2(telefono2);
             stOficina.setEmail(mail);
@@ -907,11 +943,13 @@ public class VOficinas extends javax.swing.JPanel {
 
             load.update(stOficina);
             cargarDatos("0");
+            cDF();
         }else{
             OptionPane.showMsg("Imposible modificar", "No se pueden modificar los registros de Oficina\n"
-                    + "Debe volver a cargar los datos que desea modificar.", JOptionPane.ERROR_MESSAGE);
+                    + "Debe volver a cargar los datos que desea modificar.", 3);
+            cDF();
         }
-            
+        cDF();
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void btnUpdateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseEntered
@@ -927,7 +965,8 @@ public class VOficinas extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombre2ActionPerformed
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        cargarDatos("0");
+        limpiarTextField();
+        loadPanels(1);
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -1018,15 +1057,16 @@ public class VOficinas extends javax.swing.JPanel {
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                OptionPane.showMsg("No existen registros", "No existen oficinas registradas.",JOptionPane.INFORMATION_MESSAGE);
+                GV.emptyTable(cboMostrar, txtBuscar, "Oficinas");
             }
             
         }catch(Exception e){
-            OptionPane.showMsg("Ocurrió un error inesperado", "Error al cargar valores en la tabla, ["+e.getMessage()+"]",JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Ocurrió un error inesperado", "Error al cargar valores en la tabla, ["+e.getMessage()+"]",3);
         }
     }
 
     private void abrirOficina(String nombre) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+            loadPanels(2);
             stOficina = (Oficina)load.get(nombre,0,new Oficina());
             if(stOficina!=null){
                 loadPanels(2);
@@ -1040,7 +1080,7 @@ public class VOficinas extends javax.swing.JPanel {
             }else{
                 OptionPane.showMsg("Seleccione Oficina","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "o el valor seleccionado no tiene un identificador válido.",2);
             }
     }
 
@@ -1070,7 +1110,10 @@ public class VOficinas extends javax.swing.JPanel {
             pnl2.setVisible(false);
         }
     }
-    private void cursor(){
-        GV.cursor(VOficinas.this);
+    private void cWT(){
+        GV.cursorWAIT(this);
+    }
+    private void cDF(){
+        GV.cursorDF(this);
     }
 }

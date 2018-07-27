@@ -2163,19 +2163,23 @@ public class Local implements InterfaceSync {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";
         if(remitente > 0){
-            sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+            sql = "SELECT msg_id,us_id_remitente,us_id_destinatario,msg_asunto, msg_content,msg_fecha,msg_hora, msg_estado, msg_last_update, msg_last_hour,"
+                    + "(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
                     + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
                     + "FROM message WHERE us_id_remitente = "+remitente+" AND msg_estado > 0";
             if(estado > 0)
-                sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                sql = "SELECT msg_id,us_id_remitente,us_id_destinatario,msg_asunto, msg_content,msg_fecha,msg_hora, msg_estado, msg_last_update, msg_last_hour,"
+                        + ",(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
                         + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
                         + "FROM message WHERE us_id_remitente = " + remitente + " AND msg_estado = "+estado;
         }else{
-            sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+            sql = "SELECT msg_id,us_id_remitente,us_id_destinatario,msg_asunto, msg_content,msg_fecha,msg_hora, msg_estado, msg_last_update, msg_last_hour,"
+                    + "(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
                     + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
                     + "FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado > 0";
             if(estado > 0)
-                sql = "SELECT *,(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
+                sql = "SELECT msg_id,us_id_remitente,us_id_destinatario,msg_asunto, msg_content,msg_fecha,msg_hora, msg_estado, msg_last_update, msg_last_hour,"
+                        + "(SELECT us_username FROM usuario WHERE us_id = us_id_remitente) as rem,"
                         + "(SELECT us_username FROM usuario WHERE us_id = us_id_destinatario) as des "
                         + "FROM message WHERE us_id_destinatario = " + destinatario + " AND msg_estado = "+estado;
         }

@@ -79,7 +79,7 @@ public class Cliente extends SyncStringId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getTelefono1() {
@@ -95,15 +95,15 @@ public class Cliente extends SyncStringId{
     }
 
     public String getDireccion() {
-        return getStr(direccion);
+        return getToName(direccion);
     }
 
     public String getComuna() {
-        return getStr(comuna);
+        return getToName(comuna);
     }
 
     public String getCiudad() {
-        return getStr(ciudad);
+        return getToName(ciudad);
     }
 
     public int getSexo() {

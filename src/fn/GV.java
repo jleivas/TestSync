@@ -24,7 +24,9 @@ import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import newpackage.NoGit;
 import sync.Cmp;
 import sync.entities.Global;
@@ -225,6 +227,15 @@ public class GV {
         DecimalFormat formateador = new DecimalFormat("###,###,###");
         return "$ "+formateador.format (monto);
     }
+    
+    public static int strToNumber(String arg){
+        if(arg == null || arg.isEmpty())
+            return 0;
+        arg = arg.replaceAll("[^0-9]", "");
+        if(arg.isEmpty())
+            return 0;
+        return Integer.parseInt(arg);
+    }
 
     public static boolean strCompare(String str1, String str2) {
         str1 = str1.toLowerCase();
@@ -274,6 +285,22 @@ public class GV {
      * Actualiza archivo local de propiedades del sistema con los valores estaticos
      */
     private static void saveXMLProperties() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return;
+    }
+    
+    public static void emptyTable(JComboBox cbo, JTextField txt, String registry){
+        String end = "os";
+        if(registry.endsWith("as")){
+            end = "as";
+        }
+        if(txt.getText().length() > 1){
+            OptionPane.showMsg("No existen "+registry, "No existen registros disponibles que contengan la palabra \""+txt.getText()+"\"",1);
+        }else{
+            if(cbo.getSelectedIndex() == 0){
+                OptionPane.showMsg("No existen "+registry, "No existen "+registry+" registrad"+end+".",1);
+            }else{
+                OptionPane.showMsg("No existen "+registry, "No existen "+registry+" eliminad"+end+".",1);
+            }
+        }
     }
 }

@@ -57,7 +57,7 @@ public class VMessages extends javax.swing.JPanel {
         modelo.addColumn("Estado");
         tblListar.setModel(modelo);
         ContentAdmin.lblTitle.setText("Mensajes");
-        load.sincronize(new InternMail());
+//        load.sincronize(new InternMail());
         setPanels(1);
         autocomplete();
         load();
@@ -537,7 +537,7 @@ public class VMessages extends javax.swing.JPanel {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
-            cDF();
+            cWT();
             int fila = tblListar.getSelectedRow();
             int id = (int)tblListar.getValueAt(fila, 0);
             stMail = (InternMail)load.get(null,id,new InternMail());
@@ -556,7 +556,7 @@ public class VMessages extends javax.swing.JPanel {
                 }
             }
             load();
-            cWT();
+            cDF();
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Mensaje","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
@@ -985,9 +985,9 @@ public class VMessages extends javax.swing.JPanel {
         }
     }
     private void cWT(){
-        GV.cursorWAIT(VMessages.this);
+        GV.cursorWAIT(this);
     }
     private void cDF(){
-        GV.cursorDF(VMessages.this);
+        GV.cursorDF(this);
     }
 }

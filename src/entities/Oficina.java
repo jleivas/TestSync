@@ -68,15 +68,15 @@ public class Oficina extends SyncIntId{
     }
 
     public String getNombre() {
-        return getStr(nombre);
+        return getToName(nombre);
     }
 
     public String getDireccion() {
-        return getStr(direccion);
+        return getToName(direccion);
     }
 
     public String getCiudad() {
-        return getStr(ciudad);
+        return getToName(ciudad);
     }
 
     public String getTelefono1() {

@@ -7,13 +7,9 @@ package fn;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.Frame;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.RootPaneContainer;
-import view.ContentAdmin;
 import static view.ContentAdmin.principalAdmin;
 import view.VClientes;
 import view.VOficinas;
@@ -89,6 +85,7 @@ public class Boton {
     }
     
     public void cristales() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
 //        if(validAccess(GlobalValues.USER.getTipo(),2)){
 //            
 //        }else{
@@ -98,10 +95,12 @@ public class Boton {
     }
     
     public void clientes() throws SQLException, ClassNotFoundException{
+        GV.cursorWAIT();
         openView(new VClientes());
     }
     
     public void convenios() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
         openView(new VConvenios());
     }
     
@@ -110,27 +109,32 @@ public class Boton {
     }
     
     public void doctores() throws SQLException, ClassNotFoundException{
+        GV.cursorWAIT();
         openView(new VDoctores());
     }
     
     public void instituciones() throws SQLException, ClassNotFoundException{
+        GV.cursorWAIT();
         openView(new VInstituciones());
     }
     
     public void inventarios() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
         openView(new VInventarios());
     }
     
     public void lentes() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
         openView(new VLentes());
     }
     
     public void mensajes() {
-        GV.cursor();
+        GV.cursorWAIT();
         openView(new VMessages());
     }
     
     public void oficinas() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
         openView(new VOficinas());
     }
     
