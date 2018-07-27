@@ -28,12 +28,12 @@ import fn.GV;
 import fn.Log;
 import fn.OptionPane;
 import fn.date.Cmp;
+import fn.mail.Send;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,6 +41,7 @@ import javax.swing.JOptionPane;
  */
 public class Dao{
     private static String className="Dao";
+    private Send mailSend = new Send();
     /**
      * Sólo crea datos, si ya existen no los puede agregar.
      * Útil solo para registros independientes de la base de datos remota
@@ -50,6 +51,10 @@ public class Dao{
     public boolean sendMessage (InternMail msg) throws InstantiationException, IllegalAccessException{
         Log.setLog(className,Log.getReg());
         msg.setEstado(1);
+        String mail = msg.getDestinatario().getEmail();
+        if(mail != null || !mail.isEmpty()){
+            mailSend.sendMessageMail(msg.getAsunto(), mail);
+        }
         return add(msg);
     }
    /**
@@ -78,7 +83,7 @@ public class Dao{
             if(GV.REMOTE_SYNC.exist(object)){
                 if(object instanceof SyncIntId){
                     OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
-                        + "Para poder ingresar un nuevo registro debes cambiar el nombre.", JOptionPane.WARNING_MESSAGE);
+                        + "Para poder ingresar un nuevo registro debes cambiar el nombre.", 2);
                 }else{
                     return update(object);
                 }
@@ -101,7 +106,7 @@ public class Dao{
                     }
                 }
             }else{
-                OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", 2);
             }
         }
         return false;
@@ -148,7 +153,7 @@ public class Dao{
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", 2);
             }
         }else{
             temp =  GV.LOCAL_SYNC.getElement(cod,id,type);
@@ -169,7 +174,7 @@ public class Dao{
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", 2);
             }
         }
         return false;
@@ -197,7 +202,7 @@ public class Dao{
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", 2);
             }
         }else{
             temp =  GV.LOCAL_SYNC.getElement(cod,id,type);
@@ -218,7 +223,7 @@ public class Dao{
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", 2);
             }
         }
         return false;
@@ -432,7 +437,7 @@ public class Dao{
      * @return 
      */
     public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
-        return GV.REMOTE_SYNC.mensajes(remitente, destinatario, estado);
+        return GV.LOCAL_SYNC.mensajes(remitente, destinatario, estado);
     }
 //    public void sincronize() {
 //        Log.setLog(className,Log.getReg());
