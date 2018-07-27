@@ -11,7 +11,6 @@ import fn.OptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,10 +27,10 @@ public class RmBd {
         try{
         conn = DriverManager.getConnection("jdbc:mysql://"+GV.getRemoteBdUrl()+"/"+GV.getRemoteBdName(),GV.getRemoteBdUser(),GV.getRemoteBdPass());
         }catch(Exception ex){
-            OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nCatch: "+ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nCatch: "+ex.getMessage(), 3);
         }
         if(conn == null)
-            OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDetalle: "+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDetalle: "+Log.getLog(), 3);
         return conn;
     }
     
