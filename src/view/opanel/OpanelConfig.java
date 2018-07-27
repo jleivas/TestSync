@@ -6,6 +6,7 @@
 package view.opanel;
 
 import fn.Boton;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.sql.SQLException;
@@ -137,14 +138,17 @@ public class OpanelConfig extends javax.swing.JPanel {
                 case 1:
                     break;
                 case 2:
+                    GV.cursorWAIT(this);
                     boton.descuentos();
                     OptionPane.closeInfoPanel();
                     break;
                 case 3:
+                    GV.cursorWAIT(this);
                     boton.tipoPagos();
                     OptionPane.closeInfoPanel();
                     break;
                 case 4:
+                    GV.cursorWAIT(this);
                     boton.usuarios();
                     OptionPane.closeInfoPanel();
                     break;

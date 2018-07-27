@@ -6,10 +6,12 @@
 package view.opanel;
 
 import fn.Boton;
+import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import sun.nio.cs.ext.GB18030;
 
 /**
  *
@@ -136,17 +138,19 @@ public class OpanelInventario extends javax.swing.JPanel {
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1://inventarios
-                    OptionPane.closeInfoPanel();
+                    GV.cursorWAIT(this);
                     boton.inventarios();
-                    
+                    OptionPane.closeInfoPanel();
                     break;
                 case 2://armazones
-                    OptionPane.closeInfoPanel();
+                    GV.cursorWAIT(this);
                     boton.lentes();
+                    OptionPane.closeInfoPanel();
                     break;
                 case 3://cristales
-                    OptionPane.closeInfoPanel();
+                    GV.cursorWAIT(this);
                     boton.cristales();
+                    OptionPane.closeInfoPanel();
                     break;
                 case 4://exportar inventario
                     break;
