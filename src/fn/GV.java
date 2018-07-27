@@ -251,24 +251,24 @@ public class GV {
         return false;
     }
     
-    public static void cursor(){
-        if(CURSOR_DEFAULT){
-            Frame.getFrames()[0].setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            CURSOR_DEFAULT = false;
-        }else{
-            Frame.getFrames()[0].setCursor(Cursor.getDefaultCursor());
-            CURSOR_DEFAULT = true;
-        }
+    public static void cursorDF(){
+        Frame.getFrames()[0].setCursor(Cursor.getDefaultCursor());
+        CURSOR_DEFAULT = true;
     }
     
-    public static void cursor(JPanel panel){
-        if(CURSOR_DEFAULT){
-            panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            CURSOR_DEFAULT = false;
-        }else{
-            panel.setCursor(Cursor.getDefaultCursor());
-            CURSOR_DEFAULT = true;
-        }
+    public static void cursorWAIT(){
+        Frame.getFrames()[0].setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        CURSOR_DEFAULT = false;
+    }
+    
+    public static void cursorDF(JPanel panel){
+        panel.setCursor(Cursor.getDefaultCursor());
+        CURSOR_DEFAULT = true;
+    }
+    
+    public static void cursorWAIT(JPanel panel){
+        panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        CURSOR_DEFAULT = false;
     }
     /**
      * Actualiza archivo local de propiedades del sistema con los valores estaticos
