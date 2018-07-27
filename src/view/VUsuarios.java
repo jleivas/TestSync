@@ -612,6 +612,11 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String username = tblListar.getValueAt(fila, 0).toString();
+            if(username.toLowerCase().equals(GV.USER.getUsername().toLowerCase())){
+                OptionPane.showMsg("No es posible realizar esta operación", "No puedes eliminar tu propio usuario.", 2);
+                cDF();
+                return;
+            }
             User temp = (User)load.get(username, 0, new User());
             if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE)){
                 cWT();
