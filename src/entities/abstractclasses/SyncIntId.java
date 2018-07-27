@@ -5,8 +5,6 @@
  */
 package entities.abstractclasses;
 
-import fn.date.Cmp;
-import java.util.Date;
 
 /**
  *
