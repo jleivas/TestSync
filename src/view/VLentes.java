@@ -17,6 +17,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.RowFilter;
@@ -1561,7 +1562,7 @@ public class VLentes extends javax.swing.JPanel {
     private javax.swing.JTextField txtTip3;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarCbos(){
+    private void cargarCbos() {
         cboFlex.removeAllItems();
         cboFlex.addItem("Si");
         cboFlex.addItem("No");
@@ -1586,7 +1587,18 @@ public class VLentes extends javax.swing.JPanel {
         cboInventario1.removeAllItems();
         cboInventario2.removeAllItems();
         cboInventarioFilter.removeAllItems();
-        for (Object object : load.listar("0", new Inventario())) {
+        ArrayList<Object> list = load.listar("0", new Inventario());
+        if(list.size() == 0){
+            OptionPane.showMsg("No existe un inventario", "Debe crear un inventario para poder agregar productos.", 2);
+            try{
+                boton.crearFicha();
+            }catch( SQLException | ClassNotFoundException ex){
+                OptionPane.showMsg("Error inesperado", "Ocurrió un error inesperado al intentar abrir ventana principal\n"
+                        + "el sistema se cerrará.", 3);
+                System.exit(0);
+            }
+        }
+        for (Object object : list) {
             cboInventario1.addItem(((Inventario)object).getNombre());
             cboInventario2.addItem(((Inventario)object).getNombre());
             cboInventarioFilter.addItem(((Inventario)object).getNombre());

@@ -55,6 +55,8 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtTotal.setText("0");
         
         autocompletar();
+        GV.cursorDF();
+        GV.cursorDF(this);
         
        // JFormattedTextField.COMMIT_OR_REVERT. Esta es la opción por defecto y la más útil. Si el texto introducido es incorrecto, se vuelve automáticamente al último valor bueno conocido. Si el texto no es válido, se muestra el último valor bueno conocido.<>
     }
