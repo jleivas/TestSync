@@ -6,6 +6,7 @@
 package fn.mail;
 
 import fn.GV;
+import fn.OptionPane;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Properties;
@@ -26,14 +27,19 @@ import javax.mail.internet.MimeMessage;
 public class Send {
     private int width = 100;
     private int height = 140;
-    private String turquesa = "#22b59f";
-    private String rojo = "#b21d00";
-    private String verde = "#45a849";
-    private String azul = "#2d2e77";
+    private String color_turquesa = "#22b59f";
+    private String color_rojo = "#b21d00";
+    private String color_verde = "#45a849";
+    private String color_azul = "#2d2e77";
+    private String color_rosa = "#ee4c50";
+    private String color_celeste = "#70bbd9";
     private String color1 = "#70bbd9";
     private String color2 = "#ee4c50";
     private void sendMail(String subject, String mailTo, String title,String content,String subcontent1,String subcontent2,String urlImg,String urlSubImg1, String urlSubImg2){
         // SMTP server information
+        if(color2.equals(color_turquesa)){
+            color2 = color_verde;
+        }
         String host = "smtp.gmail.com";
         String port = "587";
         String mailFrom = GV.getMailSystemName();
@@ -165,11 +171,28 @@ public class Send {
         if(GV.isOnline()){
             width = 25;
             height = 50;
-            color1 =  turquesa;
+            color1 =  color_turquesa;
             
             sendMail("Reporte de error en equipo: "+GV.EQUIPO+", Optica: "+GV.COMPANY_NAME,
                     GV.MAIL_REPORT, title, content,
                     "Usuario: "+GV.USER.getUsername(), GV.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
+                    "https://www.softdirex.cl/imgOptics/report/user.png", 
+                    "https://www.softdirex.cl/imgOptics/report/company.png");
+            width = 100;
+            height = 140;
+        }
+    }
+    
+    public void sendMessageMail(String asunto,String mailDestino){
+        if(GV.isOnline()){
+            width = 25;
+            height = 50;
+            color1 =  color_turquesa;
+            color2 = color_verde;
+            
+            sendMail("["+GV.PROJECTNAME+"] Nuevo mensaje: "+asunto,
+                    mailDestino, "Tienes un nuevo mensaje en tu buzon de entrada", "Inicia sesión en "+GV.PROJECTNAME+" para verlo.",
+                    "Usuario: "+GV.USER.getNombre(), GV.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;
@@ -214,7 +237,12 @@ public class Send {
         msg.setContent(message, "text/html");
  
         // sends the e-mail
-        Transport.send(msg);
+        try{
+            Transport.send(msg);
+        }catch(Exception e){
+            OptionPane.showMsg("Error de datos", "No se pudo enviar email al correo electronico: "+toAddress, 3);
+        }
+        
  
     }
 }
