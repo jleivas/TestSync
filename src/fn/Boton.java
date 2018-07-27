@@ -105,6 +105,7 @@ public class Boton {
     }
     
     public void descuentos() throws SQLException, ClassNotFoundException{
+        GV.cursorWAIT();
         openView(new VDescuentos());
     }
     
@@ -139,16 +140,16 @@ public class Boton {
     }
     
     public void tipoPagos() throws SQLException, ClassNotFoundException{
+        GV.cursorWAIT();
         openView(new VTipoPagos());
     }
     
     public void usuarios() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
         openView(new VUsuarios());
     }
     
     private void openView(JPanel p1){
-        
-        
         try{
             p1.setSize(ancho, alto);
             p1.setLocation(locat, locat);
