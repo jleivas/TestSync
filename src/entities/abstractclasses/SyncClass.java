@@ -69,11 +69,11 @@ public abstract class SyncClass {
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
         else
-            return arg.trim();
+            return arg.trim().toLowerCase();
     }
     
     public String mailValidate(String email){
-        email = getStr(email).toLowerCase();
+        email = getStr(email);
         // Patrón para validar el email
         Pattern pattern = Pattern
                 .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
