@@ -37,7 +37,6 @@ public class VMessages extends javax.swing.JPanel {
     private static User stDestino = null;
     private static String stAsunto = "";
     private static String stContent = "";
-    private static int cboSend = 0;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -58,11 +57,12 @@ public class VMessages extends javax.swing.JPanel {
         modelo.addColumn("Estado");
         tblListar.setModel(modelo);
         ContentAdmin.lblTitle.setText("Mensajes");
-//        load.sincronize(new InternMail());
+        load.sincronize(new InternMail());
         setPanels(1);
         autocomplete();
         load();
-        GV.cursor();
+        cDF();
+        GV.cursorDF();
     }
 
     /**
@@ -537,7 +537,7 @@ public class VMessages extends javax.swing.JPanel {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try{
-            cursor();
+            cDF();
             int fila = tblListar.getSelectedRow();
             int id = (int)tblListar.getValueAt(fila, 0);
             stMail = (InternMail)load.get(null,id,new InternMail());
@@ -556,7 +556,7 @@ public class VMessages extends javax.swing.JPanel {
                 }
             }
             load();
-            cursor();
+            cWT();
         }catch(Exception e){
             OptionPane.showMsg("Seleccione Mensaje","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
@@ -583,12 +583,13 @@ public class VMessages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEliminarMouseExited
 
     private void cboMostrarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMostrarItemStateChanged
-        cboSend = 1;
+        cWT();
         load();
+        cDF();
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnEnviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnviarMouseClicked
-        cursor();
+        cWT();
         txtAsunto.setEditable(true);
         txtUserDestino.setEditable(true);
         if(txtUserDestino.getForeground() == Color.black){
@@ -606,15 +607,15 @@ public class VMessages extends javax.swing.JPanel {
                     OptionPane.showMsg("No se puede enviar el mensaje", "Debe ingresar un mensaje válido", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                cursor();
+                cDF();
                 if(stDestino != null){
-                    cursor();
+                    cWT();
                     stMail = new InternMail(0, GV.USER, stDestino, asunto, content, new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
                     
                     load.sendMessage(stMail);
                     
                     OptionPane.showMsg("Operación realizada con exito", "El mensaje ha sido enviado", JOptionPane.INFORMATION_MESSAGE);
-                    cursor();
+                    cDF();
                 }else{
                     OptionPane.showMsg("No se puede enviar el mensaje", "Debe ingresar un usuario válido", JOptionPane.WARNING_MESSAGE);
                     return;
@@ -672,7 +673,7 @@ public class VMessages extends javax.swing.JPanel {
     }//GEN-LAST:event_txtAsunto2KeyTyped
 
     private void btnReenviarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReenviarMouseClicked
-        cursor();
+        cWT();
         stAsunto = txtAsunto2.getText();
         stContent = txtMessageContent2.getText();
         String destino = txtUserRemitente.getText();
@@ -685,7 +686,7 @@ public class VMessages extends javax.swing.JPanel {
         txtUserDestino.setText(destino);
         txtUserDestino.setEditable(true);
         btnCancelar.setVisible(true);
-        cursor();
+        cDF();
     }//GEN-LAST:event_btnReenviarMouseClicked
 
     private void btnReenviarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReenviarMouseEntered
@@ -702,7 +703,7 @@ public class VMessages extends javax.swing.JPanel {
 
     private void btnReenviarAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReenviarAMouseClicked
         try{
-            cursor();
+            cWT();
             int fila = tblListar.getSelectedRow();
             int id = (int)tblListar.getValueAt(fila, 0);
             stMail = (InternMail)load.get(null,id,new InternMail());
@@ -722,9 +723,9 @@ public class VMessages extends javax.swing.JPanel {
                 txtUserDestino.setText(destino);
                 txtUserDestino.setEditable(true);
                 btnCancelar.setVisible(true);
-                cursor();
+                cDF();
             }else{
-                cursor();
+                cDF();
                 OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".",  JOptionPane.WARNING_MESSAGE);
                 return;
@@ -750,7 +751,7 @@ public class VMessages extends javax.swing.JPanel {
     }//GEN-LAST:event_cboLeidosItemStateChanged
 
     private void btnResponderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResponderMouseClicked
-        cursor();
+        cWT();
         stAsunto = txtAsunto2.getText();
         stContent = txtMessageContent2.getText();
         String destino = txtUserRemitente.getText();
@@ -763,7 +764,7 @@ public class VMessages extends javax.swing.JPanel {
         validateUserInput();
         txtUserDestino.setEditable(false);
         btnCancelar.setVisible(true);
-        cursor();
+        cDF();
     }//GEN-LAST:event_btnResponderMouseClicked
 
     private void btnResponderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResponderMouseEntered
@@ -779,9 +780,9 @@ public class VMessages extends javax.swing.JPanel {
     }//GEN-LAST:event_txtUserDestinoFocusLost
 
     private void btnCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseClicked
-        cursor();
+        cWT();
         load();
-        cursor();
+        cDF();
     }//GEN-LAST:event_btnCerrarMouseClicked
 
     private void btnCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMouseEntered
@@ -799,9 +800,9 @@ public class VMessages extends javax.swing.JPanel {
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         txtAsunto.setEditable(true);
         txtUserDestino.setEditable(true);
-        cursor();
+        cWT();
         load();
-        cursor();
+        cDF();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
@@ -873,9 +874,7 @@ public class VMessages extends javax.swing.JPanel {
 
     
     private void load(){
-        if(cboSend == 1){
-            cursor();
-        }
+        
         if(cboMostrar.getSelectedIndex()==0){//en nueva version cargar ventana completa con lista de clientes estatica global
             cargarDatos("0");//recibidos
             btnResponder.setVisible(true);
@@ -883,10 +882,6 @@ public class VMessages extends javax.swing.JPanel {
             cargarDatos("1");//enviados
             btnResponder.setVisible(false);
         }
-        if(cboSend == 1){
-            cursor();
-        }
-        cboSend = 0;
     }
     private void cargarDatos(String listar) {
         limpiarTextField();
@@ -931,7 +926,7 @@ public class VMessages extends javax.swing.JPanel {
     }
 
     private void abrirMensaje(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        cursor();
+        cWT();
         stMail = (InternMail)load.get(null,id,new InternMail());
         
             if(stMail!=null){
@@ -950,9 +945,9 @@ public class VMessages extends javax.swing.JPanel {
                 txtAsunto2.setText(stMail.getAsunto());
                 txtMessageContent2.setText(stMail.getContenido());
                 lblFecha.setText("Este mensaje fue enviado el "+Cmp.dateToString(stMail.getFecha(), "dd/mm/yyyy")+" a las "+stMail.getHora());
-                cursor();
+                cDF();
             }else{
-                cursor();
+                cDF();
                 OptionPane.showMsg("Seleccione Mensaje","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro\n"
                     + "o el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
@@ -989,8 +984,10 @@ public class VMessages extends javax.swing.JPanel {
             }
         }
     }
-    
-    private void cursor(){
-        GV.cursor(VMessages.this);
+    private void cWT(){
+        GV.cursorWAIT(VMessages.this);
+    }
+    private void cDF(){
+        GV.cursorDF(VMessages.this);
     }
 }
