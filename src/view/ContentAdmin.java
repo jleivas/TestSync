@@ -132,7 +132,6 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnClientes = new javax.swing.JLabel();
         btnInstituciones = new javax.swing.JLabel();
         btnConvenios = new javax.swing.JLabel();
-        btnOficinas = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -424,20 +423,6 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Shop_50px.png"))); // NOI18N
-        btnOficinas.setToolTipText("Locales");
-        btnOficinas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnOficinasMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnOficinasMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnOficinasMouseExited(evt);
-            }
-        });
-
         javax.swing.GroupLayout jpLeftBarLayout = new javax.swing.GroupLayout(jpLeftBar);
         jpLeftBar.setLayout(jpLeftBarLayout);
         jpLeftBarLayout.setHorizontalGroup(
@@ -450,8 +435,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                     .addComponent(btnClientes)
                     .addComponent(btnDoctores)
                     .addComponent(btnInstituciones)
-                    .addComponent(btnConvenios)
-                    .addComponent(btnOficinas))
+                    .addComponent(btnConvenios))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
         jpLeftBarLayout.setVerticalGroup(
@@ -471,9 +455,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(btnInstituciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConvenios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOficinas)
-                .addContainerGap(181, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -528,11 +510,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMessageMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
-        OptionPane.showPanel(new OpanelConfig(), "Configuración");
+        OptionPane.showOptionPanel(new OpanelConfig(), "Configuración");
     }//GEN-LAST:event_btnConfigMouseClicked
 
     private void btnInventMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventMouseClicked
-        OptionPane.showPanel(new OpanelInventario(), "Inventario");
+        OptionPane.showOptionPanel(new OpanelInventario(), "Inventario");
     }//GEN-LAST:event_btnInventMouseClicked
 
     private void btnSyncronize4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize4MouseClicked
@@ -754,7 +736,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMinimizeWindowMouseExited
 
     private void btnUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUserMouseClicked
-        OptionPane.showPanel(new OpanelUserData(), "Mis Datos");
+        OptionPane.showOptionPanel(new OpanelUserData(), "Mis Datos");
     }//GEN-LAST:event_btnUserMouseClicked
 
     private void btnConveniosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseClicked
@@ -772,22 +754,6 @@ public class ContentAdmin extends javax.swing.JFrame {
     private void btnConveniosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseExited
         btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnConvenios.getIcon().toString()))));
     }//GEN-LAST:event_btnConveniosMouseExited
-
-    private void btnOficinasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseClicked
-        try {
-            boton.oficinas();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnOficinasMouseClicked
-
-    private void btnOficinasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseEntered
-        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnOficinas.getIcon().toString()))));
-    }//GEN-LAST:event_btnOficinasMouseEntered
-
-    private void btnOficinasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOficinasMouseExited
-        btnOficinas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnOficinas.getIcon().toString()))));
-    }//GEN-LAST:event_btnOficinasMouseExited
 
     /**
      * @param args the command line arguments
@@ -843,7 +809,6 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnListarFichas;
     private javax.swing.JLabel btnMessage;
     private javax.swing.JLabel btnMinimizeWindow;
-    private javax.swing.JLabel btnOficinas;
     private javax.swing.JLabel btnSizeWindow;
     private javax.swing.JLabel btnSyncronize4;
     private javax.swing.JLabel btnTools;

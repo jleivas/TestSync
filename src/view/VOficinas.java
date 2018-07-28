@@ -38,16 +38,16 @@ public class VOficinas extends javax.swing.JPanel {
      */
     public VOficinas() {
         GV.IS_ONLINE = true;
-        ContentAdmin.lblTitle.setText("Registro de oficinas");
+        ContentAdmin.lblTitle.setText("Registro de oficinas, "+GV.getNombreOficina());
 //        load.sincronize(new Oficina());
         initComponents();
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
         modelo.addColumn("Ciudad");
         tblListar.setModel(modelo);
-        ContentAdmin.lblTitle.setText("Registro de oficinas");
         load();
         loadPanels(1);
+        txtCompanyName.setText(GV.COMPANY_NAME);
         GV.cursorDF();
         cDF();
     }
@@ -71,6 +71,7 @@ public class VOficinas extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        btnAsignar = new javax.swing.JLabel();
         pnl1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -102,6 +103,9 @@ public class VOficinas extends javax.swing.JPanel {
         txtTelefono2_2 = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JLabel();
         btnCancel = new javax.swing.JLabel();
+        pnlCompanyName = new javax.swing.JPanel();
+        txtCompanyName = new javax.swing.JTextField();
+        btnSaveCompanyName = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -186,6 +190,20 @@ public class VOficinas extends javax.swing.JPanel {
             }
         });
 
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/btn_Ok_50px.png"))); // NOI18N
+        btnAsignar.setToolTipText("Asignar a esta oficina como local");
+        btnAsignar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAsignarMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -206,6 +224,8 @@ public class VOficinas extends javax.swing.JPanel {
                         .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btnRestaurar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAsignar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -226,7 +246,8 @@ public class VOficinas extends javax.swing.JPanel {
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnAbrir, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAsignar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(36, 36, 36))
         );
 
@@ -557,6 +578,50 @@ public class VOficinas extends javax.swing.JPanel {
                     .addComponent(btnCancel)))
         );
 
+        pnlCompanyName.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCompanyName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Nombre de empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
+
+        txtCompanyName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCompanyNameKeyTyped(evt);
+            }
+        });
+
+        btnSaveCompanyName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
+        btnSaveCompanyName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveCompanyNameMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSaveCompanyNameMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSaveCompanyNameMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCompanyNameLayout = new javax.swing.GroupLayout(pnlCompanyName);
+        pnlCompanyName.setLayout(pnlCompanyNameLayout);
+        pnlCompanyNameLayout.setHorizontalGroup(
+            pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCompanyNameLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSaveCompanyName)
+                .addContainerGap())
+        );
+        pnlCompanyNameLayout.setVerticalGroup(
+            pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCompanyNameLayout.createSequentialGroup()
+                .addGroup(pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSaveCompanyName)
+                    .addGroup(pnlCompanyNameLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -567,20 +632,22 @@ public class VOficinas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnl1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnl2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnl2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlCompanyName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -977,13 +1044,66 @@ public class VOficinas extends javax.swing.JPanel {
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancel.getIcon().toString()))));
     }//GEN-LAST:event_btnCancelMouseExited
 
+    private void txtCompanyNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompanyNameKeyTyped
+        int largo = 45;
+        if(txtCompanyName.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
+        }
+    }//GEN-LAST:event_txtCompanyNameKeyTyped
+
+    private void btnSaveCompanyNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseClicked
+        cWT();
+        String nombre=txtCompanyName.getText();
+        GV.setCompanyName(nombre);
+        txtCompanyName.setText(GV.COMPANY_NAME);
+        cDF();
+    }//GEN-LAST:event_btnSaveCompanyNameMouseClicked
+
+    private void btnSaveCompanyNameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseEntered
+        btnSaveCompanyName.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnSaveCompanyName.getIcon().toString()))));
+    }//GEN-LAST:event_btnSaveCompanyNameMouseEntered
+
+    private void btnSaveCompanyNameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseExited
+        btnSaveCompanyName.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSaveCompanyName.getIcon().toString()))));
+    }//GEN-LAST:event_btnSaveCompanyNameMouseExited
+
+    private void btnAsignarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseClicked
+        try{
+            cWT();
+            int fila = tblListar.getSelectedRow();
+            String nombre = tblListar.getValueAt(fila, 0).toString();
+            stOficina = null;
+            stOficina = (Oficina)load.get(nombre,0,new Oficina());
+            if(stOficina != null){
+                GV.setOficina(stOficina);
+            }
+            ContentAdmin.lblTitle.setText("Registro de oficinas, "+GV.getNombreOficina());
+        }catch(Exception e){
+            OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".",  2);
+        }
+        cDF();
+    }//GEN-LAST:event_btnAsignarMouseClicked
+
+    private void btnAsignarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseEntered
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnAsignar.getIcon().toString()))));
+    }//GEN-LAST:event_btnAsignarMouseEntered
+
+    private void btnAsignarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAsignarMouseExited
+        btnAsignar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnAsignar.getIcon().toString()))));
+    }//GEN-LAST:event_btnAsignarMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
+    private javax.swing.JLabel btnAsignar;
     private javax.swing.JLabel btnCancel;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
+    private javax.swing.JLabel btnGuardar1;
     private javax.swing.JLabel btnRestaurar;
+    private javax.swing.JLabel btnSaveCompanyName;
     private javax.swing.JLabel btnUpdate;
     private javax.swing.JComboBox<String> cboMostrar;
     private javax.swing.JLabel jLabel19;
@@ -997,6 +1117,7 @@ public class VOficinas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -1004,15 +1125,19 @@ public class VOficinas extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel pnl1;
     private javax.swing.JPanel pnl2;
+    private javax.swing.JPanel pnl3;
+    private javax.swing.JPanel pnlCompanyName;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCiudad2;
     private javax.swing.JTextField txtCiudadNew;
+    private javax.swing.JTextField txtCompanyName;
     private javax.swing.JTextField txtDireccion2;
     private javax.swing.JTextField txtDireccionNew;
     private javax.swing.JTextField txtEmail2;
     private javax.swing.JTextField txtEmailNew;
     private javax.swing.JTextField txtNombre2;
+    private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreNew;
     private javax.swing.JTextField txtTelefono1_2;
     private javax.swing.JTextField txtTelefono2_2;

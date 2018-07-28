@@ -283,7 +283,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="txtNewName" pref="180" max="32767" attributes="0"/>
                       <Component id="txtNewUsername" max="32767" attributes="0"/>
-                      <Component id="cboNewTipo" min="-2" pref="123" max="-2" attributes="0"/>
+                      <Component id="cboTipo1" min="-2" pref="123" max="-2" attributes="0"/>
                       <Component id="txtNewPass" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -321,7 +321,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblNewEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtNewEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cboNewTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cboTipo1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblNewType" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -390,7 +390,7 @@
             <Property name="text" type="java.lang.String" value="Tipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cboNewTipo">
+        <Component class="javax.swing.JComboBox" name="cboTipo1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI Light" size="11" style="1"/>
@@ -474,7 +474,7 @@
                                   <Component id="txtUpdateName" alignment="0" pref="180" max="32767" attributes="0"/>
                                   <Component id="txtUpdateUsername" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="cboUpdateType" min="-2" pref="123" max="-2" attributes="0"/>
+                              <Component id="cboTipo2" min="-2" pref="123" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -519,7 +519,7 @@
                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtUpdateEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cboUpdateType" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cboTipo2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -580,10 +580,10 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI Light" size="11" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Sexo"/>
+            <Property name="text" type="java.lang.String" value="Tipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cboUpdateType">
+        <Component class="javax.swing.JComboBox" name="cboTipo2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI Light" size="11" style="1"/>

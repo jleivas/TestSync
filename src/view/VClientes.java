@@ -351,7 +351,7 @@ public class VClientes extends javax.swing.JPanel {
         });
 
         chkRut.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
-        chkRut.setText("Extrangero");
+        chkRut.setText("Extranjero");
 
         javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
         pnl1.setLayout(pnl1Layout);

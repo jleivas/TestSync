@@ -73,6 +73,7 @@ public class OpanelMessage extends javax.swing.JPanel {
         });
 
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/btn_Ok_50px.png"))); // NOI18N
+        btnAceptar.setToolTipText("Entendido");
         btnAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAceptarMouseClicked(evt);

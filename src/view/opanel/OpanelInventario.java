@@ -11,7 +11,6 @@ import fn.Icons;
 import fn.OptionPane;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import sun.nio.cs.ext.GB18030;
 
 /**
  *
@@ -114,7 +113,7 @@ public class OpanelInventario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        OptionPane.closeInfoPanel();
+        OptionPane.closeOptionPanel();
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -134,23 +133,23 @@ public class OpanelInventario extends javax.swing.JPanel {
         try{
             switch (cboOption.getSelectedIndex()){
                 case 0:
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1://inventarios
                     GV.cursorWAIT(this);
                     boton.inventarios();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 2://armazones
                     GV.cursorWAIT(this);
                     boton.lentes();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 3://cristales
                     GV.cursorWAIT(this);
                     boton.cristales();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 4://exportar inventario
                     break;
@@ -159,7 +158,7 @@ public class OpanelInventario extends javax.swing.JPanel {
                 case 6://registro de bajas
                     break;
                 default:
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
             }

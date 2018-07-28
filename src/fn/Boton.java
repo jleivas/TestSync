@@ -34,99 +34,80 @@ public class Boton {
     private int alto = 650;
     private int locat = 5;
     
-//    public void verHistorialPago(int idFicha) throws SQLException, ClassNotFoundException{
-//        VHistorialPago p1 = new VHistorialPago();
-//        p1.setIdFolio(idFicha);
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-    
-//    public void nuevaFicha() throws SQLException, ClassNotFoundException{
-//        crearFicha();
-//    }
-    
-    
-    
-//    public void abrirFicha(String idFolio) throws SQLException, ClassNotFoundException{
-//        VAbrirFicha1 p1 = new VAbrirFicha1();
-//        
-//        p1.setIdFolio(idFolio);
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        
-//        
-//        principalAdmin.removeAll();
-//        
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-//    
-//    
-    
-//    
-//    
-//    public void datosEmpresa() throws SQLException, ClassNotFoundException{
-//        VDatosEmpresa p1 = new VDatosEmpresa();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-//    
     public void crearFicha() throws SQLException, ClassNotFoundException {
         openView(new VCrearFicha());
     }
     
     public void cristales() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-//        if(validAccess(GlobalValues.USER.getTipo(),2)){
-//            
-//        }else{
-//            
-//        }
-        openView(new VCristales());
+        if(inventario()){
+            GV.cursorWAIT();
+            openView(new VCristales());
+        }else{
+            accesDenied();
+        }
     }
     
     public void clientes() throws SQLException, ClassNotFoundException{
-        GV.cursorWAIT();
-        openView(new VClientes());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VClientes());
+        }else{
+            accesDenied();
+        }
     }
     
     public void convenios() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-        openView(new VConvenios());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VConvenios());
+        }else{
+            accesDenied();
+        }
     }
     
     public void descuentos() throws SQLException, ClassNotFoundException{
-        GV.cursorWAIT();
-        openView(new VDescuentos());
+         if(admin()){
+            GV.cursorWAIT();
+            openView(new VDescuentos());
+         }else{
+             accesDenied();
+         }   
     }
     
     public void doctores() throws SQLException, ClassNotFoundException{
-        GV.cursorWAIT();
-        openView(new VDoctores());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VDoctores());
+        }else{
+            accesDenied();
+        }  
     }
     
     public void instituciones() throws SQLException, ClassNotFoundException{
-        GV.cursorWAIT();
-        openView(new VInstituciones());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VInstituciones());
+        }else{
+            accesDenied();
+        }
     }
     
     public void inventarios() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-        openView(new VInventarios());
+        if(inventario()){
+            GV.cursorWAIT();
+            openView(new VInventarios());
+        }else{
+            accesDenied();
+        }
     }
     
     public void lentes() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-        openView(new VLentes());
+        if(inventario()){
+            GV.cursorWAIT();
+            openView(new VLentes());
+        }else{
+            accesDenied();
+        }
     }
     
     public void mensajes() {
@@ -135,18 +116,30 @@ public class Boton {
     }
     
     public void oficinas() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-        openView(new VOficinas());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VOficinas());
+        }else{
+            accesDenied();
+        }
     }
     
     public void tipoPagos() throws SQLException, ClassNotFoundException{
-        GV.cursorWAIT();
-        openView(new VTipoPagos());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VTipoPagos());
+        }else{
+            accesDenied();
+        }
     }
     
     public void usuarios() throws SQLException, ClassNotFoundException {
-        GV.cursorWAIT();
-        openView(new VUsuarios());
+        if(admin()){
+            GV.cursorWAIT();
+            openView(new VUsuarios());
+        }else{
+            accesDenied();
+        }
     }
     
     private void openView(JPanel p1){
@@ -164,63 +157,33 @@ public class Boton {
         }
         principalAdmin.setCursor(Cursor.getDefaultCursor());
     }
-    
-//    
-    
-//    
-//    public void fichas() throws SQLException, ClassNotFoundException{
-//        VMostrarFichas p1 = new VMostrarFichas();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-//    
-//    public void misFichas() throws SQLException, ClassNotFoundException {
-//        VMisFichas p1 = new VMisFichas();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-//
-//    public void barraProgreso(ArrayList<Ficha> lista, Info empresa, int funcion) throws InterruptedException {
-//        Progreso p1 = new Progreso();
-//        p1.setLista(lista, empresa,funcion);
-//        p1.setSize(449, 250);
-//        p1.setLocation(locat, locat);
-//        p1.setVisible(true);
-//    }
-//
-    
-//
-//
-//    public void registroBajas() throws SQLException, ClassNotFoundException {
-//        VRegistroBajas p1 = new VRegistroBajas();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
 
+    private void accesDenied() {
+        OptionPane.showMsg("Acceso denegado", "No tienes permiso suficiente para acceder a estas opciones.", 2);
+        GV.cursorDF();
+    }
     
-//
-//    public void reporteVentas() throws SQLException, ClassNotFoundException {
-//        VReporteFichas p1 = new VReporteFichas();
-//        p1.setSize(ancho, alto);
-//        p1.setLocation(locat, locat);
-//        principalAdmin.removeAll();
-//        principalAdmin.add(p1,BorderLayout.CENTER);
-//        principalAdmin.revalidate();
-//        principalAdmin.repaint();
-//    }
-
+    private boolean superAdmin(){
+        int tipoUsuario = GV.getTipoUsuario();
+        if(tipoUsuario == 1 || tipoUsuario == 7){
+            return true;
+        }
+        return false;
+    }
     
-
+    private boolean admin(){
+        int tipoUsuario = GV.getTipoUsuario();
+        if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 7){
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean inventario(){
+        int tipoUsuario = GV.getTipoUsuario();
+        if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 4 || tipoUsuario == 7){
+            return true;
+        }
+        return false;
+    }
 }

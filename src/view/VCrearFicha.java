@@ -404,7 +404,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel14.setText("Nac.");
 
         chkExtranjero.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        chkExtranjero.setText("Extrangero");
+        chkExtranjero.setText("Extranjero");
         chkExtranjero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkExtranjeroActionPerformed(evt);

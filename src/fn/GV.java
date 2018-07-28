@@ -34,6 +34,7 @@ import sync.entities.Local;
 import sync.entities.LocalFicha;
 import sync.entities.Remote;
 import sync.entities.RemoteFicha;
+import view.opanel.MPanel;
 import view.opanel.OPanel;
 
 /**
@@ -86,6 +87,7 @@ public class GV {
     /* Variables del sistema */
     public static boolean CURSOR_DEFAULT = true;
     public static User USER;
+    public static Oficina OFICINA;
     public static int ID_USER = 0;
     public static Date TMP_DATE_FROM = null;
     public static Date TMP_DATE_TO =null;
@@ -111,7 +113,8 @@ public class GV {
     public static ArrayList<TipoPago> TMP_LIST_TIPOS_PAGO = new ArrayList<TipoPago>();
     
     /* Joption Pane del sistema */
-    public static OPanel INFOPANEL = new OPanel();
+    public static MPanel INFOPANEL = new MPanel();
+    public static OPanel OPTIONPANEL = new OPanel();
     public static String PANELTITLE ="";
     public static int MSG_STATUS;
     public static String ICON_INFO = "/icons/show_info_50px.png";
@@ -213,14 +216,16 @@ public class GV {
     }
     
     public static String getToName(String param){
-        if(param == null || param.isEmpty())
-            return "";
-        String[] str = param.split(" ");
-        String value = null;
+        String[] str = getStr(param).toLowerCase().split(" ");
+        StringBuffer value = new StringBuffer();
         for (String temp : str) {
-            value = value + " " + Character.toUpperCase(temp.charAt(0)) + temp.substring(1);
+            if(temp.length() > 1){
+                value.append(Character.toUpperCase(temp.charAt(0))).append(temp.substring(1)).append(" ");
+            }else{
+                value.append(temp.toUpperCase()).append(" ");
+            }
         }
-        return value.replaceFirst("null", "").replaceFirst(" ", "");
+        return value.toString().trim();
     }
     
     public static String strToPrice(int monto){
@@ -285,7 +290,8 @@ public class GV {
      * Actualiza archivo local de propiedades del sistema con los valores estaticos
      */
     private static void saveXMLProperties() {
-        return;
+        //usos en: oficina, companyname, invantario
+        OptionPane.showMsg("SAVE XML", "incomplete function", 3);
     }
     
     public static void emptyTable(JComboBox cbo, JTextField txt, String registry){
@@ -302,5 +308,38 @@ public class GV {
                 OptionPane.showMsg("No existen "+registry, "No existen "+registry+" eliminad"+end+".",1);
             }
         }
+    }
+
+    public static void setCompanyName(String nombre) {
+        COMPANY_NAME = getToName(nombre);
+        saveXMLProperties();
+    }
+    
+    private static String getStr(String arg){
+        if(arg == null || arg.replaceAll(" ", "").isEmpty())
+            return "";
+        else
+            return arg.trim();
+    }
+    
+    public static void setOficina(Oficina oficina){
+        OFICINA = oficina;
+        saveXMLProperties();
+    }
+
+    public static String getNombreOficina() {
+        if(OFICINA != null){
+            if(!OFICINA.getNombre().isEmpty()){
+                return "Asignada a este equipo: "+OFICINA.getNombre();
+            }
+        }
+        return "Asignada a este equipo: Ninguna";
+    }
+
+    static int getTipoUsuario() {
+        if(USER != null){
+            return USER.getTipo();
+        }
+        return 0;
     }
 }

@@ -6,9 +6,8 @@
 package fn;
 
 import java.awt.BorderLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import static view.opanel.MPanel.MpanelContent;
 import static view.opanel.OPanel.OpanelContent;
 import view.opanel.OpanelConfirm;
 import view.opanel.OpanelMessage;
@@ -24,9 +23,9 @@ public class OptionPane {
     private static String className = "OptionPane";
     private static boolean confirm = false;
     
-    public static void showPanel(javax.swing.JPanel p1, String title){
-        GV.INFOPANEL.lblTitle.setText(title);
-        GV.INFOPANEL.setVisible(true);
+    public static void showOptionPanel(javax.swing.JPanel p1, String title){
+        GV.OPTIONPANEL.lblTitle.setText(title);
+        GV.OPTIONPANEL.setVisible(true);
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         OpanelContent.removeAll();
@@ -71,14 +70,18 @@ public class OptionPane {
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         
-        OpanelContent.removeAll();
-        OpanelContent.add(p1,BorderLayout.CENTER);
-        OpanelContent.revalidate();
-        OpanelContent.repaint();
+        MpanelContent.removeAll();
+        MpanelContent.add(p1,BorderLayout.CENTER);
+        MpanelContent.revalidate();
+        MpanelContent.repaint();
     }
 
     public static void closeInfoPanel() {
         GV.INFOPANEL.setVisible(false);
+    }
+    
+    public static void closeOptionPanel() {
+        GV.OPTIONPANEL.setVisible(false);
     }
 
     public static boolean getConfirmation(String title, String message, int statusMsg){
@@ -111,10 +114,10 @@ public class OptionPane {
         p1.setSize(ancho, alto);
         p1.setLocation(locat, locat);
         
-        OpanelContent.removeAll();
-        OpanelContent.add(p1,BorderLayout.CENTER);
-        OpanelContent.revalidate();
-        OpanelContent.repaint();
+        MpanelContent.removeAll();
+        MpanelContent.add(p1,BorderLayout.CENTER);
+        MpanelContent.revalidate();
+        MpanelContent.repaint();
     }
     public static void setConfirm(boolean param){
         confirm = param;

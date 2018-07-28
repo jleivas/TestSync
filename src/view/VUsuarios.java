@@ -32,6 +32,7 @@ public class VUsuarios extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
     private static User staticUser = null;
+    private static User jefatura = null;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -45,7 +46,7 @@ public class VUsuarios extends javax.swing.JPanel {
     public VUsuarios() {
         GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de usuarios");
-        load.sincronize(new User());
+//        load.sincronize(new User());
         initComponents();
         modelo.addColumn("Username");
         modelo.addColumn("Nombre");
@@ -85,7 +86,7 @@ public class VUsuarios extends javax.swing.JPanel {
         lblNewEmail = new javax.swing.JLabel();
         txtNewEmail = new javax.swing.JTextField();
         lblNewType = new javax.swing.JLabel();
-        cboNewTipo = new javax.swing.JComboBox<>();
+        cboTipo1 = new javax.swing.JComboBox<>();
         lblNewPass = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JLabel();
         txtNewPass = new javax.swing.JTextField();
@@ -97,7 +98,7 @@ public class VUsuarios extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         txtUpdateEmail = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        cboUpdateType = new javax.swing.JComboBox<>();
+        cboTipo2 = new javax.swing.JComboBox<>();
         btnModificar = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         txtUpdatePass = new javax.swing.JTextField();
@@ -276,8 +277,8 @@ public class VUsuarios extends javax.swing.JPanel {
         lblNewType.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         lblNewType.setText("Tipo");
 
-        cboNewTipo.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboNewTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipo1.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
+        cboTipo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblNewPass.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         lblNewPass.setText("Contraseña");
@@ -323,7 +324,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNewName, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                     .addComponent(txtNewUsername)
-                    .addComponent(cboNewTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboTipo1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNewPass))
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl1Layout.createSequentialGroup()
@@ -353,7 +354,7 @@ public class VUsuarios extends javax.swing.JPanel {
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNewEmail)
                             .addComponent(txtNewEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboNewTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboTipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblNewType))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -402,10 +403,10 @@ public class VUsuarios extends javax.swing.JPanel {
         });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel17.setText("Sexo");
+        jLabel17.setText("Tipo");
 
-        cboUpdateType.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboUpdateType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipo2.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
+        cboTipo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -466,7 +467,7 @@ public class VUsuarios extends javax.swing.JPanel {
                             .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtUpdateName, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                                 .addComponent(txtUpdateUsername))
-                            .addComponent(cboUpdateType, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cboTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnl2Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -500,7 +501,7 @@ public class VUsuarios extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(txtUpdateEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(cboUpdateType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnModificar)
@@ -618,6 +619,11 @@ public class VUsuarios extends javax.swing.JPanel {
                 return;
             }
             User temp = (User)load.get(username, 0, new User());
+            if(temp.getTipo() == 1){
+                OptionPane.showMsg("No se puede eliminar", "El usuario "+temp.getNombre()+" no se puede eliminar", 2);
+                cDF();
+                return;
+            }
             if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE)){
                 cWT();
                 if(load.delete(username, 0, temp)){
@@ -694,11 +700,17 @@ public class VUsuarios extends javax.swing.JPanel {
         String nombre=txtNewName.getText();
         String username=txtNewUsername.getText();
         String email=txtNewEmail.getText();
-        int tipo = cboNewTipo.getSelectedIndex();
+        int tipo = cboTipo1.getSelectedIndex();
         String pass=Crypt.en(txtNewPass.getText());
         if(nombre.length() < 3 || username.length() < 3){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
                     + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
+            cDF();
+            return;
+        }
+        if(jefatura != null && tipo == 1){
+            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
+                    + "\nel sistema sólo permite un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
             cDF();
             return;
         }
@@ -736,7 +748,14 @@ public class VUsuarios extends javax.swing.JPanel {
         staticUser.setEmail(txtUpdateEmail.getText());
         staticUser.setNombre((txtUpdateName.getText()));
         staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
-        staticUser.setTipo(cboUpdateType.getSelectedIndex());
+        int tipo = cboTipo2.getSelectedIndex();
+        if(tipo == 1 && jefatura != null){
+            OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
+                    + "\nel sistema sólo permite un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
+            cDF();
+            return;
+        }
+        staticUser.setTipo(tipo);
         staticUser.setUsername(txtUpdateUsername.getText());
         if(staticUser.getNombre().length() < 3 || staticUser.getUsername().length() < 3){
             OptionPane.showMsg("Modificar usuario", "Debe ingresar un nombre o username válido,"
@@ -828,8 +847,8 @@ public class VUsuarios extends javax.swing.JPanel {
     private javax.swing.JLabel btnModificar;
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JComboBox<String> cboMostrar;
-    private javax.swing.JComboBox<String> cboNewTipo;
-    private javax.swing.JComboBox<String> cboUpdateType;
+    private javax.swing.JComboBox<String> cboTipo1;
+    private javax.swing.JComboBox<String> cboTipo2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -859,17 +878,18 @@ public class VUsuarios extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarCbos(){
-        
-        cboUpdateType.removeAllItems();
-        cboUpdateType.addItem("Sin Seleccionar");
-        cboUpdateType.addItem("Administración");
-        cboUpdateType.addItem("Ventas");
-        cboUpdateType.addItem("Inventario");
-        cboNewTipo.removeAllItems();
-        cboNewTipo.addItem("Sin Seleccionar");
-        cboNewTipo.addItem("Administración");
-        cboNewTipo.addItem("Ventas");
-        cboNewTipo.addItem("Inventario");
+        cboTipo2.removeAllItems();
+        cboTipo2.addItem("Sin Seleccionar");
+        cboTipo2.addItem("Jefatura");
+        cboTipo2.addItem("Administración");
+        cboTipo2.addItem("Ventas");
+        cboTipo2.addItem("Inventario");
+        cboTipo1.removeAllItems();
+        cboTipo1.addItem("Sin Seleccionar");
+        cboTipo1.addItem("Jefatura");
+        cboTipo1.addItem("Administración");
+        cboTipo1.addItem("Ventas");
+        cboTipo1.addItem("Inventario");
     }
     
     private void load(){
@@ -889,6 +909,7 @@ public class VUsuarios extends javax.swing.JPanel {
             btnAbrir.setVisible(false);
             btnModificar.setVisible(false);
         }else{
+            jefatura = null;
             btnRestaurar.setVisible(false);
             btnEliminar.setVisible(true);
             btnAbrir.setVisible(true);
@@ -898,27 +919,35 @@ public class VUsuarios extends javax.swing.JPanel {
         try{
             modelo.setNumRows(0);
             for (Object object : load.listar(listar, new User())) {
-                User temp = (User)object;
-                String tipo = "No asignado";
-                switch (temp.getTipo()){
-                    case 1:
-                        tipo = "Administración";
-                        break;
-                    case 2:
-                        tipo = "Ventas";
-                        break;
-                    case 3:
-                        tipo = "Inventario";
-                        break;
-                    default:
-                        break;
+                if(((User)object).getTipo() != 7){//Usuario tipo 7 es de sistema
+                    User temp = (User)object;
+                    String tipo = "No asignado";
+                    switch (temp.getTipo()){
+                        case 1:
+                            tipo = "Jefatura";
+                            if(temp.getEstado() == 1){
+                                jefatura = temp;
+                            }
+                            break;
+                        case 2:
+                            tipo = "Administración";
+                            break;
+                        case 3:
+                            tipo = "Ventas";
+                            break;
+                        case 4:
+                            tipo = "Inventario";
+                            break;
+                        default:
+                            break;
+                    }
+                    Object[] fila = new Object[4];
+                    fila[0] = temp.getUsername();
+                    fila[1] = temp.getNombre();
+                    fila[2] = temp.getEmail();
+                    fila[3] = tipo;
+                    modelo.addRow(fila);
                 }
-                Object[] fila = new Object[4];
-                fila[0] = temp.getUsername();
-                fila[1] = temp.getNombre();
-                fila[2] = temp.getEmail();
-                fila[3] = tipo;
-                modelo.addRow(fila);
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
@@ -934,14 +963,20 @@ public class VUsuarios extends javax.swing.JPanel {
         loadPanels(2);
         staticUser = (User)load.get(username, 0, new User());
             if(staticUser!=null){
+                if(staticUser.getTipo() == 1 && GV.USER.getTipo() != 1 && GV.USER.getTipo() != 7){
+                    OptionPane.showMsg("No se puede modificar usuario", "No tienes los permisos suficientes para realizar esta operación.", 2);
+                    loadPanels(1);
+                    return;
+                }
                 txtUpdateName.setText(staticUser.getNombre());
                 txtUpdateEmail.setText(staticUser.getEmail());
                 txtUpdateUsername.setText(staticUser.getUsername());
                 txtUpdatePass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
-                cboUpdateType.setSelectedIndex(staticUser.getTipo());
+                cboTipo2.setSelectedIndex(staticUser.getTipo());
                 
             }else{
                 OptionPane.showMsg("Seleccione Cliente","Error al cargar el cliente", JOptionPane.WARNING_MESSAGE);
+                loadPanels(1);
             }
     }
 
@@ -988,23 +1023,16 @@ public class VUsuarios extends javax.swing.JPanel {
     }
 
     private void limpiarTextField() {
+        cargarCbos();
         txtUpdateName.setText("");
         txtUpdateEmail.setText("");
         txtUpdateUsername.setText("");
         txtUpdatePass.setText("");
-        cboUpdateType.removeAllItems();
-        cboUpdateType.addItem("Sin Seleccionar");
-        cboUpdateType.addItem("Administración");
-        cboUpdateType.addItem("Ventas");
-        cboUpdateType.addItem("Inventario");
         txtNewName.setText("");
         txtNewEmail.setText("");
         txtNewUsername.setText("");
         txtNewPass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
-        cboNewTipo.addItem("Sin Seleccionar");
-        cboNewTipo.addItem("Administración");
-        cboNewTipo.addItem("Ventas");
-        cboNewTipo.addItem("Inventario");
+        
     }
     
     private void cWT(){

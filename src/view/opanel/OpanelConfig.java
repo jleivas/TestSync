@@ -113,7 +113,7 @@ public class OpanelConfig extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        OptionPane.closeInfoPanel();
+        OptionPane.closeOptionPanel();
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -136,21 +136,25 @@ public class OpanelConfig extends javax.swing.JPanel {
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1:
+                    GV.cursorWAIT(this);
+                    boton.oficinas();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 2:
                     GV.cursorWAIT(this);
                     boton.descuentos();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 3:
                     GV.cursorWAIT(this);
                     boton.tipoPagos();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 case 4:
                     GV.cursorWAIT(this);
+                    GV.cursorWAIT();
                     boton.usuarios();
-                    OptionPane.closeInfoPanel();
+                    OptionPane.closeOptionPanel();
                     break;
                 default:
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
