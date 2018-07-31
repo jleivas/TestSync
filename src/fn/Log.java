@@ -15,15 +15,12 @@ public class Log {
     }
 
     public static void setLog(String className, String reg) {
-        if(GV.MAIL_LOG.length() < 2)
-            GV.MAIL_LOG = "Registro del sistema:\n"+className+reg;
-        else
-            GV.MAIL_LOG = GV.MAIL_LOG+"\n"+className+reg;
+        GV.setMailLog(className,reg);
     }
 
     public static String getLog() {
-        if(GV.MAIL_LOG.length() > 100)
-            return "Registro del sistema:\n..."+GV.MAIL_LOG.substring(50);
-        return GV.MAIL_LOG;
+        if(GV.mailLog().length() > 100)
+            return "Registro del sistema:\n..."+GV.mailLog().substring(50);
+        return GV.mailLog();
     }
 }

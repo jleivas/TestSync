@@ -37,7 +37,6 @@ public class VOficinas extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VOficinas() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de oficinas, "+GV.getNombreOficina());
 //        load.sincronize(new Oficina());
         initComponents();
@@ -47,7 +46,7 @@ public class VOficinas extends javax.swing.JPanel {
         tblListar.setModel(modelo);
         load();
         loadPanels(1);
-        txtCompanyName.setText(GV.COMPANY_NAME);
+        txtCompanyName.setText(GV.companyName());
         GV.cursorDF();
         cDF();
     }
@@ -1056,7 +1055,7 @@ public class VOficinas extends javax.swing.JPanel {
         cWT();
         String nombre=txtCompanyName.getText();
         GV.setCompanyName(nombre);
-        txtCompanyName.setText(GV.COMPANY_NAME);
+        txtCompanyName.setText(GV.companyName());
         cDF();
     }//GEN-LAST:event_btnSaveCompanyNameMouseClicked
 

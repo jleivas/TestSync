@@ -38,7 +38,6 @@ public class VDoctores extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VDoctores() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de profesionales");
 //        load.sincronize(new Doctor());
         initComponents();

@@ -38,7 +38,6 @@ public class VClientes extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VClientes() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de clientes");
 //        load.sincronize(new Cliente());
         initComponents();

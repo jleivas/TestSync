@@ -40,7 +40,6 @@ public class VCristales extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VCristales() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Cristales");
 //        load.sincronize(new Cristal());
         initComponents();

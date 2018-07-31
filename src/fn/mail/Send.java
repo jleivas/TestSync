@@ -173,9 +173,9 @@ public class Send {
             height = 50;
             color1 =  color_turquesa;
             
-            sendMail("Reporte de error en equipo: "+GV.EQUIPO+", Optica: "+GV.COMPANY_NAME,
-                    GV.MAIL_REPORT, title, content,
-                    "Usuario: "+GV.USER.getUsername(), GV.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
+            sendMail("Reporte de error en equipo: "+GV.equipo()+", Optica: "+GV.companyName(),
+                    GV.mailReport(), title, content,
+                    "Usuario: "+GV.user().getUsername(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;
@@ -190,9 +190,9 @@ public class Send {
             color1 =  color_turquesa;
             color2 = color_verde;
             
-            sendMail("["+GV.PROJECTNAME+"] Nuevo mensaje: "+asunto,
-                    mailDestino, "Tienes un nuevo mensaje en tu buzon de entrada", "Inicia sesión en "+GV.PROJECTNAME+" para verlo.",
-                    "Usuario: "+GV.USER.getNombre(), GV.COMPANY_NAME, "https://www.softdirex.cl/imgOptics/report/logo.png", 
+            sendMail("["+GV.projectName()+"] Nuevo mensaje: "+asunto,
+                    mailDestino, "Tienes un nuevo mensaje en tu buzon de entrada", "Inicia sesión en "+GV.projectName()+" para verlo.",
+                    "Usuario: "+GV.user().getNombre(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;
@@ -213,7 +213,7 @@ public class Send {
             p.put("mail.smtp.ssl.trust", "smtp.gmail.com");
             p.setProperty("mail.smtp.starttls.enable", "true");
             p.setProperty("mail.smtp.port", "587");
-            p.setProperty("mail.smtp.user", GV.MAIL_ADDRES);
+            p.setProperty("mail.smtp.user", GV.getMailSystemName());
             p.setProperty("mail.smtp.auth", "true");
  
         // creates a new session with an authenticator

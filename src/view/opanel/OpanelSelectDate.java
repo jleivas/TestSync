@@ -189,19 +189,19 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         if(txtFecha1.getDate() == null){
             if(txtFecha2.getDate() == null){
-                GV.TMP_DATE_FROM = new Date();
-                GV.TMP_DATE_TO   = new Date();
+                GV.setDateFrom(new Date());
+                GV.setDateTo(new Date());
             }else{
-                GV.TMP_DATE_FROM = txtFecha2.getDate();
-                GV.TMP_DATE_TO   = txtFecha2.getDate();
+                GV.setDateFrom(txtFecha2.getDate());
+                GV.setDateTo(txtFecha2.getDate());
             }
         }else{
             if(txtFecha2.getDate() == null){
-                GV.TMP_DATE_FROM = txtFecha1.getDate();
-                GV.TMP_DATE_TO   = txtFecha1.getDate();
+                GV.setDateFrom(txtFecha1.getDate());
+                GV.setDateTo(txtFecha1.getDate());
             }else{
-                GV.TMP_DATE_FROM = txtFecha1.getDate();
-                GV.TMP_DATE_TO   = txtFecha2.getDate();
+                GV.setDateFrom(txtFecha1.getDate());
+                GV.setDateTo(txtFecha2.getDate());
             }
         }
 //        try {

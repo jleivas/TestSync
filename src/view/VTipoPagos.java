@@ -38,7 +38,6 @@ public class VTipoPagos extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VTipoPagos() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Tipos de pago");
         load.sincronize(new TipoPago());
         initComponents();

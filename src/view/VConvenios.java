@@ -46,7 +46,6 @@ public class VConvenios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VConvenios() throws SQLException, ClassNotFoundException {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Convenios");
 //        load.sincronize(new Convenio());
         

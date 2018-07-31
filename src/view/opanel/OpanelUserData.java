@@ -19,7 +19,7 @@ import view.ContentAdmin;
  * @author sdx
  */
 public class OpanelUserData extends javax.swing.JPanel {
-    private static User stUser = GV.USER;
+    private static User stUser = GV.user();
     /**
      * Creates new form OpanelSelectDate
      */
@@ -302,10 +302,10 @@ public class OpanelUserData extends javax.swing.JPanel {
                 stUser.setNombre(txtNombre.getText());
                 stUser.setUsername(txtUsername.getText());
                 stUser.setTipo(cboTipo.getSelectedIndex());
-                GV.USER = stUser;
+                GV.setUser(stUser);
                 
                 load.update(stUser);
-                ContentAdmin.lblUserName.setText(GV.USER.getNombre());
+                ContentAdmin.lblUserName.setText(GV.user().getNombre());
                 GV.cursorDF(this);
                 OptionPane.closeOptionPanel();
             }else{
@@ -396,7 +396,7 @@ public class OpanelUserData extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarCboTipo() {
-        if(GV.USER.getTipo() == 1 || GV.USER.getTipo() == 2)
+        if(GV.tipoUserAdmin())
             cboTipo.setEditable(true);
         else
             cboTipo.setEditable(false);

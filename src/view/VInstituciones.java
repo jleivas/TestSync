@@ -37,7 +37,6 @@ public class VInstituciones extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VInstituciones() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de institucion.");
 //        load.sincronize(new Institucion());
         initComponents();

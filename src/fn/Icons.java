@@ -17,7 +17,7 @@ public class Icons {
 
     public static String getEnteredIconIfActive(String stIcon) {
         stIcon = stIcon.substring(stIcon.indexOf("/icons"));
-        if(GV.LICENCE)
+        if(GV.licence())
             return stIcon.replaceAll(".png", "_1.png");
         else
             return stIcon.replaceAll(".png", "_2.png");

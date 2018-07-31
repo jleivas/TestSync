@@ -37,9 +37,8 @@ public class VInventarios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VInventarios() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de inventarios");
-        load.sincronize(new Inventario());
+//        load.sincronize(new Inventario());
         initComponents();
         modelo.addColumn("Inventario");
         tblListar.setModel(modelo);

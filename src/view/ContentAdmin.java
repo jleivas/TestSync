@@ -10,6 +10,7 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
+import fn.SubProcess;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -42,16 +43,18 @@ public class ContentAdmin extends javax.swing.JFrame {
      */
     public ContentAdmin() throws SQLException, ClassNotFoundException{
         initComponents();
+        GV.initValues();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 //        this.lblUserName.setText(GV.USER.getNombre());
-        this.lblName.setText(GV.PROJECTNAME+" "+GV.VERSION);
-        this.lblTitle.setText(GV.PROJECTNAME);
+        this.lblName.setText(GV.projectName()+" "+GV.version());
+        this.lblTitle.setText(GV.projectName());
         centrarPantalla();
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png"));
         setIconImage(icon);
+        
         String licencia = "";
-        if(GV.LICENCE){
-            licencia = "Producto bajo licencia hasta el "+GV.EXP_DATE;
+        if(GV.licence()){
+            licencia = "Producto bajo licencia hasta el "+GV.expDate();
         }
         else{
             licencia = "La licencia de este producto ha caducado";
@@ -61,14 +64,14 @@ public class ContentAdmin extends javax.swing.JFrame {
         //cargar user por defecto, eliminar
         dao.Dao load = new dao.Dao();
         try {
-            GV.USER = (User)load.get("root", 0, new User());
+            GV.setUser((User)load.get("root", 0, new User()));
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         //******************************
         lblLicence.setText(licencia);
-        lblUserName.setText(GV.USER.getNombre());
-        this.setTitle("Optidata "+GV.VERSION+"     "+licencia);
+        lblUserName.setText(GV.user().getNombre());
+        this.setTitle("Optidata "+GV.version()+"     "+licencia);
         try {
             boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -707,6 +710,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInstitucionesMouseExited
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
+        SubProcess.stopAll();
         try {
             cerrar();
         } catch (Exception ex) {

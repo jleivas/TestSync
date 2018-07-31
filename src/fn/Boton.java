@@ -39,7 +39,7 @@ public class Boton {
     }
     
     public void cristales() throws SQLException, ClassNotFoundException {
-        if(inventario()){
+        if(GV.tipoUserIventario()){
             GV.cursorWAIT();
             openView(new VCristales());
         }else{
@@ -48,7 +48,7 @@ public class Boton {
     }
     
     public void clientes() throws SQLException, ClassNotFoundException{
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VClientes());
         }else{
@@ -57,7 +57,7 @@ public class Boton {
     }
     
     public void convenios() throws SQLException, ClassNotFoundException {
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VConvenios());
         }else{
@@ -66,7 +66,7 @@ public class Boton {
     }
     
     public void descuentos() throws SQLException, ClassNotFoundException{
-         if(admin()){
+         if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VDescuentos());
          }else{
@@ -75,7 +75,7 @@ public class Boton {
     }
     
     public void doctores() throws SQLException, ClassNotFoundException{
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VDoctores());
         }else{
@@ -84,7 +84,7 @@ public class Boton {
     }
     
     public void instituciones() throws SQLException, ClassNotFoundException{
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VInstituciones());
         }else{
@@ -93,7 +93,7 @@ public class Boton {
     }
     
     public void inventarios() throws SQLException, ClassNotFoundException {
-        if(inventario()){
+        if(GV.tipoUserIventario()){
             GV.cursorWAIT();
             openView(new VInventarios());
         }else{
@@ -102,7 +102,7 @@ public class Boton {
     }
     
     public void lentes() throws SQLException, ClassNotFoundException {
-        if(inventario()){
+        if(GV.tipoUserIventario()){
             GV.cursorWAIT();
             openView(new VLentes());
         }else{
@@ -116,7 +116,7 @@ public class Boton {
     }
     
     public void oficinas() throws SQLException, ClassNotFoundException {
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VOficinas());
         }else{
@@ -125,7 +125,7 @@ public class Boton {
     }
     
     public void tipoPagos() throws SQLException, ClassNotFoundException{
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VTipoPagos());
         }else{
@@ -134,7 +134,7 @@ public class Boton {
     }
     
     public void usuarios() throws SQLException, ClassNotFoundException {
-        if(admin()){
+        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VUsuarios());
         }else{
@@ -161,29 +161,5 @@ public class Boton {
     private void accesDenied() {
         OptionPane.showMsg("Acceso denegado", "No tienes permiso suficiente para acceder a estas opciones.", 2);
         GV.cursorDF();
-    }
-    
-    private boolean superAdmin(){
-        int tipoUsuario = GV.getTipoUsuario();
-        if(tipoUsuario == 1 || tipoUsuario == 7){
-            return true;
-        }
-        return false;
-    }
-    
-    private boolean admin(){
-        int tipoUsuario = GV.getTipoUsuario();
-        if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 7){
-            return true;
-        }
-        return false;
-    }
-    
-    private boolean inventario(){
-        int tipoUsuario = GV.getTipoUsuario();
-        if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 4 || tipoUsuario == 7){
-            return true;
-        }
-        return false;
     }
 }

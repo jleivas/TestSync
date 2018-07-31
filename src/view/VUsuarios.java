@@ -32,7 +32,6 @@ public class VUsuarios extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
     private static User staticUser = null;
-    private static User jefatura = null;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -44,7 +43,6 @@ public class VUsuarios extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VUsuarios() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Registro de usuarios");
 //        load.sincronize(new User());
         initComponents();
@@ -613,7 +611,7 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String username = tblListar.getValueAt(fila, 0).toString();
-            if(username.toLowerCase().equals(GV.USER.getUsername().toLowerCase())){
+            if(username.toLowerCase().equals(GV.user().getUsername().toLowerCase())){
                 OptionPane.showMsg("No es posible realizar esta operación", "No puedes eliminar tu propio usuario.", 2);
                 cDF();
                 return;
@@ -708,9 +706,10 @@ public class VUsuarios extends javax.swing.JPanel {
             cDF();
             return;
         }
-        if(jefatura != null && tipo == 1){
+        
+        if(GV.tipoUserSuperAdmin()&& tipo == 1){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nel sistema sólo permite un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
+                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
             cDF();
             return;
         }
@@ -749,9 +748,9 @@ public class VUsuarios extends javax.swing.JPanel {
         staticUser.setNombre((txtUpdateName.getText()));
         staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
         int tipo = cboTipo2.getSelectedIndex();
-        if(tipo == 1 && jefatura != null){
+        if(tipo == 1 && GV.tipoUserSuperAdmin()){
             OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nel sistema sólo permite un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
+                    + "\nno tienes permisos suficientes para crear el tipo de usuario \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
             cDF();
             return;
         }
@@ -909,7 +908,6 @@ public class VUsuarios extends javax.swing.JPanel {
             btnAbrir.setVisible(false);
             btnModificar.setVisible(false);
         }else{
-            jefatura = null;
             btnRestaurar.setVisible(false);
             btnEliminar.setVisible(true);
             btnAbrir.setVisible(true);
@@ -925,9 +923,6 @@ public class VUsuarios extends javax.swing.JPanel {
                     switch (temp.getTipo()){
                         case 1:
                             tipo = "Jefatura";
-                            if(temp.getEstado() == 1){
-                                jefatura = temp;
-                            }
                             break;
                         case 2:
                             tipo = "Administración";
@@ -963,7 +958,7 @@ public class VUsuarios extends javax.swing.JPanel {
         loadPanels(2);
         staticUser = (User)load.get(username, 0, new User());
             if(staticUser!=null){
-                if(staticUser.getTipo() == 1 && GV.USER.getTipo() != 1 && GV.USER.getTipo() != 7){
+                if(staticUser.getTipo() == 1 && GV.user().getTipo() != 1 && GV.user().getTipo() != 7){
                     OptionPane.showMsg("No se puede modificar usuario", "No tienes los permisos suficientes para realizar esta operación.", 2);
                     loadPanels(1);
                     return;
@@ -971,7 +966,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 txtUpdateName.setText(staticUser.getNombre());
                 txtUpdateEmail.setText(staticUser.getEmail());
                 txtUpdateUsername.setText(staticUser.getUsername());
-                txtUpdatePass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
+                txtUpdatePass.setText(GV.companyName().replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
                 cboTipo2.setSelectedIndex(staticUser.getTipo());
                 
             }else{
@@ -1031,7 +1026,7 @@ public class VUsuarios extends javax.swing.JPanel {
         txtNewName.setText("");
         txtNewEmail.setText("");
         txtNewUsername.setText("");
-        txtNewPass.setText(GV.COMPANY_NAME.replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
+        txtNewPass.setText(GV.companyName().replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
         
     }
     

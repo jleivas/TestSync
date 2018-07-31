@@ -43,7 +43,6 @@ public class VLentes extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VLentes() throws SQLException, ClassNotFoundException {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Lentes");
 //        load.sincronize(new Lente());
         
@@ -1264,7 +1263,7 @@ public class VLentes extends javax.swing.JPanel {
             stLente.setColor(txtCol2.getText());
             stLente.setDescripcion(txtDsc2.getText());
             stLente.setFlex(cboFlex2.getSelectedIndex());
-            stLente.setInventario(GV.INVENTARIO);
+            stLente.setInventario(GV.inventarioName());
             stLente.setMarca(txtMar2.getText());
             stLente.setMaterial(txtMat2.getText());
             txtPrecAct2.commitEdit();

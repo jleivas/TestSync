@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sync.entities.LocalInventario;
 
 /**
  *
@@ -129,7 +130,41 @@ public class Dao{
         }
         return false;
     }
-
+    
+    public boolean decreaseStock(String idLente, int cantidad)  {
+        try{
+            Lente temp = (Lente) get(idLente, 0, new Lente());
+            int newStock = 0;
+            if(temp != null){
+                newStock = temp.getStock() - cantidad;
+                if(newStock >= 0){
+                    if(LocalInventario.insert(idLente,cantidad)){
+                        if(GV.isOnline()){
+                            sincronize(new Lente());
+                            temp = (Lente)GV.REMOTE_SYNC.getElement(idLente, 0, new Lente());
+                            temp.setStock(temp.getStock()-LocalInventario.getStock(idLente));
+                            if(temp.getStock() < 0){
+                                temp.setStock(0);
+                            }
+                            if(LocalInventario.deleteAllRegistry(idLente)){
+                                update(temp);
+                            }else{
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }else{
+                    OptionPane.showMsg("No se pudo reducir el stock", "La cantidad a reducir es mayor que el stock disponible", 2);
+                }
+            }else{
+                OptionPane.showMsg("No se pudo reducir el stock", "El lente no se encuentra disponible.", 2);
+            }
+            return false;
+        }catch(IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException ex){
+            return false;
+        }
+    }
     
     public boolean delete(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
@@ -245,10 +280,16 @@ public class Dao{
         return GV.LOCAL_SYNC.getElement(cod,id,type);
     }
 
-    public void sincronize(Object type) {
+    public static void sincronize(Object type) {
         Log.setLog(className,Log.getReg());
         try {
             if(GV.isOnline()){
+                ArrayList<Object> lista1= GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type);
+                int size1 = lista1.size();
+                int cont1 = 0;
+                ArrayList<Object> lista2= GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type);
+                int size2 = lista2.size();
+                int cont2 = 0;
                 /*Cliente*/
                 if(type instanceof Cliente){
                     for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Cliente())) {
@@ -312,13 +353,21 @@ public class Dao{
                         sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (InternMail)object);
                     }
                 }
-                /*Institucion*/
+                /*Inventario*/
                 if(type instanceof Inventario){
-                    for (Object object : GV.REMOTE_SYNC_FICHA.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC_FICHA, GV.REMOTE_SYNC_FICHA, (Inventario)object);
+                    
+                    for (Object object : lista1) {
+                        cont1++;
+                        GV.porc((cont1*100)/size1);
+                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Inventario)object);
+                        System.out.println(GV.porc()+"%");
                     }
-                    for (Object object : GV.LOCAL_SYNC_FICHA.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC_FICHA, GV.REMOTE_SYNC_FICHA, (Inventario)object);
+                    
+                    for (Object object : lista2) {
+                        cont2++;
+                        GV.porc((cont2*100)/size2);
+                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Inventario)object);
+                        System.out.println(GV.porc()+"%");
                     }
                 }
                 /*Lente*/
@@ -426,6 +475,13 @@ public class Dao{
     }
     
     public ArrayList<Object> listar(String param, Object type){
+        if(type instanceof Lente){
+            try {
+                return LocalInventario.listarLentes(param);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+                return new ArrayList<>();
+            }
+        }
         return GV.LOCAL_SYNC.listar(param, type);
     }
     
@@ -511,7 +567,7 @@ public class Dao{
 //        }
 //    }
 
-    private void sincronizeFicha() throws SQLException, ClassNotFoundException {
+    private static void sincronizeFicha() throws SQLException, ClassNotFoundException {
         sincronize(new Armazon());
         sincronize(new Despacho());
         sincronize(new HistorialPago());

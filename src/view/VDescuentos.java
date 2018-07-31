@@ -41,7 +41,6 @@ public class VDescuentos extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VDescuentos() {
-        GV.IS_ONLINE = true;
         ContentAdmin.lblTitle.setText("Descuentos");
 //        load.sincronize(new Descuento());
         initComponents();

@@ -610,7 +610,7 @@ public class VMessages extends javax.swing.JPanel {
                 cDF();
                 if(stDestino != null){
                     cWT();
-                    stMail = new InternMail(0, GV.USER, stDestino, asunto, content, new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
+                    stMail = new InternMail(0, GV.user(), stDestino, asunto, content, new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
                     
                     load.sendMessage(stMail);
                     
@@ -713,7 +713,7 @@ public class VMessages extends javax.swing.JPanel {
                 txtAsunto.setEditable(false);
                 String destino = "";
                 if(stMail.getDestinatario() != null){
-                    if(stMail.getDestinatario().getId() == GV.USER.getId()){
+                    if(stMail.getDestinatario().getId() == GV.user().getId()){
                         stMail.setEstado(2);
                         load.update(stMail);
                         destino= stMail.getDestinatario().getNombre()+" <"+stMail.getDestinatario().getUsername()+">";
@@ -890,9 +890,9 @@ public class VMessages extends javax.swing.JPanel {
         int des = 0;
         int est = 0;
         if(listar.equals("0")){//recibidos
-            des = GV.USER.getId();
+            des = GV.user().getId();
         }else{//enviados
-            rem = GV.USER.getId();
+            rem = GV.user().getId();
         }
         est = cboLeidos.getSelectedIndex();//0 todos,1 no leidos, 2 leidos
         try{
@@ -933,7 +933,7 @@ public class VMessages extends javax.swing.JPanel {
                 setPanels(2);
                 
                 if(stMail.getDestinatario() != null && stMail.getRemitente() != null){
-                    if(stMail.getRemitente().getId() != GV.USER.getId()){
+                    if(stMail.getRemitente().getId() != GV.user().getId()){
                         stMail.setEstado(2);
                         load.update(stMail);
                     }
@@ -978,7 +978,7 @@ public class VMessages extends javax.swing.JPanel {
         TextAutoCompleter textAutoCompleter = new TextAutoCompleter(txtUserDestino);
         textAutoCompleter.setMode(0);
         for (Object temp : load.listar("0", new User())) {
-            if(!((User)temp).getUsername().equals(GV.USER.getUsername())){
+            if(!((User)temp).getUsername().equals(GV.user().getUsername())){
                 textAutoCompleter.addItem(((User)temp).getNombre()+" <"+((User)temp).getUsername()+">");
                 textAutoCompleter.setMode(0);
             }
