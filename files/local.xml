@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<local>
+    <usr>
+        <name></name>
+    </usr>
+    <lic>
+        <st></st>
+        <date></date>
+    </lic>
+    <network> 
+        <equipo></equipo> 
+        <uri></uri>
+        <port></port>
+    </network> 
+    <registry>
+        <office></office>
+        <company></company>
+        <inventary></inventary>
+        <last_update_bd></last_update_bd>
+    </registry>
+</local>

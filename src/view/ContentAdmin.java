@@ -48,6 +48,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 //        this.lblUserName.setText(GV.USER.getNombre());
         this.lblName.setText(GV.projectName()+" "+GV.version());
         this.lblTitle.setText(GV.projectName());
+        
         centrarPantalla();
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png"));
         setIconImage(icon);
@@ -60,6 +61,7 @@ public class ContentAdmin extends javax.swing.JFrame {
             licencia = "La licencia de este producto ha caducado";
             lblLicence.setForeground(Color.RED);
         }
+        
         //****************************
         //cargar user por defecto, eliminar
         dao.Dao load = new dao.Dao();
@@ -70,6 +72,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         }
         //******************************
         lblLicence.setText(licencia);
+        lblSync();
         lblUserName.setText(GV.user().getNombre());
         this.setTitle("Optidata "+GV.version()+"     "+licencia);
         try {
@@ -439,7 +442,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                     .addComponent(btnDoctores)
                     .addComponent(btnInstituciones)
                     .addComponent(btnConvenios))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
         jpLeftBarLayout.setVerticalGroup(
             jpLeftBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,7 +461,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(btnInstituciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConvenios)
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -840,5 +843,9 @@ public class ContentAdmin extends javax.swing.JFrame {
         if(OptionPane.getConfirmation("Cerrar", "¿Desea cerrar la aplicación?", JOptionPane.INFORMATION_MESSAGE)){
             System.exit(0);
         }
+    }
+
+    private void lblSync() {
+        SubProcess.lblSyncStatus(lblLicence);
     }
 }

@@ -17,6 +17,7 @@ import entities.TipoPago;
 import entities.User;
 import fn.globalValues.GlobalValuesBD;
 import fn.globalValues.GlobalValuesCursor;
+import fn.globalValues.GlobalValuesDirectories;
 import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesVariables;
 import fn.globalValues.GlobalValuesEntities;
@@ -24,8 +25,12 @@ import fn.globalValues.GlobalValuesMailProperties;
 import fn.globalValues.GlobalValuesNetwork;
 import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.globalValues.GlobalValuesUI;
+import fn.globalValues.GlobalValuesXmlFiles;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -196,8 +201,28 @@ public class GV extends GlobalValuesCursor{
     public static boolean containIntegrs(String arg){
         return GlobalValuesFunctions.containIntegrs(arg);
     }
+    
+    public static int diasRestatntes(String strExpDate){
+        try {
+            return GlobalValuesFunctions.diasRestantes(strExpDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    public static Date strToDate(String strFecha){
+        return GlobalValuesFunctions.strToDate(strFecha);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
+    public static void username(String userName) {
+        GlobalValuesVariables.setUserName(userName);
+    }
+    
+    public static String username() {
+        return GlobalValuesVariables.getUserName();
+    }
     
     public static String salt(){
         return GlobalValuesVariables.getSalt();
@@ -236,6 +261,14 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.getCompanyName();
     }
     
+    public static String officeName(){
+        return GlobalValuesVariables.getOfficeName();
+    }
+    
+    public static void officeName(String officeName){
+        GlobalValuesVariables.setOfficeName(officeName);
+    }
+    
     public static String projectName(){
         return GlobalValuesVariables.getProjectName();
     }
@@ -248,8 +281,16 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.getLicence();
     }
     
+    public static void licence(boolean value){
+        GlobalValuesVariables.setLicence(value);
+    }
+    
     public static String expDate(){
         return GlobalValuesVariables.getExpDate();
+    }
+    
+    public static void expDate(String date){
+        GlobalValuesVariables.setExpDate(date);
     }
     
     public static String equipo(){
@@ -259,6 +300,28 @@ public class GV extends GlobalValuesCursor{
     public static void setEquipo(String name){
         GlobalValuesVariables.setEquipo(name);
     }
+    
+    public static void setLicence(boolean value) {
+        GlobalValuesVariables.setLicence(value);
+    }
+    
+    public static String uri(){
+        return GlobalValuesVariables.apiUriLicence();
+    }
+    
+    public static void setUri(String uri){
+        GlobalValuesVariables.setApiUriLicence(uri);
+    }
+    
+    public static String port(){
+        return GlobalValuesVariables.urlUriPort();
+    }
+    
+    public static void setPort(String port){
+        GlobalValuesVariables.setApiUriPort(port);
+    }
+    
+    
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
     public static String getLocalBdUser() {
@@ -343,15 +406,37 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesEntities.tipoUserIventario();
     }
     /********************************** END ENTITIES **************************************/
-    /**
-     * Actualiza archivo local de propiedades del sistema con los valores estaticos
-     */
+    /*****************************BEGIN DIRECTORY***************************************/
+    public static String filesPath(){
+        return GlobalValuesDirectories.getFilesPath();
+    }
+    
+    public static String localPath(){
+        return GlobalValuesDirectories.getLocalPath();
+    }
+    
+    /*****************************END DIRECTORY***************************************/
+    /*****************************BEGIN XML***************************************/
     private static void saveXMLProperties() {
-        //usos en: oficina, companyname, invantario
-        OptionPane.showMsg("SAVE XML", "incomplete function saveXMLProperties", 3);
+        GlobalValuesXmlFiles.crearRegistroLocal();
     }
     
     private static void loadLastUpdateFromXML() {
-        OptionPane.showMsg("SAVE XML", "incomplete function loadLastUpdateFromXML", 3);
+        GlobalValuesXmlFiles.cargarRegistroLocal();
     }
+    /*****************************END XML***************************************/
+    /**
+     * Actualiza archivo local de propiedades del sistema con los valores estaticos
+     */
+    
+
+    public static void setLastUpdate(Date date) {
+        LAST_UPDATE = date;
+        saveXMLProperties();
+    }
+    
+    public static Date getLastUpdate(){
+        return LAST_UPDATE;
+    }
+
 }

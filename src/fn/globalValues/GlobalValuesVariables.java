@@ -36,12 +36,12 @@ public class GlobalValuesVariables {
     /* Update */
     public static int ID_UPDATE=0;
     public static String URL_UPDATE;
-    
+    public static String OFFICE;
     
     
     /* Variables del sistema */
     
-    
+    private static String USERNAME;
     public static int ID_USER = 0;
     public static Date TMP_DATE_FROM = null;
     public static Date TMP_DATE_TO =null;
@@ -104,5 +104,45 @@ public class GlobalValuesVariables {
     
     public static void setEquipo(String equipo){
         EQUIPO = getStr(equipo)+"_"+dateToString(new Date());
+    }
+
+    public static void setLicence(boolean value) {
+        LICENCE = value;
+    }
+    
+    public static String apiUriLicence(){
+        return API_URI;
+    }
+    
+    public static String urlUriPort(){
+        return URL_UPDATE;
+    }
+    
+    public static String getOfficeName(){
+        return getStr(OFFICE);
+    }
+    
+    public static void setOfficeName(String offineName){
+        OFFICE = getStr(offineName);
+    }
+
+    public static void setUserName(String userName) {
+        USERNAME = getStr(userName);
+    }
+
+    public static String getUserName() {
+        return getStr(USERNAME);
+    }
+
+    public static void setExpDate(String date) {
+        EXP_DATE = getStr(date);
+    }
+
+    public static void setApiUriLicence(String uri) {
+        API_URI = getStr(uri);
+    }
+    
+    public static void setApiUriPort(String port) {
+        URL_UPDATE = getStr(port);
     }
 }

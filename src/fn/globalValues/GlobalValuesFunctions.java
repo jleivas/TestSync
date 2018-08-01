@@ -7,7 +7,11 @@ package fn.globalValues;
 
 import fn.OptionPane;
 import fn.date.Cmp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -107,5 +111,62 @@ public class GlobalValuesFunctions {
                 }
         }
         return cont;
+    }
+    
+    public static int diasRestantes(String stFecha) throws ParseException{ 
+            stFecha = getStr(stFecha).replaceAll("-", "/");
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            cal.setTime(sdf.parse(stFecha));
+            int dias = 0;
+            if(cal.compareTo(Calendar.getInstance())>=0){
+                Date fecha=cal.getTime();
+                DateFormat dd = new SimpleDateFormat("dd/MM/yyyy");       
+                boolean activo = false;
+                Calendar calendar; Date aux;
+                do{       
+                    calendar = Calendar.getInstance();           
+                    calendar.add(Calendar.DAY_OF_YEAR, dias);
+                    aux = calendar.getTime();
+                        if(dd.format(aux).equals(dd.format(fecha)))
+                            activo = true; 
+                        else
+                            dias++;
+                }while(activo != true);
+            }else{
+                Date fecha=cal.getTime();
+                DateFormat dd = new SimpleDateFormat("dd/MM/yyyy");       
+                boolean activo = false;
+                Calendar calendar; Date aux;
+                do{      
+                    calendar = Calendar.getInstance();           
+                    calendar.add(Calendar.DAY_OF_YEAR, dias);
+                    aux = calendar.getTime();
+                        if(dd.format(aux).equals(dd.format(fecha)))
+                            activo = true; 
+                        else
+                            dias--;
+                }while(activo != true);
+            }
+
+            return dias; 
+    }
+    
+    public static Date strToDate(String strFecha){
+        //formato valido
+        strFecha = getStr(strFecha);
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+        Date fecha = null;
+        try {
+
+        fecha = formatoDelTexto.parse(strFecha);
+
+        } catch (ParseException ex) {
+
+        ex.printStackTrace();
+
+        }
+        
+        return fecha;
     }
 }

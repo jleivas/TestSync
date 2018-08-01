@@ -20,6 +20,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,6 +28,7 @@ import java.util.concurrent.ScheduledFuture;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 /**
  *
@@ -36,6 +38,8 @@ public class SubProcess {
     volatile static boolean ejecucion = true;
     private static String className="SubProcess";
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static String defaultText = "";
+    
     Dao load = new Dao();
     
     /**
@@ -70,6 +74,30 @@ public class SubProcess {
         });
     }
     
+    
+    public static void lblSyncStatus(JLabel txtTitle) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+            String text = txtTitle.getText();
+            if(!text.contains("%")){
+                defaultText = text;
+            }
+            int porcentaje = 0;
+                while(ejecucion){
+                    porcentaje = GV.porcentajeTotal();
+                    if(porcentaje > 0){
+                        txtTitle.setText("Sincronizando dependencias... ("+porcentaje+"%)");
+                    }else{
+                        txtTitle.setText(defaultText);
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+        });
+    }
     public static void stopAll(){
         ejecucion = false;
     }
@@ -136,7 +164,12 @@ public class SubProcess {
                     GV.resetPorcentaje();
                     Dao.sincronize(new User());
                     GV.calcularPorcentajeTotal(procesos);
-                    System.out.println("Sincronization complete!");
+                    GV.setLastUpdate(new Date());
+                    try {
+                        Thread.sleep(7200000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
         });

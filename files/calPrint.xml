@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<calibracion>
+    <fila id="1">
+        <titulos>-30</titulos>
+        <lejos>-18</lejos>
+        <cerca>-13</cerca>
+        <obs>0</obs>
+        <resumen>-3</resumen>
+        <detalle>-3</detalle>
+        <entrega>-50</entrega>
+    </fila>
+    <columna id="1">
+        <fecha>0</fecha>
+        <folio>0</folio>
+        <lugar_entrega_1>0</lugar_entrega_1>
+        <fecha_entrega_1>0</fecha_entrega_1>
+        <datos_cliente>0</datos_cliente>
+        <direccion_cliente>0</direccion_cliente>
+        <valor_total_1>0</valor_total_1>
+        <lejos_marca>0</lejos_marca>
+        <lejos_cristal>0</lejos_cristal>
+        <lejos_od_esf>0</lejos_od_esf>
+        <lejos_od_cil>0</lejos_od_cil>
+        <lejos_od_a>0</lejos_od_a>
+        <lejos_oi_esf>0</lejos_oi_esf>
+        <lejos_oi_cil>0</lejos_oi_cil>
+        <lejos_oi_a>0</lejos_oi_a>
+        <lejos_dp_cristal>0</lejos_dp_cristal>
+        <lejos_endurecido_cristal>0</lejos_endurecido_cristal>
+        <lejos_capa_cristal>0</lejos_capa_cristal>
+        <lejos_plus_max>0</lejos_plus_max>
+        <cerca_marca>0</cerca_marca>
+        <cerca_cristal>0</cerca_cristal>
+        <cerca_add>0</cerca_add>
+        <cerca_od_esf>0</cerca_od_esf>
+        <cerca_od_cil>0</cerca_od_cil>
+        <cerca_od_a>0</cerca_od_a>
+        <cerca_oi_esf>0</cerca_oi_esf>
+        <cerca_oi_cil>0</cerca_oi_cil>
+        <cerca_oi_a>0</cerca_oi_a>
+        <cerca_dp_cristal>0</cerca_dp_cristal>
+        <cerca_endurecido_cristal>0</cerca_endurecido_cristal>
+        <cerca_capa_cristal>0</cerca_capa_cristal>
+        <cerca_plus_max>0</cerca_plus_max>
+        <obs>0</obs>
+        <ins_nombre>0</ins_nombre>
+        <ins_web>0</ins_web>
+        <ins_direccion>0</ins_direccion>
+        <ins_contacto>0</ins_contacto>
+        <nombre_cliente>-80</nombre_cliente>
+        <detalle>70</detalle>
+        <valores>70</valores>
+        <fecha_entrega_2>0</fecha_entrega_2>
+        <lugar_entrega_2>-20</lugar_entrega_2>
+        <hora_entrega>-30</hora_entrega>
+    </columna>
+</calibracion>

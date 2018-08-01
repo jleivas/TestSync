@@ -288,7 +288,6 @@ public class Dao{
                 int size1 = lista1.size();
                 ArrayList<Object> lista2= GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type);
                 int size2 = lista2.size();
-                int procesos = size1+size2;
                 
                 if(type instanceof Ficha){
                     sincronizeFicha();
