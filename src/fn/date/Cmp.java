@@ -29,6 +29,19 @@ public class Cmp {
         return local.compareTo(remote) >= 0;
     }
     
+    public static boolean objectIsNew(Date dateObject, int hourObject,Date dateBd, int hourBd){
+        Log.setLog(className,Log.getReg());
+        int compare = dateObject.compareTo(dateBd);
+        if(compare > 0){
+            return true;
+        }else if(compare == 0){
+            if(hourObject > hourBd){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static String dateToString(Object date,String strOrder){
         Log.setLog(className,Log.getReg());
         strOrder = strOrder.toLowerCase();

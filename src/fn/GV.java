@@ -75,12 +75,28 @@ public class GV extends GlobalValuesCursor{
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
     }
     /*********************BEGIN PORCENTAJE SYNC***************************/
-    public static void porc(int value){
-        GlobalValuesSyncReportStatus.setPorc(value);
+    public static void calcularPorcentaje(int limit){
+        GlobalValuesSyncReportStatus.calcularPorcentaje(limit);
     }
     
-    public static int porc(){
+    public static void calcularPorcentajeTotal(int totalProcesos){
+        GlobalValuesSyncReportStatus.calcularPorcentajeTotal(totalProcesos);
+    }
+    
+    public static int porcentaje(){
         return GlobalValuesSyncReportStatus.getPorc();
+    }
+    
+    public static int porcentajeTotal(){
+        return GlobalValuesSyncReportStatus.getTotal();
+    }
+    
+    public static void resetPorcentaje(){
+        GlobalValuesSyncReportStatus.resetPorc();
+    }
+    
+    public static void resetAllPorcentaje(){
+        GlobalValuesSyncReportStatus.resetAll();
     }
     /*********************END PORCENTAJE SYNC***************************/
     /*********************BEGIN UI PROPERTIES****************************/

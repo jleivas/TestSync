@@ -18,6 +18,7 @@ import entities.User;
 import fn.GV;
 import fn.SubProcess;
 import fn.date.Cmp;
+import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.mail.Send;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -40,9 +41,8 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        System.out.println(strToNumber("jorge"));
-        
-        
+        SubProcess.sincronizeAll();
+        SubProcess.porcentajeTotal();
     }
     
     private static boolean isNumber(String arg){

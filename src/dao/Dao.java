@@ -286,165 +286,21 @@ public class Dao{
             if(GV.isOnline()){
                 ArrayList<Object> lista1= GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type);
                 int size1 = lista1.size();
-                int cont1 = 0;
                 ArrayList<Object> lista2= GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type);
                 int size2 = lista2.size();
-                int cont2 = 0;
-                /*Cliente*/
-                if(type instanceof Cliente){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Cliente())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cliente)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Cliente())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cliente)object);
-                    }
-                }
-                /*Convenio*/
-                if(type instanceof Convenio){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Convenio())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Convenio)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Convenio())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Convenio)object);
-                    }
-                }
-                /*Cristal*/
-                if(type instanceof Cristal){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Cristal())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cristal)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Cristal())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cristal)object);
-                    }
-                }
-                /*Descuento*/
-                if(type instanceof Descuento){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Descuento())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Descuento)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Descuento())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Descuento)object);
-                    }
-                }
-                /*Doctor*/
-                if(type instanceof Doctor){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Doctor())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Doctor)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Doctor())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Doctor)object);
-                    }
-                }
-                /*Institucion*/
-                if(type instanceof Institucion){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Institucion)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Institucion)object);
-                    }
-                }
-                /*InternMail*/
-                if(type instanceof InternMail){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (InternMail)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (InternMail)object);
-                    }
-                }
-                /*Inventario*/
-                if(type instanceof Inventario){
-                    
-                    for (Object object : lista1) {
-                        cont1++;
-                        GV.porc((cont1*100)/size1);
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Inventario)object);
-                        System.out.println(GV.porc()+"%");
-                    }
-                    
-                    for (Object object : lista2) {
-                        cont2++;
-                        GV.porc((cont2*100)/size2);
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Inventario)object);
-                        System.out.println(GV.porc()+"%");
-                    }
-                }
-                /*Lente*/
-                if(type instanceof Lente){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Lente)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Lente)object);
-                    }
-                }
-                /*Oficina*/
-                if(type instanceof Oficina){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Oficina())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Oficina)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Oficina())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Oficina)object);
-                    } 
-                }
-                /*RegistroBaja*/
-                if(type instanceof RegistroBaja){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (RegistroBaja)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (RegistroBaja)object);
-                    }
-                }
-                /*TipoPago*/
-                if(type instanceof TipoPago){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (TipoPago)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (TipoPago)object);
-                    }
-                }
-                /*Usuario*/
-                if(type instanceof User){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (User)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new User())) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (User)object);
-                    }
-                }
-                /*  ENTIDADES RELACIONADAS CON LAS FICHAS   */
-                /*Armazon*/
-                if(type instanceof Armazon){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Armazon)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Armazon)object);
-                    }
-                }
-                /*Despacho*/
-                if(type instanceof Despacho){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Despacho)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Despacho)object);
-                    }
-                }
-                /*HistorialPago*/
-                if(type instanceof HistorialPago){
-                    for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (HistorialPago)object);
-                    }
-                    for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type)) {
-                        sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (HistorialPago)object);
-                    }
-                }
+                int procesos = size1+size2;
+                
                 if(type instanceof Ficha){
                     sincronizeFicha();
+                }
+                for (Object object : lista1) {
+                    GV.calcularPorcentaje(size1);
+                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                }
+                GV.resetPorcentaje();
+                for (Object object : lista2) {
+                    GV.calcularPorcentaje(size2);
+                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
                 }
             }else{
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar

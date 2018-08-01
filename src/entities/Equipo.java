@@ -25,6 +25,9 @@ public class Equipo extends SyncIntId{
         setLastHour(lastHour);
     }
 
+    public Equipo(){
+        
+    }
     public void setNombre(String nombre) {
         this.nombre = getToName(nombre);
     }

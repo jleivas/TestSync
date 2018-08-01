@@ -1356,7 +1356,8 @@ public class VLentes extends javax.swing.JPanel {
             cWT();
             if(OptionPane.getConfirmation("Reducción de stock", "¿Confirmo que los datos ingresados son correctos?", 2)){
                txtStock3.commitEdit();
-                int newStock = stLente.getStock() - (int)txtStock3.getValue();
+                int cantidad = (int)txtStock3.getValue();
+                int newStock = stLente.getStock() - cantidad;
                 if(newStock < 0){
                     OptionPane.showMsg("Parámetros incorrectos", "El monto a reducir debe ser menor o igual al stock del producto.", 2);
                     cDF();
@@ -1368,8 +1369,7 @@ public class VLentes extends javax.swing.JPanel {
                     cDF();
                     return;
                 }
-                stLente.setStock(newStock);
-                if(load.update(stLente)){
+                if(load.decreaseStock(stLente.getCod(), cantidad)){
                     OptionPane.showMsg("Operación realizada con éxito", "Se ha creado un nuevo registro en la reducción del stock.", 1);
                     cargarDatos("0");
                 }else{

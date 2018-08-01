@@ -5,17 +5,9 @@
  */
 package fn.globalValues;
 
-import entities.Cliente;
-import entities.Cristal;
-import entities.Descuento;
-import entities.Doctor;
-import entities.Institucion;
-import entities.Lente;
+
 import entities.Oficina;
-import entities.RegistroBaja;
-import entities.TipoPago;
 import entities.User;
-import java.util.ArrayList;
 
 /**
  *

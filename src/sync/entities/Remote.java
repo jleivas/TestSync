@@ -318,6 +318,8 @@ public class Remote implements InterfaceSync{
     @Override
     public boolean update(Object objectParam) {
         Log.setLog(className, Log.getReg());
+        Date dsp_fecha = new Date();
+        int hour = 0;
         try{
             if(objectParam == null)
                 return false;
@@ -326,13 +328,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM cliente WHERE cli_rut='" + object.getCod() + "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("cli_last_update");
+                        hour = datos.getInt("cli_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -347,13 +350,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM convenio WHERE cnv_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("cnv_last_update");
+                        hour = datos.getInt("cnv_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -369,13 +373,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM cristal WHERE cri_id=" + object.getId());
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("cri_last_update");
+                        hour = datos.getInt("cri_last_hour");
                     } catch (Exception e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -392,13 +397,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM descuento WHERE des_id=" + object.getId());
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("des_last_update");
+                        hour = datos.getInt("des_last_hour");
                     } catch (Exception e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -414,13 +420,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM doctor WHERE doc_rut='" + object.getCod() + "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("doc_last_update");
+                        hour = datos.getInt("doc_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -436,13 +443,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM equipo WHERE eq_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("eq_last_update");
+                        hour = datos.getInt("eq_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -458,13 +466,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM institucion WHERE ins_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("ins_last_update");
+                        hour = datos.getInt("ins_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -480,13 +489,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM message WHERE msg_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("msg_last_update");
+                        hour = datos.getInt("msg_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -502,13 +512,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM inventario WHERE inv_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("inv_last_update");
+                        hour = datos.getInt("inv_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -524,13 +535,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM lente WHERE len_id='" + object.getCod()+ "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("len_last_update");
+                        hour = datos.getInt("len_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -546,13 +558,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM oficina WHERE of_id=" + object.getId() + "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("of_last_update");
+                        hour = datos.getInt("of_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -568,13 +581,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM registro_bajas WHERE rb_id='" + object.getCod()+ "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("rb_last_update");
+                        hour = datos.getInt("rb_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -590,13 +604,14 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM tipo_pago WHERE tp_id=" + object.getId()+ "");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("tp_last_update");
+                        hour = datos.getInt("tp_last_hour");
                     } catch (SQLException e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
                         return false;
                     }
@@ -615,16 +630,17 @@ public class Remote implements InterfaceSync{
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM usuario WHERE us_id=" + object.getId());
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    Date dsp_fecha = new Date();
+                    
                     try {
                         dsp_fecha = datos.getDate("us_last_update");
+                        hour = datos.getInt("us_last_hour");
                     } catch (Exception e) {
                         OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
                     }
                     if (dsp_fecha == null) {
                         dsp_fecha = new Date();
                     }
-                    if (!fn.date.Cmp.localIsNewOrEqual(object.getLastUpdate(), dsp_fecha)) {
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         return false;
                     }
                 }

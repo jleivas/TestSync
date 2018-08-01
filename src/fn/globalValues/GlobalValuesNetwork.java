@@ -5,7 +5,6 @@
  */
 package fn.globalValues;
 
-import fn.GV;
 import fn.Log;
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class GlobalValuesNetwork {
     private static String className = "GlobalValuesNetwork";
     
-    private static boolean IS_ONLINE = false;
+    private static boolean IS_ONLINE = true;
     
     public static void checkIfOnline(){
         Log.setLog(className,Log.getReg());

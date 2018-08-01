@@ -6,8 +6,20 @@
 package fn;
 
 import dao.Dao;
+import entities.Cliente;
+import entities.Convenio;
+import entities.Cristal;
+import entities.Descuento;
+import entities.Doctor;
+import entities.Equipo;
+import entities.Institucion;
+import entities.InternMail;
 import entities.Inventario;
-import fn.mail.Send;
+import entities.Lente;
+import entities.Oficina;
+import entities.RegistroBaja;
+import entities.TipoPago;
+import entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -44,6 +56,20 @@ public class SubProcess {
         });
     }
     
+    public static void porcentajeTotal(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+                while(ejecucion){
+                    System.out.println(GV.porcentajeTotal()+"%");
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+        });
+    }
+    
     public static void stopAll(){
         ejecucion = false;
     }
@@ -60,13 +86,57 @@ public class SubProcess {
     public static void sincronizeAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
-            }
                 while(ejecucion){
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    int procesos = 14;
+                    GV.resetAllPorcentaje();
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Cliente());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Convenio());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Cristal());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Descuento());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Doctor());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Equipo());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Institucion());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new InternMail());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
                     Dao.sincronize(new Inventario());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Lente());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new Oficina());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new RegistroBaja());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new TipoPago());
+                    GV.calcularPorcentajeTotal(procesos);
+                    GV.resetPorcentaje();
+                    Dao.sincronize(new User());
+                    GV.calcularPorcentajeTotal(procesos);
+                    System.out.println("Sincronization complete!");
                 }
                 
         });
