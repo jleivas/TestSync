@@ -57,9 +57,11 @@ public class LocalInventario {
 
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
         ResultSet datos = consulta.executeQuery();
-        String idLente = datos.getString("len_id");
-        int stock = datos.getInt("len_stock")-getStock(idLente);
+        String idLente = "";
+        int stock = 0;
         while (datos.next()) {
+            idLente = datos.getString("len_id");
+            stock = datos.getInt("len_stock")-getStock(idLente);
             lista.add(new Lente(
                 idLente,
                 datos.getString("len_color"),
@@ -100,11 +102,11 @@ public class LocalInventario {
     public static int getMaxId() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Log.setLog(className, Log.getReg());
         int id = 0;
-        String sql = "SELECT MAX(id) as max FROM intern_stock";
+        String sql = "SELECT MAX(id) as suma FROM intern_stock";
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
             ResultSet datos = consulta.executeQuery();
             while (datos.next()) {
-                id = datos.getInt("max");
+                id = datos.getInt("suma");
             }
             LcBd.cerrar();
         return id + 1;
@@ -119,7 +121,7 @@ public class LocalInventario {
         Log.setLog(className, Log.getReg());
         int cantidad = 0;
         try{
-            String sql = "SELECT COUNT(stock) as cantidad FROM intern_stock WHERE id_lente = '"+idLente+"' AND estado = 1";
+            String sql = "SELECT SUM(stock) as cantidad FROM intern_stock WHERE id_lente = '"+idLente+"' AND estado = 1";
             PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {

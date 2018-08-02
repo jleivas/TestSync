@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import sync.entities.LocalInventario;
 
 /**
  *
@@ -1357,7 +1358,7 @@ public class VLentes extends javax.swing.JPanel {
             if(OptionPane.getConfirmation("Reducción de stock", "¿Confirmo que los datos ingresados son correctos?", 2)){
                txtStock3.commitEdit();
                 int cantidad = (int)txtStock3.getValue();
-                int newStock = stLente.getStock() - cantidad;
+                int newStock = stLente.getStock()- (LocalInventario.getStock(stLente.getCod()) + cantidad);
                 if(newStock < 0){
                     OptionPane.showMsg("Parámetros incorrectos", "El monto a reducir debe ser menor o igual al stock del producto.", 2);
                     cDF();

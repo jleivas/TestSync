@@ -72,7 +72,7 @@ public class GlobalValuesXmlFiles {
             Text vPort = document.createTextNode(GV.port());
             
              /**************************REGISTRY******************************/
-            Element registry = document.createElement("regisrty"); 
+            Element registry = document.createElement("registry"); 
             //creamos un nuevo elemento. lic contiene st y date
             Element office= document.createElement("office");
             Element company= document.createElement("company");
@@ -200,7 +200,7 @@ public class GlobalValuesXmlFiles {
                     if(st == 1){
                         GV.licence(true);
                     }
-                    GV.expDate(element.getElementsByTagName("st").item(0).getTextContent());
+                    GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
                 }
             }
             

@@ -15,6 +15,8 @@ import fn.OptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -40,9 +42,18 @@ public class VInventarios extends javax.swing.JPanel {
         ContentAdmin.lblTitle.setText("Registro de inventarios");
 //        load.sincronize(new Inventario());
         initComponents();
+        
         modelo.addColumn("Inventario");
         tblListar.setModel(modelo);
-        ContentAdmin.lblTitle.setText("Inventarios");
+        String title = "Inventarios "+GV.inventarioName()+"(Ningún inventario asignado a este equipo)";
+        try {
+            if(load.get(GV.inventarioName(),0, new Inventario()) != null){
+                title = "Inventarios ("+GV.inventarioName()+" asignado a este equipo)";
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VInventarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ContentAdmin.lblTitle.setText(title);
         load();
         loadPanels(1);
         GV.cursorDF();
@@ -602,6 +613,7 @@ public class VInventarios extends javax.swing.JPanel {
                     + "genere una nueva ficha.", 2)){
                 GV.setInventarioLocal(nombre);
                 OptionPane.showMsg("Inventario asignado", "Este equipo se ha asignado correctamente al inventario: "+nombre, 1);
+                ContentAdmin.lblTitle.setText("Inventarios ("+GV.inventarioName()+" asignado a este equipo)");
             }else{
                 OptionPane.showMsg("Inventario no asignado", "Se ha cancelado la asignación de un nuevo inventario.", 1);
             }

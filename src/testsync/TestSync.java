@@ -41,8 +41,9 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        SubProcess.sincronizeAll();
-        SubProcess.porcentajeTotal();
+        Dao load = new Dao();
+        GV.setUser((User)load.get("root", 0, new User()));
+        GV.setCompanyName("chile");
     }
     
     private static boolean isNumber(String arg){

@@ -30,13 +30,13 @@ public class GlobalValuesVariables {
     /* LICENCIA */
     public static String COMPANY_NAME = "DCS Optics";
     public static boolean LICENCE = true;
-    public static String EXP_DATE = "00-00-0000";
-    public static String API_URI;
+    public static String EXP_DATE = "07-08-2018";
+    public static String API_URI = "www.sdx.cl";
     
     /* Update */
     public static int ID_UPDATE=0;
-    public static String URL_UPDATE;
-    public static String OFFICE;
+    public static String PORT_KEY = "KEYs";
+    public static String OFFICE = "null";
     
     
     /* Variables del sistema */
@@ -115,7 +115,7 @@ public class GlobalValuesVariables {
     }
     
     public static String urlUriPort(){
-        return URL_UPDATE;
+        return PORT_KEY;
     }
     
     public static String getOfficeName(){
@@ -143,6 +143,6 @@ public class GlobalValuesVariables {
     }
     
     public static void setApiUriPort(String port) {
-        URL_UPDATE = getStr(port);
+        PORT_KEY = getStr(port);
     }
 }

@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 public class GlobalValuesFunctions {
     
     public static String dateToString(Date date,String format){
-        return Cmp.dateToString(format, format);
+        return Cmp.dateToString(date, format);
     }
     
     public static String getToName(String param){

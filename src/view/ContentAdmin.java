@@ -313,7 +313,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
         lblLicence.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         lblLicence.setText("Estado de licencia");
-        jpUpBar.add(lblLicence, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, -1, 20));
+        jpUpBar.add(lblLicence, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 340, 20));
 
         jpSuperior.setBackground(new java.awt.Color(242, 240, 237));
         jpSuperior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

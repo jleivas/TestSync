@@ -165,6 +165,7 @@ public class SubProcess {
                     Dao.sincronize(new User());
                     GV.calcularPorcentajeTotal(procesos);
                     GV.setLastUpdate(new Date());
+                    GV.resetAllPorcentaje();
                     try {
                         Thread.sleep(7200000);
                     } catch (InterruptedException ex) {
