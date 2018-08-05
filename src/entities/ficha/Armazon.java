@@ -63,35 +63,35 @@ public class Armazon extends SyncStringId{
     }
 
     public void setCristal(String cristal) {
-        this.cristal = cristal;
+        this.cristal = getStr(cristal);
     }
 
     public void setAdd(String add) {
-        this.add = add;
+        this.add = getStr(add);
     }
 
     public void setOdA(String od) {
-        this.odA = od;
+        this.odA = getStr(od);
     }
 
     public void setOdEsf(String odEsf) {
-        this.odEsf = odEsf;
+        this.odEsf = getStr(odEsf);
     }
 
     public void setOdCil(String odCilA) {
-        this.odCil = odCilA;
+        this.odCil = getStr(odCilA);
     }
 
     public void setOiA(String oi) {
-        this.oiA = oi;
+        this.oiA = getStr(oi);
     }
 
     public void setOiEsf(String oiEsf) {
-        this.oiEsf = oiEsf;
+        this.oiEsf = getStr(oiEsf);
     }
 
     public void setOiCil(String oiCilA) {
-        this.oiCil = oiCilA;
+        this.oiCil = getStr(oiCilA);
     }
 
     public void setDp(int dp) {
@@ -111,11 +111,11 @@ public class Armazon extends SyncStringId{
     }
 
     public void setIdFicha(String IdFicha) {
-        this.IdFicha = IdFicha;
+        this.IdFicha = getStr(IdFicha);
     }
     
     public void setMarca(String marca) {
-        this.marca = marca;
+        this.marca = getStr(marca);
     }
 
     public int getTipo() {

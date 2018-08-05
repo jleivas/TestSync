@@ -84,11 +84,11 @@ public class Ficha extends SyncStringId{
     }
 
     public void setLugarEntrega(String lugarEntrega) {
-        this.lugarEntrega = lugarEntrega;
+        this.lugarEntrega = getStr(lugarEntrega);
     }
 
     public void setHoraEntrega(String horaEntrega) {
-        this.horaEntrega = horaEntrega;
+        this.horaEntrega = getStr(horaEntrega);
     }
 
     public void setValorTotal(int valorTotal) {
@@ -100,7 +100,7 @@ public class Ficha extends SyncStringId{
     }
 
     public void setObservacion(String observacion) {
-        this.observacion = observacion;
+        this.observacion = getStr(observacion);
     }
 
     public void setCliente(Cliente cliente) {

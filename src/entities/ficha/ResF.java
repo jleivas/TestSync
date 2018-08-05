@@ -5,6 +5,8 @@
  */
 package entities.ficha;
 
+import fn.GV;
+
 /**
  *Presenta el resumen de detalle de la ficha en las tablas
  * @author sdx
@@ -22,19 +24,30 @@ public class ResF{
     public ResF() {
     }
 
+    /**
+     * Registro de Ficha para presentar en la tabla
+     * @param folio
+     * @param fecha
+     * @param cliente
+     * @param comuna
+     * @param ciudad
+     * @param estado
+     * @param total
+     * @param vendedor 
+     */
     public ResF(String folio, String fecha, String cliente, String comuna, String ciudad, int estado, int total, String vendedor) {
-        this.folio = folio;
-        this.fecha = fecha;
-        this.cliente = cliente;
-        this.comuna = comuna;
-        this.ciudad = ciudad;
-        this.estado = estado;
-        this.total = total;
-        this.vendedor = vendedor;
+        setFolio(folio);
+        setFecha(fecha);
+        setCliente(cliente);
+        setComuna(comuna);
+        setCiudad(ciudad);
+        setEstado(estado);
+        setTotal(total);
+        setVendedor(vendedor);
     }
 
     public void setFolio(String folio) {
-        this.folio = folio;
+        this.folio = getStr(folio);
     }
 
     public void setFecha(String fecha) {
@@ -42,15 +55,15 @@ public class ResF{
     }
 
     public void setCliente(String cliente) {
-        this.cliente = cliente;
+        this.cliente = getStr(cliente);
     }
 
     public void setComuna(String comuna) {
-        this.comuna = comuna;
+        this.comuna = getStr(comuna);
     }
 
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        this.ciudad = getStr(ciudad);
     }
 
     public void setEstado(int estado) {
@@ -62,7 +75,7 @@ public class ResF{
     }
 
     public void setVendedor(String vendedor) {
-        this.vendedor = vendedor;
+        this.vendedor = getStr(folio);
     }
 
     public String getFolio() {
@@ -97,5 +110,7 @@ public class ResF{
         return vendedor;
     }
     
-    
+    public String getStr(String arg){
+        return GV.getStr(arg);
+    }
 }

@@ -42,7 +42,7 @@ public class HistorialPago extends SyncStringId{
     }
 
     public void setIdFicha(String idFicha) {
-        this.idFicha = idFicha;
+        this.idFicha = getStr(idFicha);
     }
 
     public void setFecha(Date fecha) {
