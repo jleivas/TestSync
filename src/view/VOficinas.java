@@ -37,7 +37,7 @@ public class VOficinas extends javax.swing.JPanel {
      * Creates new form VClientes
      */
     public VOficinas() {
-        ContentAdmin.lblTitle.setText("Registro de oficinas, "+GV.getNombreOficina());
+        ContentAdmin.lblTitle.setText("Registro de oficinas ("+GV.getLblNombreOficina()+")");
 //        load.sincronize(new Oficina());
         initComponents();
         modelo.addColumn("Nombre");
@@ -1077,7 +1077,7 @@ public class VOficinas extends javax.swing.JPanel {
             if(stOficina != null){
                 GV.setOficina(stOficina);
             }
-            ContentAdmin.lblTitle.setText("Registro de oficinas, "+GV.getNombreOficina());
+            ContentAdmin.lblTitle.setText("Registro de oficinas ("+GV.getLblNombreOficina()+")");
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".",  2);

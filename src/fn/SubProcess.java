@@ -202,4 +202,8 @@ public class SubProcess {
                     }
                     , 60 * 60, SECONDS);
     }
+    
+    public static boolean ejecucion(){
+        return ejecucion;
+    }
 }

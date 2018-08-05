@@ -183,6 +183,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
         jTextField1.setToolTipText("Ingrese folio");
         jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jTextField1.setFocusable(false);
         jpUpBar.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 240, 20));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
@@ -845,6 +846,10 @@ public class ContentAdmin extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * imprrme en la información de la licencia el estado de sincronizacion una vez
+     * que se encuentra en ejecucion.
+     */
     private void lblSync() {
         SubProcess.lblSyncStatus(lblLicence);
     }

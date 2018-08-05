@@ -554,6 +554,10 @@ public class VDoctores extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        if(!GV.tipoUserAdmin()){
+            rejectedOperation();
+            return;
+        }
         try{
             cWT();
             int fila = tblListar.getSelectedRow();
@@ -819,6 +823,11 @@ public class VDoctores extends javax.swing.JPanel {
         if(cboMostrar.getSelectedIndex()==0){//en nueva version cargar ventana completa con lista de clientes estatica global
             cargarDatos("0");
         }else{
+            if(!GV.tipoUserAdmin()){
+                rejectedOperation();
+                cboMostrar.setSelectedIndex(0);
+                return;
+            }
             cargarDatos("-1");
         }
     }
@@ -913,5 +922,9 @@ public class VDoctores extends javax.swing.JPanel {
             pnl1.setVisible(true);
             pnl2.setVisible(false);
         }
+    }
+
+    private void rejectedOperation() {
+        OptionPane.showMsg("Opción no disponible", "No tienes permisos suficientes para ejecutar esta operación.",2);
     }
 }

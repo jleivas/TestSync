@@ -8,15 +8,15 @@
       <date>07-08-2018</date>
    </lic>
    <network>
-      <equipo>jorge_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018_02/08/2018</equipo>
+      <equipo>jorge_20180802</equipo>
       <uri>validate.xml</uri>
       <port>www.sdx.cl</port>
    </network>
    <registry>
-      <office>null</office>
-      <company>Dcs Optics</company>
+      <office>Santiago</office>
+      <company>Growvision</company>
       <inventary>Loacq</inventary>
-      <last_update_bd>02/08/2018</last_update_bd>
+      <last_update_bd>03-08-2018</last_update_bd>
    </registry>
 </local>
 

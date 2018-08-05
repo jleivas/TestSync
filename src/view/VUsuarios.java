@@ -748,7 +748,7 @@ public class VUsuarios extends javax.swing.JPanel {
         staticUser.setNombre((txtUpdateName.getText()));
         staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
         int tipo = cboTipo2.getSelectedIndex();
-        if(tipo == 1 && GV.tipoUserSuperAdmin()){
+        if(tipo == 1 && !GV.tipoUserSuperAdmin()){
             OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
                     + "\nno tienes permisos suficientes para crear el tipo de usuario \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
             cDF();

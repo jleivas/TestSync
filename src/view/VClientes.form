@@ -536,6 +536,10 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtFechaNew">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtFechaNewFocusLost"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFechaNewKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -826,6 +830,10 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtFecha">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtFechaFocusLost"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFechaKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="btnCancelar">
           <Properties>

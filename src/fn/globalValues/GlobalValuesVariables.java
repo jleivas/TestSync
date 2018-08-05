@@ -36,7 +36,6 @@ public class GlobalValuesVariables {
     /* Update */
     public static int ID_UPDATE=0;
     public static String PORT_KEY = "KEYs";
-    public static String OFFICE = "null";
     
     
     /* Variables del sistema */
@@ -102,8 +101,12 @@ public class GlobalValuesVariables {
         return getStr(EQUIPO);
     }
     
+    public static void setCurrentEquipo(String equipo){
+        EQUIPO = getStr(equipo);
+    }
+    
     public static void setEquipo(String equipo){
-        EQUIPO = getStr(equipo)+"_"+dateToString(new Date());
+        EQUIPO = getStr(equipo)+"_"+dateToString(new Date(),"yyyymmdd");
     }
 
     public static void setLicence(boolean value) {
@@ -116,14 +119,6 @@ public class GlobalValuesVariables {
     
     public static String urlUriPort(){
         return PORT_KEY;
-    }
-    
-    public static String getOfficeName(){
-        return getStr(OFFICE);
-    }
-    
-    public static void setOfficeName(String offineName){
-        OFFICE = getStr(offineName);
     }
 
     public static void setUserName(String userName) {

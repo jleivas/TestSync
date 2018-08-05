@@ -75,21 +75,13 @@ public class Boton {
     }
     
     public void doctores() throws SQLException, ClassNotFoundException{
-        if(GV.tipoUserAdmin()){
-            GV.cursorWAIT();
-            openView(new VDoctores());
-        }else{
-            accesDenied();
-        }  
+        GV.cursorWAIT();
+        openView(new VDoctores());
     }
     
     public void instituciones() throws SQLException, ClassNotFoundException{
-        if(GV.tipoUserAdmin()){
-            GV.cursorWAIT();
-            openView(new VInstituciones());
-        }else{
-            accesDenied();
-        }
+        GV.cursorWAIT();
+        openView(new VInstituciones());
     }
     
     public void inventarios() throws SQLException, ClassNotFoundException {

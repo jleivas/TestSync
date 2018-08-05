@@ -14,10 +14,12 @@ import entities.Doctor;
 import entities.Equipo;
 import entities.Lente;
 import entities.Oficina;
+import entities.TipoPago;
 import entities.User;
 import fn.GV;
 import fn.SubProcess;
 import fn.date.Cmp;
+import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.mail.Send;
 import java.io.IOException;
@@ -41,9 +43,8 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        Dao load = new Dao();
-        GV.setUser((User)load.get("root", 0, new User()));
-        GV.setCompanyName("chile");
+        String arg = "2-9-1021kljlk";
+        System.out.println("*"+arg.replaceAll("[^0-9-]", "")+"*");
     }
     
     private static boolean isNumber(String arg){
@@ -51,6 +52,13 @@ public class TestSync {
         if(arg.isEmpty())
             return false;
         return true;
+    }
+    public static String getDescuentoName(String arg){
+        arg = GV.getStr(arg);
+        if(arg.contains("(") && !arg.startsWith("(")){
+            arg=arg.substring(0,arg.indexOf("(")-1);
+        }
+        return arg.trim();
     }
     
     public static String getUserName(String arg){

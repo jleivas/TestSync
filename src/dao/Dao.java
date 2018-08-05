@@ -282,6 +282,9 @@ public class Dao{
 
     public static void sincronize(Object type) {
         Log.setLog(className,Log.getReg());
+        if(GV.isCurrentDate(GV.LAST_UPDATE)){
+            return;//solo hace una actualizacion por día.
+        }
         try {
             if(GV.isOnline()){
                 ArrayList<Object> lista1= GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type);

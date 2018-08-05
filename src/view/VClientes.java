@@ -352,6 +352,17 @@ public class VClientes extends javax.swing.JPanel {
         chkRut.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
         chkRut.setText("Extranjero");
 
+        txtFechaNew.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFechaNewFocusLost(evt);
+            }
+        });
+        txtFechaNew.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaNewKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
         pnl1.setLayout(pnl1Layout);
         pnl1Layout.setHorizontalGroup(
@@ -557,6 +568,17 @@ public class VClientes extends javax.swing.JPanel {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnMostrarFichas1MouseExited(evt);
+            }
+        });
+
+        txtFecha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtFechaFocusLost(evt);
+            }
+        });
+        txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaKeyTyped(evt);
             }
         });
 
@@ -956,6 +978,11 @@ public class VClientes extends javax.swing.JPanel {
             cDF();
             return;
         }
+        if(txtFechaNew.getDate() == null){
+            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener una fecha de nacimiento válida.", 2);
+            cDF();
+            return;
+        }
         String telefono1=txtTelefonoNew1.getText();
         String telefono2=txtTelefonoNew2.getText();
         String mail=txtEmailNew.getText().toLowerCase();
@@ -993,6 +1020,11 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        if(txtFecha.getDate() == null){
+            OptionPane.showMsg("Modificar Cliente", "El cliente debe tener una fecha de nacimiento válida.", 2);
+            cDF();
+            return;
+        }
         String rut = txtRut.getText();
         String nombre= txtNombre.getText();
         if(nombre.isEmpty() || nombre.length()<3){
@@ -1001,7 +1033,14 @@ public class VClientes extends javax.swing.JPanel {
         }
         String telefono1 = txtTelefono1.getText();
         String telefono2 = txtTelefono2.getText();
+        
         String email = txtEmail.getText();
+        if(telefono1.isEmpty() && telefono2.isEmpty() && email.isEmpty()){
+            OptionPane.showMsg("Modificar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
+                    + "Ingrese un teléfono o correo electrónico.", 2);
+            cDF();
+            return;
+        }
         String direccion = (txtDireccion.getText());
         String comuna = (txtComuna.getText());
         String ciudad = (txtCiudad.getText());
@@ -1080,6 +1119,22 @@ public class VClientes extends javax.swing.JPanel {
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));// TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarMouseExited
+
+    private void txtFechaNewKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaNewKeyTyped
+        GV.compileJCalendar(txtFechaNew);
+    }//GEN-LAST:event_txtFechaNewKeyTyped
+
+    private void txtFechaNewFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFechaNewFocusLost
+        GV.compileJCalendar(txtFechaNew);
+    }//GEN-LAST:event_txtFechaNewFocusLost
+
+    private void txtFechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFechaFocusLost
+        GV.compileJCalendar(txtFecha);
+    }//GEN-LAST:event_txtFechaFocusLost
+
+    private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
+        GV.compileJCalendar(txtFecha);
+    }//GEN-LAST:event_txtFechaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1185,8 +1240,13 @@ public class VClientes extends javax.swing.JPanel {
                 fila[0] = temp.getCod();
                 fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
-                if(!temp.getTelefono2().isEmpty())
-                    tel = tel +" / "+temp.getTelefono2();
+                if(!temp.getTelefono2().isEmpty()){
+                    if(tel.isEmpty()){
+                        tel = temp.getTelefono2();
+                    }else{
+                        tel = tel +" / "+temp.getTelefono2();
+                    }
+                }
                 fila[3] = tel;
                 modelo.addRow(fila);
             }

@@ -268,7 +268,7 @@ public class Remote implements InterfaceSync{
             if(objectParam instanceof TipoPago){
                 TipoPago object = (TipoPago)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT tp_id FROM tipo_pago WHERE tp_id='" + object.getId()+ "'");
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT tp_id FROM tipo_pago WHERE tp_id=" + object.getId()+ "");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         RmBd.cerrar();
@@ -1086,7 +1086,7 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if (type instanceof TipoPago) {
-                String sql = "SELECT * FROM tipo_pago WHERE tp_nombre=" + idParam + "";
+                String sql = "SELECT * FROM tipo_pago WHERE tp_nombre='" + idParam + "'";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
                 }
@@ -2137,7 +2137,7 @@ public class Remote implements InterfaceSync{
         if(objectParam instanceof TipoPago){
             TipoPago object = (TipoPago)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "UPDATE registro_bajas set tp_nombre = '" + sqlfecha
+            return  "UPDATE tipo_pago set tp_nombre = '" + object.getNombre()
                         + "', tp_estado = " + object.getEstado()
                         + ", tp_last_update = '" + sqlfecha
                         + "', tp_last_hour = " + object.getLastHour()

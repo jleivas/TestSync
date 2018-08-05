@@ -5,6 +5,7 @@
  */
 package fn;
 
+import com.toedter.calendar.JDateChooser;
 import entities.Cliente;
 import entities.Cristal;
 import entities.Descuento;
@@ -15,6 +16,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import entities.ficha.Ficha;
 import fn.globalValues.GlobalValuesBD;
 import fn.globalValues.GlobalValuesCursor;
 import fn.globalValues.GlobalValuesDirectories;
@@ -31,8 +33,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import sync.entities.Global;
 import sync.entities.Local;
@@ -164,8 +169,8 @@ public class GV extends GlobalValuesCursor{
     }
     /*********************END MAIL*****************************/
     /**************************BEGIN FUNTIONS**********************************/
-    public static String dateToString(Date date){
-        return GlobalValuesFunctions.dateToString(date,"dd/mm/yyyy");
+    public static String dateToString(Date date, String format){
+        return GlobalValuesFunctions.dateToString(date,format);
     }
     
     public static int contChar(char toCompare, String toCount){
@@ -190,6 +195,10 @@ public class GV extends GlobalValuesCursor{
     public static int strToNumber(String arg){
         return GlobalValuesFunctions.strToNumber(arg);
     }
+    
+    public static String toHour(int hora, int min){
+        return GlobalValuesFunctions.toStrHour(hora,min);
+    }
 
     public static boolean strCompare(String str1, String str2) {
         return GlobalValuesFunctions.strCompare(str1, str2);
@@ -213,6 +222,24 @@ public class GV extends GlobalValuesCursor{
     
     public static Date strToDate(String strFecha){
         return GlobalValuesFunctions.strToDate(strFecha);
+    }
+    
+    /**
+     * retorna un booleano indicando si la fecha entregada por parametro 
+     * corresponde al dia de hoy, compara solo el día, mes y año
+     * @param date
+     * @return 
+     */
+    public static boolean isCurrentDate(Date date) {
+        return GlobalValuesFunctions.isCurrentDate(date);
+    }
+    
+    public static int obtenerDescuentoFicha(Descuento descuento, int total) {
+        return GlobalValuesFunctions.obtenerDescuentoFicha(descuento,total);
+    }
+    
+    public static void compileJCalendar(JDateChooser jDate) {
+        GlobalValuesFunctions.compileJCalendar(jDate);
     }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
@@ -261,14 +288,6 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.getCompanyName();
     }
     
-    public static String officeName(){
-        return GlobalValuesVariables.getOfficeName();
-    }
-    
-    public static void officeName(String officeName){
-        GlobalValuesVariables.setOfficeName(officeName);
-    }
-    
     public static String projectName(){
         return GlobalValuesVariables.getProjectName();
     }
@@ -297,8 +316,8 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.getEquipo();
     }
     
-    public static void setEquipo(String name){
-        GlobalValuesVariables.setEquipo(name);
+    public static void setCurrentEquipo(String name){
+        GlobalValuesVariables.setCurrentEquipo(name);
     }
     
     public static void setLicence(boolean value) {
@@ -377,6 +396,13 @@ public class GV extends GlobalValuesCursor{
     
     //******************************** END CURSOR ***************************************************/
     /********************************** BEGIN ENTITIES **************************************/
+    public static Ficha getFicha(){
+        return GlobalValuesEntities.getFicha();
+    }
+    
+    public static void setFicha(Ficha ficha){
+        GlobalValuesEntities.setFicha(ficha);
+    }
     public static User user(){
         return GlobalValuesEntities.getSessionUser();
     }
@@ -389,7 +415,17 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesEntities.setOficina(oficina);
         saveXMLProperties();
     }
+    
+    public static void setOficina(String nombre){
+        if(GlobalValuesEntities.setOficina(nombre)){
+            saveXMLProperties();
+        }
+    }
 
+    public static String getLblNombreOficina() {
+        return GlobalValuesEntities.getLblNombreOficina();
+    }
+    
     public static String getNombreOficina() {
         return GlobalValuesEntities.getNombreOficina();
     }
@@ -439,4 +475,23 @@ public class GV extends GlobalValuesCursor{
         return LAST_UPDATE;
     }
 
+    public static String mailValidate(String email) {
+        email = getStr(email).toLowerCase();
+        // Patrón para validar el email
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+ 
+        // El email a validar
+ 
+        Matcher mather = pattern.matcher(email);
+        if(mather.find()){
+            return email;
+        }
+        return "";
+    }
+
+    public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
+        GlobalValuesFunctions.setHourToFicha(txth1,txtm1,txth2,txtm2);
+    }
 }

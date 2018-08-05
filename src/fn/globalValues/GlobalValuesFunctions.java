@@ -5,6 +5,9 @@
  */
 package fn.globalValues;
 
+import com.toedter.calendar.JDateChooser;
+import entities.Descuento;
+import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
 import java.text.DateFormat;
@@ -14,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 /**
@@ -155,7 +159,7 @@ public class GlobalValuesFunctions {
     public static Date strToDate(String strFecha){
         //formato valido
         strFecha = getStr(strFecha);
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
         Date fecha = null;
         try {
 
@@ -168,5 +172,68 @@ public class GlobalValuesFunctions {
         }
         
         return fecha;
+    }
+
+    public static boolean isCurrentDate(Date date) {
+        if(GV.dateToString(date, "ddmmyyyy").equals(GV.dateToString(new Date(), "ddmmyyyy"))){
+            return true;
+        }
+        return false;
+    }
+
+    public static int obtenerDescuentoFicha(Descuento descuento, int total) {
+        int porc = 0;
+        int dscto = 0;
+        if(descuento != null){
+            if(descuento.getPorcetange() > 0){
+                porc = descuento.getPorcetange();
+                dscto = (total * porc)/100;
+            }else{
+                dscto = descuento.getMonto();
+            }
+        }
+        return dscto;
+    }
+
+    public static void compileJCalendar(JDateChooser jDate) {
+        if(GV.getStr(jDate.getDateFormatString().replaceAll("[0-9-]", "")).isEmpty()){
+            return;
+        }else{
+            jDate.setDate(null);
+        }
+//        jDate.setDateFormatString(jDate.getDateFormatString().replaceAll("[^0-9-]", ""));//filtra sólo numeros y guiones
+    }
+
+    public static String toStrHour(int hora, int min) {
+        String h = "";
+        String m = "";
+        if(hora < 10){
+            h="0"+hora;
+        }
+        if(min < 10){
+            m="0"+min;
+        }
+        String arg = h+":"+m;
+        if(arg.length() > 5){
+            return "--:--";
+        }
+        return arg;
+    }
+
+    public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
+        int h1 = GV.strToNumber(GV.getStr(txth1.getValue().toString()));
+        int m1 = GV.strToNumber(GV.getStr(txtm1.getValue().toString()));
+        
+        int h2 = GV.strToNumber(GV.getStr(txth2.getValue().toString()));
+        int m2 = GV.strToNumber(GV.getStr(txtm2.getValue().toString()));
+        
+        String arg = toStrHour(h1, m1);
+        if(arg.equals("--:--")){
+            arg = "";
+        }else{
+            arg = arg + " - ";
+        }
+        arg = (arg + toStrHour(h2, m2));
+        GV.getFicha().setHoraEntrega(GV.getStr(arg.replaceAll("- --:--", "").trim()));
     }
 }

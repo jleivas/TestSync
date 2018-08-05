@@ -79,10 +79,10 @@ public class GlobalValuesXmlFiles {
             Element inventary= document.createElement("inventary");
             Element lastUpdate = document.createElement("last_update_bd");
             //Ingresamos la info. 
-            Text vOffice = document.createTextNode(GV.officeName());
+            Text vOffice = document.createTextNode(GV.getNombreOficina());
             Text vCompany = document.createTextNode(GV.companyName());
             Text vInventary = document.createTextNode(GV.inventarioName());
-            Text vLastUpdate = document.createTextNode(GV.dateToString(GV.getLastUpdate()));
+            Text vLastUpdate = document.createTextNode(GV.dateToString(GV.getLastUpdate(),"dd-mm-yyyy"));
             /**************USER*******************************************/
             //Asignamos la versión de nuestro XML
             document.setXmlVersion("1.0"); 
@@ -211,7 +211,7 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    GV.setEquipo(element.getElementsByTagName("equipo").item(0).getTextContent());
+                    GV.setCurrentEquipo(element.getElementsByTagName("equipo").item(0).getTextContent());
                     GV.setUri(element.getElementsByTagName("uri").item(0).getTextContent());
                     GV.setPort(element.getElementsByTagName("port").item(0).getTextContent());
                 }
@@ -225,7 +225,7 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    GV.officeName(element.getElementsByTagName("office").item(0).getTextContent());
+                    GV.setOficina(element.getElementsByTagName("office").item(0).getTextContent());
                     GV.setCompanyName(element.getElementsByTagName("company").item(0).getTextContent());
                     GV.setInventarioLocal(element.getElementsByTagName("inventary").item(0).getTextContent());
                     GV.setLastUpdate(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));

@@ -826,9 +826,7 @@ public class VMessages extends javax.swing.JPanel {
         }
     }
     private String getUserName(String arg){
-        if(arg == null || arg.replaceAll(" ", "").isEmpty())
-            return "";
-        arg = arg.trim();
+        arg = GV.getStr(arg);
         if(arg.contains("<") && !arg.endsWith("<")){
             arg=arg.substring(arg.indexOf("<")+1).replaceAll(">", "");
             return arg;
