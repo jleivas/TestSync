@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 public class VCrearFicha extends javax.swing.JPanel {
 
     private Dao load = new Dao();
+    private static Color rojo = Color.red;
     private static TipoPago stTipoPago = new TipoPago();
     private static Cristal stCristalLejos = new Cristal();
     private static Cristal stCristalCerca = new Cristal();
@@ -689,6 +690,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel10.setText("Armazon");
 
         txtArmazonLejos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtArmazonLejosFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtArmazonLejosFocusLost(evt);
             }
@@ -707,6 +711,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel16.setText("O.D.   ");
 
+        txtODLejosESF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODLejosESFFocusLost(evt);
+            }
+        });
         txtODLejosESF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtODLejosESFKeyTyped(evt);
@@ -716,6 +725,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel17.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel17.setText("ESF");
 
+        txtODLejosCIL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODLejosCILFocusLost(evt);
+            }
+        });
         txtODLejosCIL.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtODLejosCILKeyTyped(evt);
@@ -725,6 +739,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel18.setText("CIL");
 
+        txtODLejosA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODLejosAFocusLost(evt);
+            }
+        });
         txtODLejosA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtODLejosAKeyTyped(evt);
@@ -734,18 +753,33 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel19.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel19.setText("O.I.   ");
 
+        txtOILejosESF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOILejosESFFocusLost(evt);
+            }
+        });
         txtOILejosESF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOILejosESFKeyTyped(evt);
             }
         });
 
+        txtOILejosCIL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOILejosCILFocusLost(evt);
+            }
+        });
         txtOILejosCIL.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOILejosCILKeyTyped(evt);
             }
         });
 
+        txtOILejosA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOILejosAFocusLost(evt);
+            }
+        });
         txtOILejosA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOILejosAKeyTyped(evt);
@@ -765,12 +799,27 @@ public class VCrearFicha extends javax.swing.JPanel {
 
         chkEndurecidoLejos.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkEndurecidoLejos.setText("ENDURECIDO");
+        chkEndurecidoLejos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkEndurecidoLejosItemStateChanged(evt);
+            }
+        });
 
         chkCapaLejos.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkCapaLejos.setText("CAPA");
+        chkCapaLejos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkCapaLejosItemStateChanged(evt);
+            }
+        });
 
         chkPlusMaxLejos.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkPlusMaxLejos.setText("PLUS MAX");
+        chkPlusMaxLejos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkPlusMaxLejosItemStateChanged(evt);
+            }
+        });
 
         jLabel26.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel26.setText("Cristal");
@@ -929,6 +978,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel33.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel33.setText("O.D.   ");
 
+        txtODCercaESF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODCercaESFFocusLost(evt);
+            }
+        });
         txtODCercaESF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtODCercaESFActionPerformed(evt);
@@ -943,6 +997,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel34.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel34.setText("ESF");
 
+        txtODCercaCIL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODCercaCILFocusLost(evt);
+            }
+        });
         txtODCercaCIL.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtODCercaCILKeyTyped(evt);
@@ -952,6 +1011,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel35.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel35.setText("A");
 
+        txtODCercaA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtODCercaAFocusLost(evt);
+            }
+        });
         txtODCercaA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtODCercaAKeyTyped(evt);
@@ -961,18 +1025,33 @@ public class VCrearFicha extends javax.swing.JPanel {
         jLabel36.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel36.setText("O.I.   ");
 
+        txtOICercaESF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOICercaESFFocusLost(evt);
+            }
+        });
         txtOICercaESF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOICercaESFKeyTyped(evt);
             }
         });
 
+        txtOICercaCIL.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOICercaCILFocusLost(evt);
+            }
+        });
         txtOICercaCIL.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOICercaCILKeyTyped(evt);
             }
         });
 
+        txtOICercaA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtOICercaAFocusLost(evt);
+            }
+        });
         txtOICercaA.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOICercaAKeyTyped(evt);
@@ -992,16 +1071,36 @@ public class VCrearFicha extends javax.swing.JPanel {
 
         chkEndurecidoCerca.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkEndurecidoCerca.setText("ENDURECIDO");
+        chkEndurecidoCerca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkEndurecidoCercaItemStateChanged(evt);
+            }
+        });
 
         chkCapaCerca.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkCapaCerca.setText("CAPA");
+        chkCapaCerca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkCapaCercaItemStateChanged(evt);
+            }
+        });
 
         chkPlusMaxCerca.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         chkPlusMaxCerca.setText("PLUS MAX");
+        chkPlusMaxCerca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                chkPlusMaxCercaItemStateChanged(evt);
+            }
+        });
 
         jLabel40.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel40.setText("ADD  ");
 
+        txtAddCerca.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAddCercaFocusLost(evt);
+            }
+        });
         txtAddCerca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtAddCercaKeyTyped(evt);
@@ -1288,7 +1387,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             }
         });
 
-        lblMessageStatus.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
+        lblMessageStatus.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         lblMessageStatus.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1457,12 +1556,13 @@ public class VCrearFicha extends javax.swing.JPanel {
             if(stCristalCerca != null){
                 txtCristalCerca.setForeground(Color.black);
             }else{
-                txtCristalCerca.setForeground(Color.red);
+                txtCristalCerca.setForeground(rojo);
             }
             calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
+        comprobarDatosFicha();
     }//GEN-LAST:event_txtCristalCercaFocusLost
 
     private void txtAddCercaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddCercaKeyTyped
@@ -1539,12 +1639,13 @@ public class VCrearFicha extends javax.swing.JPanel {
             if(stLenteCerca != null){
                 txtArmazonCerca.setForeground(Color.black);
             }else{
-                txtArmazonCerca.setForeground(Color.red);
+                txtArmazonCerca.setForeground(rojo);
             }
             calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
+        comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonCercaFocusLost
 
     private void txtCristalLejosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCristalLejosKeyTyped
@@ -1562,12 +1663,13 @@ public class VCrearFicha extends javax.swing.JPanel {
             if(stCristalLejos != null){
                 txtCristalLejos.setForeground(Color.black);
             }else{
-                txtCristalLejos.setForeground(Color.red);
+                txtCristalLejos.setForeground(rojo);
             }
             calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
+        comprobarDatosFicha();
     }//GEN-LAST:event_txtCristalLejosFocusLost
 
     private void txtOILejosAKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOILejosAKeyTyped
@@ -1637,7 +1739,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtArmazonLejos.setForeground(Color.black);
 
             }else{
-                txtArmazonLejos.setForeground(Color.red);
+                txtArmazonLejos.setForeground(rojo);
             }
             calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -1803,7 +1905,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            if(stInstitucion != null){
 //                txtInstitucion.setForeground(Color.black);
 //            }else{
-//                txtInstitucion.setForeground(Color.red);
+//                txtInstitucion.setForeground(rojo);
 //            }
 //        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
 //            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
@@ -1823,6 +1925,11 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_iconPhone1MouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        comprobarDatosFicha();
+        if(lblMessageStatus.isVisible() && lblMessageStatus.getForeground() == rojo){
+            OptionPane.showMsg("Faltan datos", lblMessageStatus.getText(), 2);
+            return;
+        }
         save();
     }//GEN-LAST:event_btnSaveMouseClicked
 
@@ -1913,6 +2020,12 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCiudadFocusLost
 
     private void txtMailClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMailClienteFocusLost
+        String mail = txtMailCliente.getText();
+        if(!mail.isEmpty() && GV.mailValidate(mail).isEmpty()){
+            txtMailCliente.setForeground(rojo);
+        }else{
+            txtMailCliente.setForeground(Color.black);
+        }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtMailClienteFocusLost
 
@@ -1923,6 +2036,86 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void txtNacimientoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNacimientoFocusLost
         comprobarDatosFicha();
     }//GEN-LAST:event_txtNacimientoFocusLost
+
+    private void txtArmazonLejosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArmazonLejosFocusGained
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtArmazonLejosFocusGained
+
+    private void txtODLejosESFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODLejosESFFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODLejosESFFocusLost
+
+    private void txtODLejosCILFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODLejosCILFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODLejosCILFocusLost
+
+    private void txtODLejosAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODLejosAFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODLejosAFocusLost
+
+    private void txtOILejosESFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOILejosESFFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOILejosESFFocusLost
+
+    private void txtOILejosCILFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOILejosCILFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOILejosCILFocusLost
+
+    private void txtOILejosAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOILejosAFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOILejosAFocusLost
+
+    private void chkEndurecidoLejosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkEndurecidoLejosItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkEndurecidoLejosItemStateChanged
+
+    private void chkCapaLejosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkCapaLejosItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkCapaLejosItemStateChanged
+
+    private void chkPlusMaxLejosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkPlusMaxLejosItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkPlusMaxLejosItemStateChanged
+
+    private void txtAddCercaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAddCercaFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtAddCercaFocusLost
+
+    private void txtODCercaESFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODCercaESFFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODCercaESFFocusLost
+
+    private void txtODCercaCILFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODCercaCILFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODCercaCILFocusLost
+
+    private void txtODCercaAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtODCercaAFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtODCercaAFocusLost
+
+    private void txtOICercaESFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOICercaESFFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOICercaESFFocusLost
+
+    private void txtOICercaCILFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOICercaCILFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOICercaCILFocusLost
+
+    private void txtOICercaAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtOICercaAFocusLost
+        comprobarDatosFicha();
+    }//GEN-LAST:event_txtOICercaAFocusLost
+
+    private void chkEndurecidoCercaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkEndurecidoCercaItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkEndurecidoCercaItemStateChanged
+
+    private void chkCapaCercaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkCapaCercaItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkCapaCercaItemStateChanged
+
+    private void chkPlusMaxCercaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkPlusMaxCercaItemStateChanged
+        comprobarDatosFicha();
+    }//GEN-LAST:event_chkPlusMaxCercaItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2568,7 +2761,19 @@ public class VCrearFicha extends javax.swing.JPanel {
             lblMessageStatus.setVisible(false);
         }else{
             lblMessageStatus.setText(message);
-            lblMessageStatus.setForeground(Color.red);
+            lblMessageStatus.setForeground(rojo);
+            lblMessageStatus.setVisible(true);
+        }
+    }
+    
+    private void msgWarning(String message){
+        message = GV.getStr(message);
+        if(message.isEmpty()){
+            lblMessageStatus.setText("");
+            lblMessageStatus.setVisible(false);
+        }else{
+            lblMessageStatus.setText(message);
+            lblMessageStatus.setForeground(Color.black);
             lblMessageStatus.setVisible(true);
         }
     }
@@ -2622,7 +2827,11 @@ public class VCrearFicha extends javax.swing.JPanel {
                                         if(!TipoPagoValido()){
                                             msgRejected("Debe ingresar un tipo de pago válido.");
                                         }else{
-                                            msgRejectedClear();
+                                            if(sinCristal()){
+                                                msgWarning("Falta ingresar un cristal...");
+                                            }else{
+                                                msgRejectedClear();
+                                            }
                                         }
                                     }
                                 }
@@ -2661,7 +2870,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         String nombre  = GV.getStr(txtNombreCliente.getText());
         String tel1 = GV.getStr(txtTelefonoCliente1.getText());
         String tel2 = GV.getStr(txtTelefonoCliente2.getText());
-        String mail = GV.getStr(txtMailCliente.getText());
+        String mail = GV.mailValidate(txtMailCliente.getText());
         if(!GV.getStr(txtRutCliente.getText()).isEmpty() || 
                 txtRutCliente.getForeground() == Color.black || 
                 txtRutCliente.getForeground() == Color.BLACK){
@@ -2699,7 +2908,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(ValidaRut.validarRut(rutCliente)){
             txtRutCliente.setForeground(Color.green);
         }else{
-            txtRutCliente.setForeground(Color.red);
+            if(!chkExtranjero.isSelected()){
+                txtRutCliente.setForeground(rojo);
+            }
         }
         try {
             stCliente = (Cliente)load.get(rutCliente,0,new Cliente());
@@ -2714,7 +2925,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 cboSexo.setSelectedIndex(stCliente.getSexo());
                 txtNacimiento.setDate(stCliente.getNacimiento());
             }else{
-                resetTxtCliente();
+//                resetTxtCliente();
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
@@ -2726,7 +2937,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         int currentYear = GV.strToNumber(GV.dateToString(new Date(), "yyyy"));
         int dif = currentYear - year;
         if(dif >= 4 && dif < 100){
-            stCliente.setNacimiento(txtNacimiento.getDate());
+            if(stCliente != null){
+                stCliente.setNacimiento(txtNacimiento.getDate());
+            }
             return true;
         }
         return false;
@@ -2755,7 +2968,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(GV.getStr(txtRutCliente.getText()).isEmpty()){
             return false;
         }else{
-            if(txtRutCliente.getForeground() == Color.RED || txtRutCliente.getForeground() == Color.red){
+            if(txtRutCliente.getForeground() == rojo && !chkExtranjero.isSelected()){
                 return false;
             }
         }
@@ -2801,6 +3014,8 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private boolean validaEspecialista() {
+        stDoctor = null;
+        GV.getFicha().setDoctor(null);
         if(txtDoctor.getText().length() >= 1){
             String rut = getRut(txtDoctor.getText());
 
@@ -2820,10 +3035,10 @@ public class VCrearFicha extends javax.swing.JPanel {
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
-            txtDoctor.setForeground(Color.red);
+            txtDoctor.setForeground(rojo);
+        }else{
+            return true;
         }
-        stDoctor = null;
-        GV.getFicha().setDoctor(null);
         return false;
     }
 
@@ -2839,7 +3054,9 @@ public class VCrearFicha extends javax.swing.JPanel {
                 mail.isEmpty()){
             return false;
         }
-        stCliente.setEmail(mail);
+        if(stCliente != null){
+            stCliente.setEmail(mail);
+        }
         return true;
     }
 
@@ -2852,5 +3069,21 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         stArmazonLejos.setCristal(txtCristalLejos.getText());
         
+    }
+
+    private boolean sinCristal() {
+        Color c1 = txtCristalCerca.getForeground();
+        Color c2 = txtCristalLejos.getForeground();
+        if(!GV.getStr(txtArmazonCerca.getText()).isEmpty()){
+            if(GV.getStr(txtCristalCerca.getText()).isEmpty() || c1 == rojo){
+                return true;
+            }
+        }
+        if(!GV.getStr(txtArmazonLejos.getText()).isEmpty()){
+            if(GV.getStr(txtCristalLejos.getText()).isEmpty() || c2 == rojo){
+                return true;
+            }
+        }
+        return false;
     }
 }

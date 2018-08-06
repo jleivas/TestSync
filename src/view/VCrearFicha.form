@@ -967,6 +967,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtArmazonLejos">
           <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtArmazonLejosFocusGained"/>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtArmazonLejosFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtArmazonLejosActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtArmazonLejosKeyTyped"/>
@@ -982,6 +983,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODLejosESF">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODLejosESFFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODLejosESFKeyTyped"/>
           </Events>
         </Component>
@@ -995,6 +997,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODLejosCIL">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODLejosCILFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODLejosCILKeyTyped"/>
           </Events>
         </Component>
@@ -1008,6 +1011,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODLejosA">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODLejosAFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODLejosAKeyTyped"/>
           </Events>
         </Component>
@@ -1021,16 +1025,19 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtOILejosESF">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOILejosESFFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOILejosESFKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtOILejosCIL">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOILejosCILFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOILejosCILKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtOILejosA">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOILejosAFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOILejosAKeyTyped"/>
           </Events>
         </Component>
@@ -1072,6 +1079,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="ENDURECIDO"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkEndurecidoLejosItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkCapaLejos">
           <Properties>
@@ -1080,6 +1090,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="CAPA"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkCapaLejosItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPlusMaxLejos">
           <Properties>
@@ -1088,6 +1101,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="PLUS MAX"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkPlusMaxLejosItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel26">
           <Properties>
@@ -1301,6 +1317,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODCercaESF">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODCercaESFFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtODCercaESFActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODCercaESFKeyTyped"/>
           </Events>
@@ -1315,6 +1332,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODCercaCIL">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODCercaCILFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODCercaCILKeyTyped"/>
           </Events>
         </Component>
@@ -1328,6 +1346,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtODCercaA">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtODCercaAFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtODCercaAKeyTyped"/>
           </Events>
         </Component>
@@ -1341,16 +1360,19 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtOICercaESF">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOICercaESFFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOICercaESFKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtOICercaCIL">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOICercaCILFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOICercaCILKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtOICercaA">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtOICercaAFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOICercaAKeyTyped"/>
           </Events>
         </Component>
@@ -1392,6 +1414,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="ENDURECIDO"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkEndurecidoCercaItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkCapaCerca">
           <Properties>
@@ -1400,6 +1425,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="CAPA"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkCapaCercaItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkPlusMaxCerca">
           <Properties>
@@ -1408,6 +1436,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="PLUS MAX"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkPlusMaxCercaItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel40">
           <Properties>
@@ -1419,6 +1450,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtAddCerca">
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtAddCercaFocusLost"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtAddCercaKeyTyped"/>
           </Events>
         </Component>
@@ -1723,7 +1755,7 @@
     <Component class="javax.swing.JLabel" name="lblMessageStatus">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Light" size="11" style="1"/>
+          <Font name="Segoe UI Light" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
