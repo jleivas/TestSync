@@ -396,6 +396,10 @@ public class GV extends GlobalValuesCursor{
     
     //******************************** END CURSOR ***************************************************/
     /********************************** BEGIN ENTITIES **************************************/
+    public static void clearFicha(){
+        GlobalValuesEntities.clearFicha();
+    }
+    
     public static Ficha getFicha(){
         return GlobalValuesEntities.getFicha();
     }
@@ -493,5 +497,9 @@ public class GV extends GlobalValuesCursor{
 
     public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
         GlobalValuesFunctions.setHourToFicha(txth1,txtm1,txth2,txtm2);
+    }
+
+    public static String idCurrentFicha() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

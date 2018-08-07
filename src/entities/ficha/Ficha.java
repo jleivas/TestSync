@@ -29,7 +29,7 @@ public class Ficha extends SyncStringId{
     // referencias
     private Cliente cliente;
     private Doctor doctor;
-    private Descuento descuento;
+    private int descuento;
     private Institucion institucion;
     private Despacho despacho;
     private Armazon lejos;
@@ -42,7 +42,7 @@ public class Ficha extends SyncStringId{
 
     public Ficha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, 
             String horaEntrega, int valorTotal, int saldo, String observacion, 
-            Cliente cliente, Doctor doctor, Descuento descuento, 
+            Cliente cliente, Doctor doctor, int descuento, 
             Institucion institucion, Despacho despacho , Armazon lejos, 
             Armazon cerca, User user, int idConvenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
@@ -111,7 +111,7 @@ public class Ficha extends SyncStringId{
         this.doctor = doctor;
     }
 
-    public void setDescuento(Descuento descuento) {
+    public void setDescuento(int descuento) {
         this.descuento = descuento;
     }
 
@@ -171,7 +171,7 @@ public class Ficha extends SyncStringId{
         return doctor;
     }
 
-    public Descuento getDescuento() {
+    public int getDescuento() {
         return descuento;
     }
 
@@ -207,7 +207,7 @@ public class Ficha extends SyncStringId{
                 + ", observacion=" + observacion +"\n"
                 + ", cliente=" + cliente.toString()+"\n" 
                 + ", doctor=" + doctor.toString()+"\n" 
-                + ", descuento=" + descuento.toString()+"%"+"\n" 
+                + ", descuento=" + descuento+"%"+"\n" 
                 + ", institucion=" + institucion.toString()+"\n" 
                 + ", despacho=" + despacho.toString()+"\n"
                 + ", armazon lejos=" + lejos.toString()+"\n"

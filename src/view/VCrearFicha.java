@@ -1931,6 +1931,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         save();
+        GV.clearFicha();
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
@@ -2820,13 +2821,13 @@ public class VCrearFicha extends javax.swing.JPanel {
                                 if(!nacimientoValido()){
                                     msgRejected("Debe ingresar una fecha de nacimiento válida.");
                                 }else{
-                                    GV.getFicha().setCliente(stCliente);
                                     if(!valorTotalValido()){
                                         msgRejected("Debe ingresar receta de lente.");
                                     }else{
                                         if(!TipoPagoValido()){
                                             msgRejected("Debe ingresar un tipo de pago válido.");
                                         }else{
+                                            asigAllDatas();
                                             if(sinCristal()){
                                                 msgWarning("Falta ingresar un cristal...");
                                             }else{
@@ -2895,6 +2896,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                         stCliente.setSexo(cboSexo.getSelectedIndex());
                         stCliente.setTelefono1(tel1);
                         stCliente.setTelefono2(tel2);
+                        GV.getFicha().setCliente(stCliente);
                     }
                     return true;
                 }
@@ -3085,5 +3087,61 @@ public class VCrearFicha extends javax.swing.JPanel {
             }
         }
         return false;
+    }
+
+    private void asigAllDatas() {
+        int tpCerca = 0;
+        int tpLejos = 1;
+        int capa1 = (chkCapaCerca.isSelected())? 1:0;
+        int capa2 = (chkCapaLejos.isSelected())? 1:0;
+        int en1 = (chkEndurecidoCerca.isSelected())? 1:0;
+        int en2 = (chkEndurecidoLejos.isSelected())? 1:0;
+        int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
+        int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
+        stArmazonCerca = new Armazon();
+        stArmazonCerca.setAdd(txtAddCerca.getText());
+        stArmazonCerca.setCapa(capa1);
+        stArmazonCerca.setCristal(txtCristalCerca.getText());
+        stArmazonCerca.setDp((int)txtDPCerca.getValue());
+        stArmazonCerca.setEndurecido(en1);
+        stArmazonCerca.setEstado(1);
+        stArmazonCerca.setIdFicha(GV.idCurrentFicha());
+        stArmazonCerca.setMarca(txtArmazonCerca.getText());
+        stArmazonCerca.setOdA(txtODCercaA.getText());
+        stArmazonCerca.setOdCil(txtODCercaCIL.getText());
+        stArmazonCerca.setOdEsf(txtODCercaESF.getText());
+        stArmazonCerca.setOiA(txtOICercaA.getText());
+        stArmazonCerca.setOiCil(txtOICercaCIL.getText());
+        stArmazonCerca.setOiEsf(txtOICercaESF.getText());
+        stArmazonCerca.setPlusMax(pm1);
+        stArmazonCerca.setTipo(tpCerca);
+        
+        GV.getFicha().setCerca(stArmazonCerca);
+        
+        stArmazonLejos = new Armazon();
+        stArmazonLejos.setCapa(capa2);
+        stArmazonLejos.setCristal(txtCristalLejos.getText());
+        stArmazonLejos.setDp((int)txtDPLejos.getValue());
+        stArmazonLejos.setEndurecido(en2);
+        stArmazonLejos.setEstado(1);
+        stArmazonLejos.setIdFicha(GV.idCurrentFicha());
+        stArmazonLejos.setMarca(txtArmazonLejos.getText());
+        stArmazonLejos.setOdA(txtODLejosA.getText());
+        stArmazonLejos.setOdCil(txtODLejosCIL.getText());
+        stArmazonLejos.setOdEsf(txtODLejosESF.getText());
+        stArmazonLejos.setOiA(txtOILejosA.getText());
+        stArmazonLejos.setOiCil(txtOILejosCIL.getText());
+        stArmazonLejos.setOiEsf(txtOILejosESF.getText());
+        stArmazonLejos.setPlusMax(pm2);
+        stArmazonLejos.setTipo(tpLejos);
+        
+        GV.getFicha().setCerca(stArmazonLejos);
+        
+        GV.getFicha().setObservacion(txtObs.getText());
+        GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
+        GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
+        GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
+        GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
+        GV.getFicha().set
     }
 }

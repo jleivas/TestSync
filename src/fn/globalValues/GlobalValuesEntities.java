@@ -106,4 +106,8 @@ public class GlobalValuesEntities {
     public static User getSessionUser(){
         return USER;
     }
+
+    public static void clearFicha() {
+        stFicha = new Ficha();
+    }
 }
