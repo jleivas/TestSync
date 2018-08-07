@@ -36,6 +36,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 
     private Dao load = new Dao();
     private static Color rojo = Color.red;
+    private static Color negro = Color.black;
     private static TipoPago stTipoPago = new TipoPago();
     private static Cristal stCristalLejos = new Cristal();
     private static Cristal stCristalCerca = new Cristal();
@@ -1531,6 +1532,8 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             if(!nombre.trim().toLowerCase().equals("seleccione")){
                 stTipoPago = (TipoPago)load.get(nombre,0,new TipoPago());
+            }else{
+                stTipoPago = null;
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado", "Error en ItemStateChanged: "+ex,JOptionPane.ERROR_MESSAGE);
@@ -1554,7 +1557,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(),0,new Cristal());
             if(stCristalCerca != null){
-                txtCristalCerca.setForeground(Color.black);
+                txtCristalCerca.setForeground(negro);
             }else{
                 txtCristalCerca.setForeground(rojo);
             }
@@ -1637,7 +1640,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             stLenteCerca = (Lente)load.get(txtArmazonCerca.getText(),0,new Lente());
             if(stLenteCerca != null){
-                txtArmazonCerca.setForeground(Color.black);
+                txtArmazonCerca.setForeground(negro);
             }else{
                 txtArmazonCerca.setForeground(rojo);
             }
@@ -1661,7 +1664,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(),0,new Cristal());
             if(stCristalLejos != null){
-                txtCristalLejos.setForeground(Color.black);
+                txtCristalLejos.setForeground(negro);
             }else{
                 txtCristalLejos.setForeground(rojo);
             }
@@ -1736,7 +1739,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             stLenteLejos = (Lente)load.get(txtArmazonLejos.getText(),0,new Lente());
             if(stLenteLejos != null){
-                txtArmazonLejos.setForeground(Color.black);
+                txtArmazonLejos.setForeground(negro);
 
             }else{
                 txtArmazonLejos.setForeground(rojo);
@@ -1751,7 +1754,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         comprobarDatosFicha();
     }//GEN-LAST:event_txtDoctorFocusLost
 
-    private String getRut(String arg){
+    private String getIdFromString(String arg){
         arg = GV.getStr(arg);
         if(arg.contains("<") && !arg.endsWith("<")){
             arg=arg.substring(arg.indexOf("<")+1).replaceAll(">", "");
@@ -1899,17 +1902,6 @@ public class VCrearFicha extends javax.swing.JPanel {
 
     private void txtInstitucionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionFocusLost
         comprobarDatosFicha();
-//        String nombre = txtInstitucion.getText();
-//        try {
-//               stInstitucion = (Institucion)load.get(nombre, 0, new Institucion());
-//            if(stInstitucion != null){
-//                txtInstitucion.setForeground(Color.black);
-//            }else{
-//                txtInstitucion.setForeground(rojo);
-//            }
-//        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-//            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }//GEN-LAST:event_txtInstitucionFocusLost
 
     private void iconAddressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconAddressMouseClicked
@@ -1959,7 +1951,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 
     private void chkExtranjeroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkExtranjeroItemStateChanged
         if(chkExtranjero.isSelected()){
-            txtRutCliente.setForeground(Color.black);
+            txtRutCliente.setForeground(negro);
         }else{
             txtRutClienteValidator();
         }
@@ -2027,7 +2019,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(!mail.isEmpty() && GV.mailValidate(mail).isEmpty()){
             txtMailCliente.setForeground(rojo);
         }else{
-            txtMailCliente.setForeground(Color.black);
+            txtMailCliente.setForeground(negro);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtMailClienteFocusLost
@@ -2267,7 +2259,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         TextAutoCompleter textAutoCompleter = new TextAutoCompleter(txtInstitucion);
         textAutoCompleter.setMode(0);
         for (Object temp : load.listar("0", new Institucion())) {
-            textAutoCompleter.addItem(((Institucion)temp).getNombre());
+            textAutoCompleter.addItem(((Institucion)temp).getNombre()+" <"+((Institucion)temp).getId()+">");
             textAutoCompleter.setMode(0);
         }
         TextAutoCompleter textAutoCompleter2 = new TextAutoCompleter(txtRutCliente);
@@ -2415,54 +2407,14 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void save() {
-//        validado: validar si esta seleccionado el checbox descuento y ssi estan seleccionados los combobox descuento
-//        valilado: validar si esta seleccionado el combobox tipo pago
-//        validado: que el saldo sea mayor que cero
-//        validado: validar que los JTextField necesarios tengan datos.
         calcularSaldo();
-
-        //VARIABLES PARA LA FICHA
-//        int idDescuento = 0;
-//        Descuento dscto = null;
-//        int idTipoPago = Integer.parseInt(this.lblIdTipoPago.getText());
-//
-//        int idInstitucion = GV.TMP_ID_INSTITUCION;
-//        int idFicha = 0;
-//        try {
-//            idFicha = load.obtenerFolio();
+        GV.getFicha().setCod(GV.idCurrentFicha());
+//        tipo de pago debe validarse si es null, no se ha ingresado
+//        int idInstitucion = GV.TMP_ID_INSTITUCION
 //            if(!load.actualizarFolio(idFicha)){
 //                OptionPane.showMsg("Ocurrió un error al comunicarse con la base de datos,/nNo se pudo actualizar el Id del folio","Error al actualizar numero de folio",JOptionPane.WARNING_MESSAGE);
 //                return;
 //            }
-//
-//        } catch (SQLException ex) {
-//            OptionPane.showMsg(null, "Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } catch (ClassNotFoundException ex) {
-//            OptionPane.showMsg("Error desconocido, Detalles: "+ex.getMessage(),"Error al cargar numero de folio",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//        String rutCliente = txtRutCliente.getText();
-//        if(!chkExtranjero.isSelected()){
-//            if(!vr.validarRut(rutCliente)){
-//                OptionPane.showMsg("El rut ingresado del cliente no existe", "Error de Rut",JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//        }
-//
-//        String rutDoctor = GV.TMP_RUT_DOCTOR;
-//        Date fecha = new Date();
-//        Date fechaEntrega = txtFecha.getDate();
-//        String lugarEntrega = txtEntrega.getText().toUpperCase();
-//        int hora1 = (int) txtHora1.getValue();
-//        int min1 = (int) txtMinuto1.getValue();
-//        int hora2 = (int) txtHora2.getValue();
-//        int min2 = (int) txtMinuto2.getValue();
-//
-//        if(fechaEntrega == null || lugarEntrega.length() < 3 || hora1 == 0 || hora2 == 0){
-//            OptionPane.showMsg(null, "Debe ingresar datos de entrega.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
-//            return;
-//        }
 //
 //        if(!compararHoras(hora1,min1,hora2,min2)){
 //            OptionPane.showMsg( "Las horas están mal ingresadas,\nLa segunda hora debe ser mayor que la primera.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
@@ -2470,10 +2422,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //        }
 //        String horaEntrega1 = formatoHora(hora1,min1);
 //        String horaEntrega2 = formatoHora(hora2,min2);
-//
-//        int total = Integer.parseInt(txtTotal.getText());
-//        int saldo = Integer.parseInt(txtSaldo.getText().replace("$ ",""));
-//        String obs = txtObs.getText();
+//         validar estados de ficha
 //        int estado = 1;//pendiente
 //        if(saldo == 0)
 //        estado = 2;//pagado
@@ -2481,99 +2430,11 @@ public class VCrearFicha extends javax.swing.JPanel {
 //            OptionPane.showMsg( "El abono ingresado no es correcto", "Corrija los datos", JOptionPane.WARNING_MESSAGE);
 //            return;
 //        }
-//        if(chkConvenio.isSelected()){
-//            if(GV.TMP_ID_DESCUENTO == 0){
-//                OptionPane.showMsg("Debe seleccionar un descuento", "Seleccione un descuento", JOptionPane.INFORMATION_MESSAGE);
-//                return;
-//            }
-//            try {
-//                dscto = load.cargarDescuento(GV.TMP_ID_DESCUENTO);
-//            } catch (SQLException ex) {
-//                OptionPane.showMsg( "No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
-//                return;
-//            } catch (ClassNotFoundException ex) {
-//                OptionPane.showMsg("No se pudo cargar descuento, Detalles: "+ex.getMessage(),"Error al cargar descuento",JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//        }
 //        int despacho = 0;//no se encuentra despachado
-//        Cliente cliente = null;
-//        try {
-//            //validar si cliente existe, si no existe guardar, si existe modificar
-//            cliente = load.cargarCliente(rutCliente);
-//        } catch (SQLException ex) {
-//            OptionPane.showMsg(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } catch (ClassNotFoundException ex) {
-//            OptionPane.showMsg(null, "Error inesperado: "+ex.getMessage(),"Error al obtener cliente", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        //crear armazon lejos
-//        Armazon lejos = new Armazon();
-//        if(chkCapaLejos.isSelected())
-//        lejos.setCapa(1);
-//        else
-//        lejos.setCapa(0);
-//        lejos.setCristal(txtCristalLejos.getText());
-//
-//        lejos.setDp((int) txtDPLejos.getValue());
-//        if(chkEndurecidoLejos.isSelected())
-//        lejos.setEndurecido(1);
-//        else
-//        lejos.setEndurecido(0);
-//        lejos.setMarca(txtArmazonLejos.getText());
-//        lejos.setIdFicha(idFicha);
-//        lejos.setOdA(txtODLejosA.getText());
-//        lejos.setOdCil(txtODLejosCIL.getText());
-//        lejos.setOdEsf(txtODLejosESF.getText());
-//        lejos.setOiA(txtOILejosA.getText());
-//        lejos.setOiCil(txtOILejosCIL.getText());
-//        lejos.setOiEsf(txtOILejosESF.getText());
-//        if(chkPlusMaxLejos.isSelected())
-//        lejos.setPlusMax(1);
-//        else
-//        lejos.setPlusMax(0);
-//        lejos.setTipo(1);
-//
-//        //crear armazon cerca
-//        Armazon cerca = new Armazon();
-//        cerca.setAdd(txtAddCerca.getText());
-//        if(chkCapaCerca.isSelected())
-//        cerca.setCapa(1);
-//        else
-//        cerca.setCapa(0);
-//        cerca.setCristal(txtCristalCerca.getText());
-//        cerca.setDp((int) txtDPCerca.getValue());
-//        if(chkEndurecidoCerca.isSelected())
-//        cerca.setEndurecido(1);
-//        else
-//        cerca.setEndurecido(0);
-//        cerca.setMarca(txtArmazonCerca.getText());
-//        cerca.setIdFicha(idFicha);
-//        cerca.setOdA(txtODCercaA.getText());
-//        cerca.setOdCil(txtODCercaCIL.getText());
-//        cerca.setOdEsf(txtODCercaESF.getText());
-//        cerca.setOiA(txtOICercaA.getText());
-//        cerca.setOiCil(txtOICercaCIL.getText());
-//        cerca.setOiEsf(txtOICercaESF.getText());
-//        if(chkPlusMaxCerca.isSelected())
-//        cerca.setPlusMax(1);
-//        else
-//        cerca.setPlusMax(0);
-//        cerca.setTipo(0);
-//
-//        if((cerca.getCristal().length()<1 && lejos.getCristal().length() < 1) || (cerca.getMarca().length() < 1 && lejos.getMarca().length() < 1)){
-//            OptionPane.showMsg(null, "Debe agregar al menos un armazón a la ficha", "Faltan valores", JOptionPane.INFORMATION_MESSAGE);
-//            return;
-//        }
+//        
 //
 //        //crear historial de pago
 //        int abono = (int) txtAbono.getValue();
-//        if(abono > 0 && cboTipoPago.getSelectedIndex() == 0 && idTipoPago==0){
-//            OptionPane.showMsg(null, "Error, Debe seleccionsr un tipo de pago","Selecciona tipo de pago",JOptionPane.INFORMATION_MESSAGE);
-//            return;
-//        }
 //        HistorialPago hp = null;
 //        if(abono < 1){
 //            int respAbono2 = JOptionPane.showConfirmDialog(null, "¿Desea registrar un abono?", "Abono no ingresado", JOptionPane.YES_NO_OPTION);
@@ -2586,126 +2447,34 @@ public class VCrearFicha extends javax.swing.JPanel {
 //
 //        try {
 //            //actualizar ficha_actual en info
-//            Doctor dr = load.cargarDoctorRut(rutDoctor);
 //            Institucion ins = load.cargarInstitucionId(idInstitucion);
 //
-//            Ficha ficha = new Ficha();
-//            ficha.setCerca(cerca);
-//            ficha.setCliente(cliente);
-//            ficha.setDescuento(dscto);
-//            ficha.setDespacho(null);
-//            ficha.setDoctor(dr);
-//            ficha.setEstado(estado);
-//            ficha.setFecha(fecha);
-//            ficha.setFechaEntrega(fechaEntrega);
-//            ficha.setHoraEntrega(horaEntrega1+" a "+horaEntrega2);
-//            ficha.setId(idFicha);
+//            
 //            ficha.setInstitucion(ins);
-//            ficha.setLejos(lejos);
-//            ficha.setLugarEntrega(lugarEntrega);
-//            ficha.setObservacion(obs);
-//            ficha.setSaldo(saldo);
-//            ficha.setValorTotal(total);
 //
-//            if(cliente != null){
-//                cliente.setCiudad(txtCiudad.getText().toUpperCase());
-//                cliente.setComuna(txtComuna.getText().toUpperCase());
-//                cliente.setDireccion(txtDireccionCliente.getText().toUpperCase());
-//                cliente.setEdad((int)txtEdad.getValue());
-//                cliente.setEmail(txtMailCliente.getText());
-//                cliente.setNombre(txtNombreCliente.getText().toUpperCase());
-//                cliente.setSexo(cboSexo.getSelectedIndex());
-//                if(txtTelefonoCliente2.getText().length() > 0){
-//                    cliente.setTelefono(txtTelefonoCliente1.getText() + " / " +txtTelefonoCliente2.getText());
-//                }else{
-//                    cliente.setTelefono(txtTelefonoCliente1.getText());
-//                }
-//                //actualizar
 //                if(!load.actualizarCliente(cliente)){
 //                    OptionPane.showMsg(null, "No se pudo completar la operación [1100]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
-//            }else{
-//                cliente = new Cliente();
-//                cliente.setRut(txtRutCliente.getText());
-//                cliente.setCiudad(txtCiudad.getText().toUpperCase());
-//                cliente.setComuna(txtComuna.getText().toUpperCase());
-//                cliente.setDireccion(txtDireccionCliente.getText().toUpperCase());
-//                cliente.setEdad((int)txtEdad.getValue());
-//                cliente.setEmail(txtMailCliente.getText());
-//                cliente.setNombre(txtNombreCliente.getText().toUpperCase());
-//                cliente.setSexo(cboSexo.getSelectedIndex());
-//                if(txtTelefonoCliente2.getText().length() > 0){
-//                    cliente.setTelefono(txtTelefonoCliente1.getText() + " / " +txtTelefonoCliente2.getText());
-//                }else{
-//                    cliente.setTelefono(txtTelefonoCliente1.getText());
-//                }
-//                cliente.setEstado(1);
-//                ficha.setCliente(cliente);
-//                //guardar
-//                if(!load.guardarCliente(cliente)){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1102]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
+//            
 //            }
 //
-//            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que los datos ingresados están correctos?", "Guardar Ficha", JOptionPane.YES_NO_OPTION);
-//            if(resp == JOptionPane.YES_OPTION){
-//
 //                //Guardar valores en BD
-//                //guardar armazones
-//                if(!load.guardarArmazon(ficha.getCerca())){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1104]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
-//                if(!load.guardarArmazon(ficha.getLejos())){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1106]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
+//                
 //                //guardar historial de pago
 //                if(!load.guardarHitorialPago(hp) && abono > 0){
 //                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
-//                //descontar de inventario
-//                if(load.cargarLente(ficha.getCerca().getMarca()) != null){//prgunta si existe un lente con los datos ingresados para poder descontar stock
-//                    if(!load.descontarStock(ficha.getCerca().getMarca())){
-//                        OptionPane.showMsg(null, "No se pudo completar la operación [1110]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                        return;
-//                    }
-//                }
-//                if(load.cargarLente(ficha.getLejos().getMarca()) != null){//prgunta si existe un lente con los datos ingresados para poder descontar stock
-//                    if(!load.descontarStock(ficha.getLejos().getMarca())){
-//                        OptionPane.showMsg(null, "No se pudo completar la operación [1112]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                        return;
-//                    }
-//                }
+//                //descontar de inventario lejos y cerca
 //
 //                
 //                if(load.guardarFicha(ficha,GV.ID_USER)){
 //                    load.imprimir(ficha);
 //                    limpiarDatos();
 //
-//                    try {
-//                        boton.crearFicha();
-//                    } catch (SQLException | ClassNotFoundException ex) {
-//                        OptionPane.showMsg(null, "Error inesperado "+ex.getMessage(), "Abrir ventana Nueva Ficha", JOptionPane.WARNING_MESSAGE);
-//                    }
-//                    return;
+//                    abrir nuevamente ventana o limpiar los datos
 //                }
-//                OptionPane.showMsg(null, "No se pudo completar la operación [1114]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                return;
-//
-//            }else{
-//                return;
-//            }
-//        } catch (SQLException ex) {
-//            OptionPane.showMsg(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } catch (ClassNotFoundException ex) {
-//            OptionPane.showMsg(null, "Error de comunicación con la base de datos, Detalle: "+ex.getMessage(),"Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
     }
     
 
@@ -2776,7 +2545,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             lblMessageStatus.setVisible(false);
         }else{
             lblMessageStatus.setText(message);
-            lblMessageStatus.setForeground(Color.black);
+            lblMessageStatus.setForeground(negro);
             lblMessageStatus.setVisible(true);
         }
     }
@@ -2814,26 +2583,30 @@ public class VCrearFicha extends javax.swing.JPanel {
                     if(!rutValido()){
                         msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
                     }else{
-                        if(!clientValid()){
-                            msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
+                        if(!institucionValida()){
+                            msgRejected("Debe ingresar una institución registrada en el sistema.");
                         }else{
-                            if(!mailValido()){
-                                msgRejected("Debe ingresar un email válido");
+                            if(!clientValid()){
+                                msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
                             }else{
-                                if(!nacimientoValido()){
-                                    msgRejected("Debe ingresar una fecha de nacimiento válida.");
+                                if(!mailValido()){
+                                    msgRejected("Debe ingresar un email válido");
                                 }else{
-                                    if(!valorTotalValido()){
-                                        msgRejected("Debe ingresar receta de lente.");
+                                    if(!nacimientoValido()){
+                                        msgRejected("Debe ingresar una fecha de nacimiento válida.");
                                     }else{
-                                        if(!TipoPagoValido()){
-                                            msgRejected("Debe ingresar un tipo de pago válido.");
+                                        if(!valorTotalValido()){
+                                            msgRejected("Debe ingresar receta de lente.");
                                         }else{
-                                            asigAllDatas();
-                                            if(sinCristal()){
-                                                msgWarning("Falta ingresar un cristal...");
+                                            if(!TipoPagoValido()){
+                                                msgRejected("Debe ingresar un tipo de pago válido.");
                                             }else{
-                                                msgRejectedClear();
+                                                asigAllDatas();
+                                                if(sinCristal()){
+                                                    msgWarning("Falta ingresar un cristal...");
+                                                }else{
+                                                    msgRejectedClear();
+                                                }
                                             }
                                         }
                                     }
@@ -2875,8 +2648,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         String tel2 = GV.getStr(txtTelefonoCliente2.getText());
         String mail = GV.mailValidate(txtMailCliente.getText());
         if(!GV.getStr(txtRutCliente.getText()).isEmpty() || 
-                txtRutCliente.getForeground() == Color.black || 
-                txtRutCliente.getForeground() == Color.BLACK){
+                txtRutCliente.getForeground() == negro){
             if(!nombre.isEmpty() && nombre.length() > 3){
                 if((!tel1.isEmpty() && tel1.length() >  8) ||
                         (!tel2.isEmpty() && tel2.length() > 8) ||
@@ -3021,7 +2793,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         stDoctor = null;
         GV.getFicha().setDoctor(null);
         if(txtDoctor.getText().length() >= 1){
-            String rut = getRut(txtDoctor.getText());
+            String rut = getIdFromString(txtDoctor.getText());
 
             try {
                 if(!rut.equals("0")){
@@ -3029,7 +2801,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                         stDoctor = (Doctor)load.get(rut,0,new Doctor());
                         if(stDoctor != null){
                             GV.getFicha().setDoctor(stDoctor);
-                            txtDoctor.setForeground(Color.black);
+                            txtDoctor.setForeground(negro);
                             return true;
                         }
                     }else{
@@ -3115,7 +2887,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonCerca.setPlusMax(pm1);
         stArmazonCerca.setTipo(tpCerca);
         
-        GV.getFicha().setCerca(stArmazonCerca);
+        
         
         stArmazonLejos = new Armazon();
         stArmazonLejos.setCapa(capa2);
@@ -3135,11 +2907,32 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonLejos.setTipo(tpLejos);
         
         GV.getFicha().setCerca(stArmazonLejos);
+        GV.getFicha().setCerca(stArmazonCerca);
         
         GV.getFicha().setObservacion(txtObs.getText());
         GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
         GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
         GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
         GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
+    }
+
+    private boolean institucionValida() {
+        String ins = GV.getStr(txtInstitucion.getText());
+        if(ins.isEmpty()){
+            txtInstitucion.setForeground(negro);
+            return true;
+        }else{
+            try {
+                stInstitucion = (Institucion)load.get(null, GV.strToNumber(getIdFromString(ins)), new Institucion());
+                if(stInstitucion == null){
+                    txtInstitucion.setForeground(rojo);
+                    return false;
+                }
+            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        txtInstitucion.setForeground(negro);
+        return true;
     }
 }
