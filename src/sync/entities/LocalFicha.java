@@ -724,7 +724,7 @@ public class LocalFicha implements InterfaceSyncFicha{
 
             String rutCliente = null;
             String rutDoctor = null;
-            int idDescuento = 0;
+            int descuento = 0;
             int idInstitucion = 0;
             String idDespacho = null;
             int idUser = 0;
@@ -732,8 +732,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                 rutCliente = object.getCliente().getCod();
             if(object.getDoctor()!= null)
                 rutCliente = object.getDoctor().getCod();
-            if(object.getDescuento()!= null)
-                idDescuento=object.getDescuento().getId();
+            descuento=object.getDescuento();
             if(object.getDespacho()!= null)
                 idDespacho=object.getDespacho().getCod();
             if(object.getUser()!= null)
@@ -749,7 +748,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +object.getObservacion()+"', '"
                                 +rutCliente+"', '"
                                 +rutDoctor+"', "
-                                +idDescuento+", "
+                                +descuento+", "
                                 +idInstitucion+", '"
                                 +idDespacho+"', "
                                 +idUser+", "
@@ -824,7 +823,7 @@ public class LocalFicha implements InterfaceSyncFicha{
 
             String rutCliente = null;
             String rutDoctor = null;
-            int idDescuento = 0;
+            int descuento = 0;
             int idInstitucion = 0;
             String idDespacho = null;
             int idUser = 0;
@@ -832,8 +831,6 @@ public class LocalFicha implements InterfaceSyncFicha{
                 rutCliente = object.getCliente().getCod();
             if(object.getDoctor()!= null)
                 rutCliente = object.getDoctor().getCod();
-            if(object.getDescuento()!= null)
-                idDescuento=object.getDescuento().getId();
             if(object.getDespacho()!= null)
                 idDespacho=object.getDespacho().getCod();
             if(object.getUser()!= null)
@@ -847,7 +844,7 @@ public class LocalFicha implements InterfaceSyncFicha{
                                 +", fch_obs = '"+object.getObservacion()
                                 +"', cliente_cli_rut = '"+rutCliente
                                 +"', doctor_doc_rut = '"+rutDoctor
-                                +"', descuento_des_id = "+idDescuento
+                                +"', descuento_des_id = "+object.getDescuento()
                                 +", institucion_ins_id = "+idInstitucion
                                 +", despacho_dsp_id = '"+idDespacho
                                 +"', usuario_us_id = "+idUser

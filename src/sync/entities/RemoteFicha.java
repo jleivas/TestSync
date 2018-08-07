@@ -720,7 +720,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
 
             String rutCliente = null;
             String rutDoctor = null;
-            int idDescuento = 0;
             int idInstitucion = 0;
             String idDespacho = null;
             int idUser = 0;
@@ -728,8 +727,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 rutCliente = object.getCliente().getCod();
             if(object.getDoctor()!= null)
                 rutCliente = object.getDoctor().getCod();
-            if(object.getDescuento()!= null)
-                idDescuento=object.getDescuento().getId();
             if(object.getDespacho()!= null)
                 idDespacho=object.getDespacho().getCod();
             if(object.getUser()!= null)
@@ -745,7 +742,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +object.getObservacion()+"', '"
                                 +rutCliente+"', '"
                                 +rutDoctor+"', "
-                                +idDescuento+", "
+                                +object.getDescuento()+", "
                                 +idInstitucion+", '"
                                 +idDespacho+"', "
                                 +idUser+", "
@@ -820,7 +817,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
 
             String rutCliente = null;
             String rutDoctor = null;
-            int idDescuento = 0;
             int idInstitucion = 0;
             String idDespacho = null;
             int idUser = 0;
@@ -828,8 +824,6 @@ public class RemoteFicha implements InterfaceSyncFicha{
                 rutCliente = object.getCliente().getCod();
             if(object.getDoctor()!= null)
                 rutCliente = object.getDoctor().getCod();
-            if(object.getDescuento()!= null)
-                idDescuento=object.getDescuento().getId();
             if(object.getDespacho()!= null)
                 idDespacho=object.getDespacho().getCod();
             if(object.getUser()!= null)
@@ -843,7 +837,7 @@ public class RemoteFicha implements InterfaceSyncFicha{
                                 +", fch_obs = '"+object.getObservacion()
                                 +"', cliente_cli_rut = '"+rutCliente
                                 +"', doctor_doc_rut = '"+rutDoctor
-                                +"', descuento_des_id = "+idDescuento
+                                +"', descuento_des_id = "+object.getDescuento()
                                 +", institucion_ins_id = "+idInstitucion
                                 +", despacho_dsp_id = '"+idDespacho
                                 +"', usuario_us_id = "+idUser

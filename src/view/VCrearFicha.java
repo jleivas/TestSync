@@ -1931,7 +1931,9 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         save();
+        GV.getFicha();
         GV.clearFicha();
+        GV.getFicha();//borrar es solo para comprobar
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
@@ -3064,11 +3066,8 @@ public class VCrearFicha extends javax.swing.JPanel {
 
     private void setArmazones() {
         stArmazonLejos = new Armazon();
-        if(chkCapaLejos.isSelected()){
-            stArmazonLejos.setCapa(1);
-        }else{
-            stArmazonLejos.setCapa(0);
-        }
+        int capa = (chkCapaLejos.isSelected()) ? 1 : 0;
+        stArmazonLejos.setCapa(capa);
         stArmazonLejos.setCristal(txtCristalLejos.getText());
         
     }
@@ -3142,6 +3141,5 @@ public class VCrearFicha extends javax.swing.JPanel {
         GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
         GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
         GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
-        GV.getFicha().set
     }
 }

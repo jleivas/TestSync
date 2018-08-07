@@ -6,7 +6,6 @@
 package entities.ficha;
 
 import entities.Cliente;
-import entities.Descuento;
 import entities.Doctor;
 import entities.Institucion;
 import entities.abstractclasses.SyncStringId;
