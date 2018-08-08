@@ -23,6 +23,7 @@ import fn.OptionPane;
 import fn.ValidaRut;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -2619,17 +2620,18 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
     }
     private void commitSpinner() {
-//        try {
-//            txtHora1.commitEdit();
-//            txtHora2.commitEdit();
-//            txtMinuto1.commitEdit();
-//            txtMinuto2.commitEdit();
-//        } catch (ParseException ex) {
-//            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            txtHora1.commitEdit();
+            txtHora2.commitEdit();
+            txtMinuto1.commitEdit();
+            txtMinuto2.commitEdit();
+        } catch (ParseException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private boolean hourIsValid() {
+        commitSpinner();
         int hora1 = GV.strToNumber(txtHora1.getValue().toString());
         int hora2 = GV.strToNumber(txtHora2.getValue().toString());
         String hora = "";
@@ -2906,7 +2908,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonLejos.setPlusMax(pm2);
         stArmazonLejos.setTipo(tpLejos);
         
-        GV.getFicha().setCerca(stArmazonLejos);
+        GV.getFicha().setLejos(stArmazonLejos);
         GV.getFicha().setCerca(stArmazonCerca);
         
         GV.getFicha().setObservacion(txtObs.getText());
