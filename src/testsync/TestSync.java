@@ -43,8 +43,7 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        String vdd = "$ 14.500";
-        System.out.println(GV.strToNumber(vdd));
+        SubProcess.sincronizeAll();
     }
     
     private static boolean isNumber(String arg){

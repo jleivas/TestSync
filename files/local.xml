@@ -4,8 +4,8 @@
       <name>root</name>
    </usr>
    <lic>
-      <st>1</st>
-      <date>07-08-2018</date>
+      <st>0</st>
+      <date>07-09-2018</date>
    </lic>
    <network>
       <equipo>jorge_20180802</equipo>
@@ -13,10 +13,10 @@
       <port>www.sdx.cl</port>
    </network>
    <registry>
-      <office>Santiago</office>
+      <office>Ninguna</office>
       <company>Growvision</company>
       <inventary>Loacq</inventary>
-      <last_update_bd>07-08-2018</last_update_bd>
+      <last_update_bd>08-08-2018</last_update_bd>
    </registry>
 </local>
 
