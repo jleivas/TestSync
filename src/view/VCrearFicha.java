@@ -15,6 +15,7 @@ import entities.Institucion;
 import entities.Lente;
 import entities.TipoPago;
 import entities.ficha.Armazon;
+import entities.ficha.HistorialPago;
 import fn.Boton;
 import fn.GV;
 import fn.Icons;
@@ -1752,6 +1753,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtArmazonLejosFocusLost
 
     private void txtDoctorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDoctorFocusLost
+        validaEspecialista();
         comprobarDatosFicha();
     }//GEN-LAST:event_txtDoctorFocusLost
 
@@ -1902,6 +1904,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtInstitucionActionPerformed
 
     private void txtInstitucionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionFocusLost
+        institucionValida();
         comprobarDatosFicha();
     }//GEN-LAST:event_txtInstitucionFocusLost
 
@@ -2408,74 +2411,8 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void save() {
-        calcularSaldo();
-        GV.getFicha().setCod(GV.idCurrentFicha());
-//        tipo de pago debe validarse si es null, no se ha ingresado
-//        int idInstitucion = GV.TMP_ID_INSTITUCION
-//            if(!load.actualizarFolio(idFicha)){
-//                OptionPane.showMsg("Ocurrió un error al comunicarse con la base de datos,/nNo se pudo actualizar el Id del folio","Error al actualizar numero de folio",JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//
-//        if(!compararHoras(hora1,min1,hora2,min2)){
-//            OptionPane.showMsg( "Las horas están mal ingresadas,\nLa segunda hora debe ser mayor que la primera.","Faltan datos",JOptionPane.INFORMATION_MESSAGE);
-//            return;
-//        }
-//        String horaEntrega1 = formatoHora(hora1,min1);
-//        String horaEntrega2 = formatoHora(hora2,min2);
-//         validar estados de ficha
-//        int estado = 1;//pendiente
-//        if(saldo == 0)
-//        estado = 2;//pagado
-//        if(saldo < 0){
-//            OptionPane.showMsg( "El abono ingresado no es correcto", "Corrija los datos", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//        int despacho = 0;//no se encuentra despachado
-//        
-//
-//        //crear historial de pago
-//        int abono = (int) txtAbono.getValue();
-//        HistorialPago hp = null;
-//        if(abono < 1){
-//            int respAbono2 = JOptionPane.showConfirmDialog(null, "¿Desea registrar un abono?", "Abono no ingresado", JOptionPane.YES_NO_OPTION);
-//            if(respAbono2 == JOptionPane.YES_OPTION){
-//                return;
-//            }
-//        }else{
-//            hp = new HistorialPago(0, fecha,abono, 1, idTipoPago, idFicha);
-//        }
-//
-//        try {
-//            //actualizar ficha_actual en info
-//            Institucion ins = load.cargarInstitucionId(idInstitucion);
-//
-//            
-//            ficha.setInstitucion(ins);
-//
-//                if(!load.actualizarCliente(cliente)){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1100]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
-//            
-//            }
-//
-//                //Guardar valores en BD
-//                
-//                //guardar historial de pago
-//                if(!load.guardarHitorialPago(hp) && abono > 0){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
-//                //descontar de inventario lejos y cerca
-//
-//                
-//                if(load.guardarFicha(ficha,GV.ID_USER)){
-//                    load.imprimir(ficha);
-//                    limpiarDatos();
-//
-//                    abrir nuevamente ventana o limpiar los datos
-//                }
+        prepareFicha();
+        
     }
     
 
@@ -2603,10 +2540,14 @@ public class VCrearFicha extends javax.swing.JPanel {
                                                 msgRejected("Debe ingresar un tipo de pago válido.");
                                             }else{
                                                 asigAllDatas();
-                                                if(sinCristal()){
-                                                    msgWarning("Falta ingresar un cristal...");
+                                                if(GV.getFicha().getSaldo()<0){
+                                                    msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
                                                 }else{
-                                                    msgRejectedClear();
+                                                    if(sinCristal()){
+                                                        msgWarning("Falta ingresar un cristal...");
+                                                    }else{
+                                                        msgRejectedClear();
+                                                    }
                                                 }
                                             }
                                         }
@@ -2625,6 +2566,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             txtHora2.commitEdit();
             txtMinuto1.commitEdit();
             txtMinuto2.commitEdit();
+            txtAbono.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2684,7 +2626,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void txtRutClienteValidator() {
         String rutCliente = txtRutCliente.getText();
         if(ValidaRut.validarRut(rutCliente)){
-            txtRutCliente.setForeground(Color.green);
+            txtRutCliente.setForeground(negro);
         }else{
             if(!chkExtranjero.isSelected()){
                 txtRutCliente.setForeground(rojo);
@@ -2733,10 +2675,21 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
  
     private boolean TipoPagoValido() {
+        commitSpinner();
+        stTipoPago = null;
         int abono = (int)txtAbono.getValue();
         if(abono > 0){
             if(cboTipoPago.getSelectedIndex() == 0){
                 return false;
+            }else{
+                try {
+                    stTipoPago = (TipoPago)load.get(cboTipoPago.getSelectedItem().toString(), 0, new TipoPago());
+                } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(stTipoPago == null){
+                    return false;
+                }
             }
         }
         return true;
@@ -2794,30 +2747,24 @@ public class VCrearFicha extends javax.swing.JPanel {
     private boolean validaEspecialista() {
         stDoctor = null;
         GV.getFicha().setDoctor(null);
-        if(txtDoctor.getText().length() >= 1){
-            String rut = getIdFromString(txtDoctor.getText());
-
+        String rut = GV.getStr(txtDoctor.getText());
+        if(rut.isEmpty()){
+            txtDoctor.setForeground(negro);
+            return true;
+        }else{
             try {
-                if(!rut.equals("0")){
-                    if(stDoctor != null && !stDoctor.getCod().equals(rut)){
-                        stDoctor = (Doctor)load.get(rut,0,new Doctor());
-                        if(stDoctor != null){
-                            GV.getFicha().setDoctor(stDoctor);
-                            txtDoctor.setForeground(negro);
-                            return true;
-                        }
-                    }else{
-                        return true;
-                    }
+                stDoctor = (Doctor)load.get(getIdFromString(rut), 0, new Doctor());
+                if(stDoctor == null){
+                    txtDoctor.setForeground(rojo);
+                    return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
-            txtDoctor.setForeground(rojo);
-        }else{
-            return true;
         }
-        return false;
+        txtDoctor.setForeground(negro);
+        GV.getFicha().setDoctor(stDoctor);
+        return true;
     }
 
     private void txtFechaCheck() {
@@ -2913,13 +2860,14 @@ public class VCrearFicha extends javax.swing.JPanel {
         
         GV.getFicha().setObservacion(txtObs.getText());
         GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
-        GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
         GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
         GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
     }
 
     private boolean institucionValida() {
         String ins = GV.getStr(txtInstitucion.getText());
+        stInstitucion = null;
+        GV.getFicha().setInstitucion(null);
         if(ins.isEmpty()){
             txtInstitucion.setForeground(negro);
             return true;
@@ -2934,7 +2882,33 @@ public class VCrearFicha extends javax.swing.JPanel {
                 Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        GV.getFicha().setInstitucion(stInstitucion);
         txtInstitucion.setForeground(negro);
         return true;
+    }
+
+    private void prepareFicha() {
+        calcularSaldo();
+        GV.getFicha().setCod(GV.idCurrentFicha());
+        
+//        tipo de pago debe validarse si es null, no se ha ingresado
+//        ***Tipo de pago validado***
+//         validar estados de ficha
+        int estado = (GV.getFicha().getSaldo() == 0)? 2:1;//2=pagado,1=pendiente
+        int despacho = 0;//no se encuentra despachado
+//        //crear historial de pago
+        commitSpinner();
+        int abono = (int) txtAbono.getValue();
+        HistorialPago hp = null;
+        if(abono > 0 && abono <= GV.getFicha().getSaldo()){
+            hp = new HistorialPago(null, new Date(), abono, 1, stTipoPago.getId(), GV.getFicha().getCod(), null, 0);
+        }
+        load.createFicha(GV.getFicha(),hp);
+        
+//                    load.imprimir(ficha);
+//                    limpiarDatos();
+//
+//                    abrir nuevamente ventana o limpiar los datos
+//                }
     }
 }

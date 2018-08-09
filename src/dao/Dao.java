@@ -448,4 +448,25 @@ public class Dao{
         Log.setLog(className,Log.getReg());
         return GV.LOCAL_SYNC_FICHA.getId(strParam, intParam, type);
     }
+
+    public void createFicha(Ficha ficha, HistorialPago hp) {
+        try {
+            add(ficha.getCliente());
+//
+//                //Guardar valores en BD
+//                
+//                //guardar historial de pago
+//                if(!load.guardarHitorialPago(hp) && abono > 0){
+//                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
+//                    return;
+//                }
+//                //descontar de inventario lejos y cerca
+//
+//                
+//                if(load.guardarFicha(ficha,GV.ID_USER)){
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error", "No se pudo insertar algunos valores.\n\n"+ex.getMessage(), 3);
+        }
+    }
 }

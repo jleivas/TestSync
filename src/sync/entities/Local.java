@@ -21,6 +21,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import entities.ficha.HistorialPago;
 import fn.GV;
 
 import fn.Log;
@@ -65,7 +66,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Convenio){
@@ -85,7 +86,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Cristal){
@@ -106,7 +107,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Descuento){
@@ -127,7 +128,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Doctor){
@@ -147,7 +148,27 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
+            if(objectParam instanceof HistorialPago){
+                HistorialPago object = (HistorialPago)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT hp_id FROM historial_pago WHERE hp_id='" + object.getCod()+ "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Historial de pago: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Institucion){
@@ -167,7 +188,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof InternMail){
@@ -187,7 +208,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Mensaje: " + object.getAsunto()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Mensaje: " + object.getAsunto()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Inventario){
@@ -224,7 +245,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCod()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCod()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Oficina){
@@ -245,7 +266,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Oficina: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Oficina: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof RegistroBaja){
@@ -266,7 +287,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro de Bajas: " + object.getCod()+ "\n\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Registro de Bajas: " + object.getCod()+ "\n\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof TipoPago){
@@ -287,7 +308,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Tipo de Pago: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Tipo de Pago: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof User){
@@ -304,14 +325,14 @@ public class Local implements InterfaceSync {
                     );
                     if (insert.executeUpdate() != 0) {
                         LcBd.cerrar();
-                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", 1);
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }else{
-                OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
         }catch(SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex){
@@ -337,7 +358,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("cli_last_update");
                         hour = datos.getInt("cli_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -359,7 +380,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("cnv_last_update");
                         hour = datos.getInt("cnv_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -382,7 +403,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("cri_last_update");
                         hour = datos.getInt("cri_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -406,7 +427,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("des_last_update");
                         hour = datos.getInt("des_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -429,7 +450,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("doc_last_update");
                         hour = datos.getInt("doc_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -452,7 +473,30 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("eq_last_update");
                         hour = datos.getInt("eq_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof HistorialPago){
+                HistorialPago object = (HistorialPago)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM historial_pago WHERE hp_id='" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("hp_last_update");
+                        hour = datos.getInt("hp_last_hour");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -475,7 +519,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("ins_last_update");
                         hour = datos.getInt("ins_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -498,7 +542,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("msg_last_update");
                         hour = datos.getInt("msg_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -521,7 +565,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("inv_last_update");
                         hour = datos.getInt("inv_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -544,7 +588,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("len_last_update");
                         hour = datos.getInt("len_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -567,7 +611,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("of_last_update");
                         hour = datos.getInt("of_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -590,7 +634,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("rb_last_update");
                         hour = datos.getInt("rb_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -613,7 +657,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("tp_last_update");
                         hour = datos.getInt("tp_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         LcBd.cerrar();
@@ -639,7 +683,7 @@ public class Local implements InterfaceSync {
                         dsp_fecha = datos.getDate("us_last_update");
                         hour = datos.getInt("us_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (dsp_fecha == null) {
                         dsp_fecha = new Date();
@@ -1612,7 +1656,7 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if (type instanceof TipoPago) {
-                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
                     if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
@@ -1639,7 +1683,7 @@ public class Local implements InterfaceSync {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         OptionPane.showMsg("Instancia no encontrada", "No se encuentra la instancia, se retornará un valor vacío,"
-                + "\nUbicación:"+ className+"\nDetalle: "+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                + "\nUbicación:"+ className+"\nDetalle: "+Log.getLog(), 3);
         return null;
     }
     /**
@@ -1822,6 +1866,19 @@ public class Local implements InterfaceSync {
                             + object.getLicencia()+ "',"
                             + object.getEstado() + ",'"
                             + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO historial_pago VALUES("
+                            + object.getCod()+ ",'"
+                            + sqlfecha1 + "',"
+                            + object.getAbono()+ ","
+                            + object.getIdTipoPago()+ ","
+                            + object.getEstado() + ",'"
+                            + sqlfecha2 + "',"
                             + object.getLastHour() + ")";
         }
         if(objectParam instanceof Institucion){
@@ -2037,6 +2094,21 @@ public class Local implements InterfaceSync {
                         + " WHERE eq_id = " + object.getId()    
                         + " AND ((eq_last_update < '"+sqlfecha+"')OR"
                         + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE historial_pago set hp_fecha = '" + sqlfecha1
+                        + "', hp_abono = " + object.getAbono()
+                        + ", tipo_pago_tp_id = " + object.getIdTipoPago()
+                        + ", ficha_fch_id = '"+object.getIdFicha()
+                        + "', hp_estado = "+object.getEstado()
+                        + ", hp_last_update = '" + sqlfecha2
+                        + "', hp_last_hour = " + object.getLastHour()
+                        + " WHERE hp_id = " + object.getCod()
+                        + " AND ((hp_last_update < '"+sqlfecha2+"')OR"
+                        + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Institucion){
             Institucion object = (Institucion)objectParam;

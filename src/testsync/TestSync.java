@@ -43,7 +43,8 @@ public class TestSync {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        SubProcess.sincronizeAll();
+        
+        System.out.println(GV.strToNumber("kljsdvklkl$ -5000"));
     }
     
     private static boolean isNumber(String arg){

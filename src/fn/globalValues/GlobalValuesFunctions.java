@@ -72,11 +72,16 @@ public class GlobalValuesFunctions {
     }
     
     public static int strToNumber(String arg){
+        arg = arg.replaceAll("[^0-9-]", "");
+        boolean isNegative = (arg.startsWith("-"))? true:false;
+        arg = arg.replaceAll("-", "").trim();
         if(arg == null || arg.isEmpty())
             return 0;
-        arg = arg.replaceAll("[^0-9]", "");
         if(arg.isEmpty())
             return 0;
+        if(isNegative){
+            return -Integer.parseInt(arg);
+        }
         return Integer.parseInt(arg);
     }
 
@@ -205,19 +210,14 @@ public class GlobalValuesFunctions {
     }
 
     public static String toStrHour(int hora, int min) {
-        String h = "";
-        String m = "";
-        if(hora < 10){
-            h="0"+hora;
-        }
-        if(min < 10){
-            m="0"+min;
-        }
-        String arg = h+":"+m;
-        if(arg.length() > 5){
+        hora = (hora >24)? -1:hora;
+        min = (min > 60)? -1:min;
+        if(hora < 0 || min < 0){
             return "--:--";
         }
-        return arg;
+        String h = (hora < 10)? "0": "";
+        String m = (min < 10)? "0":"";
+        return h+hora+":"+m+min;
     }
 
     public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
@@ -227,12 +227,20 @@ public class GlobalValuesFunctions {
         int h2 = GV.strToNumber(GV.getStr(txth2.getValue().toString()));
         int m2 = GV.strToNumber(GV.getStr(txtm2.getValue().toString()));
         
-        String arg = toStrHour(h1, m1);
-        if(arg.equals("--:--")){
-            arg = "";
-        }else{
-            arg = arg + " - ";
+        int temp = 0;
+        if(h2 < h1){
+            temp = h1;
+            h1 = h2;
+            h2=temp;
         }
+        if(h1 == h2 && m2 < m1){
+            temp = m1;
+            m1=m2;
+            m2=temp;
+        }
+        
+        String arg = toStrHour(h1, m1);
+        arg = (arg.equals("--:--"))? "":arg+" - ";
         arg = (arg + toStrHour(h2, m2));
         GV.getFicha().setHoraEntrega(GV.getStr(arg.replaceAll("- --:--", "").trim()));
     }
