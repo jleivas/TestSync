@@ -19,6 +19,7 @@ import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.abstractclasses.SyncStringId;
 import entities.User;
+import entities.abstractclasses.SyncClass;
 import entities.abstractclasses.SyncIntId;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
@@ -70,13 +71,9 @@ public class Dao{
     */
     public boolean add(Object object) throws InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
-        if(object instanceof SyncStringId){
-            ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-            ((SyncStringId)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
-        }
-        if(object instanceof SyncIntId){
-            ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-            ((SyncIntId)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+        if(object instanceof SyncClass){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
         }
         if(GV.isOnline()){
             if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
@@ -115,13 +112,9 @@ public class Dao{
 
     public boolean update(Object object) {
         Log.setLog(className,Log.getReg());
-        if(object instanceof SyncStringId){
-            ((SyncStringId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-            ((SyncStringId)object).setLastHour(Cmp.hourToInt(new Date()));
-        }
-        if(object instanceof SyncIntId){
-            ((SyncIntId)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-            ((SyncIntId)object).setLastHour(Cmp.hourToInt(new Date()));
+        if(object instanceof SyncClass){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));
         }
         try {
             return sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
@@ -438,20 +431,43 @@ public class Dao{
     }
 
     /**
-     * 
-     * @param strParam id de Ficha (Válido sólo para Armazónes).
-     * @param intParam tipo de armazon [0: Cerca, 1: Lejos] (Válido sólo para Armazónes).
+     * Retorna el id actual de las entidades Armazon, Despacho, Ficha, HistorialPago y RegistroBaja
      * @param type tipo de clase a consultar
      * @return 
      */
-    public String getCurrentCod(String strParam, int intParam, Object type){
+    public String getCurrentCod(Object type){
         Log.setLog(className,Log.getReg());
-        return GV.LOCAL_SYNC_FICHA.getId(strParam, intParam, type);
+        if(type instanceof Armazon ||
+            type instanceof Despacho ||
+            type instanceof Ficha ||
+            type instanceof HistorialPago ||
+            type instanceof RegistroBaja){
+            return GV.LOCAL_SYNC.getMaxId(type)+"/"+GV.LOCAL_SYNC.getIdEquipo();
+        }else{
+            OptionPane.showMsg("Instancia de datos errónea", "El tipo de datos ingresado no es válido para obtener el identificador.", 3);
+            return null;
+        }
+        
     }
 
     public void createFicha(Ficha ficha, HistorialPago hp) {
         try {
             add(ficha.getCliente());
+            add(ficha.getCerca());
+            add(ficha.getLejos());
+            add(ficha.getDespacho());
+            add(ficha.getDoctor());
+            if(ficha.getCerca() != null){
+                decreaseStock(ficha.getCerca().getMarca(), 1);
+            }
+            if(ficha.getLejos() != null){
+                decreaseStock(ficha.getLejos().getMarca(), 1);
+            }
+            if(hp != null){
+                add(hp);
+            }
+            
+            
 //
 //                //Guardar valores en BD
 //                
@@ -460,13 +476,10 @@ public class Dao{
 //                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
 //                    return;
 //                }
-//                //descontar de inventario lejos y cerca
-//
 //                
 //                if(load.guardarFicha(ficha,GV.ID_USER)){
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
-            OptionPane.showMsg("Error", "No se pudo insertar algunos valores.\n\n"+ex.getMessage(), 3);
         }
     }
 }

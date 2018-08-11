@@ -23,8 +23,8 @@ public class HistorialPago extends SyncStringId{
     public HistorialPago() {
     }
 
-    public HistorialPago(String cod, Date fecha, int abono, int estado, 
-            int tipoPago, String idFicha, Date lastUpdate, int lastHour) {
+    public HistorialPago(String cod, Date fecha, int abono, 
+            int tipoPago, String idFicha,int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setAbono(abono);

@@ -41,9 +41,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import sync.entities.Global;
 import sync.entities.Local;
-import sync.entities.LocalFicha;
 import sync.entities.Remote;
-import sync.entities.RemoteFicha;
 import view.opanel.MPanel;
 import view.opanel.OPanel;
 
@@ -59,9 +57,7 @@ public class GV extends GlobalValuesCursor{
     /*  Sincronizacion */
     public static Global GLOBAL_SYNC = new Global();
     public static Local LOCAL_SYNC = new Local();
-    public static LocalFicha LOCAL_SYNC_FICHA = new LocalFicha();
     public static Remote REMOTE_SYNC = new Remote();
-    public static RemoteFicha REMOTE_SYNC_FICHA = new RemoteFicha();
     
     public static Date LAST_UPDATE = new Date(213312);
     
@@ -241,6 +237,14 @@ public class GV extends GlobalValuesCursor{
     public static void compileJCalendar(JDateChooser jDate) {
         GlobalValuesFunctions.compileJCalendar(jDate);
     }
+    
+    public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
+        GlobalValuesFunctions.setHourToFicha(txth1,txtm1,txth2,txtm2);
+    }
+    
+    public static boolean isNumeric(String arg){
+        return GlobalValuesFunctions.isNumeric(arg);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static void username(String userName) {
@@ -340,7 +344,33 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesVariables.setApiUriPort(port);
     }
     
+    public static String cleanIdParam(String arg){
+        return GlobalValuesVariables.cleanIdParam(arg);
+    }
     
+    public static boolean fichaIdParamIsIdFicha(String arg){
+        return GlobalValuesVariables.fichaIdParamIsIdFicha(arg);
+    }
+    
+    public static boolean fichaIdParamIsUser(String arg){
+        return GlobalValuesVariables.fichaIdParamIsUser(arg);
+    }
+    
+    public static boolean fichaIdParamIsClient(String arg){
+        return GlobalValuesVariables.fichaIdParamIsClient(arg);
+    }
+    
+    public static String convertFichaIdParamToUSer(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToUSer(arg);
+    }
+    
+    public static String convertFichaIdParamToClient(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToClient(arg);
+    }
+    
+    public static String estadoFicha(int status){
+        return GlobalValuesVariables.estadoFicha(status);
+    }
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
     public static String getLocalBdUser() {
@@ -493,13 +523,5 @@ public class GV extends GlobalValuesCursor{
             return email;
         }
         return "";
-    }
-
-    public static void setHourToFicha(JSpinner txth1, JSpinner txtm1, JSpinner txth2, JSpinner txtm2) {
-        GlobalValuesFunctions.setHourToFicha(txth1,txtm1,txth2,txtm2);
-    }
-
-    public static String idCurrentFicha() {
-        return "idFicha";
     }
 }

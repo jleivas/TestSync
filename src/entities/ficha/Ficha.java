@@ -6,6 +6,7 @@
 package entities.ficha;
 
 import entities.Cliente;
+import entities.Convenio;
 import entities.Doctor;
 import entities.Institucion;
 import entities.abstractclasses.SyncStringId;
@@ -22,56 +23,58 @@ public class Ficha extends SyncStringId{
     private Date fechaEntrega;
     private String lugarEntrega;
     private String horaEntrega;
-    private int valorTotal;
-    private int saldo;
     private String observacion;
+    private int valorTotal;
+    private int descuento;
+    private int saldo;
+   
     // referencias
     private Cliente cliente;
     private Doctor doctor;
-    private int descuento;
+    
     private Institucion institucion;
     private Despacho despacho;
     private Armazon lejos;
     private Armazon cerca;
     private User user;
-    private int idConvenio;
+    private Convenio convenio;
 
     public Ficha() {
     }
 
     public Ficha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, 
-            String horaEntrega, int valorTotal, int saldo, String observacion, 
-            Cliente cliente, Doctor doctor, int descuento, 
-            Institucion institucion, Despacho despacho , Armazon lejos, 
-            Armazon cerca, User user, int idConvenio, int estado, Date lastUpdate, int lastHour) {
+            String horaEntrega, String observacion, int valorTotal, int descuento, int saldo, 
+            Cliente cliente, Doctor doctor,Institucion institucion, Despacho despacho , 
+            Armazon lejos,Armazon cerca, User user, Convenio convenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setFechaEntrega(fechaEntrega);
         setLugarEntrega(lugarEntrega);
         setHoraEntrega(horaEntrega);
-        setValorTotal(valorTotal);
-        setSaldo(saldo);
         setObservacion(observacion);
+        setValorTotal(valorTotal);
+        setDescuento(descuento);
+        setSaldo(saldo);
+        
         setCliente(cliente);
         setDoctor(doctor);
-        setDescuento(descuento);
         setInstitucion(institucion);
         setDespacho(despacho);
         setLejos(lejos);
         setCerca(cerca);
         setUser(user);
-        setIdConvenio(idConvenio);
+        setConvenio(convenio);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
 
-    public void setIdConvenio(int idConvenio) {
-        this.idConvenio = idConvenio;
+    public void setConvenio(Convenio convenio) {
+        this.convenio = convenio;
     }
 
-    public int getIdConvenio() {
-        return idConvenio;
+    public Convenio getConvenio() {
+        return convenio;
     }
 
     public void setFecha(Date fecha) {

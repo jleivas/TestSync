@@ -5,10 +5,16 @@
  */
 package fn.globalValues;
 
+import dao.Dao;
+import entities.Equipo;
+import fn.GV;
 import static fn.GV.dateToString;
 import static fn.GV.getStr;
 import static fn.GV.getToName;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,33 +23,42 @@ import java.util.Date;
 public class GlobalValuesVariables {
     
     /*  Nombres de sistema  */
-    public static String PROJECTNAME="DCS Optics";
-    public static String VERSION = "v4.0.0";
-    public static String EQUIPO="jorge";//el nombre debe concatenarse con la fecha de instalacion
-    public static int EQUIPO_ID = 1;
-    public static String INVENTARIO_NAME = "INV";
+    private static String PROJECTNAME="DCS Optics";
+    private static String VERSION = "v4.0.0";
+    private static String EQUIPO="jorge";//el nombre debe concatenarse con la fecha de instalacion
+    private static int EQUIPO_ID = 1;
+    private static String INVENTARIO_NAME = "INV";
     
     /* Seguridad */
-    public static String SALT = "optidataodm4softdirex";
-    public static String PASS;
+    private static String SALT = "optidataodm4softdirex";
+    private static String PASS;
     
     /* LICENCIA */
-    public static String COMPANY_NAME = "DCS Optics";
-    public static boolean LICENCE = true;
-    public static String EXP_DATE = "07-08-2018";
-    public static String API_URI = "www.sdx.cl";
+    private static String COMPANY_NAME = "DCS Optics";
+    private static boolean LICENCE = true;
+    private static String LICENCE_CODE = null;
+    private static String EXP_DATE = "07-08-2018";
+    private static String API_URI = "www.sdx.cl";
     
     /* Update */
-    public static int ID_UPDATE=0;
-    public static String PORT_KEY = "KEYs";
+    private static int ID_UPDATE=0;
+    private static String PORT_KEY = "KEYs";
     
     
     /* Variables del sistema */
     
     private static String USERNAME;
-    public static int ID_USER = 0;
-    public static Date TMP_DATE_FROM = null;
-    public static Date TMP_DATE_TO =null;
+    private static int ID_USER = 0;
+    private static Date TMP_DATE_FROM = null;
+    private static Date TMP_DATE_TO =null;
+    private static String ID_PARAM_IS_USER = "USER/";
+    private static String ID_PARAM_IS_CLIENT = "CLIENT/";
+    
+    private static final int DELETED = 0;
+    private static final int PENDING = 1;
+    private static final int PAID = 2;
+    private static final int DELIVERED = 3;
+    private static final int WARRANTY = 4;
     
     public static void setInventarioLocal(String inventario){
         INVENTARIO_NAME = getStr(inventario);
@@ -102,7 +117,16 @@ public class GlobalValuesVariables {
     }
     
     public static void setCurrentEquipo(String equipo){
-        EQUIPO = getStr(equipo);
+        try {
+            EQUIPO = getStr(equipo);
+            if(LICENCE_CODE != null){
+                Dao load = new Dao();
+                Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
+                load.add(eqData);
+            }
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void setEquipo(String equipo){
@@ -111,6 +135,23 @@ public class GlobalValuesVariables {
 
     public static void setLicence(boolean value) {
         LICENCE = value;
+    }
+    
+    public static void setLicenceCode(String licenceCode){
+        try {
+            LICENCE_CODE = getStr(licenceCode);
+            if(EQUIPO != null){
+                Dao load = new Dao();
+                if(load.get(EQUIPO,0, new Equipo()) != null){
+                    return;
+                }
+                
+                Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
+                load.add(eqData);
+            }
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static String apiUriLicence(){
@@ -139,5 +180,54 @@ public class GlobalValuesVariables {
     
     public static void setApiUriPort(String port) {
         PORT_KEY = getStr(port);
+    }
+    
+    public static boolean fichaIdParamIsIdFicha(String arg){
+        return (!fichaIdParamIsClient(arg) && !fichaIdParamIsUser(arg)) ? true:false;
+    }
+    
+    public static boolean fichaIdParamIsUser(String arg){
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_USER)) ? true:false;
+    }
+    
+    public static boolean fichaIdParamIsClient(String arg){
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_CLIENT)) ? true:false;
+    }
+    
+    public static String convertFichaIdParamToUSer(String arg){
+        return ID_PARAM_IS_USER+GV.getStr(arg).replaceAll(ID_PARAM_IS_CLIENT, "");
+    }
+    
+    public static String convertFichaIdParamToClient(String arg){
+        return ID_PARAM_IS_CLIENT+GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "");
+    }
+    
+    public static String cleanIdParam(String arg){
+        return (GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "").replaceAll(ID_PARAM_IS_CLIENT, "")).trim();
+    }
+
+    public static String estadoFicha(int status) {
+        String value = "---";
+        switch(status){
+            case DELETED:
+                value = "Eliminada";
+                break;
+            case PENDING:
+                value = "Pendiente";
+                break;
+            case PAID:
+                value = "Pagada";
+                break;
+            case WARRANTY:
+                value = "Garantía";
+                break;
+            case DELIVERED:
+                value = "Entregada";
+                break;
+            default:
+                value = "Indefinido";
+                break;
+        }
+        return value;
     }
 }

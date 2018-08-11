@@ -21,6 +21,7 @@ import fn.SubProcess;
 import fn.date.Cmp;
 import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesSyncReportStatus;
+import fn.globalValues.GlobalValuesXmlFiles;
 import fn.mail.Send;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -39,79 +40,35 @@ import sync.entities.Local;
  */
 public class TestSync {
 
+    private static String ID_PARAM_IS_USER = "USER/";
+    private static String ID_PARAM_IS_CLIENT = "CLIENT/";
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
-        
-        System.out.println(GV.strToNumber("kljsdvklkl$ -5000"));
+        GlobalValuesXmlFiles.cargarRegistroLocal();
     }
     
-    private static boolean isNumber(String arg){
-        arg = arg.replaceAll("[^0-9]", "");
-        if(arg.isEmpty())
-            return false;
+    
+    
+    public static boolean fichaIdParamIsIdFicha(String arg){
         return true;
     }
-    public static String getDescuentoName(String arg){
-        arg = GV.getStr(arg);
-        if(arg.contains("(") && !arg.startsWith("(")){
-            arg=arg.substring(0,arg.indexOf("(")-1);
-        }
-        return arg.trim();
+    
+    public static boolean fichaIdParamIsUSer(String arg){
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_USER)) ? true:false;
     }
     
-    public static String getUserName(String arg){
-        if(arg == null || arg.replaceAll(" ", "").isEmpty())
-            return "";
-        arg = arg.trim();
-        if(arg.contains("<") && !arg.endsWith("<")){
-            arg=arg.substring(arg.indexOf("<")+1).replaceAll(">", "");
-        }
-        return arg;
+    public static boolean fichaIdParamIsClient(String arg){
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_CLIENT)) ? true:false;
     }
     
-    public static String getToName(String param){
-        String[] str = param.trim().split(" ");
-        StringBuffer value = new StringBuffer();
-        for (String temp : str) {
-            if(temp.length() > 1){
-                value.append(Character.toUpperCase(temp.charAt(0))).append(temp.substring(1)).append(" ");
-            }else{
-                value.append(temp.toUpperCase()).append(" ");
-            }
-        }
-        return value.toString().trim();
-    }
-    private static ArrayList<String> listar(){
-        ArrayList<String> rutDoctores = new ArrayList<>();
-        rutDoctores.add("1-0");
-        rutDoctores.add("2-0");
-        rutDoctores.add("3-0");
-        rutDoctores.add("4-0");
-        rutDoctores.add("5-0");
-        rutDoctores.add("6-0");
-        return rutDoctores;
-        
-    }
-    private static int getNumbers(String arg){
-        if(arg == null || !arg.contains("-"))
-            return -1;
-        String[] temp = arg.split("-");
-        arg = temp[0].replaceAll("[^0-9]", "");
-        if(arg.isEmpty())
-            return -1;
-        return Integer.parseInt(arg)-1;
+    public static String convertFichaIdParamToUSer(String arg){
+        return ID_PARAM_IS_USER+GV.getStr(arg).replaceAll(ID_PARAM_IS_CLIENT, "");
     }
     
-    private static int strToNumber(String arg){
-        if(arg == null || arg.isEmpty())
-            return 0;
-        arg = arg.replaceAll("[^0-9]", "");
-        if(arg.isEmpty())
-            return 0;
-        return Integer.parseInt(arg);
+    public static String convertFichaIdParamToClient(String arg){
+        return ID_PARAM_IS_CLIENT+GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "");
     }
-    
     
 }

@@ -19,6 +19,8 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import entities.ficha.Armazon;
+import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.Log;
 import fn.OptionPane;
@@ -44,6 +46,26 @@ public class Remote implements InterfaceSync{
         try{
             if(objectParam == null)
                 return false;
+            if(objectParam instanceof Armazon){
+                Armazon object = (Armazon)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT arm_id FROM armazon WHERE arm_id='" + object.getCod() + "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "armazon: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
             if(objectParam instanceof Cliente){
                 Cliente object = (Cliente)objectParam;
                 if (object != null) {
@@ -61,7 +83,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Convenio){
@@ -81,7 +103,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cliente: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Cristal){
@@ -102,7 +124,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Descuento){
@@ -123,7 +145,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Doctor){
@@ -143,7 +165,27 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
+            if(objectParam instanceof HistorialPago){
+                HistorialPago object = (HistorialPago)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT hp_id FROM historial_pago WHERE hp_id='" + object.getCod()+ "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Historial de pago: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Institucion){
@@ -163,7 +205,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof InternMail){
@@ -183,7 +225,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Mensaje: " + object.getAsunto()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Mensaje: " + object.getAsunto()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Inventario){
@@ -220,7 +262,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCod()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Lente: " + object.getCod()+ "\nId: " + object.getCod() + "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Oficina){
@@ -241,7 +283,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Oficina: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Oficina: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof RegistroBaja){
@@ -262,7 +304,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Registro de Bajas: " + object.getCod()+ "\n\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Registro de Bajas: " + object.getCod()+ "\n\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof TipoPago){
@@ -283,7 +325,7 @@ public class Remote implements InterfaceSync{
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Tipo de Pago: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Tipo de Pago: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof User){
@@ -300,14 +342,14 @@ public class Remote implements InterfaceSync{
                     );
                     if (insert.executeUpdate() != 0) {
                         RmBd.cerrar();
-                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                        //OptionPane.showMsg("Operación realizada correctamente", "Usuario: "+object.getUsername()+"\nId: "+object.getId()+"\nAgregado correctamente.", 1);
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "Usuario: " + object.getUsername() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }else{
-                OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", JOptionPane.ERROR_MESSAGE);
+                OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
         }catch(SQLException | ClassNotFoundException ex){
@@ -323,6 +365,29 @@ public class Remote implements InterfaceSync{
         try{
             if(objectParam == null)
                 return false;
+            if(objectParam instanceof Armazon){
+                Armazon object = (Armazon)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM armazon WHERE arm_id='" + object.getCod() + "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("arm_last_update");
+                        hour = datos.getInt("arm_last_hour");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
             if(objectParam instanceof Cliente){
                 Cliente object = (Cliente)objectParam;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM cliente WHERE cli_rut='" + object.getCod() + "'");
@@ -333,7 +398,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("cli_last_update");
                         hour = datos.getInt("cli_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -355,7 +420,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("cnv_last_update");
                         hour = datos.getInt("cnv_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -378,7 +443,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("cri_last_update");
                         hour = datos.getInt("cri_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -402,7 +467,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("des_last_update");
                         hour = datos.getInt("des_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -425,7 +490,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("doc_last_update");
                         hour = datos.getInt("doc_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -448,7 +513,30 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("eq_last_update");
                         hour = datos.getInt("eq_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof HistorialPago){
+                HistorialPago object = (HistorialPago)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM historial_pago WHERE hp_id='" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("hp_last_update");
+                        hour = datos.getInt("hp_last_hour");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -471,7 +559,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("ins_last_update");
                         hour = datos.getInt("ins_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -494,7 +582,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("msg_last_update");
                         hour = datos.getInt("msg_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -517,7 +605,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("inv_last_update");
                         hour = datos.getInt("inv_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -540,7 +628,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("len_last_update");
                         hour = datos.getInt("len_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -563,7 +651,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("of_last_update");
                         hour = datos.getInt("of_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -586,7 +674,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("rb_last_update");
                         hour = datos.getInt("rb_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -609,7 +697,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("tp_last_update");
                         hour = datos.getInt("tp_last_hour");
                     } catch (SQLException e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
                     }
                     if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
                         RmBd.cerrar();
@@ -635,7 +723,7 @@ public class Remote implements InterfaceSync{
                         dsp_fecha = datos.getDate("us_last_update");
                         hour = datos.getInt("us_last_hour");
                     } catch (Exception e) {
-                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
                     }
                     if (dsp_fecha == null) {
                         dsp_fecha = new Date();
@@ -661,6 +749,9 @@ public class Remote implements InterfaceSync{
         int id = 0;
         try{
             String sql = "";
+            if(type instanceof Armazon){
+                sql = "SELECT COUNT(arm_id) as id FROM armazon";
+            }
             if(type instanceof Cristal){
                 sql = "SELECT MAX(cri_id) as id FROM cristal";
             }
@@ -710,6 +801,53 @@ public class Remote implements InterfaceSync{
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
         try {
+            if(type instanceof Armazon){
+                String id = GV.getStr(idParam);
+                String subId = "";
+                if(!id.isEmpty() && id.contains("<") && id.substring(id.indexOf("<")+1).contains(">")){
+                    subId = id.substring(id.indexOf("<")+1,id.indexOf(">")).trim();
+                    id=id.substring(0, id.indexOf("<")).trim();
+                }
+                String sql = "SELECT * FROM armazon WHERE ficha_fch_id='" + id + "' AND arm_tipo="+subId;
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM armazon WHERE arm_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM armazon WHERE arm_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM armazon";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Armazon(
+                        datos.getString("arm_id"),
+                        datos.getInt("arm_tipo"),
+                        datos.getString("arm_marca"),
+                        datos.getString("arm_cristal"),
+                        datos.getString("arm_add"),
+                        datos.getString("arm_od_a"),
+                        datos.getString("arm_od_esf"),
+                        datos.getString("arm_od_cil"),
+                        datos.getString("arm_oi_a"),
+                        datos.getString("arm_oi_esf"),
+                        datos.getString("arm_oi_cil"),
+                        datos.getInt("arm_dp"),
+                        datos.getInt("arm_endurecido"),
+                        datos.getInt("arm_capa"),
+                        datos.getInt("arm_plus_max"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("arm_estado"),
+                        datos.getDate("arm_last_update"),
+                        datos.getInt("arm_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_rut='" + idParam + "'";
                 if (idParam.equals("0")) {
@@ -1165,6 +1303,38 @@ public class Remote implements InterfaceSync{
         java.sql.Date param = new java.sql.Date(paramDate.getTime());
         ArrayList<Object> lista = new ArrayList<>();
         try {
+            if(type instanceof Armazon){
+                String sql = "SELECT * FROM armazon WHERE arm_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Armazon(
+                        datos.getString("arm_id"),
+                        datos.getInt("arm_tipo"),
+                        datos.getString("arm_marca"),
+                        datos.getString("arm_cristal"),
+                        datos.getString("arm_add"),
+                        datos.getString("arm_od_a"),
+                        datos.getString("arm_od_esf"),
+                        datos.getString("arm_od_cil"),
+                        datos.getString("arm_oi_a"),
+                        datos.getString("arm_oi_esf"),
+                        datos.getString("arm_oi_cil"),
+                        datos.getInt("arm_dp"),
+                        datos.getInt("arm_endurecido"),
+                        datos.getInt("arm_capa"),
+                        datos.getInt("arm_plus_max"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("arm_estado"),
+                        datos.getDate("arm_last_update"),
+                        datos.getInt("arm_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof Cliente){
                 String sql = "SELECT * FROM cliente WHERE cli_last_update >='" + param + "'";
 
@@ -1296,30 +1466,6 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-            if(type instanceof Institucion){
-                String sql = "SELECT * FROM institucion WHERE ins_last_update >='" + param + "'";
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    lista.add(new Institucion(
-                        datos.getInt("ins_id"),
-                        datos.getString("ins_nombre"),
-                        datos.getString("ins_telefono"),
-                        datos.getString("ins_mail"),
-                        datos.getString("ins_web"),
-                        datos.getString("ins_direccion"),
-                        datos.getString("ins_comuna"),
-                        datos.getString("ins_ciudad"),
-                        datos.getInt("ins_estado"),
-                        datos.getDate("ins_last_update"),
-                        datos.getInt("ins_last_hour")
-                        )
-                    );
-                }
-                RmBd.cerrar();
-                return lista;
-            }
             if (type instanceof InternMail){
                 String sql = "SELECT * FROM message WHERE msg_last_update >='" + param + "'";
 
@@ -1339,6 +1485,30 @@ public class Remote implements InterfaceSync{
                         datos.getInt("msg_estado"),
                         datos.getDate("msg_last_update"),
                         datos.getInt("msg_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Institucion(
+                        datos.getInt("ins_id"),
+                        datos.getString("ins_nombre"),
+                        datos.getString("ins_telefono"),
+                        datos.getString("ins_mail"),
+                        datos.getString("ins_web"),
+                        datos.getString("ins_direccion"),
+                        datos.getString("ins_comuna"),
+                        datos.getString("ins_ciudad"),
+                        datos.getInt("ins_estado"),
+                        datos.getDate("ins_last_update"),
+                        datos.getInt("ins_last_hour")
                         )
                     );
                 }
@@ -1485,6 +1655,7 @@ public class Remote implements InterfaceSync{
     }
     /**
      * @param cod 
+     * Armazon cod=idFicha, id=tipo de armazon
      * Cliente=>rut,
      * Cristal=>nombre,
      * Descuento=>nombre,
@@ -1505,6 +1676,24 @@ public class Remote implements InterfaceSync{
     public Object getElement(String cod,int id, Object type) {
         Log.setLog(className, Log.getReg());
         try{
+            if(type instanceof Armazon){
+                String idFicha = GV.getStr(cod);
+                int tipo = id;
+                Armazon armazon = null;
+                int auditoria =0;
+                for (Object object : listar(GV.getStr(idFicha+"<"+tipo+">"), type)) {//id debe ser el rut del cliente
+                    if(((Armazon) object).getIdFicha().equals(idFicha) && ((Armazon)object).getTipo() == tipo){
+                        armazon= (Armazon)object;
+                        auditoria++;
+                    }
+                }
+                if(auditoria > 1){
+                    OptionPane.showMsg("Es necesario corregir algunos datos", "La base de datos tiene conflicto con algunos items.\n"
+                            + "Debe informar de este error a su proveedor de software con el siguiente id de seguimiento\n"
+                            + "Identificador: ARM_FCH_ID_"+armazon.getIdFicha(), 3);
+                }
+                return armazon;
+            }
             if(type instanceof Cliente){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
                     if (((Cliente) object).getCod().equals(cod)) {
@@ -1608,7 +1797,7 @@ public class Remote implements InterfaceSync{
                 return null;
             }
             if (type instanceof TipoPago) {
-                for (Object object : listar(cod, type)) {//id debe ser el id de la ficha
+                for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
                     if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
                         return object;
                     }
@@ -1617,13 +1806,13 @@ public class Remote implements InterfaceSync{
             }
             if(type instanceof User){
                 if(cod == null){
-                    for (Object object : listar(""+id, type)) {//idParam debe ser el rut
+                    for (Object object : listar(""+id, type)) {
                         if (((User) object).getId() == id) {
                             return object;
                         }
                     }
                 }else{
-                    for (Object object : listar(cod, type)) {//idParam debe ser el rut
+                    for (Object object : listar(cod, type)) {
                         if (((User) object).getUsername().trim().toLowerCase().equals(cod.toLowerCase())) {
                             return object;
                         }
@@ -1635,7 +1824,7 @@ public class Remote implements InterfaceSync{
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         OptionPane.showMsg("Instancia no encontrada", "No se encuentra la instancia, se retornará un valor vacío,"
-                + "\nUbicación:"+ className+"\nDetalle: "+Log.getLog(), JOptionPane.ERROR_MESSAGE);
+                + "\nUbicación:"+ className+"\nDetalle: "+Log.getLog(), 3);
         return null;
     }
     /**
@@ -1656,6 +1845,12 @@ public class Remote implements InterfaceSync{
     @Override
     public boolean exist(Object object) {
         Log.setLog(className, Log.getReg());
+        if (object instanceof Armazon) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(((Armazon) object).getIdFicha(),((Armazon)object).getTipo(),object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Cliente) {
             Log.setLog(className, Log.getReg());
             if (getElement(((Cliente) object).getCod(),0,object) != null) {
@@ -1733,7 +1928,30 @@ public class Remote implements InterfaceSync{
         return false;
     }
     private String sqlInsert(Object objectParam){
-        
+        if(objectParam instanceof Armazon){
+            Armazon object = (Armazon)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO armazon VALUES('"
+                    + object.getCod() + "',"
+                    + object.getTipo()+ ",'"
+                    + object.getMarca()+ "','"
+                    + object.getCristal()+ "','"
+                    + object.getAdd()+ "','"
+                    + object.getOdA()+ "','"
+                    + object.getOdEsf()+ "','"
+                    + object.getOdCil()+ "','"
+                    + object.getOiA()+ "','"
+                    + object.getOiEsf()+ "','"
+                    + object.getOiCil()+ "',"
+                    + object.getDp()+ ","
+                    + object.getEndurecido()+ ","
+                    + object.getCapa()+ ","
+                    + object.getPlusMax()+ ",'"
+                    + object.getIdFicha()+ "',"
+                    + object.getEstado() + ",'"
+                    + sqlfecha1 + "',"
+                    + object.getLastHour() + ")";
+        }
         if(objectParam instanceof Cliente){
             Cliente object = (Cliente)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getNacimiento().getTime());//la transforma a sql.Date
@@ -1818,6 +2036,19 @@ public class Remote implements InterfaceSync{
                             + object.getLicencia()+ "',"
                             + object.getEstado() + ",'"
                             + sqlfecha + "',"
+                            + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO historial_pago VALUES("
+                            + object.getCod()+ ",'"
+                            + sqlfecha1 + "',"
+                            + object.getAbono()+ ","
+                            + object.getIdTipoPago()+ ","
+                            + object.getEstado() + ",'"
+                            + sqlfecha2 + "',"
                             + object.getLastHour() + ")";
         }
         if(objectParam instanceof Institucion){
@@ -1942,6 +2173,31 @@ public class Remote implements InterfaceSync{
     }
 
     private String sqlUpdate(Object objectParam) {
+        if(objectParam instanceof Armazon){
+            Armazon object = (Armazon)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return "UPDATE armazon set arm_tipo = " + object.getTipo()
+                        + ", arm_marca = '" + object.getMarca()
+                        + "', arm_cristal = '" + object.getCristal()
+                        + "', arm_add = '" + object.getAdd()
+                        + "', arm_od_a = '" + object.getOdA()
+                        + "', arm_od_esf = '" + object.getOdEsf()
+                        + "', arm_od_cil = '" + object.getOdCil()
+                        + "', arm_oi_a = '" + object.getOiA()
+                        + "', arm_oi_esf = '" + object.getOiEsf()
+                        + "', arm_oi_cil = '" + object.getOiCil()
+                        + "', arm_dp = " + object.getDp()
+                        + ", arm_endurecido = " + object.getEndurecido()
+                        + ", arm_capa = " + object.getCapa()
+                        + ", arm_plus_max = " + object.getPlusMax()
+                        + ", ficha_fch_id = '" + object.getIdFicha()
+                        + "', arm_estado = " + object.getEstado()
+                        + ", arm_last_update = '" + sqlfecha1
+                        + "', arm_last_hour = " + object.getLastHour()
+                        + " WHERE arm_id = '" + object.getCod() 
+                        + "' AND ((arm_last_update < '"+sqlfecha1+"')OR"
+                        + "(arm_last_update = '"+sqlfecha1+"' AND arm_last_hour < "+object.getLastHour()+"))";
+        }
         if(objectParam instanceof Cliente){
             Cliente object = (Cliente)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getNacimiento().getTime());//la transforma a sql.Date
@@ -2033,6 +2289,21 @@ public class Remote implements InterfaceSync{
                         + " WHERE eq_id = " + object.getId()    
                         + " AND ((eq_last_update < '"+sqlfecha+"')OR"
                         + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof HistorialPago){
+            HistorialPago object = (HistorialPago)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE historial_pago set hp_fecha = '" + sqlfecha1
+                        + "', hp_abono = " + object.getAbono()
+                        + ", tipo_pago_tp_id = " + object.getIdTipoPago()
+                        + ", ficha_fch_id = '"+object.getIdFicha()
+                        + "', hp_estado = "+object.getEstado()
+                        + ", hp_last_update = '" + sqlfecha2
+                        + "', hp_last_hour = " + object.getLastHour()
+                        + " WHERE hp_id = " + object.getCod()
+                        + " AND ((hp_last_update < '"+sqlfecha2+"')OR"
+                        + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Institucion){
             Institucion object = (Institucion)objectParam;
@@ -2171,7 +2442,6 @@ public class Remote implements InterfaceSync{
             return false;
         return true;
     }
-    
     public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";
@@ -2219,4 +2489,3 @@ public class Remote implements InterfaceSync{
         return lista;
     }
 }
-

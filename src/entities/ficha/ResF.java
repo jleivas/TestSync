@@ -14,36 +14,45 @@ import fn.GV;
 public class ResF{
     private String folio;
     private String fecha;
+    private int total;
+    private int descuento;
+    private int saldo;
     private String cliente;
     private String comuna;
     private String ciudad;
-    private int estado;
-    private int total;
     private String vendedor;
+    private int estado;
 
     public ResF() {
     }
-
-    /**
-     * Registro de Ficha para presentar en la tabla
-     * @param folio
-     * @param fecha
-     * @param cliente
-     * @param comuna
-     * @param ciudad
-     * @param estado
-     * @param total
-     * @param vendedor 
-     */
-    public ResF(String folio, String fecha, String cliente, String comuna, String ciudad, int estado, int total, String vendedor) {
+    
+    public ResF(String folio, String fecha,int total,int descuento, int saldo, String cliente, String comuna, String ciudad, String vendedor, int estado) {
         setFolio(folio);
         setFecha(fecha);
+        setTotal(total);
+        setDescuento(descuento);
+        setSaldo(saldo);
         setCliente(cliente);
         setComuna(comuna);
         setCiudad(ciudad);
-        setEstado(estado);
-        setTotal(total);
         setVendedor(vendedor);
+        setEstado(estado);
+    }
+
+    public void setDescuento(int descuento) {
+        this.descuento = descuento;
+    }
+
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
+    }
+
+    public int getDescuento() {
+        return descuento;
+    }
+
+    public int getSaldo() {
+        return saldo;
     }
 
     public void setFolio(String folio) {
@@ -51,7 +60,7 @@ public class ResF{
     }
 
     public void setFecha(String fecha) {
-        this.fecha = fecha;
+        this.fecha = getStr(fecha);
     }
 
     public void setCliente(String cliente) {
@@ -75,7 +84,7 @@ public class ResF{
     }
 
     public void setVendedor(String vendedor) {
-        this.vendedor = getStr(folio);
+        this.vendedor = getStr(vendedor);
     }
 
     public String getFolio() {

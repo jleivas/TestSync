@@ -1750,6 +1750,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
+        comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonLejosFocusLost
 
     private void txtDoctorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDoctorFocusLost
@@ -2825,7 +2826,6 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonCerca.setDp((int)txtDPCerca.getValue());
         stArmazonCerca.setEndurecido(en1);
         stArmazonCerca.setEstado(1);
-        stArmazonCerca.setIdFicha(GV.idCurrentFicha());
         stArmazonCerca.setMarca(txtArmazonCerca.getText());
         stArmazonCerca.setOdA(txtODCercaA.getText());
         stArmazonCerca.setOdCil(txtODCercaCIL.getText());
@@ -2844,7 +2844,6 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonLejos.setDp((int)txtDPLejos.getValue());
         stArmazonLejos.setEndurecido(en2);
         stArmazonLejos.setEstado(1);
-        stArmazonLejos.setIdFicha(GV.idCurrentFicha());
         stArmazonLejos.setMarca(txtArmazonLejos.getText());
         stArmazonLejos.setOdA(txtODLejosA.getText());
         stArmazonLejos.setOdCil(txtODLejosCIL.getText());
@@ -2889,26 +2888,44 @@ public class VCrearFicha extends javax.swing.JPanel {
 
     private void prepareFicha() {
         calcularSaldo();
-        GV.getFicha().setCod(GV.idCurrentFicha());
         
-//        tipo de pago debe validarse si es null, no se ha ingresado
-//        ***Tipo de pago validado***
-//         validar estados de ficha
+//         validacion de estados de ficha
         int estado = (GV.getFicha().getSaldo() == 0)? 2:1;//2=pagado,1=pendiente
         int despacho = 0;//no se encuentra despachado
-//        //crear historial de pago
         commitSpinner();
         int abono = (int) txtAbono.getValue();
         HistorialPago hp = null;
-        if(abono > 0 && abono <= GV.getFicha().getSaldo()){
-            hp = new HistorialPago(null, new Date(), abono, 1, stTipoPago.getId(), GV.getFicha().getCod(), null, 0);
+        try {
+            if(load.get(load.getCurrentCod(GV.getFicha()), 0, GV.getFicha()) != null){
+                OptionPane.showMsg("No se puede crear registro", "Existe un conflicto con el identificador generado\n"
+                        + "Debe ponerse en contacto con su proveedor.\n\n"
+                        + "Identificador defectuoso:"+load.getCurrentCod(GV.getFicha()), 3);
+                return;
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("No se puede crear registro", "No se pudo validar el identificador generado\n"
+                        + "Debe ponerse en contacto con su proveedor.\n\n"
+                        + "Identificador defectuoso:"+load.getCurrentCod(GV.getFicha())+"\n"
+                        + "Error: "+ex.getMessage(), 3);
+            return;
         }
-        load.createFicha(GV.getFicha(),hp);
+        GV.getFicha().setCod(load.getCurrentCod(GV.getFicha()));
+        if(GV.getFicha().getCerca() != null){
+            GV.getFicha().getCerca().setCod(load.getCurrentCod(GV.getFicha().getCerca()));
+            GV.getFicha().getCerca().setIdFicha(GV.getFicha().getCod());
+        }
+        if(GV.getFicha().getLejos() != null){
+            GV.getFicha().getLejos().setCod(load.getCurrentCod(GV.getFicha().getLejos()));
+            GV.getFicha().getLejos().setIdFicha(GV.getFicha().getCod());
+        }
+        if(GV.getFicha().getDespacho() != null){
+            GV.getFicha().getDespacho().setCod(load.getCurrentCod(GV.getFicha().getDespacho()));
+            GV.getFicha().getDespacho().setIdFicha(GV.getFicha().getCod());
+        }
+        if(abono > 0 && abono <= GV.getFicha().getSaldo()){
+            hp = new HistorialPago(load.getCurrentCod(new HistorialPago()), new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
+        }
         
-//                    load.imprimir(ficha);
-//                    limpiarDatos();
-//
-//                    abrir nuevamente ventana o limpiar los datos
-//                }
+        load.createFicha(GV.getFicha(),hp);
     }
 }
