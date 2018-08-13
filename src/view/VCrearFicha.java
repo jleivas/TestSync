@@ -2911,19 +2911,16 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         GV.getFicha().setCod(load.getCurrentCod(GV.getFicha()));
         if(GV.getFicha().getCerca() != null){
-            GV.getFicha().getCerca().setCod(load.getCurrentCod(GV.getFicha().getCerca()));
             GV.getFicha().getCerca().setIdFicha(GV.getFicha().getCod());
         }
         if(GV.getFicha().getLejos() != null){
-            GV.getFicha().getLejos().setCod(load.getCurrentCod(GV.getFicha().getLejos()));
             GV.getFicha().getLejos().setIdFicha(GV.getFicha().getCod());
         }
         if(GV.getFicha().getDespacho() != null){
-            GV.getFicha().getDespacho().setCod(load.getCurrentCod(GV.getFicha().getDespacho()));
             GV.getFicha().getDespacho().setIdFicha(GV.getFicha().getCod());
         }
         if(abono > 0 && abono <= GV.getFicha().getSaldo()){
-            hp = new HistorialPago(load.getCurrentCod(new HistorialPago()), new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
+            hp = new HistorialPago(null, new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
         }
         
         load.createFicha(GV.getFicha(),hp);

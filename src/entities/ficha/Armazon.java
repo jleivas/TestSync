@@ -5,14 +5,14 @@
  */
 package entities.ficha;
 
-import entities.abstractclasses.SyncStringId;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Armazon extends SyncStringId{
+public class Armazon extends SyncFichaClass{
     
     private int tipo;
     private String marca;

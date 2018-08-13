@@ -29,7 +29,7 @@ public class GlobalValuesNetwork {
         setIsOnline(value);
     }
     
-    private static void setIsOnline(boolean value){
+    public static void setIsOnline(boolean value){
         IS_ONLINE = value;
     }
     

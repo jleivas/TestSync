@@ -9,15 +9,15 @@ import entities.Cliente;
 import entities.Convenio;
 import entities.Doctor;
 import entities.Institucion;
-import entities.abstractclasses.SyncStringId;
 import entities.User;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Ficha extends SyncStringId{
+public class Ficha extends SyncFichaClass{
     
     private Date fecha;
     private Date fechaEntrega;

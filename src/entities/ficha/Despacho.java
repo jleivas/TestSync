@@ -5,14 +5,14 @@
  */
 package entities.ficha;
 
-import entities.abstractclasses.SyncStringId;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Despacho extends SyncStringId{
+public class Despacho extends SyncFichaClass{
     
     private String rut;
     private String nombre;

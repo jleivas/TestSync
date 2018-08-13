@@ -5,14 +5,14 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncStringId;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author home
  */
-public class RegistroBaja extends SyncStringId{
+public class RegistroBaja extends SyncFichaClass{
     private Date fecha;
     private String idLente;
     private int cantidad;

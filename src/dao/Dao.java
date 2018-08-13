@@ -20,6 +20,7 @@ import entities.TipoPago;
 import entities.abstractclasses.SyncStringId;
 import entities.User;
 import entities.abstractclasses.SyncClass;
+import entities.abstractclasses.SyncFichaClass;
 import entities.abstractclasses.SyncIntId;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
@@ -28,6 +29,7 @@ import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.Log;
 import fn.OptionPane;
+import fn.SubProcess;
 import fn.date.Cmp;
 import fn.mail.Send;
 import java.sql.SQLException;
@@ -74,6 +76,11 @@ public class Dao{
         if(object instanceof SyncClass){
             ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
             ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+        }
+        if(object instanceof SyncFichaClass){
+            if(!(object instanceof Ficha)){
+                ((SyncFichaClass) object).setCod(getCurrentCod(object));
+            }
         }
         if(GV.isOnline()){
             if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
@@ -437,11 +444,7 @@ public class Dao{
      */
     public String getCurrentCod(Object type){
         Log.setLog(className,Log.getReg());
-        if(type instanceof Armazon ||
-            type instanceof Despacho ||
-            type instanceof Ficha ||
-            type instanceof HistorialPago ||
-            type instanceof RegistroBaja){
+        if(type instanceof SyncFichaClass){
             return GV.LOCAL_SYNC.getMaxId(type)+"/"+GV.LOCAL_SYNC.getIdEquipo();
         }else{
             OptionPane.showMsg("Instancia de datos errónea", "El tipo de datos ingresado no es válido para obtener el identificador.", 3);
@@ -452,6 +455,7 @@ public class Dao{
 
     public void createFicha(Ficha ficha, HistorialPago hp) {
         try {
+            SubProcess.suspendConnectionOnline();
             add(ficha.getCliente());
             add(ficha.getCerca());
             add(ficha.getLejos());
@@ -466,7 +470,7 @@ public class Dao{
             if(hp != null){
                 add(hp);
             }
-            
+            SubProcess.activateConnectionOnline();
             
 //
 //                //Guardar valores en BD

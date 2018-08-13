@@ -5,14 +5,14 @@
  */
 package entities.ficha;
 
-import entities.abstractclasses.SyncStringId;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class HistorialPago extends SyncStringId{
+public class HistorialPago extends SyncFichaClass{
     
     private Date fecha;
     private int abono;

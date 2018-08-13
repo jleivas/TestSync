@@ -139,6 +139,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesNetwork.isOnline();
     }
     
+    public static void isOnline(boolean value){
+        GlobalValuesNetwork.setIsOnline(value);
+    }
+    
     public static void chekOnline(){
         GlobalValuesNetwork.checkIfOnline();
     }

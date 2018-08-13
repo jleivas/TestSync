@@ -176,6 +176,16 @@ public class SubProcess {
         });
     }
     
+    public static void suspendConnectionOnline(){
+        GV.isOnline(false);
+        ejecucion = false;
+    }
+    
+    public static void activateConnectionOnline(){
+        GV.isOnline(true);
+        ejecucion = true;
+    }
+    
     public static void report(String title, String message){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
