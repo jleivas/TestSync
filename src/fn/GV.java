@@ -59,7 +59,7 @@ public class GV extends GlobalValuesCursor{
     public static Local LOCAL_SYNC = new Local();
     public static Remote REMOTE_SYNC = new Remote();
     
-    public static Date LAST_UPDATE = new Date(213312);
+    public static Date LAST_UPDATE;
     
     //LISTAS TEMPORALES
     public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
@@ -302,6 +302,14 @@ public class GV extends GlobalValuesCursor{
     
     public static boolean licence(){
         return GlobalValuesVariables.getLicence();
+    }
+    
+    public static String licenceCode(){
+        return GlobalValuesVariables.getLicenceCode();
+    }
+    
+    public static void setLicenceCode(String licenceCode){
+        GlobalValuesVariables.setLicenceCode(licenceCode);
     }
     
     public static void licence(boolean value){

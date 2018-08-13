@@ -20,7 +20,11 @@ import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
 import entities.ficha.Armazon;
+import entities.ficha.Despacho;
+import entities.ficha.EtiquetFicha;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
+import entities.ficha.ResF;
 import fn.GV;
 import fn.Log;
 import fn.OptionPane;
@@ -31,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import sync.InterfaceSync;
 
 /**
@@ -46,6 +49,26 @@ public class Remote implements InterfaceSync{
         try{
             if(objectParam == null)
                 return false;
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT fch_id FROM ficha WHERE fch_id='" + object.getCod() + "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Ficha: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
             if(objectParam instanceof Armazon){
                 Armazon object = (Armazon)objectParam;
                 if (object != null) {
@@ -148,6 +171,26 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "Descuento: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
                 return false;
             }
+            if(objectParam instanceof Despacho){
+                Despacho object = (Despacho)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT dsp_id FROM despacho WHERE dsp_id='" + object.getCod() + "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "despacho: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
             if(objectParam instanceof Doctor){
                 Doctor object = (Doctor)objectParam;
                 if (object != null) {
@@ -166,6 +209,26 @@ public class Remote implements InterfaceSync{
                     }
                 }
                 OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
+            if(objectParam instanceof Equipo){
+                Equipo object = (Equipo)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT eq_id FROM equipo WHERE eq_id=" + object.getId()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Equipo: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof HistorialPago){
@@ -480,6 +543,29 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return true;
             }
+            if(objectParam instanceof Despacho){
+                Despacho object = (Despacho)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM despacho WHERE dsp_id='" + object.getCod() + "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("dsp_last_update");
+                        hour = datos.getInt("dsp_last_hour");
+                    } catch (Exception e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
             if(objectParam instanceof Doctor){
                 Doctor object = (Doctor)objectParam;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM doctor WHERE doc_rut='" + object.getCod() + "'");
@@ -743,14 +829,34 @@ public class Remote implements InterfaceSync{
         }
         return false;
     }
+    
+    public int getIdEquipo(){
+        int id = 0;
+        String sql = "SELECT eq_id  FROM equipo WHERE eq_nombre = '"+GV.equipo()+"'";
+        PreparedStatement consulta;
+        try {
+            consulta = RmBd.obtener().prepareStatement(sql);
+            ResultSet datos = consulta.executeQuery();
+            while (datos.next()) {
+                id = datos.getInt("eq_id");
+            }
+            RmBd.cerrar();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
     @Override
     public int getMaxId(Object type) {
         Log.setLog(className, Log.getReg());
         int id = 0;
         try{
             String sql = "";
+            if(type instanceof Ficha){
+                sql = "SELECT COUNT(fch_id) as id FROM ficha WHERE fch_id LIKE '%/"+getIdEquipo()+"'";
+            }
             if(type instanceof Armazon){
-                sql = "SELECT COUNT(arm_id) as id FROM armazon";
+                sql = "SELECT COUNT(arm_id) as id FROM armazon WHERE arm_id LIKE '%/"+getIdEquipo()+"'";
             }
             if(type instanceof Cristal){
                 sql = "SELECT MAX(cri_id) as id FROM cristal";
@@ -761,8 +867,14 @@ public class Remote implements InterfaceSync{
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
             }
+            if(type instanceof Despacho){
+                sql = "SELECT COUNT(dsp_id) as id FROM despacho WHERE dsp_id LIKE '%/"+getIdEquipo()+"'";
+            }
             if(type instanceof Equipo){
                 sql = "SELECT MAX(eq_id) as id FROM equipo";
+            }
+             if(type instanceof HistorialPago){
+                sql = "SELECT COUNT(hp_id) as id FROM historial_pago WHERE hp_id LIKE '%/"+getIdEquipo()+"'";
             }
             if(type instanceof Institucion){
                 sql = "SELECT MAX(ins_id) as id FROM institucion";
@@ -775,6 +887,9 @@ public class Remote implements InterfaceSync{
             }
             if (type instanceof Oficina) {
                 sql = "SELECT MAX(of_id) as id FROM oficina";
+            }
+            if (type instanceof RegistroBaja) {
+                sql = "SELECT COUNT(rb_id) as id FROM registri_baja WHERE rb_id LIKE '%/"+getIdEquipo()+"'";
             }
             if (type instanceof TipoPago) {
                 sql = "SELECT MAX(tp_id) as id FROM tipo_pago";
@@ -795,12 +910,132 @@ public class Remote implements InterfaceSync{
         }
         return id + 1;
     }
+    /**
+     * Para listar las fichas de debe castear a la clase ResF
+     * @param idParam listar fichas = idFicha: enviar original, 
+     * id_user: GV.convertFichaIdParamToUser(idParam),
+     * rut_cliente: GV.convertFichaIdParamToClient(idParam)
+     * @param type listar fichas= de tipo ResF para obtener fichas
+     * @return lista de objetos ResF para varios elementos y Ficha para un solo elemento
+     */
     @Override
     public ArrayList<Object> listar(String idParam, Object type) {
         //Falta ordenar y agregar clases
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
         try {
+            if(type instanceof Ficha){
+                String id = GV.getStr(idParam);
+                if(!GV.fichaIdParamIsIdFicha(idParam) || 
+                        idParam.equals("0") || 
+                        idParam.equals("-1") || 
+                        idParam.equals("-2")){
+                    return listar(idParam,new ResF());
+                }
+                String sql = "SELECT * FROM ficha WHERE fch_id='" + idParam + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    Cliente cliente = (Cliente)getElement(datos.getString("cliente_cli_rut"), 0, new Cliente());
+                    Doctor doctor = (Doctor)getElement(datos.getString("doctor_doc_rut"), 0, new Doctor());
+                    Institucion institucion = (Institucion)getElement(null, datos.getInt("institucion_ins_id"), new Institucion());
+                    Despacho despacho = (Despacho)getElement(datos.getString("fch_id"), 0, new Despacho());
+                    User user = (User)getElement(null, datos.getInt("usuario_us_id"), new User());
+                    Convenio convenio = (Convenio)getElement(null, datos.getInt("convenio_cnv_id"), new Convenio());
+                    Armazon cerca = (Armazon)getElement(datos.getString("fch_id"), 0, new Armazon());
+                    Armazon lejos = (Armazon)getElement(datos.getString("fch_id"), 1, new Armazon());
+                    lista.add(new Ficha(
+                        datos.getString("fch_id"),
+                        datos.getDate("fch_fecha"),
+                        datos.getDate("fch_fecha_entrega"),
+                        datos.getString("fch_lugar_entrega"),
+                        datos.getString("fch_hora_entrega"),
+                        datos.getString("fch_obs"),
+                        datos.getInt("fch_valor_total"),
+                        datos.getInt("fch_descuento"),
+                        datos.getInt("fch_saldo"),
+                        cliente,
+                        doctor,
+                        institucion,
+                        despacho,
+                        lejos,
+                        cerca,
+                        user,
+                        convenio,
+                        datos.getInt("fch_estado"),
+                        datos.getDate("fch_last_update"),
+                        datos.getInt("fch_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof ResF){
+                String sql = "SELECT * FROM ficha";
+                if(!GV.fichaIdParamIsIdFicha(idParam)){
+                    sql = (GV.fichaIdParamIsClient(idParam)) ? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE cliente_cli_rut='" + GV.cleanIdParam(idParam) + "'":sql;
+                    sql = (GV.fichaIdParamIsUser(idParam)) ? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE usuario_us_id=" + GV.cleanIdParam(idParam) + "":sql;
+                    //return lista de ResF
+                }else{
+                    return listar(idParam, new Ficha());//retornara una lista de Fichas
+                }
+                if (idParam.equals("0")) {
+                    sql = "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_estado = 1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_estado = 0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new ResF(
+                        datos.getString("fch_id"),
+                        datos.getString("fch_fecha"),
+                        datos.getInt("fch_valor_total"),
+                        datos.getInt("fch_descuento"),
+                        datos.getInt("fch_saldo"),
+                        datos.getString("cliente"),
+                        datos.getString("comuna"),
+                        datos.getString("ciudad"),
+                        datos.getString("vendedor"),
+                        datos.getInt("fch_estado")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof Armazon){
                 String id = GV.getStr(idParam);
                 String subId = "";
@@ -976,6 +1211,36 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
+            if(type instanceof Despacho){
+                String sql = "SELECT * FROM despacho WHERE ficha_fch_id='" + idParam + "'";
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM despacho WHERE dsp_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM despacho WHERE dsp_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM despacho";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Despacho(
+                        datos.getString("dsp_id"),
+                        datos.getString("dsp_rut"),
+                        datos.getString("dsp_nombre"),
+                        datos.getDate("dsp_fecha"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("dsp_estado"),
+                        datos.getDate("dsp_last_update"),
+                        datos.getInt("dsp_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if (type instanceof Doctor){
                 String sql = "SELECT * FROM doctor WHERE doc_rut='" + idParam + "'";
                 if (idParam.equals("0")) {
@@ -1006,7 +1271,11 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if (type instanceof Equipo){
+                
                 String sql = "SELECT * FROM equipo WHERE eq_id =" + idParam + "";
+                if(!GV.isNumeric(idParam)){
+                    sql = "SELECT * FROM equipo WHERE eq_nombre ='" + idParam + "'";
+                }
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM equipo WHERE eq_estado=1";
                 }
@@ -1027,6 +1296,45 @@ public class Remote implements InterfaceSync{
                         datos.getInt("eq_estado"),
                         datos.getDate("eq_last_update"),
                         datos.getInt("eq_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof HistorialPago){
+                String idFicha = null;
+                if(!idParam.isEmpty() && idParam.contains("<") && idParam.substring(idParam.indexOf("<")+1).contains(">")){
+                    idFicha = idParam.substring(idParam.indexOf("<")+1,idParam.indexOf(">")).trim();
+                }
+                String sql = "SELECT * FROM historial_pago WHERE hp_id ='" + idParam + "'";
+                if(idFicha != null && GV.getStr(idFicha).isEmpty()){
+                    idFicha = null;
+                    idParam = "0";
+                }
+                sql = (idFicha != null) ? "SELECT * FROM historial_pago WHERE ficha_fch_id ='" + idFicha + "'":sql;
+                if (idParam.equals("0")) {
+                    sql = "SELECT * FROM historial_pago WHERE hp_estado=1";
+                }
+                if (idParam.equals("-1")) {
+                    sql = "SELECT * FROM historial_pago WHERE hp_estado=0";
+                }
+                if (idParam.equals("-2")) {
+                    sql = "SELECT * FROM historial_pago";
+                }
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new HistorialPago(
+                        datos.getString("hp_id"),
+                        datos.getDate("hp_fecha"),
+                        datos.getInt("hp_abono"),
+                        datos.getInt("tipo_pago_tp_id"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("hp_estado"),
+                        datos.getDate("hp_last_update"),
+                        datos.getInt("hp_last_hour")
                         )
                     );
                 }
@@ -1303,6 +1611,37 @@ public class Remote implements InterfaceSync{
         java.sql.Date param = new java.sql.Date(paramDate.getTime());
         ArrayList<Object> lista = new ArrayList<>();
         try {
+            if(type instanceof Ficha){
+                String sql = "SELECT * FROM ficha WHERE fch_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new EtiquetFicha(
+                        datos.getString("fch_id"),
+                        datos.getDate("	fch_fecha"),
+                        datos.getDate("fch_fecha_entrega"),
+                        datos.getString("fch_lugar_entrega"),
+                        datos.getString("fch_hora_entrega"),
+                        datos.getString("fch_obs"),
+                        datos.getInt("fch_valor_total"),
+                        datos.getInt("fch_descuento"),
+                        datos.getInt("fch_saldo"),
+                        datos.getString("cliente_cli_rut"),
+                        datos.getString("doctor_doc_rut"),
+                        datos.getInt("institucion_ins_id"),
+                        datos.getString("despacho_dsp_id"),
+                        datos.getInt("usuario_us_id"),
+                        datos.getInt("convenio_cnv_id"),
+                        datos.getInt("cnv_estado"),
+                        datos.getDate("cnv_last_update"),
+                        datos.getInt("cnv_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof Armazon){
                 String sql = "SELECT * FROM armazon WHERE arm_last_update >='" + param + "'";
 
@@ -1427,6 +1766,27 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
+            if(type instanceof Despacho){
+                String sql = "SELECT * FROM despacho WHERE dspde_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new Despacho(
+                        datos.getString("dsp_id"),
+                        datos.getString("dsp_rut"),
+                        datos.getString("dsp_nombre"),
+                        datos.getDate("dsp_fecha"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("dsp_estado"),
+                        datos.getDate("dsp_last_update"),
+                        datos.getInt("dsp_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
             if(type instanceof Doctor){
                 String sql = "SELECT * FROM doctor WHERE doc_last_update >='" + param + "'";
 
@@ -1460,6 +1820,27 @@ public class Remote implements InterfaceSync{
                         datos.getInt("eq_estado"),
                         datos.getDate("eq_last_update"),
                         datos.getInt("eq_last_hour")
+                        )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof HistorialPago){
+                String sql = "SELECT * FROM historial_pago WHERE hp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    lista.add(new HistorialPago(
+                        datos.getString("hp_id"),
+                        datos.getDate("hp_fecha"),
+                        datos.getInt("hp_abono"),
+                        datos.getInt("tipo_pago_tp_id"),
+                        datos.getString("ficha_fch_id"),
+                        datos.getInt("hp_estado"),
+                        datos.getDate("hp_last_update"),
+                        datos.getInt("hp_last_hour")
                         )
                     );
                 }
@@ -1675,7 +2056,18 @@ public class Remote implements InterfaceSync{
     @Override
     public Object getElement(String cod,int id, Object type) {
         Log.setLog(className, Log.getReg());
+        if(cod == null && id == 0){
+            return null;
+        }
         try{
+            if(type instanceof Ficha){
+                for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
+                    if (((Ficha) object).getCod().equals(cod)) {
+                        return object;
+                    }
+                }
+                return null;
+            }
             if(type instanceof Armazon){
                 String idFicha = GV.getStr(cod);
                 int tipo = id;
@@ -1726,6 +2118,22 @@ public class Remote implements InterfaceSync{
                 }
                 return null;
             }
+            if(type instanceof Despacho){
+                int auditoria = 0;
+                Despacho despacho = null;
+                for (Object object : listar(cod, type)) {//id debe ser el nombre del descuento
+                    if (GV.strCompare(((Despacho) object).getIdFicha(),cod)) {
+                        despacho = (Despacho)object;
+                        auditoria++;
+                    }
+                }
+                if(auditoria > 1){
+                    OptionPane.showMsg("Es necesario corregir algunos datos", "La base de datos tiene conflicto con algunos items.\n"
+                            + "Debe informar de este error a su proveedor de software con el siguiente id de seguimiento\n"
+                            + "Identificador: DSP_FCH_ID_"+despacho.getIdFicha(), 3);
+                }
+                return despacho;
+            }
             if(type instanceof Doctor){
                 for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
                     if(GV.containIntegrs(cod)){//comparar por el rut
@@ -1741,8 +2149,24 @@ public class Remote implements InterfaceSync{
                 return null;
             }
             if(type instanceof Equipo){
-                for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
-                    if (((Equipo) object).getId() == id) {
+                if(cod != null){
+                    for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                        if (((Equipo) object).getNombre().equals(cod)) {
+                            return object;
+                        }
+                    }
+                }else{
+                    for (Object object : listar(""+id, type)) {//id debe ser el rut del doctor
+                        if (((Equipo) object).getId() == id) {
+                            return object;
+                        }
+                    }
+                }
+                return null;
+            }
+            if(type instanceof HistorialPago){
+                for (Object object : listar(cod, type)) {//id debe ser el id de la institucion
+                    if (((HistorialPago) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
@@ -1845,6 +2269,12 @@ public class Remote implements InterfaceSync{
     @Override
     public boolean exist(Object object) {
         Log.setLog(className, Log.getReg());
+        if (object instanceof Ficha) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(((Ficha) object).getCod(),0,object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Armazon) {
             Log.setLog(className, Log.getReg());
             if (getElement(((Armazon) object).getIdFicha(),((Armazon)object).getTipo(),object) != null) {
@@ -1875,6 +2305,12 @@ public class Remote implements InterfaceSync{
                 return true;
             }
         }
+        if (object instanceof Despacho) {
+            Log.setLog(className, Log.getReg());
+            if (getElement(((Despacho) object).getIdFicha(),0,object) != null) {
+                return true;
+            }
+        }
         if (object instanceof Doctor) {
             if (getElement(((Doctor) object).getCod(),0,object) != null) {
                 return true;
@@ -1882,6 +2318,14 @@ public class Remote implements InterfaceSync{
         }
         if (object instanceof Equipo) {
             if (getElement(null,((Equipo) object).getId(),object) != null) {
+                return true;
+            }
+            if (getElement(((Equipo) object).getNombre(),0,object) != null) {
+                return true;
+            }
+        }
+        if (object instanceof HistorialPago) {
+            if (getElement(((HistorialPago) object).getCod(),0,object) != null) {
                 return true;
             }
         }
@@ -2013,6 +2457,20 @@ public class Remote implements InterfaceSync{
                     + object.getMonto() + ","
                     + object.getEstado() + ",'"
                     + sqlfecha + "',"
+                    + object.getLastHour() + ")";
+        }
+        if(objectParam instanceof Despacho){
+            Despacho object = (Despacho)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO despacho VALUES('"
+                    + object.getCod()+ "','"
+                    + object.getRut()+ "','"
+                    + object.getNombre()+ "','"
+                    + sqlfecha1 + "','"
+                    + object.getIdFicha()+ "',"
+                    + object.getEstado() + ",'"
+                    + sqlfecha2 + "',"
                     + object.getLastHour() + ")";
         }
         if(objectParam instanceof Doctor){
@@ -2264,6 +2722,21 @@ public class Remote implements InterfaceSync{
                         + " WHERE des_id = " + object.getId() 
                         + " AND ((des_last_update < '"+sqlfecha+"')OR"
                         + "(des_last_update = '"+sqlfecha+"' AND des_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof Despacho){
+            Despacho object = (Despacho)objectParam;
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE despacho set dsp_rut = '" + object.getRut()
+                        + "', dsp_nombre = '" + object.getNombre()
+                        + "', dsp_fecha = '" + sqlfecha1
+                        + "', ficha_fch_id = '" + object.getIdFicha()
+                        + "', dsp_estado = " + object.getEstado()
+                        + ", dsp_last_update = '" + sqlfecha2
+                        + "', dsp_last_hour = " + object.getLastHour()
+                        + " WHERE dsp_id = '" + object.getCod()
+                        + "' AND ((dsp_last_update < '"+sqlfecha2+"')OR"
+                        + "(dsp_last_update = '"+sqlfecha2+"' AND dsp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Doctor){
             Doctor object = (Doctor)objectParam;

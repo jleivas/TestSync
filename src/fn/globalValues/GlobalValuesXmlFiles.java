@@ -188,18 +188,16 @@ public class GlobalValuesXmlFiles {
             }
             
             /***********LICENCE************************************************/
-            int st = 0;
+            boolean st = false;
             documento.getDocumentElement().normalize();
             filas = documento.getElementsByTagName("lic");
             for (int temp = 0; temp < filas.getLength(); temp++) {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    st = Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent());
-                    GV.licence(false);
-                    if(st == 1){
-                        GV.licence(true);
-                    }
+                    st = (Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent()) == 1) ? true:false;
+                    GV.licence(st);
+                    GV.setLicenceCode(element.getElementsByTagName("code").item(0).getTextContent());
                     GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
                 }
             }

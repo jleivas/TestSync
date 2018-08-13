@@ -25,24 +25,24 @@ public class GlobalValuesVariables {
     /*  Nombres de sistema  */
     private static String PROJECTNAME="DCS Optics";
     private static String VERSION = "v4.0.0";
-    private static String EQUIPO="jorge";//el nombre debe concatenarse con la fecha de instalacion
+    private static String EQUIPO;//el nombre debe concatenarse con la fecha de instalacion
     private static int EQUIPO_ID = 1;
-    private static String INVENTARIO_NAME = "INV";
+    private static String INVENTARIO_NAME;
     
     /* Seguridad */
     private static String SALT = "optidataodm4softdirex";
     private static String PASS;
     
     /* LICENCIA */
-    private static String COMPANY_NAME = "DCS Optics";
-    private static boolean LICENCE = true;
+    private static String COMPANY_NAME;
+    private static boolean LICENCE = false;
     private static String LICENCE_CODE = null;
-    private static String EXP_DATE = "07-08-2018";
-    private static String API_URI = "www.sdx.cl";
+    private static String EXP_DATE;
+    private static String API_URI;
     
     /* Update */
     private static int ID_UPDATE=0;
-    private static String PORT_KEY = "KEYs";
+    private static String PORT_KEY;
     
     
     /* Variables del sistema */
@@ -84,6 +84,10 @@ public class GlobalValuesVariables {
         return LICENCE;
     }
     
+    public static String getLicenceCode(){
+        return GV.getStr(LICENCE_CODE);
+    }
+    
     public static String getExpDate(){
         return getStr(EXP_DATE);
     }
@@ -113,18 +117,20 @@ public class GlobalValuesVariables {
     }
     
     public static String getEquipo(){
-        return getStr(EQUIPO);
+        return getToName(EQUIPO);
     }
     
     public static void setCurrentEquipo(String equipo){
         try {
-            EQUIPO = getStr(equipo);
+            EQUIPO = getToName(equipo);
             if(LICENCE_CODE != null){
                 Dao load = new Dao();
                 Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
-                load.add(eqData);
+                if(load.get(EQUIPO, 0, eqData) == null){
+                    load.add(eqData);
+                }
             }
-        } catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -142,12 +148,10 @@ public class GlobalValuesVariables {
             LICENCE_CODE = getStr(licenceCode);
             if(EQUIPO != null){
                 Dao load = new Dao();
-                if(load.get(EQUIPO,0, new Equipo()) != null){
-                    return;
-                }
-                
                 Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
-                load.add(eqData);
+                if(load.get(EQUIPO, 0, eqData) == null){
+                    load.add(eqData);
+                }
             }
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);

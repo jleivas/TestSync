@@ -42,11 +42,25 @@ public class TestSync {
 
     private static String ID_PARAM_IS_USER = "USER/";
     private static String ID_PARAM_IS_CLIENT = "CLIENT/";
+    private static Dao load = new Dao();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException, UnknownHostException, IOException, InstantiationException, IllegalAccessException{
+//        Object temp = load.get("Jorge_20180802", 0, new Equipo());
+        System.out.println("LOAD FROM:"+GV.filesPath()+"local.xml");
         GlobalValuesXmlFiles.cargarRegistroLocal();
+        System.out.println("0:"+GV.username());
+        System.out.println("1:"+GV.licence());
+        System.out.println("2:"+GV.licenceCode());
+        System.out.println("3:"+GV.expDate());
+        System.out.println("4:"+GV.equipo());
+        System.out.println("5:"+GV.uri());
+        System.out.println("6:"+GV.port());
+        System.out.println("7:"+GV.getNombreOficina());
+        System.out.println("8:"+GV.companyName());
+        System.out.println("9:"+GV.inventarioName());
+        System.out.println("10:"+GV.getLastUpdate());
     }
     
     

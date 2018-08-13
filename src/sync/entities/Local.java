@@ -215,6 +215,26 @@ public class Local implements InterfaceSync {
                 OptionPane.showMsg("Error inseperado en la operación", "Profesional: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
+            if(objectParam instanceof Equipo){
+                Equipo object = (Equipo)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT eq_id FROM equipo WHERE eq_id=" + object.getId()+ "");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        LcBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = LcBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        LcBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Equipo: " + object.getNombre()+ "\nId: " + object.getId()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
             if(objectParam instanceof HistorialPago){
                 HistorialPago object = (HistorialPago)objectParam;
                 if (object != null) {
@@ -907,6 +927,7 @@ public class Local implements InterfaceSync {
         //Falta ordenar y agregar clases
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
+        idParam = idParam.trim();
         try {
             if(type instanceof Ficha){
                 String id = GV.getStr(idParam);
@@ -2302,6 +2323,9 @@ public class Local implements InterfaceSync {
         }
         if (object instanceof Equipo) {
             if (getElement(null,((Equipo) object).getId(),object) != null) {
+                return true;
+            }
+            if (getElement(((Equipo) object).getNombre(),0,object) != null) {
                 return true;
             }
         }
