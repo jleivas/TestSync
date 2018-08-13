@@ -461,6 +461,7 @@ public class Dao{
             add(ficha.getLejos());
             add(ficha.getDespacho());
             add(ficha.getDoctor());
+            add(ficha);
             if(ficha.getCerca() != null){
                 decreaseStock(ficha.getCerca().getMarca(), 1);
             }
