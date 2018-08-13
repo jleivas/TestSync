@@ -36,6 +36,7 @@ import javax.swing.JLabel;
  */
 public class SubProcess {
     volatile static boolean ejecucion = true;
+    volatile static boolean pause = false;
     private static String className="SubProcess";
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static String defaultText = "";
@@ -50,7 +51,9 @@ public class SubProcess {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
                 while(ejecucion){
-                    GV.chekOnline();
+                    if(!pause){
+                        GV.chekOnline();
+                    }
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException ex) {
@@ -178,12 +181,12 @@ public class SubProcess {
     
     public static void suspendConnectionOnline(){
         GV.isOnline(false);
-        ejecucion = false;
+        pause = true;
     }
     
     public static void activateConnectionOnline(){
         GV.isOnline(true);
-        ejecucion = true;
+        pause = false;
     }
     
     public static void report(String title, String message){
