@@ -45,11 +45,12 @@ public class GlobalValuesXmlFiles {
             Element user = document.createElement("usr"); 
             //creamos un nuevo elemento. usr contiene name
             Element name= document.createElement("name");
-            Text vName = document.createTextNode(GV.user().getUsername()); 
+            Text vName = document.createTextNode(GV.username()); 
             /**************************LICENCE******************************/
             Element lic = document.createElement("lic"); 
             //creamos un nuevo elemento. lic contiene st y date
             Element st= document.createElement("st");
+            Element code= document.createElement("code");
             Element date= document.createElement("date");
             //Ingresamos la info. 
             Text vSt = document.createTextNode("0");
@@ -59,6 +60,7 @@ public class GlobalValuesXmlFiles {
             if(GV.licence()){
                 vSt = document.createTextNode("1");
             }
+            Text vCode = document.createTextNode(GV.licenceCode());
             Text vDate = document.createTextNode(GV.expDate()); 
             /**************************NETWORK******************************/
             Element network = document.createElement("network"); 
@@ -96,8 +98,10 @@ public class GlobalValuesXmlFiles {
             //Añadimos el elemento hijo a la raíz
             lic.appendChild(st);
             st.appendChild(vSt);
-            //Añadimos valor
+            lic.appendChild(code);
+            code.appendChild(vCode);
             lic.appendChild(date); 
+            
             date.appendChild(vDate);
             /**************NETWORK*******************************************/
             document.getDocumentElement().appendChild(network);
@@ -224,8 +228,8 @@ public class GlobalValuesXmlFiles {
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
                     GV.setOficina(element.getElementsByTagName("office").item(0).getTextContent());
-                    GV.setCompanyName(element.getElementsByTagName("company").item(0).getTextContent());
-                    GV.setInventarioLocal(element.getElementsByTagName("inventary").item(0).getTextContent());
+                    GV.setCompanyNameFromXml(element.getElementsByTagName("company").item(0).getTextContent());
+                    GV.setInventarioLocalFromXml(element.getElementsByTagName("inventary").item(0).getTextContent());
                     GV.setLastUpdate(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));
                 }
             }
