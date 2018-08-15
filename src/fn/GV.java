@@ -283,6 +283,10 @@ public class GV extends GlobalValuesCursor{
         saveXMLProperties();
     }
     
+    public static void setInventarioLocalFromXml(String inventario){
+        GlobalValuesVariables.setInventarioLocal(inventario);
+    }
+    
     public static String inventarioName(){
         return GlobalValuesVariables.getInventarioName();
     }
@@ -290,6 +294,10 @@ public class GV extends GlobalValuesCursor{
     public static void setCompanyName(String nombre) {
         GlobalValuesVariables.setCompanyName(nombre);
         saveXMLProperties();
+    }
+    
+    public static void setCompanyNameFromXml(String nombre) {
+        GlobalValuesVariables.setCompanyName(nombre);
     }
     
     public static String companyName(){
