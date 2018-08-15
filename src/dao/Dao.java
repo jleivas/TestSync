@@ -73,6 +73,9 @@ public class Dao{
     */
     public boolean add(Object object) throws InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
+        if(object == null){
+            return false;//ultima modificacion sin verificar en todos los casos de uso
+        }
         if(object instanceof SyncClass){
             ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
             ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
@@ -111,7 +114,7 @@ public class Dao{
                     }
                 }
             }else{
-                OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", 2);
+                OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet."+object.toString(), 2);
             }
         }
         return false;
@@ -157,8 +160,6 @@ public class Dao{
                 }else{
                     OptionPane.showMsg("No se pudo reducir el stock", "La cantidad a reducir es mayor que el stock disponible", 2);
                 }
-            }else{
-                OptionPane.showMsg("No se pudo reducir el stock", "El lente no se encuentra disponible.", 2);
             }
             return false;
         }catch(IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException ex){
@@ -462,10 +463,10 @@ public class Dao{
             add(ficha.getDespacho());
             add(ficha.getDoctor());
             add(ficha);
-            if(ficha.getCerca() != null){
+            if(ficha.getCerca() != null || !GV.getFicha().getCerca().getMarca().isEmpty()){
                 decreaseStock(ficha.getCerca().getMarca(), 1);
             }
-            if(ficha.getLejos() != null){
+            if(ficha.getLejos() != null || !GV.getFicha().getLejos().getMarca().isEmpty()){
                 decreaseStock(ficha.getLejos().getMarca(), 1);
             }
             if(hp != null){
