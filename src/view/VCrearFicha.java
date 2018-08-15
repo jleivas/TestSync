@@ -2891,7 +2891,6 @@ public class VCrearFicha extends javax.swing.JPanel {
         
 //         validacion de estados de ficha
         int estado = (GV.getFicha().getSaldo() == 0)? 2:1;//2=pagado,1=pendiente
-        int despacho = 0;//no se encuentra despachado
         commitSpinner();
         int abono = (int) txtAbono.getValue();
         HistorialPago hp = null;
@@ -2910,14 +2909,13 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         GV.getFicha().setCod(load.getCurrentCod(GV.getFicha()));
-        if(GV.getFicha().getCerca() != null){
+        GV.getFicha().setEstado(estado);
+        
+        if(GV.getFicha().getCerca() != null || !GV.getFicha().getCerca().getMarca().isEmpty()){
             GV.getFicha().getCerca().setIdFicha(GV.getFicha().getCod());
         }
-        if(GV.getFicha().getLejos() != null){
+        if(GV.getFicha().getLejos() != null || !GV.getFicha().getLejos().getMarca().isEmpty()){
             GV.getFicha().getLejos().setIdFicha(GV.getFicha().getCod());
-        }
-        if(GV.getFicha().getDespacho() != null){
-            GV.getFicha().getDespacho().setIdFicha(GV.getFicha().getCod());
         }
         if(abono > 0 && abono <= GV.getFicha().getSaldo()){
             hp = new HistorialPago(null, new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
