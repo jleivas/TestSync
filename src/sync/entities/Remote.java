@@ -841,7 +841,7 @@ public class Remote implements InterfaceSync{
                 id = datos.getInt("eq_id");
             }
             RmBd.cerrar();
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException |  SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -923,6 +923,7 @@ public class Remote implements InterfaceSync{
         //Falta ordenar y agregar clases
         Log.setLog(className, Log.getReg());
         ArrayList<Object> lista = new ArrayList<>();
+        idParam = idParam.trim();
         try {
             if(type instanceof Ficha){
                 String id = GV.getStr(idParam);
@@ -1633,9 +1634,9 @@ public class Remote implements InterfaceSync{
                         datos.getString("despacho_dsp_id"),
                         datos.getInt("usuario_us_id"),
                         datos.getInt("convenio_cnv_id"),
-                        datos.getInt("cnv_estado"),
-                        datos.getDate("cnv_last_update"),
-                        datos.getInt("cnv_last_hour")
+                        datos.getInt("fch_estado"),
+                        datos.getDate("fch_last_update"),
+                        datos.getInt("fch_last_hour")
                         )
                     );
                 }
@@ -2496,6 +2497,31 @@ public class Remote implements InterfaceSync{
                             + sqlfecha + "',"
                             + object.getLastHour() + ")";
         }
+        if(objectParam instanceof Ficha){
+            EtiquetFicha object = new EtiquetFicha((Ficha)objectParam);
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaEntrega().getTime());
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO ficha VALUES('"
+                    + object.getCod() + "','"
+                    + sqlfecha1+ "','"
+                    + sqlfecha2+ "','"
+                    + object.getLugarEntrega()+ "','"
+                    + object.getHoraEntrega()+ "','"
+                    + object.getObservacion()+ "',"
+                    + object.getValorTotal()+ ","
+                    + object.getDescuento()+ ","
+                    + object.getSaldo()+ ",'"
+                    + object.getRutCliente()+ "','"
+                    + object.getRutDoctor()+ "',"
+                    + object.getIdInstitucion()+ ",'"
+                    + object.getIdDespacho()+ "',"
+                    + object.getIdUser()+ ","
+                    + object.getIdConvenio()+ ","
+                    + object.getEstado() + ",'"
+                    + sqlfecha + "',"
+                    + object.getLastHour() + ")";
+        }
         if(objectParam instanceof HistorialPago){
             HistorialPago object = (HistorialPago)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
@@ -2762,6 +2788,33 @@ public class Remote implements InterfaceSync{
                         + " WHERE eq_id = " + object.getId()    
                         + " AND ((eq_last_update < '"+sqlfecha+"')OR"
                         + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof Ficha){
+            EtiquetFicha object = new EtiquetFicha((Ficha)objectParam);
+            java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());
+            java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
+            java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date
+            return "UPDATE ficha set fch_id = '" + object.getCod()
+                        + "', fch_fecha = '" + sqlfecha1
+                        + "', fch_fecha_entrega = '" + sqlfecha2
+                        + "', fch_lugar_entrega = '" + object.getLugarEntrega()
+                        + "', fch_hora_entrena = '" + object.getHoraEntrega()
+                        + "', fch_obs = '" + object.getObservacion()
+                        + "', fch_valor_total = " + object.getValorTotal()
+                        + ", fch_descuento = " + object.getDescuento()
+                        + ", fch_saldo = " + object.getSaldo()
+                        + ", cliente_cli_rut = '" + object.getRutCliente()
+                        + "', doctor_doc_rut = '" + object.getRutDoctor()
+                        + "', institucion_ins_id = " + object.getIdInstitucion()
+                        + ", despacho_dsp_id = " + object.getIdDespacho()
+                        + ", usuario_us_id = " + object.getIdUser()
+                        + ", convenio_cnv_id = " + object.getIdConvenio()
+                        + ", fch_estado = " + object.getEstado()
+                        + ", fch_last_update = '" + sqlfecha
+                        + "', fch_last_hour = " + object.getLastHour()
+                        + " WHERE fch_id = '" + object.getCod() 
+                        + "' AND ((fch_last_update < '"+sqlfecha+"')OR"
+                        + "(fch_last_update = '"+sqlfecha+"' AND fch_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof HistorialPago){
             HistorialPago object = (HistorialPago)objectParam;
