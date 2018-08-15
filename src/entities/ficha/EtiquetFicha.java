@@ -51,6 +51,36 @@ public class EtiquetFicha extends SyncStringId{
         setLastHour(lastHour);
     }
 
+    public EtiquetFicha() {
+    }
+
+    public EtiquetFicha(Ficha ficha) {
+        setCod(ficha.getCod());
+        setFecha(ficha.getFecha());
+        setFechaEntrega(ficha.getFechaEntrega());
+        setLugarEntrega(ficha.getLugarEntrega());
+        setHoraEntrega(ficha.getHoraEntrega());
+        setObservacion(ficha.getObservacion());
+        setValorTotal(ficha.getValorTotal());
+        setDescuento(ficha.getDescuento());
+        setSaldo(ficha.getSaldo());
+        String rutCliente = (ficha.getCliente() != null) ? ficha.getCliente().getCod():"";
+        setRutCliente(rutCliente);
+        String rutDoctor = (ficha.getDoctor() != null) ? ficha.getDoctor().getCod():"";
+        setRutDoctor(rutDoctor);
+        int idInstitucion = (ficha.getInstitucion() != null) ? ficha.getInstitucion().getId():0;
+        setIdInstitucion(idInstitucion);
+        String idDespacho = (ficha.getDespacho() != null) ? ficha.getDespacho().getCod():"";
+        setIdDespacho(idDespacho);
+        int idUser = (ficha.getUser() != null) ? ficha.getUser().getId():0;
+        setIdUser(idUser);
+        int idConvenio = (ficha.getConvenio() != null) ? ficha.getConvenio().getId():0;
+        setIdConvenio(idConvenio);
+        setEstado(ficha.getEstado());
+        setLastUpdate(ficha.getLastUpdate());
+        setLastHour(ficha.getLastHour());
+    }
+
     public Date getFecha() {
         return fecha;
     }
