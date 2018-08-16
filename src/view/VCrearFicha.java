@@ -15,6 +15,7 @@ import entities.Institucion;
 import entities.Lente;
 import entities.TipoPago;
 import entities.ficha.Armazon;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.Boton;
 import fn.GV;
@@ -61,10 +62,10 @@ public class VCrearFicha extends javax.swing.JPanel {
         
         ContentAdmin.lblTitle.setText("Nueva Ficha");
         load();
-        
+        comprobarDatosFicha();
         GV.cursorDF();
         GV.cursorDF(this);
-        comprobarDatosFicha();
+        
         thisEjecucion = true;
        // JFormattedTextField.COMMIT_OR_REVERT. Esta es la opción por defecto y la más útil. Si el texto introducido es incorrecto, se vuelve automáticamente al último valor bueno conocido. Si el texto no es válido, se muestra el último valor bueno conocido.<>
     }
@@ -1563,7 +1564,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             }else{
                 txtCristalCerca.setForeground(rojo);
             }
-            calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1646,7 +1646,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             }else{
                 txtArmazonCerca.setForeground(rojo);
             }
-            calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1670,7 +1669,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             }else{
                 txtCristalLejos.setForeground(rojo);
             }
-            calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1746,7 +1744,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             }else{
                 txtArmazonLejos.setForeground(rojo);
             }
-            calcularTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1928,9 +1925,8 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         save();
-        GV.getFicha();
-        GV.clearFicha();
-        GV.getFicha();//borrar es solo para comprobar
+        clearData();
+        reloadPage();
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
@@ -2318,43 +2314,91 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtSaldo.setText(GV.strToPrice(saldo));
     }
 
-    private void limpiarDatos() throws SQLException, ClassNotFoundException {
+    private void cargarDatos() throws SQLException, ClassNotFoundException {
         //Limpiar todo menos doctor y datos de entrega
+        resetTxtCliente();
+        Ficha ficha = GV.getFicha();
+        Armazon cerca = stArmazonCerca;
+        Armazon lejos = stArmazonLejos;
+        Cliente cliente = stCliente;
         txtAbono.setValue(0);
-        txtAddCerca.setText("");
-        txtCiudad.setText("");
-        txtComuna.setText("");
-        txtArmazonCerca.setText("");
-        txtArmazonLejos.setText("");
-        txtCristalCerca.setText("");
-        txtCristalLejos.setText("");
-        txtDPCerca.setValue(0);
+        String addCerca = (cerca != null)? cerca.getAdd():"";
+        txtAddCerca.setText(addCerca);
+        
+        String marcaCerca = (cerca!= null)? cerca.getMarca():"";
+        txtArmazonCerca.setText(marcaCerca);
+        String marcaLejos = (lejos!= null)? lejos.getMarca():"";
+        txtArmazonLejos.setText(marcaLejos);
+        String cristalCerca = (cerca!=null)? cerca.getCristal():"";
+        txtCristalCerca.setText(cristalCerca);
+        String cristalLejos = (lejos!=null)? lejos.getCristal():"";
+        txtCristalLejos.setText(cristalLejos);
+        int dpCerca = (cerca!=null)? cerca.getDp():0;
+        txtDPCerca.setValue(dpCerca);
+        int dpLejos = (lejos!=null)? lejos.getDp():0;
         txtDPLejos.setValue(0);
+        GV.getFicha().setDescuento(0);
         txtDescuento.setText("0");
-        txtDireccionCliente.setText("");
-        txtNacimiento.setDate(null);
-        txtInstitucion.setText("");
-        txtMailCliente.setText("");
-        txtNombreCliente.setText("");
-        txtODCercaESF.setText("");
-        txtODCercaA.setText("");
-        txtODCercaCIL.setText("");
-        txtODLejosESF.setText("");
-        txtODLejosA.setText("");
-        txtODLejosCIL.setText("");
-        txtODLejosCIL.setText("");
-        txtOICercaESF.setText("");
-        txtOICercaA.setText("");
-        txtOICercaCIL.setText("");
-        txtOILejosESF.setText("");
-        txtOILejosA.setText("");
-        txtOILejosCIL.setText("");
-        txtObs.setText("");
-        txtRutCliente.setText("");
+        txtFecha.setDate(ficha.getFechaEntrega());
+        txtEntrega.setText(ficha.getLugarEntrega());
+        String docName = (stDoctor!=null)?stDoctor.getNombre()+" <"+stDoctor.getCod()+">":"";
+        docName = (docName.equals(" <null>")) ? "":docName;
+        txtDoctor.setText(docName);
+       
+        String inst =  (stInstitucion!=null && stInstitucion.getId() != 0)? stInstitucion.getNombre()+"<"+stInstitucion.getId()+">":"";
+        txtInstitucion.setText(inst);
+        
+        
+        String odCEsf = (cerca!=null)? cerca.getOdEsf():"";
+        txtODCercaESF.setText(odCEsf);
+        String odCA = (cerca!=null)?cerca.getOdA():"";
+        txtODCercaA.setText(odCA);
+        String odCCil = (cerca!=null)?cerca.getOdCil():"";
+        txtODCercaCIL.setText(odCCil);
+        String odLEsf = (lejos!=null)? lejos.getOdEsf():""; 
+        txtODLejosESF.setText(odLEsf);
+        String odLA = (lejos!=null)?lejos.getOdA():"";
+        txtODLejosA.setText(odLA);
+        String odLCil = (lejos!=null)?lejos.getOdCil():"";
+        txtODLejosCIL.setText(odLCil);
+        String oiCEsf = (cerca!=null)? cerca.getOiEsf():"";
+        String oiCA = (cerca!=null)? cerca.getOiA():"";
+        String oiCCil = (cerca!=null)? cerca.getOiCil():"";
+        txtOICercaESF.setText(oiCEsf);
+        txtOICercaA.setText(oiCA);
+        txtOICercaCIL.setText(oiCCil);
+        String oiLEsf = (lejos!=null)? lejos.getOiEsf():"";
+        String oiLA = (lejos!=null)? lejos.getOiA():"";
+        String oiLCil = (lejos!=null)? lejos.getOiCil():"";
+        txtOILejosESF.setText(oiLEsf);
+        txtOILejosA.setText(oiLA);
+        txtOILejosCIL.setText(oiLCil);
+        String obs = (ficha!=null)?ficha.getObservacion():"";
+        txtObs.setText(obs);
+        
+        
+        String rut = (cliente!=null)?cliente.getCod():"";
+        String nombre = (cliente != null)? cliente.getNombre():"";
+        txtNombreCliente.setText(nombre);
+        String t1 = (cliente!=null)?cliente.getTelefono1():"";
+        txtTelefonoCliente1.setText(t1);
+        String t2 = (cliente!=null)?cliente.getTelefono2():"";
+        txtTelefonoCliente2.setText(t2);
+        String mail = (cliente!=null)? cliente.getEmail():"";
+        txtMailCliente.setText(mail);
+        String ciudad = (cliente!= null)? cliente.getCiudad():"";
+        txtCiudad.setText(ciudad);
+        String comuna = (cliente!= null)? cliente.getComuna():"";
+        txtComuna.setText(comuna);
+        cboSexo.setSelectedIndex(stCliente.getSexo());
+        String direccion = (cliente != null)? cliente.getDireccion():"";
+        txtDireccionCliente.setText(direccion);
+        Date nac = (cliente!=null)? cliente.getNacimiento():null;
+        txtNacimiento.setDate(nac);
+        txtRutCliente.setText(rut);
+        
+        
         txtSaldo.setText("$ 0");
-        txtTelefonoCliente2.setText("");
-        txtArmazonCerca.setText("");
-        txtArmazonLejos.setText("");
         txtTotal.setText("$ 0");
         cargarCbos();
     }
@@ -2440,6 +2484,12 @@ public class VCrearFicha extends javax.swing.JPanel {
         chkPlusMaxLejos.setSelected(false);
         cboDescuento.setVisible(false);
         try {
+            cargarDatos();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
             cargarCbos();
             autocompletar();
             calcularSaldo();
@@ -2492,26 +2542,19 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void msgRejectedClear(){
         msgRejected(null);
     }
-
-//    private void runCheckingData() {
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        executor.submit(() -> {
-//                while(SubProcess.ejecucion()){
-//                    comprobarDatosFicha();
-//                }
-//        });
-//    }
     
     private boolean validaFicha(){
         return !lblMessageStatus.isVisible();
     }
 
     private void comprobarDatosFicha(){
+        calcularTotal();
         if(txtFecha.getDate() == null || !lugarEntregaValido()){
             msgRejected("Debe ingresar una fecha y lugar de entrega");
         }else{
             GV.getFicha().setFecha(new Date());
             GV.getFicha().setFechaEntrega(txtFecha.getDate());
+            GV.getFicha().setLugarEntrega(txtEntrega.getText());
             GV.getFicha().setUser(GV.user());
             if(!hourIsValid()){
                 msgRejected("Debe ingresar una hora de entrega válida");
@@ -2561,6 +2604,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             }
         }
     }
+    
     private void commitSpinner() {
         try {
             txtHora1.commitEdit();
@@ -2922,5 +2966,32 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         
         load.createFicha(GV.getFicha(),hp);
+    }
+
+    private void reloadPage() {
+        try {
+            boton.crearFicha();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al recargar ventana", ex+"\n\n"+ex.getMessage()+"\n\n"+ex.getLocalizedMessage(), 3);
+        }
+    }
+
+    /**
+     * reinicia todas las clases estaticas previemente cargadas
+     */
+    private void clearData() {
+        stArmazonCerca=new Armazon();
+        stArmazonLejos=new Armazon();
+        stCliente=new Cliente();
+        stCristalCerca= new Cristal();
+        stCristalLejos=new Cristal();
+        stDescuento=new Descuento();
+        stDoctor= new Doctor();
+        stInstitucion= new Institucion();
+        stLenteCerca= new Lente();
+        stLenteLejos= new Lente();
+        stTipoPago = new TipoPago();
+        GV.clearFicha();
     }
 }
