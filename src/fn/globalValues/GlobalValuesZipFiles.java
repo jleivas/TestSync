@@ -7,14 +7,10 @@ package fn.globalValues;
 
 import fn.GV;
 import fn.Zipper;
+import fn.mail.Send;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -26,13 +22,20 @@ public class GlobalValuesZipFiles {
     private static ZipOutputStream output;
 
     public static void zipperBackup(){
+        boolean error = false;
         try {
             Zipper z = new Zipper(new File(GV.filesPath()+"rsp.zip"));
-            z.zip(new File(GV.filesPath()+"RSP"));
+            z.zip(new File("."+File.separator+"files"+File.separator+"RSP"));
         } catch (FileNotFoundException e) {
+            error = true;
             e.printStackTrace();
         } catch (IOException e) {
+            error = true;
             e.printStackTrace();
+        }
+        if(!error){
+            Send backUp = new Send();
+            backUp.sendFileMail(GV.filesPath()+"rsp.zip");
         }
     }
 }
