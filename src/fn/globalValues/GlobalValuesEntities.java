@@ -108,6 +108,6 @@ public class GlobalValuesEntities {
     }
 
     public static void clearFicha() {
-        stFicha = new Ficha();
+        stFicha =  new Ficha();
     }
 }
