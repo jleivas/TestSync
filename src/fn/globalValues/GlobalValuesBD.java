@@ -361,7 +361,7 @@ public class GlobalValuesBD {
 " INSTITUCION_INS_ID," +
 " DESPACHO_DSP_ID," +
 " USUARIO_US_ID," +
-" CONVENIO_CNV_ID INTEGER"+
+" CONVENIO_CNV_ID,"+
 " FCH_ESTADO," +
 " FCH_LAST_UPDATE," +
 " FCH_LAST_HOUR";
@@ -537,7 +537,8 @@ public class GlobalValuesBD {
         createExcel(new TipoPago());
         createExcel(new User());
         
-//        GlobalValuesZipFiles.zipperBackup();
+        GlobalValuesZipFiles.zipperBackup();
+        
     }
     
     private static boolean createExcel(Object type){
