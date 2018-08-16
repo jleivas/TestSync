@@ -7,10 +7,14 @@ package fn.mail;
 
 import fn.GV;
 import fn.OptionPane;
+import java.io.File;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -18,7 +22,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  *
@@ -233,6 +239,7 @@ public class Send {
         msg.setRecipients(Message.RecipientType.TO, toAddresses);
         msg.setSubject(subject);
         msg.setSentDate(new Date());
+        MimeMultipart m = new MimeMultipart();
         // set plain text message
         msg.setContent(message, "text/html");
  
@@ -244,5 +251,58 @@ public class Send {
         }
         
  
+    }
+    
+    public boolean sendFileMail(String directorio){
+        try{
+            Properties p = new Properties();
+            p.put("mail.smtp.host", "smtp.gmail.com");
+            p.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            p.setProperty("mail.smtp.starttls.enable", "true");
+            p.setProperty("mail.smtp.port", "587");
+            p.setProperty("mail.smtp.user", GV.getMailSystemName());
+            p.setProperty("mail.smtp.auth", "true");
+            
+            Session s = Session.getDefaultInstance(p,null);
+            BodyPart text = new MimeBodyPart();
+            text.setText("Respaldo de base de datos Derby, programa "+GV.projectName()+" version "+GV.version());
+            BodyPart adjunto=new MimeBodyPart();
+            if(directorio != null){
+            if(!directorio.equals("")){
+                adjunto.setDataHandler(new DataHandler(new FileDataSource(directorio)));
+                adjunto.setFileName(GV.getToName(directorio.substring(directorio.lastIndexOf(File.separator)+1)));
+                
+            }
+            }
+            MimeMultipart m = new MimeMultipart();
+            m.addBodyPart(text);
+            if(directorio != null){
+            if(!directorio.equals("")){
+                m.addBodyPart(adjunto);
+            }
+            }
+            
+            MimeMessage mensaje = new MimeMessage(s);
+            mensaje.setFrom(new InternetAddress(GV.getMailSystemName()));
+            mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(GV.mailReport()));
+            mensaje.setSubject("Backup Local desde "+GV.companyName()+" con "+GV.projectName()+"-"+GV.version());
+            mensaje.setContent(m);
+            Transport t = s.getTransport("smtp");
+            try{
+                t.connect(GV.getMailSystemName(),GV.getMailSystemPass());
+            }catch(MessagingException ex){
+                System.out.println("Error en t.connect:"+ex);
+            }
+            
+            
+            t.sendMessage(mensaje, mensaje.getAllRecipients());
+            
+            t.close();
+            return true;
+        }catch(Exception ex){
+            System.out.println("Error "+ex);
+            return false;
+        }
+        
     }
 }
