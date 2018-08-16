@@ -69,7 +69,8 @@ public class GlobalValuesVariables {
     }
     
     public static String getCompanyName(){
-        return getStr(COMPANY_NAME);
+        String value = (getStr(COMPANY_NAME).isEmpty())?"[Empresa no ingresada]":getStr(COMPANY_NAME);
+        return value;
     }
 
     public static String getProjectName() {
