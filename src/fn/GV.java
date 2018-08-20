@@ -25,6 +25,7 @@ import fn.globalValues.GlobalValuesVariables;
 import fn.globalValues.GlobalValuesEntities;
 import fn.globalValues.GlobalValuesMailProperties;
 import fn.globalValues.GlobalValuesNetwork;
+import fn.globalValues.GlobalValuesPrint;
 import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.globalValues.GlobalValuesUI;
 import fn.globalValues.GlobalValuesXmlFiles;
@@ -168,6 +169,11 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesMailProperties.getMailReport();
     }
     /*********************END MAIL*****************************/
+     /**************************BEGIN PRINT**********************************/
+    public static void printFicha(){
+        GlobalValuesPrint.print(getFicha());
+    }
+     /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
     public static String dateToString(Date date, String format){
         return GlobalValuesFunctions.dateToString(date,format);
@@ -482,6 +488,30 @@ public class GV extends GlobalValuesCursor{
     
     public static String getNombreOficina() {
         return GlobalValuesEntities.getNombreOficina();
+    }
+    
+    public static String getOficinaWeb() {
+        return GlobalValuesEntities.getOficinaWeb();
+    }
+    
+    public static String getOficinaAddress() {
+        return GlobalValuesEntities.getOficinaAddress();
+    }
+    
+    public static String getOficinaCity() {
+        return GlobalValuesEntities.getOficinaCity();
+    }
+    
+    public static String getOficinaMail(){
+        return GlobalValuesEntities.getOficinaMail();
+    }
+    
+    public static String getOficinaPhone1(){
+        return GlobalValuesEntities.getOficinaPhone1();
+    }
+    
+    public static String getOficinaPhone2(){
+        return GlobalValuesEntities.getOficinaPhone2();
     }
     
     public static boolean tipoUserSuperAdmin(){
