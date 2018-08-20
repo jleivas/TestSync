@@ -1925,6 +1925,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         save();
+        GV.printFicha();
         clearData();
         reloadPage();
     }//GEN-LAST:event_btnSaveMouseClicked
