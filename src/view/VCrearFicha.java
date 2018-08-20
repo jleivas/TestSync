@@ -2308,10 +2308,10 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void calcularSaldo() {
-        int total =  GV.strToNumber(txtTotal.getText());
-        int abono = (int)txtAbono.getValue();
-        int descuento = obtenerDescuento();
-        int saldo = total - descuento - abono;
+        int total =  GV.roundPrice(GV.strToNumber(txtTotal.getText()));
+        int abono = GV.roundPrice((int)txtAbono.getValue());
+        int descuento = GV.roundPrice(obtenerDescuento());
+        int saldo = GV.roundPrice((total-descuento-abono));
         txtSaldo.setText(GV.strToPrice(saldo));
     }
 
@@ -2419,7 +2419,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(stLenteLejos != null){
             lentes = lentes + stLenteLejos.getPrecioAct();
         }
-        int total = cristales+lentes;
+        int total = GV.roundPrice((cristales+lentes));
         txtTotal.setText(GV.strToPrice(total));
         calcularSaldo();
     }
@@ -2756,7 +2756,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         String nombre = "";
         stDescuento = null;
         int dscto = 0;
-        int total = GV.strToNumber(txtTotal.getText());
+        int total = GV.roundPrice(GV.strToNumber(txtTotal.getText()));
         if(chkDescuento.isSelected() && total > 0){
             nombre = getDescuentoName(cboDescuento.getSelectedItem().toString());
             try {

@@ -18,6 +18,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.PrintJob;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,8 +32,8 @@ public class GlobalValuesPrint {
             
             String formatoAbono = obtenerAbonos(ficha.getCod());
             ///////////////////////////FECHAS
-            String fecha = GV.dateToString(ficha.getFecha(),"dd-mm-yyyy");
-            String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd-mm-yyyy");
+            String fecha = GV.dateToString(ficha.getFecha(),"dd/mm/yyyy");
+            String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd/mm/yyyy");
             //////////////////////////FIN FECHAs
             String endurecidoLejos=(ficha.getLejos().getEndurecido()==1)?"X":"";
             String capaLejos=(ficha.getLejos().getCapa()==1)?"X":"";
@@ -76,7 +77,7 @@ public class GlobalValuesPrint {
             ,GV.strToPrice(ficha.getValorTotal())//20
             ,formatoAbono//21
             ,GV.strToPrice(ficha.getSaldo())//22
-            ,ficha.getHoraEntrega()//23
+            ,ficha.getHoraEntrega().replaceAll(" ", "")//23
             ,ficha.getLejos().getMarca()//24
             ,ficha.getCerca().getMarca()//25
             ,GV.companyName()//26
@@ -94,15 +95,16 @@ public class GlobalValuesPrint {
             ,ficha.getCerca().getAdd()//38
             ,obtenerFormatoCliente(ficha.getCliente())//39
             ,obtenerFormatoDireccionCliente(ficha.getCliente())//40
-            ,"TOTAL: "+GV.strToPrice(ficha.getValorTotal())+", ABONO: "+formatoAbono+", SALDO: $"+ GV.strToPrice(ficha.getSaldo())//41
+            ,"TOTAL: "+GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))+", ABONO: "+formatoAbono.replaceAll("_", "")+", SALDO: "+ GV.strToPrice(ficha.getSaldo())//41
             ,ficha.getLejos().getMarca()//42
-            ,GV.strToPrice(precioLente2).replaceAll(" ", "_")//43
+            ,GV.strToPrice(precioLente2)//43
             ,ficha.getLejos().getCristal()//44
-            ,GV.strToPrice(precioCristal2).replaceAll(" ", "_")//45
+            ,GV.strToPrice(precioCristal2)//45
             ,ficha.getCerca().getMarca()//46
-            ,GV.strToPrice(precioLente1).replaceAll(" ", "_")//47
+            ,GV.strToPrice(precioLente1)//47
             ,ficha.getCerca().getCristal()//48
-            ,GV.strToPrice(precioCristal1).replaceAll(" ", "_")//49
+            ,GV.strToPrice(precioCristal1)//49
+            ,strDescuento(ficha.getDescuento())//50
             };
 
             imprimir(impresion); 
@@ -130,23 +132,20 @@ public class GlobalValuesPrint {
         }
     }
  
-	//FIN DEL MAIN
-        private static void imprimir(String[] impresion){
-             try {
-                                imprimir_Cita(impresion);
-                                
-                                
-
-                            } catch (Exception e) {
-                                OptionPane.showMsg("No se imprimirá", "La impresion se ha cancelado", 2);
-                                return;
-                            }
-        
+    private static void imprimir(String[] impresion){
+        try {
+                            imprimir_Cita(impresion);
+        } catch (Exception e) {
+            OptionPane.showMsg("No se imprimirá", "La impresion se ha cancelado", 2);
+            return;
         }
+
+    }
         
         
         private static void imprimir_Cita(String [] text)
         {
+            String fileName = "Folio-"+text[1].replaceFirst("/", "-eq-")+"["+GV.dateToString(new Date(), "dd-mm-yy")+"]";
             int calTitulos1 = CalibracionGlobal.ALT_TITULOS;
             int calLejos2 = CalibracionGlobal.ALT_LENTE_LEJOS;
             int calLCerca3 = CalibracionGlobal.ALT_LENTE_CERCA;
@@ -157,9 +156,9 @@ public class GlobalValuesPrint {
             int calValores = CalibracionGlobal.L_VALORES;
         
             
-        Frame f = new Frame ("Imprimir");
+        Frame f = new Frame ("Imprimir Folio "+text[1].replaceFirst("/", " Equipo "));
         f.pack();
-        PrintJob pjob = f.getToolkit().getPrintJob(f,"Impresion del Registro",null);
+        PrintJob pjob = f.getToolkit().getPrintJob(f,fileName,null);
         Graphics pg = pjob.getGraphics();
                             // fuente  ,          , tamaño de la fuente
         pg.setFont(new Font ("Arial", Font.ITALIC, 10)); 
@@ -168,7 +167,7 @@ public class GlobalValuesPrint {
            pg.drawString(text[0], 105 + CalibracionGlobal.L_FECHA, (80+calTitulos1));//fecha
            pg.drawString(text[1], 465 + CalibracionGlobal.L_FOLIO, (80+calTitulos1));//folio
            pg.drawString(text[2], 150 + CalibracionGlobal.L_LUGAR_ENTREGA_1, (100+calTitulos1));//lugar_entrega
-           pg.drawString(text[3], 465 + CalibracionGlobal.L_FECHA_ENTREGA_1, (100+calTitulos1));//fecha_entrega
+           pg.drawString(text[3]+"-"+text[23], 465 + CalibracionGlobal.L_FECHA_ENTREGA_1, (100+calTitulos1));//fecha_entrega y hora
            pg.drawString(text[39], 123 + CalibracionGlobal.L_DATOS_CLIENTE, (119+calTitulos1));//datos_cliente
            pg.drawString(text[40], 123 + CalibracionGlobal.L_DIRECCION_CLIENTE, (130+calTitulos1));//direccion_cliente
            pg.setFont(new Font ("Arial", Font.BOLD, 10)); 
@@ -217,23 +216,23 @@ public class GlobalValuesPrint {
            pg.setFont(new Font ("Arial", Font.ITALIC, 7));
            pg.drawString(text[42], 123+CalibracionGlobal.L_DETALLE, 595+calDetalleComprobante6);//Lejos Marca
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
-           pg.drawString(rellenarEspacios(text[43]), 330 + calValores, 595+calDetalleComprobante6);//Lejos Precio
+           pg.drawString((text[43]), 330 + calValores, 595+calDetalleComprobante6);//Lejos Precio
            pg.setFont(new Font ("Arial", Font.ITALIC, 7));
            pg.drawString(text[44], 123+CalibracionGlobal.L_DETALLE, 610+calDetalleComprobante6);//Lejos cristal
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
-           pg.drawString(rellenarEspacios(text[45]), 330 + calValores, 610+calDetalleComprobante6);//Lejos cristal precio
+           pg.drawString((text[45]), 330 + calValores, 610+calDetalleComprobante6);//Lejos cristal precio
            pg.setFont(new Font ("Arial", Font.ITALIC, 7));
            pg.drawString(text[46], 123+CalibracionGlobal.L_DETALLE, 630+calDetalleComprobante6);//Cerca Marca
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
-           pg.drawString(rellenarEspacios(text[47]), 330 + calValores, 630+calDetalleComprobante6);//Cerca precio
+           pg.drawString((text[47]), 330 + calValores, 630+calDetalleComprobante6);//Cerca precio
            pg.setFont(new Font ("Arial", Font.ITALIC, 7));
            pg.drawString(text[48], 123+CalibracionGlobal.L_DETALLE, 640+calDetalleComprobante6);//Cerca cristal
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
-           pg.drawString(rellenarEspacios(text[49]), 330 + calValores, 640+calDetalleComprobante6);//Cerca cristal precio
-           pg.drawString(rellenarEspacios(text[20]), 330 + calValores, (653+calDetalleComprobante6));//valor_total
-           pg.drawString(rellenarEspacios(text[21]), 330 + calValores, (664+calDetalleComprobante6));//abono
+           pg.drawString((text[49]), 330 + calValores, 640+calDetalleComprobante6);//Cerca cristal precio
+           pg.drawString((text[20]+text[50]), 330 + calValores, (653+calDetalleComprobante6));//valor_total
+           pg.drawString((text[21]), 330 + calValores, (664+calDetalleComprobante6));//abono
            pg.setFont(new Font ("Arial", Font.BOLD, 10));
-           pg.drawString(rellenarEspacios(text[22]), 330 + calValores, (675+calDetalleComprobante6));//saldo
+           pg.drawString((text[22]), 330 + calValores, (675+calDetalleComprobante6));//saldo
            pg.setFont(new Font ("Elephant", Font.BOLD, 15));
            pg.drawString(text[3], 58 + CalibracionGlobal.L_FECHA_ENTREGA_2, (755+calDatosEntrega6));//fecha_entrega
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
@@ -258,8 +257,8 @@ public class GlobalValuesPrint {
                 desc = abonos[i][1];
             }
         }
-        resumen = (monto > 0)? "$_"+GV.strToPrice(monto)+" ("+i+" Abonos registrados)":"$_0 (No existen abonos registrados)";
-        return (i==1)? "$_"+GV.strToPrice(monto)+" ("+desc+")":resumen;
+        resumen = (monto > 0)? GV.strToPrice(monto)+" ("+i+" Abonos registrados)":"No registrado";
+        return (i==1)? GV.strToPrice(monto)+" ("+desc+")":resumen;
     }
     
     
@@ -297,32 +296,7 @@ public class GlobalValuesPrint {
         }
     }
 
-    private static String rellenarEspacios(String precio) {
-        try{
-            precio = precio.trim();
-            String aux2 = "";
-            if(precio.length() > 12){
-                aux2 = precio.substring(precio.indexOf("("), precio.length());
-                precio = precio.substring(0, precio.indexOf("("));
-
-            }
-            String aux =  precio.substring(0,precio.indexOf("_"));
-            precio = precio.substring(precio.indexOf("_"), precio.length()).replace("_", "");
-            int spaces = precio.trim().length();
-            spaces = 9-spaces;
-            String temp = "";
-            if(spaces > 0){
-                for (int i = 0; i < spaces; i++) {
-                    temp = temp + " ";
-                }
-            }
-            if(aux2.length() > 2){
-                return aux+temp+precio+aux2;
-            }
-            return aux+temp+precio;
-        }catch(Exception e){
-            System.out.println(""+e.getMessage());
-            return "ERROR";
-        }
+    private static String strDescuento(int descuento) {
+        return (descuento!=0)? " Descuento: "+GV.strToPrice(descuento):"";
     }
 }
