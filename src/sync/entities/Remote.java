@@ -44,7 +44,7 @@ import sync.InterfaceSync;
 public class Remote implements InterfaceSync{
     private static String className = "Remote";
     @Override
-    public boolean add(Object objectParam) {
+     public boolean add(Object objectParam) {
         Log.setLog(className, Log.getReg());
         try{
             if(objectParam == null)
@@ -841,7 +841,7 @@ public class Remote implements InterfaceSync{
                 id = datos.getInt("eq_id");
             }
             RmBd.cerrar();
-        } catch (ClassNotFoundException |  SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -1534,6 +1534,7 @@ public class Remote implements InterfaceSync{
             }
             if (type instanceof TipoPago) {
                 String sql = "SELECT * FROM tipo_pago WHERE tp_nombre='" + idParam + "'";
+                sql = (GV.isNumeric(idParam))? "SELECT * FROM tipo_pago WHERE tp_id=" + idParam:sql;
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
                 }
@@ -2222,11 +2223,19 @@ public class Remote implements InterfaceSync{
                 return null;
             }
             if (type instanceof TipoPago) {
-                for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
-                    if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
-                        return object;
+                if(cod == null){
+                    for (Object object : listar(""+id, type)) {//cod es el nombre de la entidad
+                        if (((TipoPago) object).getId() == id) {
+                            return object;
+                        }
                     }
-                }
+                }else{
+                    for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
+                        if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
+                            return object;
+                        }
+                    }
+                }   
                 return null;
             }
             if(type instanceof User){
@@ -2968,7 +2977,7 @@ public class Remote implements InterfaceSync{
             return false;
         return true;
     }
-    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, SQLException {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";
         if(remitente > 0){

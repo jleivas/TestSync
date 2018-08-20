@@ -1538,6 +1538,7 @@ public class Local implements InterfaceSync {
             }
             if (type instanceof TipoPago) {
                 String sql = "SELECT * FROM tipo_pago WHERE tp_nombre='" + idParam + "'";
+                sql = (GV.isNumeric(idParam))? "SELECT * FROM tipo_pago WHERE tp_id=" + idParam:sql;
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
                 }
@@ -2226,11 +2227,19 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if (type instanceof TipoPago) {
-                for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
-                    if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
-                        return object;
+                if(cod == null){
+                    for (Object object : listar(""+id, type)) {//cod es el nombre de la entidad
+                        if (((TipoPago) object).getId() == id) {
+                            return object;
+                        }
                     }
-                }
+                }else{
+                    for (Object object : listar(cod, type)) {//cod es el nombre de la entidad
+                        if (((TipoPago) object).getNombre().trim().toLowerCase().equals(cod.toLowerCase())) {
+                            return object;
+                        }
+                    }
+                }   
                 return null;
             }
             if(type instanceof User){
