@@ -110,4 +110,58 @@ public class GlobalValuesEntities {
     public static void clearFicha() {
         stFicha =  new Ficha();
     }
+
+    public static String getOficinaWeb() {
+        if(OFICINA != null){
+            if(!OFICINA.getWeb().isEmpty()){
+                return OFICINA.getWeb();
+            }
+        }
+        return "Sin dirección web";
+    }
+
+    public static String getOficinaAddress() {
+        if(OFICINA != null){
+            if(!OFICINA.getDireccion().isEmpty()){
+                return OFICINA.getDireccion();
+            }
+        }
+        return "no registrada";
+    }
+
+    public static String getOficinaCity() {
+       if(OFICINA != null){
+            if(!OFICINA.getCiudad().isEmpty()){
+                return OFICINA.getCiudad();
+            }
+        }
+        return "no registrada";
+    }
+
+    public static String getOficinaMail() {
+        if(OFICINA != null){
+            if(!OFICINA.getEmail().isEmpty()){
+                return OFICINA.getEmail();
+            }
+        }
+        return "no registrado";
+    }
+
+    public static String getOficinaPhone1() {
+        if(OFICINA != null){
+            if(!OFICINA.getTelefono1().isEmpty()){
+                return OFICINA.getTelefono1();
+            }
+        }
+        return "no registrado";
+    }
+
+    public static String getOficinaPhone2() {
+        if(OFICINA != null){
+            if(!OFICINA.getTelefono2().isEmpty()){
+                return OFICINA.getTelefono2();
+            }
+        }
+        return "no registrado";
+    }
 }
