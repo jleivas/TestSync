@@ -204,7 +204,7 @@ public class GlobalValuesFunctions {
                 dscto = descuento.getMonto();
             }
         }
-        return dscto;
+        return GV.roundPrice(dscto);
     }
 
     public static void compileJCalendar(JDateChooser jDate) {
@@ -289,5 +289,11 @@ public class GlobalValuesFunctions {
             abonos[i][1] = (tp!=null)? tp.getNombre():"No registrado";
         }
         return abonos;
+    }
+
+    public static int roundPrice(int price) {
+        String temp = ""+price;
+        int lastN = GV.strToNumber(temp.substring(temp.length()-1));
+        return (lastN > 5)? (price-lastN)+10:price-lastN;
     }
 }

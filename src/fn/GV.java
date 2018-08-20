@@ -179,6 +179,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.dateToString(date,format);
     }
     
+    public static int roundPrice(int price) {
+        return GlobalValuesFunctions.roundPrice(price);
+    }
+    
     public static int contChar(char toCompare, String toCount){
         return GlobalValuesFunctions.contChar(toCompare, toCount);
     }
