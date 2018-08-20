@@ -6,16 +6,23 @@
 package fn.globalValues;
 
 import com.toedter.calendar.JDateChooser;
+import dao.Dao;
 import entities.Descuento;
+import entities.TipoPago;
+import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -257,5 +264,30 @@ public class GlobalValuesFunctions {
         }
 
         return resultado;
+    }
+    
+    public static Object[][] listarAbonos(String codFicha) {
+        Dao load = new Dao();
+        int COLUMNAS = 2;//la columna dos corresponde a la descripcion del tipo de pago, se usa en funciones para imprimiry
+        List<Object> lista = load.listar(codFicha, new HistorialPago());
+        if(lista.size() == 0){return null;}
+        String[][] abonos = new String[lista.size()][COLUMNAS];
+        int i = 0;
+        
+        TipoPago tp = null;
+        
+        for (Object object : lista) {
+            HistorialPago temp = (HistorialPago)object;
+            try {
+                tp = (TipoPago)load.get(null, temp.getIdTipoPago(), new TipoPago());
+            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(GlobalValuesPrint.class.getName()).log(Level.SEVERE, null, ex);
+                tp = null;
+            }
+            abonos[i][0] = GV.strToPrice(temp.getAbono());
+            
+            abonos[i][1] = (tp!=null)? tp.getNombre():"No registrado";
+        }
+        return abonos;
     }
 }
