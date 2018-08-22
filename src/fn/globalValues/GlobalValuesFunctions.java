@@ -59,16 +59,23 @@ public class GlobalValuesFunctions {
     
     public static void emptyTable(JComboBox cbo, JTextField txt, String registry){
         String end = "os";
-        if(registry.endsWith("as")){
-            end = "as";
-        }
+        registry = (!registry.endsWith("s"))? registry+"s":registry;
+        end = (registry.endsWith("as"))? "as":end;
         if(txt.getText().length() > 1){
             OptionPane.showMsg("No existen "+registry, "No existen registros disponibles que contengan la palabra \""+txt.getText()+"\"",1);
         }else{
-            if(cbo.getSelectedIndex() == 0){
-                OptionPane.showMsg("No existen "+registry, "No existen "+registry+" registrad"+end+".",1);
+            if(registry.toLowerCase().contains("fichas")){
+                if(cbo.getSelectedIndex() == 5){
+                    OptionPane.showMsg("No existen "+registry, "No existen "+registry+" eliminad"+end+".",1);
+                }else{
+                    OptionPane.showMsg("No existen "+registry, "No existen "+registry+" registrad"+end+".",1);
+                }
             }else{
-                OptionPane.showMsg("No existen "+registry, "No existen "+registry+" eliminad"+end+".",1);
+                if(cbo.getSelectedIndex() == 0){
+                    OptionPane.showMsg("No existen "+registry, "No existen "+registry+" registrad"+end+".",1);
+                }else{
+                    OptionPane.showMsg("No existen "+registry, "No existen "+registry+" eliminad"+end+".",1);
+                }
             }
         }
     }

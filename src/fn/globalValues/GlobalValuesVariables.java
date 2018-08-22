@@ -53,6 +53,7 @@ public class GlobalValuesVariables {
     private static Date TMP_DATE_TO =null;
     private static String ID_PARAM_IS_USER = "USER/";
     private static String ID_PARAM_IS_CLIENT = "CLIENT/";
+    private static String ID_PARAM_IS_TABLE_LIST = "LIST/";
     
     private static final int DELETED = 0;
     private static final int PENDING = 1;
@@ -188,7 +189,7 @@ public class GlobalValuesVariables {
     }
     
     public static boolean fichaIdParamIsIdFicha(String arg){
-        return (!fichaIdParamIsClient(arg) && !fichaIdParamIsUser(arg)) ? true:false;
+        return (!fichaIdParamIsClient(arg) && !fichaIdParamIsUser(arg) && !fichaIdParamIsTableList(arg)) ? true:false;
     }
     
     public static boolean fichaIdParamIsUser(String arg){
@@ -199,16 +200,24 @@ public class GlobalValuesVariables {
         return (GV.getStr(arg).startsWith(ID_PARAM_IS_CLIENT)) ? true:false;
     }
     
+    public static boolean fichaIdParamIsTableList(String arg) {
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_TABLE_LIST)) ? true:false;
+    }
+    
     public static String convertFichaIdParamToUSer(String arg){
-        return ID_PARAM_IS_USER+GV.getStr(arg).replaceAll(ID_PARAM_IS_CLIENT, "");
+        return ID_PARAM_IS_USER+cleanIdParam(arg);
     }
     
     public static String convertFichaIdParamToClient(String arg){
-        return ID_PARAM_IS_CLIENT+GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "");
+        return ID_PARAM_IS_CLIENT+cleanIdParam(arg);
+    }
+    
+    public static String convertFichaIdParamToTableList(String arg){
+        return ID_PARAM_IS_TABLE_LIST+cleanIdParam(arg);
     }
     
     public static String cleanIdParam(String arg){
-        return (GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "").replaceAll(ID_PARAM_IS_CLIENT, "")).trim();
+        return (GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "").replaceAll(ID_PARAM_IS_CLIENT, "").replaceAll(ID_PARAM_IS_TABLE_LIST, "")).trim();
     }
 
     public static String estadoFicha(int status) {

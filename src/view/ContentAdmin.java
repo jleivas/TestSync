@@ -634,7 +634,12 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDoctoresMouseClicked
 
     private void btnListarFichasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListarFichasMouseClicked
-//        OptionPane.showPanel(new OpanelSelectDate(), "Seleccione un estado y un rango de fechas");
+        try {
+            //        OptionPane.showPanel(new OpanelSelectDate(), "Seleccione un estado y un rango de fechas");
+            boton.fichas();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnListarFichasMouseClicked
 
     private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked

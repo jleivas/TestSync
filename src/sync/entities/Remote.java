@@ -44,7 +44,7 @@ import sync.InterfaceSync;
 public class Remote implements InterfaceSync{
     private static String className = "Remote";
     @Override
-     public boolean add(Object objectParam) {
+    public boolean add(Object objectParam) {
         Log.setLog(className, Log.getReg());
         try{
             if(objectParam == null)
@@ -927,10 +927,7 @@ public class Remote implements InterfaceSync{
         try {
             if(type instanceof Ficha){
                 String id = GV.getStr(idParam);
-                if(!GV.fichaIdParamIsIdFicha(idParam) || 
-                        idParam.equals("0") || 
-                        idParam.equals("-1") || 
-                        idParam.equals("-2")){
+                if(!GV.fichaIdParamIsIdFicha(idParam)){
                     return listar(idParam,new ResF());
                 }
                 String sql = "SELECT * FROM ficha WHERE fch_id='" + idParam + "'";
@@ -988,6 +985,18 @@ public class Remote implements InterfaceSync{
                     + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
                     + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
                     + "FROM ficha WHERE usuario_us_id=" + GV.cleanIdParam(idParam) + "":sql;
+                    sql = (GV.fichaIdParamIsTableList(idParam)) ? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_estado=" + GV.cleanIdParam(idParam) + "":sql;
+                    sql = (GV.fichaIdParamIsTableList(idParam) && GV.strToNumber(idParam)==-1)? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_estado > 0":sql;
                     //return lista de ResF
                 }else{
                     return listar(idParam, new Ficha());//retornara una lista de Fichas
@@ -1022,7 +1031,7 @@ public class Remote implements InterfaceSync{
                 while (datos.next()) {
                     lista.add(new ResF(
                         datos.getString("fch_id"),
-                        datos.getString("fch_fecha"),
+                        datos.getDate("fch_fecha"),
                         datos.getInt("fch_valor_total"),
                         datos.getInt("fch_descuento"),
                         datos.getInt("fch_saldo"),
@@ -2977,7 +2986,7 @@ public class Remote implements InterfaceSync{
             return false;
         return true;
     }
-    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, SQLException {
+    public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";
         if(remitente > 0){

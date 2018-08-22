@@ -386,6 +386,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.fichaIdParamIsUser(arg);
     }
     
+    public static boolean fichaIdParamIsTableList(String arg){
+        return GlobalValuesVariables.fichaIdParamIsTableList(arg);
+    }
+    
     public static boolean fichaIdParamIsClient(String arg){
         return GlobalValuesVariables.fichaIdParamIsClient(arg);
     }
@@ -396,6 +400,10 @@ public class GV extends GlobalValuesCursor{
     
     public static String convertFichaIdParamToClient(String arg){
         return GlobalValuesVariables.convertFichaIdParamToClient(arg);
+    }
+    
+    public static String convertFichaIdParamToTableList(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToTableList(arg);
     }
     
     public static String estadoFicha(int status){

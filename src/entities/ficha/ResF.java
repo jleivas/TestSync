@@ -6,6 +6,7 @@
 package entities.ficha;
 
 import fn.GV;
+import java.util.Date;
 
 /**
  *Presenta el resumen de detalle de la ficha en las tablas
@@ -13,7 +14,7 @@ import fn.GV;
  */
 public class ResF{
     private String folio;
-    private String fecha;
+    private Date fecha;
     private int total;
     private int descuento;
     private int saldo;
@@ -26,7 +27,7 @@ public class ResF{
     public ResF() {
     }
     
-    public ResF(String folio, String fecha,int total,int descuento, int saldo, String cliente, String comuna, String ciudad, String vendedor, int estado) {
+    public ResF(String folio, Date fecha,int total,int descuento, int saldo, String cliente, String comuna, String ciudad, String vendedor, int estado) {
         setFolio(folio);
         setFecha(fecha);
         setTotal(total);
@@ -59,8 +60,8 @@ public class ResF{
         this.folio = getStr(folio);
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = getStr(fecha);
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public void setCliente(String cliente) {
@@ -91,7 +92,7 @@ public class ResF{
         return folio;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
