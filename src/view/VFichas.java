@@ -6,6 +6,7 @@
 package view;
 
 import dao.Dao;
+import entities.ficha.Ficha;
 import entities.ficha.ResF;
 import fn.Boton;
 import fn.GV;
@@ -78,7 +79,7 @@ public class VFichas extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista de registros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         cboMostrar.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        cboMostrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Pendientes", "Pagadas", "Entregadas", "Garantias", "Eliminadas" }));
+        cboMostrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Pendientes", "Pagadas", "Entregadas", "Garantias", "Anuladas" }));
         cboMostrar.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboMostrarItemStateChanged(evt);
@@ -256,11 +257,53 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-
+        try{
+            cWT();
+            int fila = tblListar.getSelectedRow();
+            String folio = tblListar.getValueAt(fila, 0).toString();
+            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el folio "+folio+"?", 2)){
+                cWT();
+                if(load.delete(folio,0, new Ficha()))
+                    OptionPane.showMsg("Anular Ficha", "La ficha ha sido anulada", 1);
+                else
+                    OptionPane.showMsg("Anular Ficha", "No se pudo anular la ficha", 2);
+                cDF();
+            }
+            load();
+            
+            cDF();
+        }catch(Exception e){
+            OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
+                    + "es posible que no se haya seleccionado un registro:\n"
+                    + "Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".\n"
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+        }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        
+//        try{
+//            cWT();
+//            int fila = tblListar.getSelectedRow();
+//            String folio = tblListar.getValueAt(fila, 0).toString();
+//            if(OptionPane.getConfirmation("Restaurar registro", "¿Esta seguro que desea eliminar el folio "+folio+"?", 2)){
+//                cWT();
+//                if(load.delete(folio,0, new Ficha()))
+//                    OptionPane.showMsg("Restaurar Ficha", "La ficha ha sido anulada", 1);
+//                else
+//                    OptionPane.showMsg("Restaurar Ficha", "No se pudo anular la ficha", 2);
+//                cDF();
+//            }
+//            load();
+//            
+//            cDF();
+//        }catch(Exception e){
+//            OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
+//                    + "es posible que no se haya seleccionado un registro:\n"
+//                    + "Debe hacer clic sobre un elemento de la tabla,\n"
+//                    + "Luego presione el botón \"Ver\".\n"
+//                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+//        }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
     private void btnAbrirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseEntered
@@ -361,9 +404,7 @@ public class VFichas extends javax.swing.JPanel {
      */
     private int buildIndex(int index){
         int INDEX_ELIMINADOS = 5;
-        int INDEX_TODAS = 0;
-        index = (index==INDEX_TODAS)? -1:index;
-        return (index==INDEX_ELIMINADOS)? 0:index;
+        return (index==INDEX_ELIMINADOS)? -1:index;
     }
     private void cargarDatos(String listar) {
         if(listar.endsWith("-1")){

@@ -432,6 +432,29 @@ public class Local implements InterfaceSync {
         try{
             if(objectParam == null)
                 return false;
+            if(objectParam instanceof Ficha){
+                Ficha object = (Ficha)objectParam;
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='" + object.getCod() + "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("fch_last_update");
+                        hour = datos.getInt("fch_last_hour");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        LcBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = LcBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                LcBd.cerrar();
+                return true;
+            }
             if(objectParam instanceof Armazon){
                 Armazon object = (Armazon)objectParam;
                 PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM armazon WHERE arm_id='" + object.getCod() + "'");
@@ -995,7 +1018,13 @@ public class Local implements InterfaceSync {
                     + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
                     + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
                     + "FROM ficha WHERE fch_estado=" + GV.cleanIdParam(idParam) + "":sql;
-                    sql = (GV.fichaIdParamIsTableList(idParam) && GV.strToNumber(idParam)==-1)? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    sql = (GV.fichaIdParamIsTableList(idParam) && GV.strToNumber(idParam)<0)? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_estado <= 0":sql;
+                    sql = (GV.fichaIdParamIsTableList(idParam) && GV.strToNumber(idParam)==0)? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
                     + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
                     + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
                     + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
@@ -2820,7 +2849,7 @@ public class Local implements InterfaceSync {
                         + "', fch_fecha = '" + sqlfecha1
                         + "', fch_fecha_entrega = '" + sqlfecha2
                         + "', fch_lugar_entrega = '" + object.getLugarEntrega()
-                        + "', fch_hora_entrena = '" + object.getHoraEntrega()
+                        + "', fch_hora_entrega = '" + object.getHoraEntrega()
                         + "', fch_obs = '" + object.getObservacion()
                         + "', fch_valor_total = " + object.getValorTotal()
                         + ", fch_descuento = " + object.getDescuento()
@@ -2828,8 +2857,8 @@ public class Local implements InterfaceSync {
                         + ", cliente_cli_rut = '" + object.getRutCliente()
                         + "', doctor_doc_rut = '" + object.getRutDoctor()
                         + "', institucion_ins_id = " + object.getIdInstitucion()
-                        + ", despacho_dsp_id = " + object.getIdDespacho()
-                        + ", usuario_us_id = " + object.getIdUser()
+                        + ", despacho_dsp_id = '" + object.getIdDespacho()
+                        + "', usuario_us_id = " + object.getIdUser()
                         + ", convenio_cnv_id = " + object.getIdConvenio()
                         + ", fch_estado = " + object.getEstado()
                         + ", fch_last_update = '" + sqlfecha

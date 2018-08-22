@@ -222,6 +222,9 @@ public class GlobalValuesVariables {
 
     public static String estadoFicha(int status) {
         String value = "---";
+        if(status < 0){
+            return "Eliminada";
+        }
         switch(status){
             case DELETED:
                 value = "Eliminada";

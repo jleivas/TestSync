@@ -170,13 +170,19 @@ public class Dao{
     public boolean delete(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
         Object temp =  null;
-        if(GV.isOnline()){
+        if(GV.isOnline() && !(type instanceof Ficha)){
             temp =  GV.REMOTE_SYNC.getElement(cod,id, type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
-                    ((SyncStringId)temp).setEstado(0);
-                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    if(temp instanceof Ficha){
+                        ((SyncStringId)temp).setEstado(((((SyncStringId)temp).getEstado())*-1));
+                        ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                        ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    }else{
+                        ((SyncStringId)temp).setEstado(0);
+                        ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                        ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    }  
                 } 
                 if(temp instanceof SyncIntId){
                     ((SyncIntId)temp).setEstado(0);
@@ -195,9 +201,15 @@ public class Dao{
             temp =  GV.LOCAL_SYNC.getElement(cod,id,type);
             if(temp != null){//valida si ya existe el desname
                 if(temp instanceof SyncStringId){
-                    ((SyncStringId)temp).setEstado(0);
-                    ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
-                    ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    if(temp instanceof Ficha){
+                        ((SyncStringId)temp).setEstado(((((SyncStringId)temp).getEstado())*-1));
+                        ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                        ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    }else{
+                        ((SyncStringId)temp).setEstado(0);
+                        ((SyncStringId)temp).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+                        ((SyncStringId)temp).setLastHour(Cmp.hourToInt(new Date()));
+                    }  
                 } 
                 if(temp instanceof SyncIntId){
                     ((SyncIntId)temp).setEstado(0);

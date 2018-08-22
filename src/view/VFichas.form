@@ -124,7 +124,7 @@
                 <StringItem index="2" value="Pagadas"/>
                 <StringItem index="3" value="Entregadas"/>
                 <StringItem index="4" value="Garantias"/>
-                <StringItem index="5" value="Eliminadas"/>
+                <StringItem index="5" value="Anuladas"/>
               </StringArray>
             </Property>
           </Properties>
