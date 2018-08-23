@@ -50,7 +50,7 @@ public class OptionPane {
         GV.mpanel().lblTitle.setText(title);
         if(p1 instanceof OpanelMessage){
             ((OpanelMessage) p1).lblTitle.setText(title);
-            ((OpanelMessage) p1).lblMessage.setText(message);
+            ((OpanelMessage) p1).updateMsg(title, message,statusMsg);
         }
         
         GV.mpanel().setVisible(true);

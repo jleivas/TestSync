@@ -571,6 +571,10 @@ public class GV extends GlobalValuesCursor{
         saveXMLProperties();
     }
     
+    public static void setLastUpdateFromXml(Date date) {
+        LAST_UPDATE = date;
+    }
+    
     public static Date getLastUpdate(){
         return LAST_UPDATE;
     }

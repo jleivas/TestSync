@@ -18,7 +18,7 @@ public class GlobalValuesUI {
     public static MPanel INFOPANEL = new MPanel();
     public static OPanel OPTIONPANEL = new OPanel();
     public static String PANELTITLE ="";
-    public static int MSG_STATUS;
+    public static int MSG_STATUS=JOptionPane.ABORT;
     public static String ICON_INFO = "/icons/show_info_50px.png";
     public static String ICON_WARN = "/icons/show_warning_50px.png";
     public static String ICON_ERROR = "/icons/show_error_50px.png";
@@ -30,16 +30,16 @@ public class GlobalValuesUI {
     public static void setMsgStatus(int statusMsg){
         switch(statusMsg){
             case 1:
-                MSG_STATUS = JOptionPane.INFORMATION_MESSAGE;
+                MSG_STATUS = (MSG_STATUS!=JOptionPane.WARNING_MESSAGE && MSG_STATUS!=JOptionPane.ERROR_MESSAGE)?JOptionPane.INFORMATION_MESSAGE:MSG_STATUS;
                 break;
             case 2: 
-                MSG_STATUS = JOptionPane.WARNING_MESSAGE;
+                MSG_STATUS = (MSG_STATUS!=JOptionPane.ERROR_MESSAGE)?JOptionPane.WARNING_MESSAGE:MSG_STATUS;
                 break;
             case 3:
                 MSG_STATUS = JOptionPane.ERROR_MESSAGE;
                 break;
             default:
-                MSG_STATUS = JOptionPane.INFORMATION_MESSAGE;
+                MSG_STATUS = JOptionPane.ABORT;
                 break;
         }
     }

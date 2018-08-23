@@ -9,6 +9,7 @@ import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import fn.SubProcess;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class OpanelMessage extends javax.swing.JPanel {
 
-    public static int status=0;
+    private static String MSG;
     /**
      * Creates new form OpanelSelectDate
      */
@@ -151,9 +152,11 @@ public class OpanelMessage extends javax.swing.JPanel {
     }//GEN-LAST:event_imgIconMessageMousePressed
 
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
+        
         if(GV.msgStatus() == JOptionPane.ERROR || GV.msgStatus() == JOptionPane.ERROR_MESSAGE){
-            SubProcess.report(lblTitle.getText(), lblMessage.getText());
+            SubProcess.report(lblTitle.getText(), MSG);
         }
+        cleanMsg();
         OptionPane.closeInfoPanel();
     }//GEN-LAST:event_btnAceptarMouseClicked
 
@@ -169,16 +172,51 @@ public class OpanelMessage extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMousePressed
 
-
+    public static void updateMsg(String title, String msg, int currentStatus){
+        //comprobar si el msgStatus tiene un valor por defecto para actualizar
+        int status = (GV.msgStatus() == JOptionPane.ABORT) ? currentStatus:GV.msgStatus();
+        String temp = "<" + GV.getStr(title.toUpperCase()) + ">\n" + GV.getStr(msg);
+        GV.setMsgStatus(status);
+        System.out.println("*"+MSG+"*");
+        if(GV.getStr(MSG).isEmpty()){
+            MSG = "<" + GV.getStr(title.toUpperCase()) + ">\n" + GV.getStr(msg);
+        }else{
+            switch(status){
+                case 1:
+                    lblTitle.setText(title);
+                    GV.mpanel().lblTitle.setText("Revise la siguiente información");
+                    break;
+                case 2:
+                    lblTitle.setText(title);
+                    GV.mpanel().lblTitle.setText("El sistema ha lanzado algunas advertencias");
+                    lblTitle.setForeground(Color.blue);
+                    break;
+                case 3:
+                    lblTitle.setText(title);
+                    GV.mpanel().lblTitle.setText("Notificación de problemas");
+                    lblTitle.setForeground(Color.red);
+                    break;
+                default:
+                    lblTitle.setText(title);
+                    GV.mpanel().lblTitle.setText("Revise la siguiente información");
+                    break;
+            }
+            MSG = (!GV.getStr(MSG).toLowerCase().equals(GV.getStr(temp).toLowerCase()))?  temp + "\n\n" + MSG:MSG;
+        }
+        lblMessage.setText(MSG.replaceAll("<"+title.toUpperCase()+">", ""));
+    }
+    
+    private void cleanMsg(){
+        GV.setMsgStatus(0);
+        MSG = "";
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAceptar;
-    private javax.swing.JLabel imgIconMessage;
+    private static javax.swing.JLabel imgIconMessage;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTextArea lblMessage;
     public static javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 
-    
-
-    
 }
