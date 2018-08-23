@@ -1919,6 +1919,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_iconPhone1MouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        GV.cursorWAIT(this);
         comprobarDatosFicha();
         if(lblMessageStatus.isVisible() && lblMessageStatus.getForeground() == rojo){
             OptionPane.showMsg("Faltan datos", lblMessageStatus.getText(), 2);
@@ -1928,6 +1929,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         GV.printFicha();
         clearData();
         reloadPage();
+        GV.cursorDF(this);
     }//GEN-LAST:event_btnSaveMouseClicked
 
     private void btnSaveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseEntered
@@ -2290,14 +2292,18 @@ public class VCrearFicha extends javax.swing.JPanel {
         
         TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
         for (Object temp : load.listar("st",new Lente())) {
-            textAutoCompleter6.addItem(((Lente)temp).getCod());
-            textAutoCompleter6.setMode(0);
+            if(((Lente)temp).getStock() > 0){
+                textAutoCompleter6.addItem(((Lente)temp).getCod());
+                textAutoCompleter6.setMode(0);
+            }
         }
         
         TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
         for (Object temp : load.listar("st",new Lente())) {
-            textAutoCompleter7.addItem(((Lente)temp).getCod());
-            textAutoCompleter7.setMode(0);
+            if(((Lente)temp).getStock() > 0){
+                textAutoCompleter7.addItem(((Lente)temp).getCod());
+                textAutoCompleter7.setMode(0);
+            }
         }
         TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
         textAutoCompleter8.setMode(0);
@@ -2581,17 +2587,21 @@ public class VCrearFicha extends javax.swing.JPanel {
                                         if(!valorTotalValido()){
                                             msgRejected("Debe ingresar receta de lente.");
                                         }else{
-                                            if(!TipoPagoValido()){
-                                                msgRejected("Debe ingresar un tipo de pago válido.");
+                                            if(someGlassAndOneInStock()){
+                                                msgRejected("Debe seleccionar un lente diferente, no hay stock disponible.");
                                             }else{
-                                                asigAllDatas();
-                                                if(GV.getFicha().getSaldo()<0){
-                                                    msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
+                                                if(!TipoPagoValido()){
+                                                    msgRejected("Debe ingresar un tipo de pago válido.");
                                                 }else{
-                                                    if(sinCristal()){
-                                                        msgWarning("Falta ingresar un cristal...");
+                                                    asigAllDatas();
+                                                    if(GV.getFicha().getSaldo()<0){
+                                                        msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
                                                     }else{
-                                                        msgRejectedClear();
+                                                        if(sinCristal()){
+                                                            msgWarning("Falta ingresar un cristal...");
+                                                        }else{
+                                                            msgRejectedClear();
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2618,6 +2628,23 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
     }
 
+    private boolean someGlassAndOneInStock(){
+        String lenName1 = txtArmazonLejos.getText();
+        String lenName2 = txtArmazonCerca.getText();
+        if(lenName1.toLowerCase().equals(lenName2.toLowerCase())){
+            Lente temp;
+            try {
+                temp = (Lente)load.get(lenName2, 0, new Lente());
+                if(temp.getStock()==1){
+                    return true;
+                }
+            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+    
     private boolean hourIsValid() {
         commitSpinner();
         int hora1 = GV.strToNumber(txtHora1.getValue().toString());

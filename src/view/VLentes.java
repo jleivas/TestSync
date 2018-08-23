@@ -1746,6 +1746,11 @@ public class VLentes extends javax.swing.JPanel {
                 pnl1.setVisible(false);
                 pnl2.setVisible(true);
                 pnl3.setVisible(false);
+                if(GV.tipoUserIventario()){
+                    txtStock2.setEnabled(true);
+                }else{
+                    txtStock2.setEnabled(false);
+                }
                 break;
             case 3:
                 pnl1.setVisible(false);

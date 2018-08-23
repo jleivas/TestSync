@@ -12,7 +12,9 @@ import static fn.GV.dateToString;
 import static fn.GV.getStr;
 import static fn.GV.getToName;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -216,8 +218,21 @@ public class GlobalValuesVariables {
         return ID_PARAM_IS_TABLE_LIST+cleanIdParam(arg);
     }
     
+    public static String convertFichaIdParamToListAbonos(String arg) {
+        return "<"+GV.getStr(arg)+">";
+    }
+    
     public static String cleanIdParam(String arg){
-        return (GV.getStr(arg).replaceAll(ID_PARAM_IS_USER, "").replaceAll(ID_PARAM_IS_CLIENT, "").replaceAll(ID_PARAM_IS_TABLE_LIST, "")).trim();
+        List<String> filter = new ArrayList<String>();
+        filter.add("<");
+        filter.add(">");
+        filter.add(ID_PARAM_IS_CLIENT);
+        filter.add(ID_PARAM_IS_TABLE_LIST);
+        filter.add(ID_PARAM_IS_USER);
+        for (String clean : filter) {
+            GV.getStr(arg).replaceAll(clean, "");
+        }
+        return GV.getStr(arg).trim();
     }
 
     public static String estadoFicha(int status) {

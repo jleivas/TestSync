@@ -2577,11 +2577,12 @@ public class Local implements InterfaceSync {
             HistorialPago object = (HistorialPago)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO historial_pago VALUES("
-                            + object.getCod()+ ",'"
+            return  "INSERT INTO historial_pago VALUES('"
+                            + object.getCod()+ "','"
                             + sqlfecha1 + "',"
                             + object.getAbono()+ ","
-                            + object.getIdTipoPago()+ ","
+                            + object.getIdTipoPago()+ ",'"
+                            + object.getIdFicha()+ "',"
                             + object.getEstado() + ",'"
                             + sqlfecha2 + "',"
                             + object.getLastHour() + ")";

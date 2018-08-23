@@ -402,6 +402,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.convertFichaIdParamToClient(arg);
     }
     
+    public static String convertFichaIdParamToListAbonos(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToListAbonos(arg);
+    }
+    
     public static String convertFichaIdParamToTableList(String arg){
         return GlobalValuesVariables.convertFichaIdParamToTableList(arg);
     }

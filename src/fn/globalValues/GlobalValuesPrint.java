@@ -30,7 +30,7 @@ public class GlobalValuesPrint {
     public static void print(Ficha ficha)
 	{
             
-            String formatoAbono = obtenerAbonos(ficha.getCod());
+            String formatoAbono = obtenerAbonos(GV.convertFichaIdParamToListAbonos(ficha.getCod()));
             ///////////////////////////FECHAS
             String fecha = GV.dateToString(ficha.getFecha(),"dd/mm/yyyy");
             String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd/mm/yyyy");
@@ -74,7 +74,7 @@ public class GlobalValuesPrint {
             ,capaCerca//17
             ,plusMaxCerca//18
             ,ficha.getObservacion()//19
-            ,GV.strToPrice(ficha.getValorTotal())//20
+            ,GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))//20
             ,formatoAbono//21
             ,GV.strToPrice(ficha.getSaldo())//22
             ,ficha.getHoraEntrega().replaceAll(" ", "")//23
@@ -105,6 +105,7 @@ public class GlobalValuesPrint {
             ,ficha.getCerca().getCristal()//48
             ,GV.strToPrice(precioCristal1)//49
             ,strDescuento(ficha.getDescuento())//50
+            ,strDetalleDescuento(ficha.getDescuento())//51
             };
 
             imprimir(impresion); 
@@ -232,7 +233,7 @@ public class GlobalValuesPrint {
            pg.drawString((text[20]+text[50]), 330 + calValores, (653+calDetalleComprobante6));//valor_total
            pg.drawString((text[21]), 330 + calValores, (664+calDetalleComprobante6));//abono
            pg.setFont(new Font ("Arial", Font.BOLD, 10));
-           pg.drawString((text[22]), 330 + calValores, (675+calDetalleComprobante6));//saldo
+           pg.drawString((text[22]+text[51]), 330 + calValores, (675+calDetalleComprobante6));//saldo
            pg.setFont(new Font ("Elephant", Font.BOLD, 15));
            pg.drawString(text[3], 58 + CalibracionGlobal.L_FECHA_ENTREGA_2, (755+calDatosEntrega6));//fecha_entrega
            pg.setFont(new Font ("Arial", Font.ITALIC, 10));
@@ -297,6 +298,10 @@ public class GlobalValuesPrint {
     }
 
     private static String strDescuento(int descuento) {
-        return (descuento!=0)? " Descuento: "+GV.strToPrice(descuento):"";
+        return (descuento!=0)? " (Descuento aplicado)":"";
+    }
+
+    private static String strDetalleDescuento(int descuento) {
+        return (descuento!=0)? " (Ahorro "+GV.strToPrice(descuento)+")":"";
     }
 }
