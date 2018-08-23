@@ -419,7 +419,7 @@ public class Local implements InterfaceSync {
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch(SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException ex){
+        }catch( InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -851,7 +851,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return true;
             }
-        }catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex){
+        }catch(InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -868,7 +868,7 @@ public class Local implements InterfaceSync {
                 id = datos.getInt("eq_id");
             }
             LcBd.cerrar();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -932,7 +932,7 @@ public class Local implements InterfaceSync {
                 }
                 LcBd.cerrar();
             }
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id + 1;
@@ -1636,7 +1636,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -2073,7 +2073,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;

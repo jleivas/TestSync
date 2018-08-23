@@ -415,7 +415,7 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch(SQLException | ClassNotFoundException ex){
+        }catch( SQLException | ClassNotFoundException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -864,7 +864,7 @@ public class Remote implements InterfaceSync{
                 id = datos.getInt("eq_id");
             }
             RmBd.cerrar();
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -928,7 +928,7 @@ public class Remote implements InterfaceSync{
                 }
                 RmBd.cerrar();
             }
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id + 1;
@@ -1632,7 +1632,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -2069,7 +2069,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
@@ -2573,11 +2573,12 @@ public class Remote implements InterfaceSync{
             HistorialPago object = (HistorialPago)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO historial_pago VALUES("
-                            + object.getCod()+ ",'"
+            return  "INSERT INTO historial_pago VALUES('"
+                            + object.getCod()+ "','"
                             + sqlfecha1 + "',"
                             + object.getAbono()+ ","
-                            + object.getIdTipoPago()+ ","
+                            + object.getIdTipoPago()+ ",'"
+                            + object.getIdFicha()+ "',"
                             + object.getEstado() + ",'"
                             + sqlfecha2 + "',"
                             + object.getLastHour() + ")";
