@@ -45,10 +45,10 @@ public class GlobalValuesBD {
     public static String BD_NAME_REMOTE = NoGit.DB;
     public static String BD_USER_REMOTE = NoGit.USER;
     public static String BD_PASS_REMOTE = NoGit.PASS;
-    public static String BD_URL_LOCAL = GV.filesPath()+"DB"+File.separator;
-    public static String BD_NAME_LOCAL = "Derby.DB";
-    public static String BD_USER_LOCAL = "";
-    public static String BD_PASS_LOCAL = "";
+    public static String BD_URL_LOCAL = "localhost:1527";//GV.filesPath()+"DB"+File.separator;
+    public static String BD_NAME_LOCAL = "odm4";//Derby.DB";
+    public static String BD_USER_LOCAL = "odm4";
+    public static String BD_PASS_LOCAL = "odm4";
     
     private static int arm = 1;
     private static int cli = 2;
@@ -166,12 +166,13 @@ public class GlobalValuesBD {
 " FCH_OBS LONG VARCHAR," +
 " FCH_VALOR_TOTAL INTEGER," +
 " FCH_DESCUENTO INTEGER," +
+" DESCUENTO_DES_ID INTEGER," +
 " FCH_SALDO INTEGER," +
 " CLIENTE_CLI_RUT VARCHAR(25)," +
 " DOCTOR_DOC_RUT VARCHAR(25)," +
 " INSTITUCION_INS_ID INTEGER," +
 " DESPACHO_DSP_ID VARCHAR(25)," +
-" USUARIO_US_ID INTEGER,"+
+" USUARIO_US_ID INTEGER," +
 " CONVENIO_CNV_ID INTEGER," +
 " FCH_ESTADO INTEGER," +
 " FCH_LAST_UPDATE DATE," +
@@ -358,13 +359,14 @@ public class GlobalValuesBD {
 " FCH_OBS," +
 " FCH_VALOR_TOTAL," +
 " FCH_DESCUENTO," +
+" DESCUENTO_DES_ID," +
 " FCH_SALDO," +
 " CLIENTE_CLI_RUT," +
 " DOCTOR_DOC_RUT," +
 " INSTITUCION_INS_ID," +
 " DESPACHO_DSP_ID," +
 " USUARIO_US_ID," +
-" CONVENIO_CNV_ID,"+
+" CONVENIO_CNV_ID," +
 " FCH_ESTADO," +
 " FCH_LAST_UPDATE," +
 " FCH_LAST_HOUR";
