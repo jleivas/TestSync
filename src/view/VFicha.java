@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
  *
  * @author home
  */
-public class VCrearFicha extends javax.swing.JPanel {
+public class VFicha extends javax.swing.JPanel {
 
     private Dao load = new Dao();
     private static Color rojo = Color.red;
@@ -56,11 +56,11 @@ public class VCrearFicha extends javax.swing.JPanel {
     /**
      * Creates new form VNuevaFicha
      */
-    public VCrearFicha() throws SQLException, ClassNotFoundException {
+    public VFicha(Ficha ficha) throws SQLException, ClassNotFoundException {
         
         initComponents();
         
-        ContentAdmin.lblTitle.setText("Nueva Ficha");
+        ContentAdmin.lblTitle.setText("Abrir Ficha");
         load();
         comprobarDatosFicha();
         GV.cursorDF();
@@ -1565,7 +1565,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtCristalCerca.setForeground(rojo);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtCristalCercaFocusLost
@@ -1647,7 +1647,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtArmazonCerca.setForeground(rojo);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonCercaFocusLost
@@ -1670,7 +1670,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtCristalLejos.setForeground(rojo);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtCristalLejosFocusLost
@@ -1745,7 +1745,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 txtArmazonLejos.setForeground(rojo);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonLejosFocusLost
@@ -2318,7 +2318,6 @@ public class VCrearFicha extends javax.swing.JPanel {
         int total =  GV.roundPrice(GV.strToNumber(txtTotal.getText()));
         int abono = (int)txtAbono.getValue();
         int descuento = obtenerDescuento();
-        GV.getFicha().setDescuento(descuento);
         int saldo = (total-descuento-abono);
         txtSaldo.setText(GV.strToPrice(saldo));
     }
@@ -2345,25 +2344,15 @@ public class VCrearFicha extends javax.swing.JPanel {
         int dpCerca = (cerca!=null)? cerca.getDp():0;
         txtDPCerca.setValue(dpCerca);
         int dpLejos = (lejos!=null)? lejos.getDp():0;
-        txtDPLejos.setValue(dpLejos);
+        txtDPLejos.setValue(0);
         GV.getFicha().setDescuento(0);
         txtDescuento.setText("0");
         txtFecha.setDate(ficha.getFechaEntrega());
         txtEntrega.setText(ficha.getLugarEntrega());
-        String hora = ((!ficha.getHoraEntrega().isEmpty())&&((""+GV.strToNumber(ficha.getHoraEntrega())).length() == 8)) ? ficha.getHoraEntrega().replaceAll(" ", "").trim():"";
-        String number = ""+GV.strToNumber(hora);
-        int h1 = (number.length() == 8) ? GV.strToNumber(number.substring(0,2)):0;
-        int m1 = (number.length() == 8) ? GV.strToNumber(number.substring(2,4)):0;
-        int h2 = (number.length() == 8) ? GV.strToNumber(number.substring(4,6)):0;
-        int m2 = (number.length() == 8) ? GV.strToNumber(number.substring(6,8)):0;
-        txtHora1.setValue(h1);
-        txtMinuto1.setValue(m1);
-        txtHora2.setValue(h2);
-        txtMinuto2.setValue(m2);
         String docName = (stDoctor!=null)?stDoctor.getNombre()+" <"+stDoctor.getCod()+">":"";
         docName = (docName.equals(" <null>")) ? "":docName;
         txtDoctor.setText(docName);
-        stInstitucion = ficha.getInstitucion();
+       
         String inst =  (stInstitucion!=null && stInstitucion.getId() != 0)? stInstitucion.getNombre()+"<"+stInstitucion.getId()+">":"";
         txtInstitucion.setText(inst);
         
@@ -2393,19 +2382,6 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtOILejosA.setText(oiLA);
         txtOILejosCIL.setText(oiLCil);
         String obs = (ficha!=null)?ficha.getObservacion():"";
-        boolean capCerca = (ficha.getCerca() != null && ficha.getCerca().getCapa()==1)? true:false;
-        chkCapaCerca.setSelected(capCerca);
-        boolean capLejos = (ficha.getLejos() != null && ficha.getLejos().getCapa()==1)? true:false;
-        chkCapaLejos.setSelected(capLejos);
-        boolean endCerca = (ficha.getCerca() != null && ficha.getCerca().getEndurecido()==1)? true:false;
-        chkEndurecidoCerca.setSelected(endCerca);
-        boolean endLejos = (ficha.getLejos() != null && ficha.getLejos().getEndurecido()==1)? true:false;
-        chkEndurecidoLejos.setSelected(endLejos);
-        boolean pmCerca = (ficha.getCerca() != null && ficha.getCerca().getPlusMax()==1)? true:false;
-        chkPlusMaxCerca.setSelected(pmCerca);
-        boolean pmLejos = (ficha.getLejos() != null && ficha.getLejos().getPlusMax()==1)? true:false;
-        chkPlusMaxLejos.setSelected(pmLejos);
-        
         txtObs.setText(obs);
         
         
@@ -2428,6 +2404,10 @@ public class VCrearFicha extends javax.swing.JPanel {
         Date nac = (cliente!=null)? cliente.getNacimiento():null;
         txtNacimiento.setDate(nac);
         txtRutCliente.setText(rut);
+        
+        
+        txtSaldo.setText("$ 0");
+        txtTotal.setText("$ 0");
         cargarCbos();
     }
 
@@ -2514,7 +2494,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             cargarDatos();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
@@ -2522,7 +2502,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             autocompletar();
             calcularSaldo();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -2584,7 +2564,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             GV.getFicha().setFechaEntrega(txtFecha.getDate());
             GV.getFicha().setLugarEntrega(txtEntrega.getText());
             GV.getFicha().setUser(GV.user());
-            GV.getFicha().setObservacion(txtObs.getText());
             if(!hourIsValid()){
                 msgRejected("Debe ingresar una hora de entrega válida");
             }else{
@@ -2646,7 +2625,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             txtMinuto2.commitEdit();
             txtAbono.commitEdit();
         } catch (ParseException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -2661,7 +2640,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                     return true;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
@@ -2697,7 +2676,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                         try {
                             stInstitucion = (Institucion)load.get(institucionNombre, 0, new Institucion());
                         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                     if(stCliente != null){
@@ -2743,7 +2722,7 @@ public class VCrearFicha extends javax.swing.JPanel {
 //                resetTxtCliente();
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -2780,7 +2759,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 try {
                     stTipoPago = (TipoPago)load.get(cboTipoPago.getSelectedItem().toString(), 0, new TipoPago());
                 } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                    Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(stTipoPago == null){
                     return false;
@@ -2814,7 +2793,6 @@ public class VCrearFicha extends javax.swing.JPanel {
                 Log.setLog("Error:", ex.getMessage());
             }
             if(stDescuento != null){
-                GV.getFicha().setIdDescuento(stDescuento.getId());
                 dscto = GV.obtenerDescuentoFicha(stDescuento,total);
                 txtDescuento.setText(GV.strToPrice(dscto));
                 return dscto;
@@ -2855,7 +2833,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                     return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         txtDoctor.setForeground(negro);
@@ -2973,7 +2951,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                     return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         GV.getFicha().setInstitucion(stInstitucion);
@@ -3023,7 +3001,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         try {
             boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VFicha.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error al recargar ventana", ex+"\n\n"+ex.getMessage()+"\n\n"+ex.getLocalizedMessage(), 3);
         }
     }
