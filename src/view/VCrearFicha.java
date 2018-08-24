@@ -1923,6 +1923,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         comprobarDatosFicha();
         if(lblMessageStatus.isVisible() && lblMessageStatus.getForeground() == rojo){
             OptionPane.showMsg("Faltan datos", lblMessageStatus.getText(), 2);
+            GV.cursorDF(this);
             return;
         }
         save();
