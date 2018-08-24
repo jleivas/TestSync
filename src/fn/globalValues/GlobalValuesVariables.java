@@ -230,7 +230,7 @@ public class GlobalValuesVariables {
         filter.add(ID_PARAM_IS_TABLE_LIST);
         filter.add(ID_PARAM_IS_USER);
         for (String clean : filter) {
-            GV.getStr(arg).replaceAll(clean, "");
+            arg = GV.getStr(arg).replaceAll(clean, "");
         }
         return GV.getStr(arg).trim();
     }
