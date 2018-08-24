@@ -5,6 +5,7 @@
    </usr>
    <lic>
       <st>0</st>
+      <code>softdirex</code>
       <date>07-09-2018</date>
    </lic>
    <network>
@@ -14,9 +15,9 @@
    </network>
    <registry>
       <office>Ninguna</office>
-      <company>Growvision</company>
+      <company>Softdirex</company>
       <inventary>Loacq</inventary>
-      <last_update_bd>13-08-2018</last_update_bd>
+      <last_update_bd>24-08-2018</last_update_bd>
    </registry>
 </local>
 
