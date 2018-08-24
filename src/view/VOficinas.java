@@ -1052,11 +1052,17 @@ public class VOficinas extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCompanyNameKeyTyped
 
     private void btnSaveCompanyNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseClicked
-        cWT();
-        String nombre=txtCompanyName.getText();
-        GV.setCompanyName(nombre);
-        txtCompanyName.setText(GV.companyName());
-        cDF();
+        if(OptionPane.getConfirmation("Modificar nombre de empresa", "¿Estas seguro de cambiar el nombre a tu empresa?", 2)){
+           String oldName = GV.companyName();
+            cWT();
+            String nombre=txtCompanyName.getText();
+            GV.setCompanyName(nombre);
+            txtCompanyName.setText(GV.companyName());
+            cDF();
+            OptionPane.showMsg("Datos actualizados", "El nombre de la empresa ha cambiado de "+oldName+" a "+GV.companyName(), 1); 
+        }else{
+            OptionPane.showMsg("Operación cancelada", "El nombre de la empresa no se ha cambiado", 1); 
+        }  
     }//GEN-LAST:event_btnSaveCompanyNameMouseClicked
 
     private void btnSaveCompanyNameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseEntered

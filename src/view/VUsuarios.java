@@ -1026,7 +1026,8 @@ public class VUsuarios extends javax.swing.JPanel {
         txtNewName.setText("");
         txtNewEmail.setText("");
         txtNewUsername.setText("");
-        txtNewPass.setText(GV.companyName().replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy"));
+        String newPass = (GV.companyName().toLowerCase().contains("softdirex"))? "Softdirex":GV.companyName().replaceAll(" ", "")+Cmp.dateToString(new Date(), "yyyy");
+        txtNewPass.setText(newPass);
         
     }
     
