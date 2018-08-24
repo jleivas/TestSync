@@ -26,7 +26,10 @@ import entities.ficha.Armazon;
 import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
+import fn.GV;
 import fn.OptionPane;
+import java.io.File;
+import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
@@ -42,10 +45,10 @@ public class GlobalValuesBD {
     public static String BD_NAME_REMOTE = NoGit.DB;
     public static String BD_USER_REMOTE = NoGit.USER;
     public static String BD_PASS_REMOTE = NoGit.PASS;
-    public static String BD_URL_LOCAL = "localhost:1527";
-    public static String BD_NAME_LOCAL = "odm4";
-    public static String BD_USER_LOCAL = "odm4";
-    public static String BD_PASS_LOCAL = "odm4";
+    public static String BD_URL_LOCAL = GV.filesPath()+"DB"+File.separator;
+    public static String BD_NAME_LOCAL = "Derby.DB";
+    public static String BD_USER_LOCAL = "";
+    public static String BD_PASS_LOCAL = "";
     
     private static int arm = 1;
     private static int cli = 2;
@@ -453,6 +456,10 @@ public class GlobalValuesBD {
 " US_ESTADO," +
 " US_LAST_UPDATE," +
 " US_LAST_HOUR";
+    
+    public static Connection initDB(){
+        return LcBd.crear();
+    }
     
     public static String getLocalBdUser() {
         return BD_USER_LOCAL;

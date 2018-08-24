@@ -5,6 +5,7 @@
  */
 package fn;
 
+import bd.LcBd;
 import com.toedter.calendar.JDateChooser;
 import entities.Cliente;
 import entities.Cristal;
@@ -29,6 +30,8 @@ import fn.globalValues.GlobalValuesPrint;
 import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.globalValues.GlobalValuesUI;
 import fn.globalValues.GlobalValuesXmlFiles;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,6 +80,12 @@ public class GV extends GlobalValuesCursor{
     
     public static void initValues(){
         Log.setLog(className,Log.getReg());
+        try {
+            LcBd.obtener();
+            LcBd.cerrar();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            initDB();
+        }
         SubProcess.isOnline();
         SubProcess.sincronizeAll();
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
@@ -415,6 +424,10 @@ public class GV extends GlobalValuesCursor{
     }
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
+    public static Connection initDB(){
+        return GlobalValuesBD.initDB();
+    }
+    
     public static String getLocalBdUser() {
         return GlobalValuesBD.getLocalBdUser();
     }

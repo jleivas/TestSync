@@ -5,11 +5,12 @@
  */
 package bd;
 
+import dao.Dao;
+import entities.User;
 import fn.GV;
 import fn.Log;
 import fn.OptionPane;
 import fn.globalValues.GlobalValuesBD;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,13 +25,6 @@ import java.util.logging.Logger;
  */
 public class LcBd{
     private static Connection conn = null;
-    private static String v25 = " varchar(25)";
-    private static String v45 = " varchar(45)";
-    private static String v100 = " varchar(100)";
-    private static String pKey = " not null primary key";
-    private static String in = " integer";
-    private static String dt = " date";
-    private static String sp = " ,";
     private static String className= "LcBd";
     private static String[] T = GlobalValuesBD.tableNamesDB();
     private static String[] C = GlobalValuesBD.tablesDB();
@@ -39,9 +33,12 @@ public class LcBd{
         Log.setLog(className,Log.getReg());
         if(T.length == C.length){
             for(int i=0;i<T.length;i++){
+                System.out.println(T[i]+"=>"+C[i]);
                 createTable(T[i], C[i]);
             }
         }
+        Dao load = new Dao();
+        load.update(new User(1, "Sistema", "root", "contacto@softdirex.cl", "softdirex", 7, 1, null, 0));
         return conn;
     }
         
@@ -49,7 +46,10 @@ public class LcBd{
     {
         Log.setLog(className,Log.getReg());
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        /*
         conn = DriverManager.getConnection("jdbc:derby://"+GV.getLocalBdUrl()+"/"+GV.getLocalBdName(),GV.getLocalBdUser(),GV.getLocalBdPass());
+        */
+        conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName());
         if(conn == null)
             OptionPane.showMsg("Error en Base de datos local", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDatelle: "+Log.getLog(), 3);
         return conn;
@@ -69,7 +69,8 @@ public class LcBd{
             columns = (columns.startsWith("(")) ? columns.trim():"("+columns.trim();
             columns = (columns.endsWith("))")) ? columns.trim():columns.trim()+")";
             //obtenemos la conexión
-            conn = DriverManager.getConnection("jdbc:derby:"+GV.filesPath()+File.separator+"Derby.DB;create=true");
+            //jdbc:derby:.\\DB\\Derby.DB
+            conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
             if (conn!=null){
                String creartabla="create table "+tableName+columns;
                String desc="disconnect;";
@@ -82,13 +83,11 @@ public class LcBd{
                     pstm2.execute();
                     pstm2.close();
                 } catch (SQLException ex) {
-                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
+//                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
                 }
             }
-        }catch(SQLException e){
+        }catch(SQLException | ClassNotFoundException | ExceptionInInitializerError e){
          OptionPane.showMsg("Error al crear tabla "+tableName,e.getMessage() ,  3);
-        }catch(ClassNotFoundException e){
-           OptionPane.showMsg("Error al crear tabla "+tableName,e.getMessage() ,  3);
         }
     }
     
