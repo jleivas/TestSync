@@ -73,7 +73,8 @@ public class ContentAdmin extends javax.swing.JFrame {
         //******************************
         lblLicence.setText(licencia);
         lblSync();
-        lblUserName.setText(GV.user().getNombre());
+        String userName = (GV.user()!=null) ? GV.user().getNombre():"";
+        lblUserName.setText(userName);
         this.setTitle("Optidata "+GV.version()+"     "+licencia);
         try {
             boton.crearFicha();
