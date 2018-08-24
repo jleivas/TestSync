@@ -975,6 +975,7 @@ public class Remote implements InterfaceSync{
                         datos.getString("fch_obs"),
                         datos.getInt("fch_valor_total"),
                         datos.getInt("fch_descuento"),
+                        datos.getInt("descuento_des_id"),
                         datos.getInt("fch_saldo"),
                         cliente,
                         doctor,
@@ -1666,6 +1667,7 @@ public class Remote implements InterfaceSync{
                         datos.getString("fch_obs"),
                         datos.getInt("fch_valor_total"),
                         datos.getInt("fch_descuento"),
+                        datos.getInt("descuento_des_id"),
                         datos.getInt("fch_saldo"),
                         datos.getString("cliente_cli_rut"),
                         datos.getString("doctor_doc_rut"),
@@ -2850,6 +2852,7 @@ public class Remote implements InterfaceSync{
                         + "', fch_obs = '" + object.getObservacion()
                         + "', fch_valor_total = " + object.getValorTotal()
                         + ", fch_descuento = " + object.getDescuento()
+                        + ", descuento_des_id = " + object.getIdDescuento()
                         + ", fch_saldo = " + object.getSaldo()
                         + ", cliente_cli_rut = '" + object.getRutCliente()
                         + "', doctor_doc_rut = '" + object.getRutDoctor()

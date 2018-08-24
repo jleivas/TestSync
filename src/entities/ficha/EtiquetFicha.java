@@ -20,6 +20,8 @@ public class EtiquetFicha extends SyncStringId{
     private String observacion;
     private int valorTotal;
     private int descuento;
+    //referencia al id del descuento
+    private int idDescuento;
     private int saldo;
     
     // referencias
@@ -30,7 +32,7 @@ public class EtiquetFicha extends SyncStringId{
     private int idUser;
     private int idConvenio;
 
-    public EtiquetFicha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, String horaEntrega, String observacion, int valorTotal, int descuento, int saldo, String rutCliente, String rutDoctor, int idInstitucion, String idDespacho, int idUser, int idConvenio, int estado, Date lastUpdate, int lastHour) {
+    public EtiquetFicha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, String horaEntrega, String observacion, int valorTotal, int descuento, int idDescuento, int saldo, String rutCliente, String rutDoctor, int idInstitucion, String idDespacho, int idUser, int idConvenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setFechaEntrega(fechaEntrega);
@@ -39,6 +41,7 @@ public class EtiquetFicha extends SyncStringId{
         setObservacion(observacion);
         setValorTotal(valorTotal);
         setDescuento(descuento);
+        setIdDescuento(idDescuento);
         setSaldo(saldo);
         setRutCliente(rutCliente);
         setRutDoctor(rutDoctor);
@@ -63,6 +66,7 @@ public class EtiquetFicha extends SyncStringId{
         setObservacion(ficha.getObservacion());
         setValorTotal(ficha.getValorTotal());
         setDescuento(ficha.getDescuento());
+        setIdDescuento(ficha.getIdDescuento());
         setSaldo(ficha.getSaldo());
         String rutCliente = (ficha.getCliente() != null) ? ficha.getCliente().getCod():"";
         setRutCliente(rutCliente);
@@ -107,6 +111,10 @@ public class EtiquetFicha extends SyncStringId{
 
     public int getDescuento() {
         return descuento;
+    }
+    
+    public int getIdDescuento() {
+        return idDescuento;
     }
 
     public int getSaldo() {
@@ -163,6 +171,10 @@ public class EtiquetFicha extends SyncStringId{
 
     public void setDescuento(int descuento) {
         this.descuento = descuento;
+    }
+    
+    public void setIdDescuento(int idDescuento) {
+        this.idDescuento = idDescuento;
     }
 
     public void setSaldo(int saldo) {

@@ -46,10 +46,10 @@ public class LcBd{
     {
         Log.setLog(className,Log.getReg());
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        /*
+        
         conn = DriverManager.getConnection("jdbc:derby://"+GV.getLocalBdUrl()+"/"+GV.getLocalBdName(),GV.getLocalBdUser(),GV.getLocalBdPass());
-        */
-        conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName());
+        
+//        conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName());
         if(conn == null)
             OptionPane.showMsg("Error en Base de datos local", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDatelle: "+Log.getLog(), 3);
         return conn;

@@ -26,6 +26,7 @@ public class Ficha extends SyncFichaClass{
     private String observacion;
     private int valorTotal;
     private int descuento;
+    private int idDescuento;
     private int saldo;
    
     // referencias
@@ -43,7 +44,7 @@ public class Ficha extends SyncFichaClass{
     }
 
     public Ficha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, 
-            String horaEntrega, String observacion, int valorTotal, int descuento, int saldo, 
+            String horaEntrega, String observacion, int valorTotal, int descuento, int idDescuento, int saldo, 
             Cliente cliente, Doctor doctor,Institucion institucion, Despacho despacho , 
             Armazon lejos,Armazon cerca, User user, Convenio convenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
@@ -54,6 +55,7 @@ public class Ficha extends SyncFichaClass{
         setObservacion(observacion);
         setValorTotal(valorTotal);
         setDescuento(descuento);
+        setIdDescuento(idDescuento);
         setSaldo(saldo);
         
         setCliente(cliente);
@@ -116,6 +118,10 @@ public class Ficha extends SyncFichaClass{
     public void setDescuento(int descuento) {
         this.descuento = descuento;
     }
+    
+    public void setIdDescuento(int idDescuento) {
+        this.idDescuento = idDescuento;
+    }
 
     public void setInstitucion(Institucion institucion) {
         this.institucion = institucion;
@@ -146,11 +152,11 @@ public class Ficha extends SyncFichaClass{
     }
 
     public String getLugarEntrega() {
-        return lugarEntrega;
+        return getStr(lugarEntrega);
     }
 
     public String getHoraEntrega() {
-        return horaEntrega;
+        return getStr(horaEntrega);
     }
 
     public int getValorTotal() {
@@ -162,7 +168,7 @@ public class Ficha extends SyncFichaClass{
     }
 
     public String getObservacion() {
-        return observacion;
+        return getStr(observacion);
     }
 
     public Cliente getCliente() {
@@ -175,6 +181,10 @@ public class Ficha extends SyncFichaClass{
 
     public int getDescuento() {
         return descuento;
+    }
+    
+    public int getIdDescuento() {
+        return idDescuento;
     }
 
     public Institucion getInstitucion() {
