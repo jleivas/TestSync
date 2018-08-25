@@ -61,7 +61,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         initComponents();
         
         ContentAdmin.lblTitle.setText("Nueva Ficha");
+        validateDataTemp();
         load();
+        
         comprobarDatosFicha();
         GV.cursorDF();
         GV.cursorDF(this);
@@ -3044,5 +3046,13 @@ public class VCrearFicha extends javax.swing.JPanel {
         stLenteLejos= new Lente();
         stTipoPago = new TipoPago();
         GV.clearFicha();
+    }
+
+    private void validateDataTemp() {
+        if(GV.getFicha().getFecha() != null){
+            if(!OptionPane.getConfirmation("Restaurar archivos temporales", "Existen datos temporales, ¿Desea recuperarlos?", 2)){
+                clearData();
+            }
+        }
     }
 }

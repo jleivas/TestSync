@@ -50,7 +50,7 @@ import view.opanel.MPanel;
 import view.opanel.OPanel;
 
 /**
- *
+ *s
  * @author sdx
  */
 public class GV extends GlobalValuesCursor{
@@ -181,6 +181,10 @@ public class GV extends GlobalValuesCursor{
      /**************************BEGIN PRINT**********************************/
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
+    }
+    
+    public static void printFicha(Ficha ficha){
+        GlobalValuesPrint.print(ficha);
     }
      /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
