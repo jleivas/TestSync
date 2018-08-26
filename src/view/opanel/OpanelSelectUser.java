@@ -5,26 +5,34 @@
  */
 package view.opanel;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
+import dao.Dao;
+import entities.User;
 import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import view.ContentAdmin;
 
 /**
  *
  * @author sdx
  */
-public class OpanelSelectDate extends javax.swing.JPanel {
+public class OpanelSelectUser extends javax.swing.JPanel {
     Boton boton = new Boton();
     /**
      * Creates new form OpanelSelectDate
      */
-    public OpanelSelectDate() {
+    public OpanelSelectUser() {
         initComponents();
+        try {
+            autocompletar();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OpanelSelectUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -36,36 +44,15 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtFecha1 = new com.toedter.calendar.JDateChooser();
-        btnSyncronize18 = new javax.swing.JLabel();
-        btnSyncronize19 = new javax.swing.JLabel();
-        txtFecha2 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         btnCancel = new javax.swing.JLabel();
         btnLoad = new javax.swing.JLabel();
+        txtNombreUsuario = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        btnSyncronize18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Calendar_25px.png"))); // NOI18N
-        btnSyncronize18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSyncronize18MouseClicked(evt);
-            }
-        });
-
-        btnSyncronize19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Calendar_25px.png"))); // NOI18N
-        btnSyncronize19.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSyncronize19MouseClicked(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
-        jLabel1.setText("Desde");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
-        jLabel2.setText("Hasta");
+        jLabel1.setText("Seleccione un usuario");
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cancel_50px.png"))); // NOI18N
         btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,41 +91,28 @@ public class OpanelSelectDate extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel)
-                .addGap(18, 18, 18)
-                .addComponent(btnLoad)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(351, Short.MAX_VALUE)
+                        .addComponent(btnCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLoad))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombreUsuario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(87, 87, 87))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSyncronize18)
-                        .addGap(5, 5, 5)
-                        .addComponent(txtFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(74, 74, 74)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSyncronize19)
-                        .addGap(5, 5, 5)
-                        .addComponent(txtFecha2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2))
-                .addContainerGap(95, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSyncronize19, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSyncronize18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancel)
@@ -146,14 +120,6 @@ public class OpanelSelectDate extends javax.swing.JPanel {
                 .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnSyncronize18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize18MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSyncronize18MouseClicked
-
-    private void btnSyncronize19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize19MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSyncronize19MouseClicked
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
         OptionPane.closeOptionPanel();
@@ -172,29 +138,20 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelMousePressed
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        try {
-            if(txtFecha1.getDate() == null){
-                if(txtFecha2.getDate() == null){
-                    GV.setDateFrom(new Date());
-                    GV.setDateTo(new Date());
-                }else{
-                    GV.setDateFrom(txtFecha2.getDate());
-                    GV.setDateTo(txtFecha2.getDate());
-                }
-            }else{
-                if(txtFecha2.getDate() == null){
-                    GV.setDateFrom(txtFecha1.getDate());
-                    GV.setDateTo(txtFecha1.getDate());
-                }else{
-                    GV.setDateFrom(txtFecha1.getDate());
-                    GV.setDateTo(txtFecha2.getDate());
-                }
-            }
-            GV.listarFichasByDate(GV.dateFrom(),GV.dateTo());
+        String idUser = txtNombreUsuario.getText();
+        if(idUser.contains("<")){
+            ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+idUser.substring(0, idUser.indexOf("<")));
+            idUser = idUser.substring(idUser.indexOf("<")+1);
+            idUser = idUser.replaceAll(">", "");
+            GV.listarFichasByUser(idUser);
             OptionPane.closeOptionPanel();
-            boton.fichas(GV.cboFichasFilter());
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(OpanelSelectDate.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                boton.fichas(GV.cboFichasFilter());
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(OpanelSelectUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            OptionPane.showMsg("El cliente no existe", "Debe seleccionar un cliente de la lista desplegable", 2);
         }
     }//GEN-LAST:event_btnLoadMouseClicked
 
@@ -210,16 +167,22 @@ public class OpanelSelectDate extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLoadMousePressed
 
+    private void autocompletar() throws SQLException, ClassNotFoundException {
+        Dao load = new Dao();
+        TextAutoCompleter textAutoCompleter2 = new TextAutoCompleter(txtNombreUsuario);
+        for (Object temp : load.listar("-2", new User())) {
+            if(((User)temp).getTipo() != 7){
+                textAutoCompleter2.addItem(((User)temp).getNombre()+" <"+((User)temp).getId()+">");
+                textAutoCompleter2.setMode(0);
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCancel;
     private javax.swing.JLabel btnLoad;
-    private javax.swing.JLabel btnSyncronize18;
-    private javax.swing.JLabel btnSyncronize19;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private com.toedter.calendar.JDateChooser txtFecha1;
-    private com.toedter.calendar.JDateChooser txtFecha2;
+    private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 
 }

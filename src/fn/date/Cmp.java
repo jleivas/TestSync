@@ -26,6 +26,9 @@ public class Cmp {
      */
     public static boolean localIsNewOrEqual(Date local,Date remote){
         Log.setLog(className,Log.getReg());
+        if(local == null || remote == null){
+            return false;
+        }
         return local.compareTo(remote) >= 0;
     }
     

@@ -16,8 +16,12 @@ import fn.OptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import view.opanel.OpanelSelectClient;
+import view.opanel.OpanelSelectDate;
+import view.opanel.OpanelSelectUser;
 
 /**
  *
@@ -26,6 +30,10 @@ import javax.swing.table.TableRowSorter;
 public class VFichas extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
+    private static int BY_DAY =0;
+    private static int BY_DATE=1;
+    private static int BY_CLIENT=2;
+    private static int BY_USER=3;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -36,8 +44,10 @@ public class VFichas extends javax.swing.JPanel {
     /**
      * Creates new form VClientes
      */
-    public VFichas() throws SQLException, ClassNotFoundException {
-        ContentAdmin.lblTitle.setText("Fichas");
+    public VFichas(int filter) throws SQLException, ClassNotFoundException {
+        if(!ContentAdmin.lblTitle.getText().toLowerCase().contains("ficha")){
+            ContentAdmin.lblTitle.setText("Fichas");
+        }
         initComponents();       
         modelo.addColumn("Folio");
         modelo.addColumn("Fecha");
@@ -45,8 +55,9 @@ public class VFichas extends javax.swing.JPanel {
         modelo.addColumn("Estado");
         modelo.addColumn("Total");
         tblListar.setModel(modelo);
-        cboInventarioFilter.setSelectedIndex(0);
+        cboFilterOptions.setSelectedIndex(filter);
         load();
+        OptionPane.closeOptionPanel();
         GV.cursorDF();
         cDF();
     }
@@ -70,8 +81,9 @@ public class VFichas extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        cboInventarioFilter = new javax.swing.JComboBox<>();
-        btnLoad = new javax.swing.JLabel();
+        cboFilterOptions = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        btnReloadFilter = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -156,25 +168,28 @@ public class VFichas extends javax.swing.JPanel {
             }
         });
 
-        cboInventarioFilter.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboInventarioFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboInventarioFilter.addItemListener(new java.awt.event.ItemListener() {
+        cboFilterOptions.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
+        cboFilterOptions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Día", "Por Fechas", "Por Cliente", "Por Vendedor" }));
+        cboFilterOptions.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cboInventarioFilterItemStateChanged(evt);
+                cboFilterOptionsItemStateChanged(evt);
             }
         });
 
-        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Google_Web_Search_25px.png"))); // NOI18N
-        btnLoad.setToolTipText("Cargar Inventario");
-        btnLoad.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jLabel1.setText("Mostrar");
+
+        btnReloadFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Filter_25px.png"))); // NOI18N
+        btnReloadFilter.setToolTipText("Volver a filtrar");
+        btnReloadFilter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLoadMouseClicked(evt);
+                btnReloadFilterMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLoadMouseEntered(evt);
+                btnReloadFilterMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLoadMouseExited(evt);
+                btnReloadFilterMouseExited(evt);
             }
         });
 
@@ -182,27 +197,31 @@ public class VFichas extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(btnAbrir)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar)
-                .addGap(18, 18, 18)
-                .addComponent(btnRestaurar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 539, Short.MAX_VALUE)
-                .addComponent(cboInventarioFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLoad)
-                .addGap(15, 15, 15))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAbrir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRestaurar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboFilterOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReloadFilter)
+                        .addGap(1, 1, 1)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,8 +232,10 @@ public class VFichas extends javax.swing.JPanel {
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cboInventarioFilter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoad, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboFilterOptions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addComponent(btnReloadFilter, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -233,7 +254,7 @@ public class VFichas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,31 +382,33 @@ public class VFichas extends javax.swing.JPanel {
         tblListar.setRowSorter(trs);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
-    private void cboInventarioFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboInventarioFilterItemStateChanged
-//        load();
-    }//GEN-LAST:event_cboInventarioFilterItemStateChanged
+    private void cboFilterOptionsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboFilterOptionsItemStateChanged
+        GV.setCboFichasFilter(cboFilterOptions.getSelectedIndex());
+        load();
+    }//GEN-LAST:event_cboFilterOptionsItemStateChanged
 
-    private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        
-    }//GEN-LAST:event_btnLoadMouseClicked
+    private void btnReloadFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadFilterMouseClicked
+        load();
+    }//GEN-LAST:event_btnReloadFilterMouseClicked
 
-    private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered
-        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnLoad.getIcon().toString()))));
-    }//GEN-LAST:event_btnLoadMouseEntered
+    private void btnReloadFilterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadFilterMouseEntered
+        btnReloadFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnReloadFilter.getIcon().toString()))));
+    }//GEN-LAST:event_btnReloadFilterMouseEntered
 
-    private void btnLoadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseExited
+    private void btnReloadFilterMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadFilterMouseExited
 
-        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnLoad.getIcon().toString()))));
-    }//GEN-LAST:event_btnLoadMouseExited
+        btnReloadFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnReloadFilter.getIcon().toString()))));
+    }//GEN-LAST:event_btnReloadFilterMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
     private javax.swing.JLabel btnEliminar;
-    private javax.swing.JLabel btnLoad;
+    private javax.swing.JLabel btnReloadFilter;
     private javax.swing.JLabel btnRestaurar;
-    private javax.swing.JComboBox<String> cboInventarioFilter;
+    public static javax.swing.JComboBox<String> cboFilterOptions;
     private javax.swing.JComboBox<String> cboMostrar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -396,8 +419,7 @@ public class VFichas extends javax.swing.JPanel {
 
     private void load(){
         int index = buildIndex(cboMostrar.getSelectedIndex());
-        String listar = GV.convertFichaIdParamToTableList(""+index);
-        cargarDatos(listar);
+        cargarDatos(index);
     }
     
     /**
@@ -407,10 +429,29 @@ public class VFichas extends javax.swing.JPanel {
      */
     private int buildIndex(int index){
         int INDEX_ELIMINADOS = 5;
-        return (index==INDEX_ELIMINADOS)? -1:index;
+        int INDEX_TODOS = 0;
+        index = (index==INDEX_TODOS)?-1:index;
+        return (index==INDEX_ELIMINADOS)? 0:index;
     }
-    private void cargarDatos(String listar) {
-        if(listar.endsWith("-1")){
+    private void cargarDatos(int status) {
+        int filter = cboFilterOptions.getSelectedIndex();
+        if(filter==BY_DAY){
+            ContentAdmin.lblTitle.setText("Fichas al día "+GV.dateToString(new Date(), "dd/mm/yyyy"));
+            GV.listarFichasByDate(new Date(),null);
+        }
+        if(filter==BY_DATE){
+            OptionPane.showOptionPanel(new OpanelSelectDate(), "Seleccione un rango de fechas");
+            String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
+            tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
+            ContentAdmin.lblTitle.setText(tempTitle);
+        }
+        if(filter==BY_CLIENT){
+            OptionPane.showOptionPanel(new OpanelSelectClient(), "Seleccione un Cliente");
+        }
+        if(filter==BY_USER){
+            OptionPane.showOptionPanel(new OpanelSelectUser(), "Seleccione un Usuario");
+        }
+        if(status == 0){
             btnRestaurar.setVisible(true);
             btnEliminar.setVisible(false);
             btnAbrir.setVisible(false);
@@ -421,15 +462,62 @@ public class VFichas extends javax.swing.JPanel {
         }
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new ResF())) {
+            for (Object object : GV.getFichas()) {
                 ResF temp = (ResF)object;
-                Object[] fila = new Object[5];
-                fila[0] = temp.getFolio();
-                fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                fila[2] = temp.getCliente();
-                fila[3] = GV.estadoFicha(temp.getEstado());
-                fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
-                modelo.addRow(fila);
+                if(status == -1 && temp.getEstado() > GV.estadoFichaDeleted()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
+                if(status == GV.estadoFichaDeleted() && temp.getEstado() < GV.estadoFichaDeleted()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
+                if(status == GV.estadoFichaDelivered()&& temp.getEstado() == GV.estadoFichaDelivered()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
+                if(status == GV.estadoFichaPaid()&& temp.getEstado() == GV.estadoFichaPaid()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
+                if(status == GV.estadoFichaPending()&& temp.getEstado() == GV.estadoFichaPending()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
+                if(status == GV.estadoFichaWarranty()&& temp.getEstado() == GV.estadoFichaWarranty()){
+                    Object[] fila = new Object[5];
+                    fila[0] = temp.getFolio();
+                    fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+                    fila[2] = temp.getCliente();
+                    fila[3] = GV.estadoFicha(temp.getEstado());
+                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    modelo.addRow(fila);
+                }
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){

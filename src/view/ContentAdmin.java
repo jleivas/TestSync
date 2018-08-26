@@ -636,8 +636,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
     private void btnListarFichasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListarFichasMouseClicked
         try {
-            //        OptionPane.showPanel(new OpanelSelectDate(), "Seleccione un estado y un rango de fechas");
-            boton.fichas();
+            boton.fichas(GV.cboFichasFilter());
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }

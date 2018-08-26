@@ -6,6 +6,7 @@
 package fn.globalValues;
 
 import bd.LcBd;
+import dao.Dao;
 import entities.Cliente;
 import entities.Convenio;
 import entities.Cristal;
@@ -28,8 +29,11 @@ import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
-import java.io.File;
+import fn.date.Cmp;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
@@ -49,6 +53,8 @@ public class GlobalValuesBD {
     public static String BD_NAME_LOCAL = "odm4";//Derby.DB";
     public static String BD_USER_LOCAL = "odm4";
     public static String BD_PASS_LOCAL = "odm4";
+    
+    private static List<Object> LISTA_FICHAS = new ArrayList<>();
     
     private static int arm = 1;
     private static int cli = 2;
@@ -634,5 +640,46 @@ public class GlobalValuesBD {
             return usu-1;
         }
         return 0;
+    }
+
+    public static void listarFichasByDate(Date date1, Date date2) {
+        Dao load = new Dao();
+        if(date1==null && date2==null){
+            date1=new Date();
+            OptionPane.showMsg("Datos vacíos","Las fechas ingresadas están vacías,\n"
+                    + "Se tomará como parámetro la fecha actual.", 2);
+        }
+        date1=(date1==null)?date2:date1;
+        date2=(date2==null)?date1:date2;
+        if(Cmp.localIsNewOrEqual(date1, date2)){
+            Date aux = date2;
+            date2=date1;
+            date1=aux;
+        }
+        String d1 = (!GV.dateToString(date1, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(date1, "yyyy-mm-dd"):"";
+        String d2 = (!GV.dateToString(date2, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(date2, "yyyy-mm-dd"):"";
+        String idParam = GV.convertFichaIdParamToDateList(d1+"/"+d2);
+        LISTA_FICHAS = load.listar(idParam, new Ficha());
+    }
+    
+    public static void listarFichasByClient(String rut) {
+        Dao load = new Dao();
+        String idParam = GV.convertFichaIdParamToClient(rut);
+        LISTA_FICHAS = load.listar(idParam, new Ficha());
+    }
+    
+    public static void listarFichasByUser(String user) {
+        Dao load = new Dao();
+        String idParam = GV.convertFichaIdParamToUSer(user);
+        LISTA_FICHAS = load.listar(idParam, new Ficha());
+    }
+    
+    
+    /**
+     * retorna una lista de objetos que deben ser parseados a ResF
+     * @return 
+     */
+    public static List<Object> getFichas(){
+        return LISTA_FICHAS;
     }
 }

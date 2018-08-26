@@ -35,6 +35,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -278,6 +279,14 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesVariables.setUserName(userName);
     }
     
+    public static int cboFichasFilter(){
+        return GlobalValuesVariables.cboFichasFilter();
+    }
+    
+    public static void setCboFichasFilter(int filter){
+        GlobalValuesVariables.setCboFichasFilter(filter);
+    }
+    
     public static String username() {
         return GlobalValuesVariables.getUserName();
     }
@@ -403,6 +412,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.fichaIdParamIsTableList(arg);
     }
     
+    public static boolean fichaIdParamIsDateList(String arg) {
+        return GlobalValuesVariables.fichaIdParamIsDateList(arg);
+    }
+    
     public static boolean fichaIdParamIsClient(String arg){
         return GlobalValuesVariables.fichaIdParamIsClient(arg);
     }
@@ -421,6 +434,10 @@ public class GV extends GlobalValuesCursor{
     
     public static String convertFichaIdParamToTableList(String arg){
         return GlobalValuesVariables.convertFichaIdParamToTableList(arg);
+    }
+    
+    public static String convertFichaIdParamToDateList(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToDateList(arg);
     }
     
     public static String estadoFicha(int status){
@@ -484,6 +501,21 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesBD.getRemoteBdName();
     }
     
+    public static void listarFichasByDate(Date date1, Date date2) {
+        GlobalValuesBD.listarFichasByDate(date1,date2);
+    }
+    
+    public static void listarFichasByClient(String rut) {
+        GlobalValuesBD.listarFichasByClient(rut);
+    }
+    
+    public static void listarFichasByUser(String idUser) {
+        GlobalValuesBD.listarFichasByUser(idUser);
+    }
+    
+    public static List<Object> getFichas() {
+        return GlobalValuesBD.getFichas();
+    }
     /*****************************END BD***************************************/
     
     //******************************** BEGIN CURSOR ***************************************************

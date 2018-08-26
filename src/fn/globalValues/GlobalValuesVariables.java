@@ -56,6 +56,10 @@ public class GlobalValuesVariables {
     private static String ID_PARAM_IS_USER = "USER/";
     private static String ID_PARAM_IS_CLIENT = "CLIENT/";
     private static String ID_PARAM_IS_TABLE_LIST = "LIST/";
+    private static String ID_PARAM_IS_DATE_LIST = "DATE/";
+    private static int CBO_FICHA_FILTER=0;
+    //used in filterList()
+    private static List<String> FILTER_LIST = new ArrayList<>();
     
     private static final int DELETED = 0;
     private static final int PENDING = 1;
@@ -63,6 +67,16 @@ public class GlobalValuesVariables {
     private static final int DELIVERED = 3;
     private static final int WARRANTY = 4;
     
+    private static List<String> filterList(){
+        FILTER_LIST.clear();
+        FILTER_LIST.add("<");
+        FILTER_LIST.add(">");
+        FILTER_LIST.add(ID_PARAM_IS_USER);
+        FILTER_LIST.add(ID_PARAM_IS_CLIENT);
+        FILTER_LIST.add(ID_PARAM_IS_TABLE_LIST);
+        FILTER_LIST.add(ID_PARAM_IS_DATE_LIST);
+        return FILTER_LIST;
+    }
     public static void setInventarioLocal(String inventario){
         INVENTARIO_NAME = getStr(inventario);
     }
@@ -211,7 +225,13 @@ public class GlobalValuesVariables {
     }
     
     public static boolean fichaIdParamIsIdFicha(String arg){
-        return (!fichaIdParamIsClient(arg) && !fichaIdParamIsUser(arg) && !fichaIdParamIsTableList(arg)) ? true:false;
+        List<String> filter = filterList();
+        for (String str : filter) {
+            if(arg.contains(str)){
+                return false;
+            }
+        }
+        return true;
     }
     
     public static boolean fichaIdParamIsUser(String arg){
@@ -224,6 +244,10 @@ public class GlobalValuesVariables {
     
     public static boolean fichaIdParamIsTableList(String arg) {
         return (GV.getStr(arg).startsWith(ID_PARAM_IS_TABLE_LIST)) ? true:false;
+    }
+    
+    public static boolean fichaIdParamIsDateList(String arg) {
+        return (GV.getStr(arg).startsWith(ID_PARAM_IS_DATE_LIST)) ? true:false;
     }
     
     public static String convertFichaIdParamToUSer(String arg){
@@ -242,13 +266,20 @@ public class GlobalValuesVariables {
         return "<"+GV.getStr(arg)+">";
     }
     
+    public static String convertFichaIdParamToDateList(String arg) {
+        return ID_PARAM_IS_DATE_LIST+cleanIdParam(arg);
+    }
+    
+    public static int cboFichasFilter(){
+        return CBO_FICHA_FILTER;
+    }
+    
+    public static void setCboFichasFilter(int filter){
+        CBO_FICHA_FILTER = filter;
+    }
+    
     public static String cleanIdParam(String arg){
-        List<String> filter = new ArrayList<String>();
-        filter.add("<");
-        filter.add(">");
-        filter.add(ID_PARAM_IS_CLIENT);
-        filter.add(ID_PARAM_IS_TABLE_LIST);
-        filter.add(ID_PARAM_IS_USER);
+        List<String> filter = filterList();
         for (String clean : filter) {
             arg = GV.getStr(arg).replaceAll(clean, "");
         }

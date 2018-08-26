@@ -86,9 +86,9 @@ public class Boton {
         openView(new VFicha());
     }
     
-    public void fichas() throws SQLException, ClassNotFoundException {
+    public void fichas(int filter) throws SQLException, ClassNotFoundException {
         GV.cursorWAIT();
-        openView(new VFichas());
+        openView(new VFichas(filter));
     }
     
     public void instituciones() throws SQLException, ClassNotFoundException{
