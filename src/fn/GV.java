@@ -496,6 +496,23 @@ public class GV extends GlobalValuesCursor{
     public static void setFicha(Ficha ficha){
         GlobalValuesEntities.setFicha(ficha);
     }
+    
+    /**
+     * retorna la ficha seleccionada para mostrar los datos
+     * @return 
+     */
+    public static Ficha getOpenFicha(){
+        return GlobalValuesEntities.getOpenFicha();
+    }
+    
+    /**
+     * Asigna una ficha para dejarla estática y mostrar sus datos en una nueva ventana
+     * @param ficha 
+     */
+    public static void setOpenFicha(Ficha ficha){
+        GlobalValuesEntities.setOpenFicha(ficha);
+    }
+    
     public static User user(){
         return GlobalValuesEntities.getSessionUser();
     }
