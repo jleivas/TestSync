@@ -23,6 +23,7 @@ public class GlobalValuesEntities {
     public static User USER;
     public static Oficina OFICINA;
     public static Ficha stFicha = new Ficha();
+    public static Ficha stOpenFicha = new Ficha();
     
     
     public static Ficha getFicha(){
@@ -32,6 +33,22 @@ public class GlobalValuesEntities {
     public static void setFicha(Ficha value){
         stFicha = value;
     }
+    
+    /**
+     * retorna la ficha que se seleccionó para mostrar sus datos
+     * @return 
+     */
+    public static Ficha getOpenFicha(){
+        return stOpenFicha;
+    }
+    /**
+     * Recibe una ficha para mostrar los datos en una nueva ventana
+     * @param value 
+     */
+    public static void setOpenFicha(Ficha value){
+        stOpenFicha = value;
+    }
+    
     public static void setOficina(Oficina oficina){
         OFICINA = oficina;
     }

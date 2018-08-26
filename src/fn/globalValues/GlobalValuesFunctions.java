@@ -86,11 +86,9 @@ public class GlobalValuesFunctions {
     }
     
     public static int strToNumber(String arg){
-        arg = arg.replaceAll("[^0-9-]", "");
+        arg = GV.getStr(arg).replaceAll("[^0-9-]", "");
         boolean isNegative = (arg.startsWith("-"))? true:false;
         arg = arg.replaceAll("-", "").trim();
-        if(arg == null || arg.isEmpty())
-            return 0;
         if(arg.isEmpty())
             return 0;
         if(isNegative){
