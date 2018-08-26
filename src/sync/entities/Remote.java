@@ -2122,7 +2122,7 @@ public class Remote implements InterfaceSync{
                 if(auditoria > 1){
                     OptionPane.showMsg("Es necesario corregir algunos datos", "La base de datos tiene conflicto con algunos items.\n"
                             + "Debe informar de este error a su proveedor de software con el siguiente id de seguimiento\n"
-                            + "Identificador: ARM_FCH_ID_"+armazon.getIdFicha(), 3);
+                            + "Identificador: ARM_FCH_ID_"+armazon.getIdFicha()+"\nDetalle: El sistema solo debe admitir dos armazones por ficha.", 3);
                 }
                 return armazon;
             }
@@ -2170,7 +2170,7 @@ public class Remote implements InterfaceSync{
                 if(auditoria > 1){
                     OptionPane.showMsg("Es necesario corregir algunos datos", "La base de datos tiene conflicto con algunos items.\n"
                             + "Debe informar de este error a su proveedor de software con el siguiente id de seguimiento\n"
-                            + "Identificador: DSP_FCH_ID_"+despacho.getIdFicha(), 3);
+                            + "Identificador: DSP_FCH_ID_"+despacho.getIdFicha()+"\nDetalle: El sistema solo debe admitir un despacho por ficha.", 3);
                 }
                 return despacho;
             }
