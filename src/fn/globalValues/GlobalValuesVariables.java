@@ -67,6 +67,26 @@ public class GlobalValuesVariables {
         INVENTARIO_NAME = getStr(inventario);
     }
     
+    public static int estadoFichaDeleted(){
+        return DELETED;
+    }
+    
+    public static int estadoFichaPending(){
+        return PENDING;
+    }
+    
+    public static int estadoFichaPaid(){
+        return PAID;
+    }
+    
+    public static int estadoFichaDelivered(){
+        return DELIVERED;
+    }
+    
+    public static int estadoFichaWarranty(){
+        return WARRANTY;
+    }
+    
     public static void setCompanyName(String nombre) {
         COMPANY_NAME = getToName(nombre);
     }

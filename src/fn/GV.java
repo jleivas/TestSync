@@ -426,6 +426,26 @@ public class GV extends GlobalValuesCursor{
     public static String estadoFicha(int status){
         return GlobalValuesVariables.estadoFicha(status);
     }
+    
+    public static int estadoFichaDeleted(){
+        return GlobalValuesVariables.estadoFichaDeleted();
+    }
+    
+    public static int estadoFichaPending(){
+        return GlobalValuesVariables.estadoFichaPending();
+    }
+    
+    public static int estadoFichaPaid(){
+        return GlobalValuesVariables.estadoFichaPaid();
+    }
+    
+    public static int estadoFichaDelivered(){
+        return GlobalValuesVariables.estadoFichaDelivered();
+    }
+    
+    public static int estadoFichaWarranty(){
+        return GlobalValuesVariables.estadoFichaWarranty();
+    }
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
     public static Connection initDB(){
