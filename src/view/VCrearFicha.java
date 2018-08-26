@@ -2816,7 +2816,6 @@ public class VCrearFicha extends javax.swing.JPanel {
                 Log.setLog("Error:", ex.getMessage());
             }
             if(stDescuento != null){
-                GV.getFicha().setIdDescuento(stDescuento.getId());
                 dscto = GV.obtenerDescuentoFicha(stDescuento,total);
                 txtDescuento.setText(GV.strToPrice(dscto));
                 return dscto;
