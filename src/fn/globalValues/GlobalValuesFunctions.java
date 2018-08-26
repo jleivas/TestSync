@@ -273,8 +273,8 @@ public class GlobalValuesFunctions {
     
     public static Object[][] listarAbonos(String codFicha) {
         Dao load = new Dao();
-        int COLUMNAS = 2;//la columna dos corresponde a la descripcion del tipo de pago, se usa en funciones para imprimiry
-        List<Object> lista = load.listar(codFicha, new HistorialPago());
+        int COLUMNAS = 3;//la columna dos corresponde a la descripcion del tipo de pago, se usa en funciones para imprimiry
+        List<Object> lista = load.listar(GV.convertFichaIdParamToListAbonos(codFicha), new HistorialPago());
         if(lista.size() == 0){return null;}
         String[][] abonos = new String[lista.size()][COLUMNAS];
         int i = 0;
@@ -292,6 +292,9 @@ public class GlobalValuesFunctions {
             abonos[i][0] = GV.strToPrice(temp.getAbono());
             
             abonos[i][1] = (tp!=null)? tp.getNombre():"No registrado";
+            
+            abonos[i][2] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
+            i++;
         }
         return abonos;
     }

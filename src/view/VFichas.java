@@ -248,6 +248,9 @@ public class VFichas extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String codigo = tblListar.getValueAt(fila, 0).toString();
+            Ficha ficha = (Ficha)load.get(codigo, 0, new Ficha());
+            GV.setOpenFicha(ficha);
+            boton.ficha();
             cDF();
         }catch(Exception e){
             OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
@@ -425,7 +428,7 @@ public class VFichas extends javax.swing.JPanel {
                 fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                 fila[2] = temp.getCliente();
                 fila[3] = GV.estadoFicha(temp.getEstado());
-                fila[4] = GV.strToPrice(temp.getTotal());
+                fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
                 modelo.addRow(fila);
             }
             tblListar.updateUI();

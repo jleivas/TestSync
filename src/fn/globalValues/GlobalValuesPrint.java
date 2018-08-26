@@ -30,7 +30,7 @@ public class GlobalValuesPrint {
     public static void print(Ficha ficha)
 	{
             
-            String formatoAbono = obtenerAbonos(GV.convertFichaIdParamToListAbonos(ficha.getCod()));
+            String formatoAbono = obtenerAbonos(ficha.getCod());
             ///////////////////////////FECHAS
             String fecha = GV.dateToString(ficha.getFecha(),"dd/mm/yyyy");
             String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd/mm/yyyy");
