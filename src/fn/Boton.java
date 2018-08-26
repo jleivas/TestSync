@@ -18,6 +18,7 @@ import view.VCrearFicha;
 import view.VCristales;
 import view.VDescuentos;
 import view.VDoctores;
+import view.VFicha;
 import view.VFichas;
 import view.VInstituciones;
 import view.VInventarios;
@@ -78,6 +79,11 @@ public class Boton {
     public void doctores() throws SQLException, ClassNotFoundException{
         GV.cursorWAIT();
         openView(new VDoctores());
+    }
+    
+    public void ficha() throws SQLException, ClassNotFoundException {
+        GV.cursorWAIT();
+        openView(new VFicha());
     }
     
     public void fichas() throws SQLException, ClassNotFoundException {
