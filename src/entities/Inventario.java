@@ -33,7 +33,7 @@ public class Inventario extends SyncIntId{
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = getStr(nombre);
+        this.descripcion = getStr(descripcion);
     }
 
     public String getNombre() {
