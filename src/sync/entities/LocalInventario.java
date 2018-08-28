@@ -75,7 +75,7 @@ public class LocalInventario {
                 datos.getInt("len_precio_act"),
                 stock,
                 datos.getInt("len_stock_min"),
-                datos.getString("inventario_inv_id"),
+                datos.getInt("inventario_inv_id"),
                 datos.getInt("len_estado"),
                 datos.getDate("len_last_update"),
                 datos.getInt("len_last_hour")

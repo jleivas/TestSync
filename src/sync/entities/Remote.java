@@ -1026,6 +1026,13 @@ public class Remote implements InterfaceSync{
                     + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
                     + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
                     + "FROM ficha WHERE fch_estado > 0":sql;
+                    sql = (GV.fichaIdParamIsDateList(idParam))? "SELECT fch_id,fch_fecha,fch_valor_total,fch_descuento, fch_saldo,fch_estado,"
+                    + "(SELECT cli_nombre FROM cliente WHERE cli_rut = cliente_cli_rut) as cliente,"
+                    + "(SELECT cli_comuna FROM cliente WHERE cli_rut = cliente_cli_rut) as comuna,"
+                    + "(SELECT cli_ciudad FROM cliente WHERE cli_rut = cliente_cli_rut) as ciudad,"
+                    + "(SELECT us_nombre FROM usuario WHERE us_id = usuario_us_id) as vendedor "
+                    + "FROM ficha WHERE fch_fecha BETWEEN '"+GV.cleanIdParam(idParam.substring(0, idParam.lastIndexOf("/")))
+                    +"' and '"+GV.cleanIdParam(idParam.substring(idParam.lastIndexOf("/")+1))+"' ORDER BY fch_fecha DESC":sql;
                     //return lista de ResF
                 }else{
                     return listar(idParam, new Ficha());//retornara una lista de Fichas
@@ -1439,7 +1446,7 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if (type instanceof Inventario){
-                String sql = "SELECT * FROM inventario WHERE inv_nombre = '" + idParam + "'";
+                String sql = "SELECT * FROM inventario WHERE LOWER(inv_nombre) = '" + idParam.toLowerCase() + "'";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM inventario WHERE inv_estado=1";
                 }
@@ -1497,7 +1504,7 @@ public class Remote implements InterfaceSync{
                         datos.getInt("len_precio_act"),
                         datos.getInt("len_stock"),
                         datos.getInt("len_stock_min"),
-                        datos.getString("inventario_inv_id"),
+                        datos.getInt("inventario_inv_id"),
                         datos.getInt("len_estado"),
                         datos.getDate("len_last_update"),
                         datos.getInt("len_last_hour")
@@ -1508,7 +1515,7 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if (type instanceof Oficina) {
-                String sql = "SELECT * FROM oficina WHERE of_nombre='" + idParam + "'";
+                String sql = "SELECT * FROM oficina WHERE LOWER(of_nombre)='" + idParam.toLowerCase() + "'";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM oficina WHERE of_estado=1";
                 }
@@ -1600,7 +1607,7 @@ public class Remote implements InterfaceSync{
             }
             if(type instanceof User){
                 String sql = "SELECT * FROM usuario WHERE us_username='" + idParam + "'";
-                if(!idParam.equals("0") && isNumber(idParam)){
+                if(!idParam.equals("0") && GV.isNumeric(idParam)){
                     sql = "SELECT * FROM usuario WHERE us_id=" + idParam + "";
                 }
                 if (idParam.equals("0")) {
@@ -1974,7 +1981,7 @@ public class Remote implements InterfaceSync{
                         datos.getInt("len_precio_act"),
                         datos.getInt("len_stock"),
                         datos.getInt("len_stock_min"),
-                        datos.getString("inventario_inv_id"),
+                        datos.getInt("inventario_inv_id"),
                         datos.getInt("len_estado"),
                         datos.getDate("len_last_update"),
                         datos.getInt("len_last_hour")
@@ -2229,9 +2236,17 @@ public class Remote implements InterfaceSync{
                 return null;
             }
             if(type instanceof Inventario){
-                for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
-                    if (((Inventario) object).getNombre().equals(cod)) {
-                        return object;
+                if(GV.isNumeric(cod)){
+                    for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                        if (((Inventario) object).getId() == GV.strToNumber(cod)) {
+                            return object;
+                        }
+                    }
+                }else{
+                    for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
+                        if (((Inventario) object).getNombre().toLowerCase().equals(cod.toLowerCase())) {
+                            return object;
+                        }
                     }
                 }
                 return null;
@@ -2641,8 +2656,8 @@ public class Remote implements InterfaceSync{
                             + object.getPrecioRef()+ ","
                             + object.getPrecioAct()+ ","
                             + object.getStock()+ ","
-                            + object.getStockMin()+ ",'"
-                            + object.getInventario()+ "',"
+                            + object.getStockMin()+ ","
+                            + object.getInventario()+ ","
                             + object.getEstado()+ ",'"
                             + sqlfecha + "',"
                             + object.getLastHour() + ")";
@@ -2939,8 +2954,8 @@ public class Remote implements InterfaceSync{
                         + ", len_precio_act = " + object.getPrecioAct()
                         + ", len_stock = " + object.getStock()
                         + ", len_stock_min = " + object.getStockMin()
-                        + ", inventario_inv_id = '" + object.getInventario()
-                        + "', len_estado = " + object.getEstado()
+                        + ", inventario_inv_id = " + object.getInventario()
+                        + ", len_estado = " + object.getEstado()
                         + ", len_last_update = '" + sqlfecha
                         + "', len_last_hour = " + object.getLastHour()
                         + " WHERE len_id = '" + object.getCod()
@@ -3008,14 +3023,6 @@ public class Remote implements InterfaceSync{
         return null;
     }
     
-    private boolean isNumber(String arg){
-        if(arg == null)
-            return false;
-        arg = arg.replaceAll("[^0-9]", "");
-        if(arg.isEmpty())
-            return false;
-        return true;
-    }
     public ArrayList<InternMail> mensajes(int remitente, int destinatario, int estado) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<InternMail> lista = new ArrayList<>();
         String sql = "";

@@ -1068,13 +1068,8 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModificarMouseExited
 
     private void btnMostrarFichas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseClicked
-//        String rut = txtRut.getText();
-//        try {
-//            GV.TMP_LIST_FICHAS = load.listarPorRut(rut);
-//            boton.fichas();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Error desconocido: "+ex.getMessage(),"Cargar Datos",2);
-//        }
+        GV.listarFichasByClient(txtRut.getText());
+        //abrir fichas
     }//GEN-LAST:event_btnMostrarFichas1MouseClicked
 
     private void btnMostrarFichas1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseEntered

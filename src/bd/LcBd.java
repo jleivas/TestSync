@@ -47,9 +47,9 @@ public class LcBd{
         Log.setLog(className,Log.getReg());
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         
-        conn = DriverManager.getConnection("jdbc:derby://"+GV.getLocalBdUrl()+"/"+GV.getLocalBdName(),GV.getLocalBdUser(),GV.getLocalBdPass());
+//        conn = DriverManager.getConnection("jdbc:derby://"+GV.getLocalBdUrl()+"/"+GV.getLocalBdName(),GV.getLocalBdUser(),GV.getLocalBdPass());
         
-//        conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName());
+        conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName());
         if(conn == null)
             OptionPane.showMsg("Error en Base de datos local", "No se pudo obtener la conexion:\nbd.RmBd::obtener(): ERROR BD.\n\nDatelle: "+Log.getLog(), 3);
         return conn;
@@ -72,7 +72,8 @@ public class LcBd{
             //jdbc:derby:.\\DB\\Derby.DB
             conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
             if (conn!=null){
-               String creartabla="create table "+tableName+columns;
+               String creartabla="create table "+tableName+columns;//(tableName.toLowerCase().equals("lente"))?"drop table lente":
+                System.out.println(creartabla);
                String desc="disconnect;";
                try {
                     PreparedStatement pstm = conn.prepareStatement(creartabla);
@@ -83,6 +84,7 @@ public class LcBd{
                     pstm2.execute();
                     pstm2.close();
                 } catch (SQLException ex) {
+                    System.out.println("\"Error al crear tabla "+tableName+", "+ex.getLocalizedMessage());
 //                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
                 }
             }

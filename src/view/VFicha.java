@@ -240,7 +240,7 @@ public class VFicha extends javax.swing.JPanel {
                 .addComponent(iconDoctor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtDoctor)
-                .addContainerGap(338, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,7 +388,7 @@ public class VFicha extends javax.swing.JPanel {
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1018,7 +1018,7 @@ public class VFicha extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -1034,11 +1034,11 @@ public class VFicha extends javax.swing.JPanel {
 
         jLabel24.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         jLabel24.setText("Abonos");
-        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, -1, -1));
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, -1));
 
         jLabel25.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         jLabel25.setText("Abonar");
-        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, -1));
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
 
         txtAbono.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9999999, 1));
         txtAbono.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1046,7 +1046,7 @@ public class VFicha extends javax.swing.JPanel {
                 txtAbonoStateChanged(evt);
             }
         });
-        jPanel7.add(txtAbono, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 134, -1));
+        jPanel7.add(txtAbono, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 134, -1));
 
         cboTipoPago.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         cboTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1055,15 +1055,15 @@ public class VFicha extends javax.swing.JPanel {
                 cboTipoPagoItemStateChanged(evt);
             }
         });
-        jPanel7.add(cboTipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 110, -1));
+        jPanel7.add(cboTipoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 110, -1));
 
         jLabel27.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         jLabel27.setText("Saldo");
-        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, -1, -1));
+        jPanel7.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, -1));
 
         lblDescuento.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         lblDescuento.setText("Dscto");
-        jPanel7.add(lblDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
+        jPanel7.add(lblDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, -1, -1));
 
         txtSaldo.setEditable(false);
         txtSaldo.addActionListener(new java.awt.event.ActionListener() {
@@ -1076,7 +1076,7 @@ public class VFicha extends javax.swing.JPanel {
                 txtSaldoPropertyChange(evt);
             }
         });
-        jPanel7.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, 118, -1));
+        jPanel7.add(txtSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 118, -1));
 
         txtDescuento.setEditable(false);
         txtDescuento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1084,7 +1084,7 @@ public class VFicha extends javax.swing.JPanel {
                 txtDescuentoPropertyChange(evt);
             }
         });
-        jPanel7.add(txtDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 80, -1));
+        jPanel7.add(txtDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 80, -1));
 
         txtTotal.setEditable(false);
         txtTotal.addActionListener(new java.awt.event.ActionListener() {
@@ -1097,11 +1097,11 @@ public class VFicha extends javax.swing.JPanel {
                 txtTotalPropertyChange(evt);
             }
         });
-        jPanel7.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 117, -1));
+        jPanel7.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 117, -1));
 
         jLabel42.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
         jLabel42.setText("Valor total");
-        jPanel7.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
+        jPanel7.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
         txtAbonos.setEditable(false);
         txtAbonos.addActionListener(new java.awt.event.ActionListener() {
@@ -1114,7 +1114,7 @@ public class VFicha extends javax.swing.JPanel {
                 txtAbonosPropertyChange(evt);
             }
         });
-        jPanel7.add(txtAbonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 117, -1));
+        jPanel7.add(txtAbonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 117, -1));
 
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Print_50px.png"))); // NOI18N
         btnPrint.setToolTipText("Imprimir");
@@ -1181,39 +1181,6 @@ public class VFicha extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(166, 166, 166)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblMessageStatus)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(68, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnHistorialPagos)
@@ -1222,6 +1189,37 @@ public class VFicha extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(btnPrint)
                 .addGap(83, 83, 83))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblMessageStatus)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(68, 68, 68))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1231,7 +1229,7 @@ public class VFicha extends javax.swing.JPanel {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)

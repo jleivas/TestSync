@@ -26,14 +26,14 @@ public class Lente extends SyncStringId{
     private int precioAct;
     private int stock;
     private int stockMin;
-    private String inventario;
+    private int inventario;
 
     public Lente() {
     }
 
     /**
      * 
-     * @param cod Debe incluir el id del inventario al cual está asignado, solo para bd
+     * @param cod 
      * @param color
      * @param tipo
      * @param marca
@@ -49,7 +49,7 @@ public class Lente extends SyncStringId{
      * @param estado
      * @param lastUpdate 
      */
-    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,String inventario, int estado, Date lastUpdate, int lastHour) {
+    public Lente(String cod, String color,String tipo, String marca, String material, int flex, int clasificacion, String descripcion, int precioRef, int precioAct, int stock, int stockMin,int inventario, int estado, Date lastUpdate, int lastHour) {
         setColor(color);
         setTipo(tipo);
         setMarca(marca);
@@ -82,12 +82,12 @@ public class Lente extends SyncStringId{
             super.setCod(cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", ""));
         }
     }
-    public void setInventario(String inventario) {
-        this.inventario = getStr(inventario);
+    public void setInventario(int inventario) {
+        this.inventario = inventario;
     }
 
-    public String getInventario() {
-        return getStr(inventario);
+    public int getInventario() {
+        return inventario;
     }
 
     public void setTipo(String tipo) {

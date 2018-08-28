@@ -555,23 +555,45 @@ public class VInventarios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        cWT();
-        String nombre= txtNombreU.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar inventario", "El registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
+        try {
+            cWT();
+            String nombre= txtNombreU.getText();
+            if(nombre.isEmpty() || nombre.length()<3){
+                OptionPane.showMsg("Modificar inventario", "El registro debe tener un nombre válido.", 2);
+                cDF();
+                return;
+            }
+            boolean isLocal = (stInventario.getNombre().toLowerCase().equals(GV.inventarioName().toLowerCase()))?
+                    true:false;
+            stInventario.setNombre(nombre);
+            stInventario.setDescripcion(txtDescU.getText());
+            Inventario validate = (Inventario)load.get(nombre, 0, new Inventario());
+            if(validate != null){
+                if(nombre.toLowerCase().equals(validate.getNombre().toLowerCase()) &&
+                    stInventario.getId()!=validate.getId()){
+                OptionPane.showMsg("Modificar Inventario", "No se pudieron modificar los datos\n"
+                        + "porque ya existe un inventario con el nombre: "+nombre, 2);
+                GV.cursorDF(this);
+                return;
+                }
+            }else{
+                cWT();
+                if(load.update(stInventario)){
+                    if(isLocal){
+                        GV.setInventarioLocal(stInventario.getNombre());
+                        ContentAdmin.lblTitle.setText("Inventarios ("+GV.inventarioName()+" asignado a este equipo)");
+                    }
+                    OptionPane.showMsg("Modificar Inventario", "Operación realizada con exito",  1);
+                }else{
+                    OptionPane.showMsg("Modificar Inventario", "No se pudo efectuar la operación", 2);
+                }
+                cargarDatos("0");
+                cDF();
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VInventarios.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al guardar cambios", "No se pudo modificar el inventario", 3);
         }
-        stInventario.setNombre(nombre);
-        stInventario.setDescripcion(txtDescU.getText());
-        cWT();
-        if(load.update(stInventario)){
-            OptionPane.showMsg("Modificar Inventario", "Operación realizada con exito",  1);
-        }else{
-            OptionPane.showMsg("Modificar Inventario", "No se pudo efectuar la operación", 2);
-        }
-        cargarDatos("0");
-        cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered

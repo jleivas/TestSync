@@ -32,7 +32,8 @@ public class VLentes extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
     private static Lente stLente =  null;
-    private static String inventario = "";
+    private static Inventario stInventario = null;
+    private static String inventaryName = GV.inventarioName();
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -46,7 +47,6 @@ public class VLentes extends javax.swing.JPanel {
     public VLentes() throws SQLException, ClassNotFoundException {
         ContentAdmin.lblTitle.setText("Lentes");
 //        load.sincronize(new Lente());
-        
         initComponents();
         loadPanels(1);          
         modelo.addColumn("Codigo");
@@ -55,8 +55,13 @@ public class VLentes extends javax.swing.JPanel {
         modelo.addColumn("Stock");
         tblListar.setModel(modelo);
         cargarCbos();
-        cboInventarioFilter.setSelectedIndex(0);
-        inventario = cboInventarioFilter.getSelectedItem().toString();
+        cboInventarioFilter.setSelectedItem(inventaryName);
+        try {
+            stInventario = (Inventario)load.get(cboInventarioFilter.getSelectedItem().toString(), 0, new Inventario());
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         load();
         loadPanels(1);
         GV.cursorDF();
@@ -1151,65 +1156,78 @@ public class VLentes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseEntered
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        cWT();
-        String cod = txtCod1.getText();
-        if(cod.isEmpty()){
-            OptionPane.showMsg("Agregar Lente", "El lente debe tener un código válido.", 2);
+        try {                                        
+            cWT();
+            String cod = txtCod1.getText();
+            if(cod.isEmpty()){
+                OptionPane.showMsg("Agregar Lente", "El lente debe tener un código válido.", 2);
+                cDF();
+                return;
+            }
+            String color = txtCol1.getText();
+            if(color.isEmpty()){
+                OptionPane.showMsg("Agregar Lente", "El lente debe tener un color válido.", 2);
+                cDF();
+                return;
+            }
+            String tipo = txtTip1.getText();
+            if(tipo.isEmpty()){
+                OptionPane.showMsg("Agregar Lente", "El lente debe tener un tipo válido.", 2);
+                cDF();
+                return;
+            }
+            String marca = txtMar1.getText();
+            if(marca.isEmpty()){
+                OptionPane.showMsg("Agregar Lente", "El lente debe tener una marca válida.", 2);
+                cDF();
+                return;
+            }
+            String material = txtMat1.getText();
+            if(material.isEmpty()){
+                OptionPane.showMsg("Agregar Lente", "El lente debe tener un material válido.", 2);
+                cDF();
+                return;
+            }
+            int flex = cboFlex.getSelectedIndex();
+            int type = cboTipo.getSelectedIndex();
+            String desc = txtDsc1.getText();
+            try {
+                txtPrecAct1.commitEdit();
+                txtPrecRef1.commitEdit();
+                txtStock1.commitEdit();
+                txtStockMin1.commitEdit();
+            } catch (ParseException ex) {
+                Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            int precioAct = (int)txtPrecAct1.getValue();
+            int precioRef = (int)txtPrecRef1.getValue();
+            int stock = (int)txtStock1.getValue();
+            int stockMin  =  (int)txtStockMin1.getValue();
+            String inventaryName = cboInventario1.getSelectedItem().toString();
+            Inventario inventario = (Inventario)load.get(inventaryName,0, new Inventario());
+            int idInventario=(inventario!=null)?inventario.getId():0;
+            Lente lente= new Lente(cod, color, tipo, marca, material, flex, type, desc, precioRef, precioAct, stock, stockMin, idInventario, 1, null, 0);
+            try {
+                cWT();
+                load.add(lente);
+                OptionPane.showMsg("Lente agregado", "El lente ha sido agregado al inventario "+inventaryName+" satisfactoriamente", 1);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
+                        + "No se pudo insertar el lente\n\n"
+                        + ex, 3);
+            }
+            cargarDatos("0");
             cDF();
-            return;
-        }
-        String color = txtCol1.getText();
-        if(color.isEmpty()){
-            OptionPane.showMsg("Agregar Lente", "El lente debe tener un color válido.", 2);
-            cDF();
-            return;
-        }
-        String tipo = txtTip1.getText();
-        if(tipo.isEmpty()){
-            OptionPane.showMsg("Agregar Lente", "El lente debe tener un tipo válido.", 2);
-            cDF();
-            return;
-        }
-        String marca = txtMar1.getText();
-        if(marca.isEmpty()){
-            OptionPane.showMsg("Agregar Lente", "El lente debe tener una marca válida.", 2);
-            cDF();
-            return;
-        }
-        String material = txtMat1.getText();
-        if(material.isEmpty()){
-            OptionPane.showMsg("Agregar Lente", "El lente debe tener un material válido.", 2);
-            cDF();
-            return;
-        }
-        int flex = cboFlex.getSelectedIndex();
-        int type = cboTipo.getSelectedIndex();
-        String desc = txtDsc1.getText();
-        try {
-            txtPrecAct1.commitEdit();
-            txtPrecRef1.commitEdit();
-            txtStock1.commitEdit();
-            txtStockMin1.commitEdit();
-        } catch (ParseException ex) {
+        } catch (SQLException ex) {
+            Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        int precioAct = (int)txtPrecAct1.getValue();
-        int precioRef = (int)txtPrecRef1.getValue();
-        int stock = (int)txtStock1.getValue();
-        int stockMin  =  (int)txtStockMin1.getValue();
-        String inventario = cboInventario1.getSelectedItem().toString();
-        Lente lente= new Lente(cod, color, tipo, marca, material, flex, type, desc, precioRef, precioAct, stock, stockMin, inventario, 1, null, 0);
-        try {
-            cWT();
-            load.add(lente);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                + "No se pudo insertar el lente\n\n"
-                + ex, 3);
-        }
-        cargarDatos("0");
-        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void txtCod1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCod1KeyTyped
@@ -1258,13 +1276,14 @@ public class VLentes extends javax.swing.JPanel {
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         try {
+            Inventario inventario = (Inventario)load.get(cboInventario2.getSelectedItem().toString(), 0, new Inventario());
+            int idInventario = (inventario!= null)?inventario.getId():0;
             cWT();
-            stLente = (Lente) load.get(txtCod2.getText(), 0, new Lente());
             stLente.setClasificacion(cboTipo2.getSelectedIndex());
             stLente.setColor(txtCol2.getText());
             stLente.setDescripcion(txtDsc2.getText());
             stLente.setFlex(cboFlex2.getSelectedIndex());
-            stLente.setInventario(GV.inventarioName());
+            stLente.setInventario(idInventario);
             stLente.setMarca(txtMar2.getText());
             stLente.setMaterial(txtMat2.getText());
             txtPrecAct2.commitEdit();
@@ -1276,8 +1295,6 @@ public class VLentes extends javax.swing.JPanel {
             stLente.setStock((int)txtStock2.getValue());
             stLente.setStockMin((int)txtStockMin2.getValue());
             stLente.setTipo(txtTip2.getText());
-            String inventario = cboInventario2.getSelectedItem().toString();
-            stLente.setInventario(inventario);
             
             if(load.update(stLente)){
                 OptionPane.showMsg("Modificar Lente", "Operación realizada con exito",  1);
@@ -1447,25 +1464,29 @@ public class VLentes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnStockMouseExited
 
     private void cboInventarioFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboInventarioFilterItemStateChanged
-//        load();
+        
     }//GEN-LAST:event_cboInventarioFilterItemStateChanged
-
-    private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        cWT();
-        inventario = cboInventarioFilter.getSelectedItem().toString();
-        load();
-        cboInventarioFilter.setSelectedItem(inventario);
-        cDF();
-    }//GEN-LAST:event_btnLoadMouseClicked
-
-    private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered
-        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnLoad.getIcon().toString()))));
-    }//GEN-LAST:event_btnLoadMouseEntered
 
     private void btnLoadMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseExited
 
         btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnLoad.getIcon().toString()))));
     }//GEN-LAST:event_btnLoadMouseExited
+
+    private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered
+        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnLoad.getIcon().toString()))));
+    }//GEN-LAST:event_btnLoadMouseEntered
+
+    private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
+        try {
+            cWT();
+            inventaryName = cboInventarioFilter.getSelectedItem().toString();
+            stInventario = (Inventario)load.get(inventaryName, 0, new Inventario());
+            load();
+            cDF();
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VLentes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnLoadMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1603,9 +1624,7 @@ public class VLentes extends javax.swing.JPanel {
             cboInventario2.addItem(((Inventario)object).getNombre());
             cboInventarioFilter.addItem(((Inventario)object).getNombre());
         }
-        if(inventario != null || !inventario.isEmpty()){
-            cboInventarioFilter.setSelectedItem(inventario);
-        }
+        cboInventarioFilter.setSelectedItem(inventaryName);
     }
     
     private void load(){
@@ -1636,7 +1655,7 @@ public class VLentes extends javax.swing.JPanel {
             modelo.setNumRows(0);
             for (Object object : load.listar(listar, new Lente())) {
                 Lente temp = (Lente)object;
-                if(temp.getInventario().equals(inventario)){
+                if(temp.getInventario() == stInventario.getId()){
                     Object[] fila = new Object[4];
                     fila[0] = temp.getCod();
                     fila[1] = temp.getMarca();

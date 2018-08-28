@@ -821,7 +821,7 @@ public class VOficinas extends javax.swing.JPanel {
         try {
             cWT();
             if(load.get(nombre,0, new Oficina()) != null){
-                OptionPane.getConfirmation("El registro ya existe", "El nombre ingresado ya existe.", 
+                OptionPane.showMsg("El registro ya existe", "El nombre ingresado ya existe.", 
                         2);
                 cDF();
                 return;
@@ -965,6 +965,7 @@ public class VOficinas extends javax.swing.JPanel {
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         cWT();
         String nombre=txtNombre2.getText();
+        boolean isNameLocal = (stOficina.getNombre().equals(GV.getNombreOficina()))?true:false;
         if(stOficina != null){
 
             if(nombre.isEmpty() || nombre.length()<3){
@@ -976,7 +977,7 @@ public class VOficinas extends javax.swing.JPanel {
                 if(!stOficina.getNombre().equals(nombre.trim())){
                     cWT();
                     if(load.get(nombre,0, new Oficina()) != null){
-                        OptionPane.getConfirmation("El registro ya existe", "El nombre ingresado ya existe.", 
+                        OptionPane.showMsg("El registro ya existe", "El nombre ingresado ya existe.", 
                                 2);
                         cDF();
                         return;
@@ -1008,6 +1009,10 @@ public class VOficinas extends javax.swing.JPanel {
             stOficina.setCiudad(txtCiudad2.getText());
 
             load.update(stOficina);
+            if(isNameLocal){
+                GV.setOficina(nombre);
+                ContentAdmin.lblTitle.setText("Registro de oficinas ("+GV.getLblNombreOficina()+")");
+            }
             cargarDatos("0");
             cDF();
         }else{

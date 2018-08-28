@@ -3,3 +3,6 @@
 /dist/
 /src/newpackage/
 /src/testsync/
+/files/DB/Derby.DB/seg0/
+/files/DB/Derby.DB/tmp/
+/files/DB/Derby.DB/log/

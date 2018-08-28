@@ -30,6 +30,7 @@ import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
+import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,8 +50,8 @@ public class GlobalValuesBD {
     public static String BD_NAME_REMOTE = NoGit.DB;
     public static String BD_USER_REMOTE = NoGit.USER;
     public static String BD_PASS_REMOTE = NoGit.PASS;
-    public static String BD_URL_LOCAL = "localhost:1527";//GV.filesPath()+"DB"+File.separator;
-    public static String BD_NAME_LOCAL = "odm4";//Derby.DB";
+    public static String BD_URL_LOCAL = GV.filesPath()+"DB"+File.separator;//"localhost:1527"
+    public static String BD_NAME_LOCAL = "Derby.DB";//"odm4"
     public static String BD_USER_LOCAL = "odm4";
     public static String BD_PASS_LOCAL = "odm4";
     
@@ -224,7 +225,7 @@ public class GlobalValuesBD {
 " LEN_PRECIO_ACT INTEGER," +
 " LEN_STOCK INTEGER," +
 " LEN_STOCK_MIN INTEGER," +
-" INVENTARIO_INV_ID VARCHAR(25)," +
+" INVENTARIO_INV_ID INTEGER," +
 " LEN_ESTADO INTEGER," +
 " LEN_LAST_UPDATE DATE," +
 " LEN_LAST_HOUR INTEGER";
