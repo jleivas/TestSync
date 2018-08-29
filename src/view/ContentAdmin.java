@@ -115,15 +115,12 @@ public class ContentAdmin extends javax.swing.JFrame {
         principalAdmin = new javax.swing.JPanel();
         jpUpBar = new javax.swing.JPanel();
         btnSizeWindow = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         lblUserName = new javax.swing.JLabel();
         btnUser = new javax.swing.JLabel();
         btnMessage = new javax.swing.JLabel();
         btnConfig = new javax.swing.JLabel();
         btnInvent = new javax.swing.JLabel();
-        btnSyncronize4 = new javax.swing.JLabel();
+        btnSyncronize = new javax.swing.JLabel();
         btnTools = new javax.swing.JLabel();
         btnClose = new javax.swing.JLabel();
         btnMinimizeWindow = new javax.swing.JLabel();
@@ -180,16 +177,6 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
         });
         jpUpBar.add(btnSizeWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 10, -1, -1));
-        jpUpBar.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 242, 13));
-
-        jTextField1.setToolTipText("Ingrese folio");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jTextField1.setFocusable(false);
-        jpUpBar.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 240, 20));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Search_Property_25px_1.png"))); // NOI18N
-        jLabel2.setToolTipText("Cargar una Ficha");
-        jpUpBar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         lblUserName.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         lblUserName.setText("Username");
@@ -255,20 +242,20 @@ public class ContentAdmin extends javax.swing.JFrame {
         });
         jpUpBar.add(btnInvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, -1));
 
-        btnSyncronize4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Next_25px.png"))); // NOI18N
-        btnSyncronize4.setToolTipText("Buscar");
-        btnSyncronize4.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Uninstalling_Updates_25px.png"))); // NOI18N
+        btnSyncronize.setToolTipText("Buscar");
+        btnSyncronize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSyncronize4MouseClicked(evt);
+                btnSyncronizeMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnSyncronize4MouseEntered(evt);
+                btnSyncronizeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnSyncronize4MouseExited(evt);
+                btnSyncronizeMouseExited(evt);
             }
         });
-        jpUpBar.add(btnSyncronize4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+        jpUpBar.add(btnSyncronize, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         btnTools.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Maintenance_25px.png"))); // NOI18N
         btnTools.setToolTipText("Herramientas");
@@ -525,37 +512,22 @@ public class ContentAdmin extends javax.swing.JFrame {
         OptionPane.showOptionPanel(new OpanelInventario(), "Inventario");
     }//GEN-LAST:event_btnInventMouseClicked
 
-    private void btnSyncronize4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize4MouseClicked
-//        JTextField idFicha = new JTextField();
-//        int res = JOptionPane.showConfirmDialog(null,idFicha, "Ingrese numero de folio",JOptionPane.OK_CANCEL_OPTION);
-//        if(res < 0){
-//            return;
-//        }else{
-//            if(res == 2)
-//                return;
-//            String respuesta = idFicha.getText();
-//            try {
-//                Boton btn = new Boton();
-//                btn.abrirFicha(respuesta);
-//        }catch (SQLException | ClassNotFoundException | NullPointerException ex) {
-//                JOptionPane.showMessageDialog(null, "Error: El folio ingresado no existe.","Error",JOptionPane.WARNING_MESSAGE);
-//            }
-//        }
-//        return;
-    }//GEN-LAST:event_btnSyncronize4MouseClicked
+    private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
+        SubProcess.sincronizeAll();
+    }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     private void btnToolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnToolsMouseClicked
 
-    private void btnSyncronize4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize4MouseEntered
-        btnSyncronize4.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnSyncronize4.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronize4MouseEntered
+    private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
+        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIconIfConnected(btnSyncronize.getIcon().toString()))));
+    }//GEN-LAST:event_btnSyncronizeMouseEntered
 
-    private void btnSyncronize4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronize4MouseExited
+    private void btnSyncronizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseExited
         
-        btnSyncronize4.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize4.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronize4MouseExited
+        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
+    }//GEN-LAST:event_btnSyncronizeMouseExited
 
     private void btnToolsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseEntered
         
@@ -823,14 +795,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnMessage;
     private javax.swing.JLabel btnMinimizeWindow;
     private javax.swing.JLabel btnSizeWindow;
-    private javax.swing.JLabel btnSyncronize4;
+    private javax.swing.JLabel btnSyncronize;
     private javax.swing.JLabel btnTools;
     private javax.swing.JLabel btnUser;
     private javax.swing.JLabel btnVentas;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jpLeftBar;
     private javax.swing.JPanel jpSuperior;
     private javax.swing.JPanel jpUpBar;

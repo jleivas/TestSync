@@ -38,7 +38,31 @@ public class LcBd{
             }
         }
         Dao load = new Dao();
-        load.update(new User(1, "Sistema", "root", "contacto@softdirex.cl", "softdirex", 7, 1, null, 0));
+        try {
+            load.add(new User(1, "Sistema", "root", "contacto@softdirex.cl", "softdirex", 7, 1, null, 0));
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(LcBd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return conn;
+    }
+    
+    public static Connection deleteAll() {
+        Log.setLog(className,Log.getReg());
+        if(T.length > 0){
+            for(int i=0;i<T.length;i++){
+                dropTable(T[i]);
+            }
+        }
+        return conn;
+    }
+    
+    public static Connection truncateAll() {
+        Log.setLog(className,Log.getReg());
+        if(T.length > 0){
+            for(int i=0;i<T.length;i++){
+                truncateTable(T[i]);
+            }
+        }
         return conn;
     }
         
@@ -62,6 +86,54 @@ public class LcBd{
             conn.close();
     }
     
+    private static void truncateTable(String tableName){
+        try{
+            //obtenemos el driver de para mysql
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            cerrar();
+            conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
+            if (conn!=null){
+               String creartabla="TRUNCATE TABLE "+tableName;//(tableName.toLowerCase().equals("lente"))?"drop table lente":
+                System.out.println(creartabla);
+               try {
+                    PreparedStatement pstm = conn.prepareStatement(creartabla);
+                    pstm.execute();
+                    pstm.close();
+                    cerrar();
+                } catch (SQLException ex) {
+                    System.out.println("\"Error al borrar datos detabla "+tableName+", "+ex.getLocalizedMessage());
+//                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
+                }
+            }
+        }catch(SQLException | ClassNotFoundException | ExceptionInInitializerError e){
+         OptionPane.showMsg("Error al borrar datos de tabla "+tableName,e.getMessage() ,  3);
+        }
+    }
+    
+    private static void dropTable(String tableName){
+        try{
+            //obtenemos el driver de para mysql
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            cerrar();
+            conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
+            if (conn!=null){
+               String creartabla="DROP TABLE "+tableName;//(tableName.toLowerCase().equals("lente"))?"drop table lente":
+                System.out.println(creartabla);
+               try {
+                    PreparedStatement pstm = conn.prepareStatement(creartabla);
+                    pstm.execute();
+                    pstm.close();
+                    cerrar();
+                } catch (SQLException ex) {
+                    System.out.println("\"Error al borrar tabla "+tableName+", "+ex.getLocalizedMessage());
+//                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
+                }
+            }
+        }catch(SQLException | ClassNotFoundException | ExceptionInInitializerError e){
+         OptionPane.showMsg("Error al borrar tabla "+tableName,e.getMessage() ,  3);
+        }
+    }
+    
     private static void createTable(String tableName, String columns){
         try{
             //obtenemos el driver de para mysql
@@ -69,20 +141,22 @@ public class LcBd{
             columns = (columns.startsWith("(")) ? columns.trim():"("+columns.trim();
             columns = (columns.endsWith("))")) ? columns.trim():columns.trim()+")";
             //obtenemos la conexión
-            //jdbc:derby:.\\DB\\Derby.DB
+            //"jdbc:derby:.\\DB\\Derby.DB;create=true"
+            cerrar();
             conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
             if (conn!=null){
                String creartabla="create table "+tableName+columns;//(tableName.toLowerCase().equals("lente"))?"drop table lente":
                 System.out.println(creartabla);
-               String desc="disconnect;";
+//               String desc="disconnect;";
                try {
                     PreparedStatement pstm = conn.prepareStatement(creartabla);
                     pstm.execute();
                     pstm.close();
 
-                    PreparedStatement pstm2 = conn.prepareStatement(desc);
-                    pstm2.execute();
-                    pstm2.close();
+//                    PreparedStatement pstm2 = conn.prepareStatement(desc);
+//                    pstm2.execute();
+//                    pstm2.close();
+                    cerrar();
                 } catch (SQLException ex) {
                     System.out.println("\"Error al crear tabla "+tableName+", "+ex.getLocalizedMessage());
 //                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);

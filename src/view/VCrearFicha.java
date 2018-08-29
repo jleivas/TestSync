@@ -12,6 +12,7 @@ import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Institucion;
+import entities.Inventario;
 import entities.Lente;
 import entities.TipoPago;
 import entities.ficha.Armazon;
@@ -2289,22 +2290,25 @@ public class VCrearFicha extends javax.swing.JPanel {
             textAutoCompleter5.addItem(((Cristal)temp).getNombre());
             textAutoCompleter5.setMode(0);
         }
-        
-        TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
-        for (Object temp : load.listar("st",new Lente())) {
-            if(((Lente)temp).getStock() > 0){
-                textAutoCompleter6.addItem(((Lente)temp).getCod());
-                textAutoCompleter6.setMode(0);
+        Inventario local = null;
+        try {
+            local = (Inventario)load.get(GV.inventarioName(), 0, new Inventario());
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(local != null){
+            TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
+            TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
+            for (Object temp : load.listar("st",new Lente())) {
+                if(((Lente)temp).getStock() > 0 && ((Lente)temp).getInventario() == local.getId()){
+                    textAutoCompleter6.addItem(((Lente)temp).getCod());
+                    textAutoCompleter6.setMode(0);
+                    textAutoCompleter7.addItem(((Lente)temp).getCod());
+                    textAutoCompleter7.setMode(0);
+                }
             }
         }
-        
-        TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
-        for (Object temp : load.listar("st",new Lente())) {
-            if(((Lente)temp).getStock() > 0){
-                textAutoCompleter7.addItem(((Lente)temp).getCod());
-                textAutoCompleter7.setMode(0);
-            }
-        }
+            
         TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
         textAutoCompleter8.setMode(0);
         for (Object temp : load.listar("0", new Institucion())) {

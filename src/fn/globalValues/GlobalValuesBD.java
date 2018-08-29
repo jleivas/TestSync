@@ -32,6 +32,7 @@ import fn.OptionPane;
 import fn.date.Cmp;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,7 @@ public class GlobalValuesBD {
     public static String BD_NAME_REMOTE = NoGit.DB;
     public static String BD_USER_REMOTE = NoGit.USER;
     public static String BD_PASS_REMOTE = NoGit.PASS;
-    public static String BD_URL_LOCAL = GV.filesPath()+"DB"+File.separator;//"localhost:1527"
+    public static String BD_URL_LOCAL = "."+File.separator+"DB"+File.separator;//"localhost:1527"
     public static String BD_NAME_LOCAL = "Derby.DB";//"odm4"
     public static String BD_USER_LOCAL = "odm4";
     public static String BD_PASS_LOCAL = "odm4";
@@ -470,6 +471,14 @@ public class GlobalValuesBD {
         return LcBd.crear();
     }
     
+    public static Connection dropDB(){
+        return LcBd.deleteAll();
+    }
+    
+    public static Connection truncateDB(){
+        return LcBd.truncateAll();
+    }
+    
     public static String getLocalBdUser() {
         return BD_USER_LOCAL;
     }
@@ -533,27 +542,34 @@ public class GlobalValuesBD {
     }
     
     public static void backUpLocalBd(){
-        createExcel(new Armazon());
-        createExcel(new Cliente());
-        createExcel(new Convenio());
-        createExcel(new Cristal());
-        createExcel(new CuotasConvenio());
-        createExcel(new Descuento());
-        createExcel(new Despacho());
-        createExcel(new Doctor());
-        createExcel(new Equipo());
-        createExcel(new Ficha());
-        createExcel(new HistorialPago());
-        createExcel(new Institucion());
-        createExcel(new InternStock());
-        createExcel(new Lente());
-        createExcel(new InternMail());
-        createExcel(new Oficina());
-        createExcel(new RegistroBaja());
-        createExcel(new TipoPago());
-        createExcel(new User());
-        
-        GlobalValuesZipFiles.zipperBackup();
+        try {
+            if(LcBd.obtener() != null){
+                LcBd.cerrar();
+                createExcel(new Armazon());
+                createExcel(new Cliente());
+                createExcel(new Convenio());
+                createExcel(new Cristal());
+                createExcel(new CuotasConvenio());
+                createExcel(new Descuento());
+                createExcel(new Despacho());
+                createExcel(new Doctor());
+                createExcel(new Equipo());
+                createExcel(new Ficha());
+                createExcel(new HistorialPago());
+                createExcel(new Institucion());
+                createExcel(new InternStock());
+                createExcel(new Lente());
+                createExcel(new InternMail());
+                createExcel(new Oficina());
+                createExcel(new RegistroBaja());
+                createExcel(new TipoPago());
+                createExcel(new User());
+
+                GlobalValuesZipFiles.zipperBackup();
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(GlobalValuesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
