@@ -2659,7 +2659,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(lenName1.toLowerCase().equals(lenName2.toLowerCase())){
             Lente temp;
             try {
-                temp = (Lente)load.get(lenName2, 0, new Lente());
+                temp = ((Lente)load.get(lenName2, 0, new Lente())!=null)? (Lente)load.get(lenName2, 0, new Lente()):new Lente();
                 if(temp.getStock()==1){
                     return true;
                 }

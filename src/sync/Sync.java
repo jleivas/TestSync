@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class Sync {
     private static String className="Sync";
     /**
-     * Add or update new objct in static variables, local data base and remote data base.
+     * Add or update new objct in static variables, local data base and remote data base at the sincronize.
      * @param localData
      * @param remoteData
      * @param object
@@ -24,12 +24,18 @@ public class Sync {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public static boolean add(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
+    public static boolean addSync(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
         localData.add(object);
         if(GV.isOnline()){
             remoteData.add(object);
         }
+        return true;
+    }
+    
+    public static boolean add(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
+        Log.setLog(className,Log.getReg());
+        localData.add(object);
         return true;
     }
     /**

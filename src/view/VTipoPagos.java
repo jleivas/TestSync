@@ -39,7 +39,6 @@ public class VTipoPagos extends javax.swing.JPanel {
      */
     public VTipoPagos() {
         ContentAdmin.lblTitle.setText("Tipos de pago");
-        load.sincronize(new TipoPago());
         initComponents();
         modelo.addColumn("Tipo");
         tblListar.setModel(modelo);

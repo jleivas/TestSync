@@ -300,6 +300,8 @@ public class Dao{
     }
 
     public static void sincronize(Object type) {
+        GV.resetAllPorcentaje();
+        GV.resetPorcentaje();
         Log.setLog(className,Log.getReg());
         if(GV.isCurrentDate(GV.LAST_UPDATE)){
             return;//solo hace una actualizacion por día.
@@ -314,36 +316,40 @@ public class Dao{
                 if(type instanceof Ficha){
                     sincronizeFicha();
                 }
-                for (Object object : lista1) {
-                    GV.calcularPorcentaje(size1);
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                if(size1 > 0){
+                    for (Object object : lista1) {
+                        GV.calcularPorcentaje(size1);
+                        sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                    }
                 }
                 GV.resetPorcentaje();
-                for (Object object : lista2) {
-                    GV.calcularPorcentaje(size2);
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
-                }
+                 if(size2 > 0){
+                     for (Object object : lista2) {
+                        GV.calcularPorcentaje(size2);
+                        sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                    }
+                 }
             }else{
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (User)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (User)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Convenio())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Convenio)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Convenio)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Cliente())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cliente)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cliente)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Cristal())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cristal)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cristal)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Descuento())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Descuento)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Descuento)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Doctor())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Doctor)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Doctor)object);
                 }
                 for (Object object : GV.LOCAL_SYNC.listar("-2",new Oficina())) {//falta opcion en listar
-                    sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Oficina)object);
+                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Oficina)object);
                 }
             }  
         } catch (SQLException | ClassNotFoundException ex) {

@@ -88,8 +88,9 @@ public class GV extends GlobalValuesCursor{
             initDB();
         }
         SubProcess.isOnline();
-        SubProcess.sincronizeAll();
+        
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
+        SubProcess.sincronizeAll();
     }
     /*********************BEGIN PORCENTAJE SYNC***************************/
     public static void calcularPorcentaje(int limit){
@@ -643,7 +644,7 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesXmlFiles.crearRegistroLocal();
     }
     
-    private static void loadLastUpdateFromXML() {
+    public static void loadLastUpdateFromXML() {
         GlobalValuesXmlFiles.cargarRegistroLocal();
     }
     /*****************************END XML***************************************/

@@ -138,7 +138,9 @@ public class GlobalValuesFunctions {
             stFecha = getStr(stFecha).replaceAll("-", "/");
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            cal.setTime(sdf.parse(stFecha));
+            if(!stFecha.isEmpty()){
+                cal.setTime(sdf.parse(stFecha));
+            }
             int dias = 0;
             if(cal.compareTo(Calendar.getInstance())>=0){
                 Date fecha=cal.getTime();
