@@ -5,6 +5,8 @@
  */
 package fn.globalValues;
 
+import fn.GV;
+
 /**
  *
  * @author jlleivas
@@ -16,6 +18,7 @@ public class GlobalValuesSyncReportStatus {
     private static int TOTAL = 0;
     private static int SUMA_TOTAL = 0;
     private static int PROCESOS = 0;
+    private static String REPORT;
     
     public static void resetPorc(){
         PORC = 0;
@@ -55,6 +58,14 @@ public class GlobalValuesSyncReportStatus {
     
     public static int getPorc(){
         return PORC;
+    }
+    
+    public static String getReport(){
+        return REPORT;
+    }
+    
+    public static void setReport(String report){
+        REPORT = GV.getStr(report);
     }
     
     public static int getTotal(){

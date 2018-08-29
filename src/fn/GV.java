@@ -105,6 +105,14 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesSyncReportStatus.getPorc();
     }
     
+    public static String getReporte(){
+        return GlobalValuesSyncReportStatus.getReport();
+    }
+    
+    public static void setReporte(String reporte){
+        GlobalValuesSyncReportStatus.setReport(reporte);
+    }
+    
     public static int porcentajeTotal(){
         return GlobalValuesSyncReportStatus.getTotal();
     }

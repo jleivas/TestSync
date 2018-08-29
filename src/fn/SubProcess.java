@@ -115,68 +115,68 @@ public class SubProcess {
 //    }
     
     public static void sincronizeAll(){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(() -> {
-                while(ejecucion){
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    int procesos = 14;
-                    GV.resetAllPorcentaje();
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Cliente());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Convenio());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Cristal());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Descuento());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Doctor());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Equipo());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Institucion());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new InternMail());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Inventario());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Lente());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new Oficina());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new RegistroBaja());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new TipoPago());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.resetPorcentaje();
-                    Dao.sincronize(new User());
-                    GV.calcularPorcentajeTotal(procesos);
-                    GV.setLastUpdate(new Date());
-                    GV.resetAllPorcentaje();
-                    try {
-                        Thread.sleep(7200000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                
-        });
+        Boton boton = new Boton();
+        boton.barraProgreso();
+        int procesos = 14;
+        GV.resetAllPorcentaje();
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando clientes...");
+        Dao.sincronize(new Cliente());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando convenios...");
+        Dao.sincronize(new Convenio());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando cristales...");
+        Dao.sincronize(new Cristal());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando descuentos...");
+        Dao.sincronize(new Descuento());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando datos de profesionales...");
+        Dao.sincronize(new Doctor());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando equipos...");
+        Dao.sincronize(new Equipo());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando instituciones...");
+        Dao.sincronize(new Institucion());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando mensajes...");
+        Dao.sincronize(new InternMail());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando inventarios...");
+        Dao.sincronize(new Inventario());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando armazones...");
+        Dao.sincronize(new Lente());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando locales...");
+        Dao.sincronize(new Oficina());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando registros...");
+        Dao.sincronize(new RegistroBaja());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando registros de pago...");
+        Dao.sincronize(new TipoPago());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.resetPorcentaje();
+        GV.setReporte("Sincronizando usuarios...");
+        Dao.sincronize(new User());
+        GV.calcularPorcentajeTotal(procesos);
+        GV.setLastUpdate(new Date());
+        GV.resetAllPorcentaje();
     }
     
     public static void suspendConnectionOnline(){
