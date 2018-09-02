@@ -2620,7 +2620,12 @@ public class VCrearFicha extends javax.swing.JPanel {
                                                 }else{
                                                     asigAllDatas();
                                                     if(GV.getFicha().getSaldo()<0){
-                                                        msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
+                                                        if(GV.strToNumber(txtDescuento.getText())>GV.strToNumber(txtTotal.getText())){
+                                                            msgRejected("El descuento seleccionado no es válido, su monto es mayor al valor total.");
+                                                        }else{
+                                                            txtAbono.setValue(0);
+                                                            msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
+                                                        }
                                                     }else{
                                                         if(sinCristal()){
                                                             msgWarning("Falta ingresar un cristal...");
@@ -2992,6 +2997,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         int estado = (GV.getFicha().getSaldo() == 0)? 2:1;//2=pagado,1=pendiente
         commitSpinner();
         int abono = (int) txtAbono.getValue();
+        
+        int saldo = GV.strToNumber(txtSaldo.getText());
+        
         HistorialPago hp = null;
         try {
             if(load.get(load.getCurrentCod(GV.getFicha()), 0, GV.getFicha()) != null){
@@ -3008,6 +3016,13 @@ public class VCrearFicha extends javax.swing.JPanel {
             return;
         }
         GV.getFicha().setCod(load.getCurrentCod(GV.getFicha()));
+        /*
+            No se aplica valor total desde el txtTotal porque debe rescatarse el total
+            sin el descuento incluido
+        */
+        //int valorTotal = GV.strToNumber(txtTotal.getText());
+        //GV.getFicha().setValorTotal(valorTotal);
+        GV.getFicha().setSaldo(saldo);
         GV.getFicha().setEstado(estado);
         
         if(GV.getFicha().getCerca() != null || !GV.getFicha().getCerca().getMarca().isEmpty()){
@@ -3016,7 +3031,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(GV.getFicha().getLejos() != null || !GV.getFicha().getLejos().getMarca().isEmpty()){
             GV.getFicha().getLejos().setIdFicha(GV.getFicha().getCod());
         }
-        if(abono > 0 && abono <= GV.getFicha().getSaldo()){
+        if(abono > 0){
             hp = new HistorialPago(null, new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
         }
         

@@ -2685,10 +2685,12 @@ public class Local implements InterfaceSync {
             InternMail object = (InternMail)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            int idRemitente = (object.getRemitente()!= null)?object.getRemitente().getId():0;
+            int idDestinatario = (object.getDestinatario() != null)?object.getDestinatario().getId():0;
             return  "INSERT INTO message VALUES("
                             + object.getId()+ ","
-                            + object.getRemitente().getId() + ","
-                            + object.getDestinatario().getId()+ ",'"
+                            + idRemitente + ","
+                            + idDestinatario+ ",'"
                             + object.getAsunto()+ "','"
                             + object.getContenido()+ "','"
                             + sqlfecha1+ "','"

@@ -1662,7 +1662,7 @@ public class Remote implements InterfaceSync{
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM usuario";
                 }
-                boolean isOpenBD = RmBd.isOpen();
+                boolean isOpenBD = (RmBd.isOpen())?true:false;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
@@ -1686,9 +1686,6 @@ public class Remote implements InterfaceSync{
                 */
                 if(!isOpenBD){
                    RmBd.cerrar();
-                    System.out.println("conexion usuario cerrada");
-                }else{
-                    System.out.println("conexion usuario abierta");
                 }
                 
                 return lista;
@@ -1724,7 +1721,7 @@ public class Remote implements InterfaceSync{
                 while (datos.next()) {
                     lista.add(new EtiquetFicha(
                         datos.getString("fch_id"),
-                        datos.getDate("fch_fecha"),
+                        datos.getDate("	fch_fecha"),
                         datos.getDate("fch_fecha_entrega"),
                         datos.getString("fch_lugar_entrega"),
                         datos.getString("fch_hora_entrega"),
@@ -2684,10 +2681,12 @@ public class Remote implements InterfaceSync{
             InternMail object = (InternMail)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            int idRemitente = (object.getRemitente()!= null)?object.getRemitente().getId():0;
+            int idDestinatario = (object.getDestinatario() != null)?object.getDestinatario().getId():0;
             return  "INSERT INTO message VALUES("
                             + object.getId()+ ","
-                            + object.getRemitente().getId() + ","
-                            + object.getDestinatario().getId()+ ",'"
+                            + idRemitente + ","
+                            + idDestinatario+ ",'"
                             + object.getAsunto()+ "','"
                             + object.getContenido()+ "','"
                             + sqlfecha1+ "','"
