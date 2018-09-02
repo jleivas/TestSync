@@ -149,27 +149,35 @@ public class OProgress extends javax.swing.JFrame {
                 //Utilizamos un while para emular el valor mínimo y máximo
                 //En este caso 0 - 100
                 x=0;
-                while(x <= 100){
+                GV.cursorWAIT();
+                String porcentaje = (GV.porcentaje()>0)?"("+GV.porcentaje()+"%)":"";
+                OProgress.this.setVisible(true);
+                while(x < 100){
                     x = GV.porcentaje();
                     //Asignamos valor a nuestro JProgressBar por cada siclo del bucle
                     BarraProgreso.setValue(x);
                     //Valor que se mostrará en el JTextArea
                     
-                    
-                    txtInfo.setText(GV.getReporte()+"("+x+"%)");
+                    porcentaje = (GV.porcentaje()>0)?"("+GV.porcentaje()+"%)":"";
+                    txtInfo.setText(GV.getReporte()+porcentaje);
+                    if(GV.sincronizacionIsStopped()){
+                        break;
+                    }
                 }
+                porcentaje = (GV.porcentaje()>0)?"("+GV.porcentaje()+"%)":"";
+                txtInfo.setText(GV.getReporte()+porcentaje);
                 try {
-                    Thread.sleep(2000);
-                    
+                    Thread.sleep(3000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(OProgress.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 OProgress.this.setVisible(false);
+                GV.cursorDF();
             }
         });
         //Se ejecuta el Thread
         t.start();
-        
+        t.interrupt();
     }
     
     private void centrarPantalla() {

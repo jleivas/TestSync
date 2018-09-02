@@ -5,6 +5,7 @@
  */
 package fn.globalValues;
 
+import bd.LcBd;
 import dao.Dao;
 import entities.Equipo;
 import fn.GV;
@@ -160,6 +161,7 @@ public class GlobalValuesVariables {
     
     public static void setCurrentEquipo(String equipo){
         try {
+            LcBd.cerrar();
             EQUIPO = getToName(equipo);
             if(LICENCE_CODE != null){
                 Dao load = new Dao();

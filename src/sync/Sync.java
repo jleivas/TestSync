@@ -24,13 +24,16 @@ public class Sync {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public static boolean addSync(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
+    public static boolean addLocalSync(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         Log.setLog(className,Log.getReg());
-        localData.add(object);
+        return localData.add(object);
+    }
+    
+    public static boolean addRemoteSync(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         if(GV.isOnline()){
             remoteData.add(object);
         }
-        return true;
+        return false;
     }
     
     public static boolean add(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        

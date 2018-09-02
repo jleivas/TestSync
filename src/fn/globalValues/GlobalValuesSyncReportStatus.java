@@ -15,10 +15,10 @@ public class GlobalValuesSyncReportStatus {
     private static int PORC = 0;
     private static int SUMA_PORC = 0;
     private static int LIMIT = 0;
-    private static int TOTAL = 0;
-    private static int SUMA_TOTAL = 0;
-    private static int PROCESOS = 0;
+    private static int INI = 0;
+    private static int FIN = 0;
     private static String REPORT;
+    private static int ANT =0;
     
     public static void resetPorc(){
         PORC = 0;
@@ -29,9 +29,6 @@ public class GlobalValuesSyncReportStatus {
         PORC = 0;
         SUMA_PORC = 0;
         LIMIT = 0;
-        TOTAL = 0;
-        SUMA_TOTAL = 0;
-        PROCESOS = 0;
     }
     
     public static void setPorc(int value){
@@ -39,21 +36,21 @@ public class GlobalValuesSyncReportStatus {
     }
     
     public static void calcularPorcentaje(int limit){
+        INI = PORC;
         LIMIT = limit;
+        PORC = ((SUMA_PORC * 100)/LIMIT);
         SUMA_PORC++;
-        PORC = (SUMA_PORC * 100)/LIMIT;
         if(PORC > 100){
             PORC = 100;
         }
+        FIN = ((SUMA_PORC)*100)/LIMIT;
     }
     
-    public static void calcularPorcentajeTotal(int totalProcesos){
-        PROCESOS = totalProcesos;
-        SUMA_TOTAL++;
-        TOTAL = (SUMA_TOTAL * 100)/ PROCESOS;
-        if(TOTAL > 100){
-            TOTAL = 100;
-        }
+    public static void calcularSubPorcentaje(int subLimite){
+        int temp = (FIN-INI)/subLimite;
+        PORC = PORC + temp;
+        PORC = (PORC>FIN)?FIN:PORC;
+        PORC = (PORC>100)?100:PORC;
     }
     
     public static int getPorc(){
@@ -61,14 +58,10 @@ public class GlobalValuesSyncReportStatus {
     }
     
     public static String getReport(){
-        return REPORT;
+        return GV.getStr(REPORT);
     }
     
     public static void setReport(String report){
         REPORT = GV.getStr(report);
-    }
-    
-    public static int getTotal(){
-        return TOTAL;
     }
 }

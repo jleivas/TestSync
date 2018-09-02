@@ -69,6 +69,26 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "Ficha: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
+            if(objectParam instanceof EtiquetFicha){
+                EtiquetFicha object = (EtiquetFicha)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT fch_id FROM ficha WHERE fch_id='" + object.getCod() + "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "Ficha: " + object.getCod()+ "\nNo se pudo insertar.", 3);
+                return false;
+            }
             if(objectParam instanceof Armazon){
                 Armazon object = (Armazon)objectParam;
                 if (object != null) {
@@ -415,7 +435,7 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch( SQLException | ClassNotFoundException ex){
+        }catch(SQLException | ClassNotFoundException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -430,6 +450,29 @@ public class Remote implements InterfaceSync{
                 return false;
             if(objectParam instanceof Ficha){
                 Ficha object = (Ficha)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='" + object.getCod() + "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("fch_last_update");
+                        hour = datos.getInt("fch_last_hour");
+                    } catch (SQLException e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle: " + e.getMessage() + "\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof EtiquetFicha){
+                EtiquetFicha object = (EtiquetFicha)objectParam;
                 PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM ficha WHERE fch_id='" + object.getCod() + "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
@@ -1619,7 +1662,7 @@ public class Remote implements InterfaceSync{
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM usuario";
                 }
-                
+                boolean isOpenBD = RmBd.isOpen();
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
@@ -1636,11 +1679,25 @@ public class Remote implements InterfaceSync{
                         )
                     );
                 }
-                RmBd.cerrar();
+                /*
+                Consulta si la conexion estaba abierta antes de rescatar los datos
+                para no cerrarla por que se está usando en listar mensajes donde se
+                están rescatando estos usuarios
+                */
+                if(!isOpenBD){
+                   RmBd.cerrar();
+                    System.out.println("conexion usuario cerrada");
+                }else{
+                    System.out.println("conexion usuario abierta");
+                }
+                
                 return lista;
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error de conexión", "El sistema está teniendo errores al conectarse a la base de datos "
+                    + ""+className+",\n pruebe cerrando todos los procesos y vuelva a intentar, \nde lo contrario reinicie el equipo."
+                            + "\n\nDetalle: "+ex, 3);
         }
         
         return lista;
@@ -1658,7 +1715,8 @@ public class Remote implements InterfaceSync{
         java.sql.Date param = new java.sql.Date(paramDate.getTime());
         ArrayList<Object> lista = new ArrayList<>();
         try {
-            if(type instanceof Ficha){
+            RmBd.cerrar();
+            if(type instanceof Ficha || type instanceof EtiquetFicha){
                 String sql = "SELECT * FROM ficha WHERE fch_last_update >='" + param + "'";
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
@@ -1666,7 +1724,7 @@ public class Remote implements InterfaceSync{
                 while (datos.next()) {
                     lista.add(new EtiquetFicha(
                         datos.getString("fch_id"),
-                        datos.getDate("	fch_fecha"),
+                        datos.getDate("fch_fecha"),
                         datos.getDate("fch_fecha_entrega"),
                         datos.getString("fch_lugar_entrega"),
                         datos.getString("fch_hora_entrega"),
@@ -1814,7 +1872,7 @@ public class Remote implements InterfaceSync{
                 return lista;
             }
             if(type instanceof Despacho){
-                String sql = "SELECT * FROM despacho WHERE dspde_last_update >='" + param + "'";
+                String sql = "SELECT * FROM despacho WHERE dsp_last_update >='" + param + "'";
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -1899,9 +1957,13 @@ public class Remote implements InterfaceSync{
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
+                int us_id_remitente = 0;
+                int us_id_destinatario = 0;
                 while (datos.next()) {
-                    User rem = (User)getElement(null, datos.getInt("us_id_remitente"), new User());
-                    User des = (User)getElement(null, datos.getInt("us_id_destinatario"), new User());
+                    us_id_remitente = datos.getInt("us_id_remitente");
+                    us_id_destinatario = datos.getInt("us_id_destinatario");
+                    User rem = (User)getElement(null, us_id_remitente , new User());
+                    User des = (User)getElement(null, us_id_destinatario , new User());
                     lista.add(new InternMail(
                         datos.getInt("msg_id"),
                         rem,
@@ -2078,6 +2140,7 @@ public class Remote implements InterfaceSync{
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
         }
         return lista;
     }
@@ -2560,7 +2623,10 @@ public class Remote implements InterfaceSync{
                             + object.getLastHour() + ")";
         }
         if(objectParam instanceof Ficha){
-            EtiquetFicha object = new EtiquetFicha((Ficha)objectParam);
+            objectParam = new EtiquetFicha((Ficha)objectParam);
+        }
+        if(objectParam instanceof EtiquetFicha){
+            EtiquetFicha object = (EtiquetFicha)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaEntrega().getTime());
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -2853,7 +2919,10 @@ public class Remote implements InterfaceSync{
                         + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Ficha){
-            EtiquetFicha object = new EtiquetFicha((Ficha)objectParam);
+            objectParam = new EtiquetFicha((Ficha)objectParam);
+        }
+        if(objectParam instanceof EtiquetFicha){
+            EtiquetFicha object = (EtiquetFicha)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaEntrega().getTime());//la transforma a sql.Date

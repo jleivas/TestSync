@@ -79,6 +79,10 @@ public class LcBd{
         return conn;
     }
     
+    public static boolean isOpen(){
+        return (conn!=null)?true:false;
+    }
+    
     public static void cerrar() throws SQLException
     {
         Log.setLog(className,Log.getReg());

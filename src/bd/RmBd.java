@@ -31,9 +31,14 @@ public class RmBd {
         conn = DriverManager.getConnection("jdbc:mysql://"+GV.getRemoteBdUrl()+"/"+GV.getRemoteBdName(),GV.getRemoteBdUser(),GV.getRemoteBdPass());
         }catch(Exception ex){
             OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\n"+detail+"\nbd.RmBd::obtener(): ERROR BD.\n\nCatch: "+ex.getMessage(), 3);
+            cerrar();
+            GV.stopSincronizacion();
         }
-        if(conn == null)
+        if(conn == null){
             OptionPane.showMsg("Error en Base de datos remota", "No se pudo obtener la conexion:\n"+detail+"\nbd.RmBd::obtener(): ERROR BD.\n\nDetalle: "+Log.getLog(), 3);
+            cerrar();
+            GV.stopSincronizacion();
+        }
         return conn;
     }
     
@@ -42,5 +47,9 @@ public class RmBd {
         Log.setLog(className,Log.getReg());
         if(conn!=null)
             conn.close();
+    }
+    
+    public static boolean isOpen(){
+        return (conn!=null)?true:false;
     }
 }

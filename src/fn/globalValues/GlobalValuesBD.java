@@ -25,8 +25,10 @@ import entities.TipoPago;
 import entities.User;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
+import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
+import fn.Boton;
 import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
@@ -55,6 +57,8 @@ public class GlobalValuesBD {
     public static String BD_NAME_LOCAL = "Derby.DB";//"odm4"
     public static String BD_USER_LOCAL = "odm4";
     public static String BD_PASS_LOCAL = "odm4";
+    
+    private static boolean SINCRONIZAR = false;
     
     private static List<Object> LISTA_FICHAS = new ArrayList<>();
     
@@ -174,7 +178,6 @@ public class GlobalValuesBD {
 " FCH_OBS LONG VARCHAR," +
 " FCH_VALOR_TOTAL INTEGER," +
 " FCH_DESCUENTO INTEGER," +
-" DESCUENTO_DES_ID INTEGER," +
 " FCH_SALDO INTEGER," +
 " CLIENTE_CLI_RUT VARCHAR(25)," +
 " DOCTOR_DOC_RUT VARCHAR(25)," +
@@ -367,7 +370,6 @@ public class GlobalValuesBD {
 " FCH_OBS," +
 " FCH_VALOR_TOTAL," +
 " FCH_DESCUENTO," +
-" DESCUENTO_DES_ID," +
 " FCH_SALDO," +
 " CLIENTE_CLI_RUT," +
 " DOCTOR_DOC_RUT," +
@@ -473,6 +475,73 @@ public class GlobalValuesBD {
     
     public static Connection dropDB(){
         return LcBd.deleteAll();
+    }
+    
+    public static void sincronizarTodo(){
+        sincronizar(allEntities());
+        GV.setLastUpdate(new Date());
+    }
+    
+    public static List<Object> allEntities(){
+        List<Object> entities = new ArrayList<>();
+        entities.add(new RegistroBaja());
+        entities.add(new TipoPago());
+        entities.add(new User());
+        entities.add(new EtiquetFicha());
+        entities.add(new HistorialPago());
+        entities.add(new Armazon());
+        entities.add(new Cliente());
+        entities.add(new Convenio());
+        entities.add(new Cristal());
+        entities.add(new CuotasConvenio());
+        entities.add(new Descuento());
+        entities.add(new Despacho());
+        entities.add(new Doctor());
+        entities.add(new Equipo());
+        entities.add(new Institucion());
+        entities.add(new InternMail());
+        entities.add(new Inventario());
+        entities.add(new Lente());
+        entities.add(new Oficina());
+        return entities;
+    }
+    
+    public static void sincronizar(List<Object> listaObjetos){
+        boolean error = false;
+        GV.startSincronizacion();
+        Boton boton = new Boton();
+        boton.barraProgresoVisible();
+        GV.porcentajeCalcular(listaObjetos.size());
+        for (Object type : listaObjetos) {
+            if(type instanceof Ficha){
+                type = new EtiquetFicha();
+            }
+            if(!sincronizeObject(type)){
+                error = true;
+                break;
+            }
+            GV.porcentajeCalcular(listaObjetos.size());
+        }
+        GV.resetAllPorcentaje();
+        GV.stopSincronizacion();
+        if(error){
+            OptionPane.showMsg("Error al sincronizar los datos", "No se pudo sincronizar los datos\n"
+                    + "Compruebe su conexion a internet", 2);
+        }
+    }
+    
+    private static boolean sincronizeObject(Object object){
+        if(GV.isOnline()){
+            if(!GV.sincronizacionIsStopped()){
+                String className = GV.className(object).trim();
+                GV.setReporte("Sincronizando entidades [Tipo de datos:"+className+"]...");
+                Dao.sincronize(object);
+                GV.setReporte("Base de datos sincronizada...");
+                return true;
+            }
+        }
+        GV.setReporte("No se pudo sincronizar la base de datos...");
+        return false;
     }
     
     public static Connection truncateDB(){
@@ -698,5 +767,13 @@ public class GlobalValuesBD {
      */
     public static List<Object> getFichas(){
         return LISTA_FICHAS;
+    }
+
+    public static void setSincronizar(boolean value) {
+        SINCRONIZAR = value;
+    }
+
+    public static boolean sincronizacion() {
+        return SINCRONIZAR;
     }
 }

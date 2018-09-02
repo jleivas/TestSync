@@ -5,25 +5,15 @@
  */
 package dao;
 
-import entities.Cliente;
-import entities.Convenio;
-import entities.Cristal;
-import entities.Descuento;
-import entities.Doctor;
-import entities.Institucion;
 import entities.InternMail;
-import entities.Inventario;
 import entities.Lente;
-import entities.Oficina;
-import entities.RegistroBaja;
-import entities.TipoPago;
 import entities.abstractclasses.SyncStringId;
-import entities.User;
 import entities.abstractclasses.SyncClass;
 import entities.abstractclasses.SyncFichaClass;
 import entities.abstractclasses.SyncIntId;
 import entities.ficha.Armazon;
 import entities.ficha.Despacho;
+import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
@@ -45,6 +35,7 @@ import sync.entities.LocalInventario;
  */
 public class Dao{
     private static String className="Dao";
+
     private Send mailSend = new Send();
     /**
      * Sólo crea datos, si ya existen no los puede agregar.
@@ -90,8 +81,10 @@ public class Dao{
                 ((SyncIntId)object).setId(GV.REMOTE_SYNC.getMaxId(object));
             if(GV.REMOTE_SYNC.exist(object)){
                 if(object instanceof SyncIntId){
-                    OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
-                        + "Para poder ingresar un nuevo registro debes cambiar el nombre.", 2);
+                    if(!GV.isCurrentDate(((SyncIntId)object).getLastUpdate())){
+                        OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
+                            + "Para poder ingresar un nuevo registro debes cambiar el nombre.", 2);
+                    }
                 }else{
                     return update(object);
                 }
@@ -300,58 +293,33 @@ public class Dao{
     }
 
     public static void sincronize(Object type) {
-        GV.resetAllPorcentaje();
-        GV.resetPorcentaje();
         Log.setLog(className,Log.getReg());
-        if(GV.isCurrentDate(GV.LAST_UPDATE)){
+        if(GV.isCurrentDate(GV.LAST_UPDATE)){//validar plan de licencia
             return;//solo hace una actualizacion por día.
         }
         try {
             if(GV.isOnline()){
+                if(type instanceof Ficha){
+                    sincronizeFicha();
+                    return;
+                }
                 ArrayList<Object> lista1= GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type);
                 int size1 = lista1.size();
                 ArrayList<Object> lista2= GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type);
                 int size2 = lista2.size();
-                
-                if(type instanceof Ficha){
-                    sincronizeFicha();
-                }
                 if(size1 > 0){
                     for (Object object : lista1) {
-                        GV.calcularPorcentaje(size1);
-                        sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                        GV.porcentajeSubCalcular(size1+size2);
+                        sync.Sync.addLocalSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
                     }
                 }
-                GV.resetPorcentaje();
                  if(size2 > 0){
                      for (Object object : lista2) {
-                        GV.calcularPorcentaje(size2);
-                        sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                         GV.porcentajeSubCalcular(size1+size2);
+                        sync.Sync.addRemoteSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
                     }
                  }
-            }else{
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new User())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (User)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Convenio())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Convenio)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Cliente())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cliente)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Cristal())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Cristal)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Descuento())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Descuento)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Doctor())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Doctor)object);
-                }
-                for (Object object : GV.LOCAL_SYNC.listar("-2",new Oficina())) {//falta opcion en listar
-                    sync.Sync.addSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Oficina)object);
-                }
-            }  
+            } 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -451,6 +419,7 @@ public class Dao{
 //    }
 
     private static void sincronizeFicha() throws SQLException, ClassNotFoundException {
+        sincronize(new EtiquetFicha());
         sincronize(new Armazon());
         sincronize(new Despacho());
         sincronize(new HistorialPago());

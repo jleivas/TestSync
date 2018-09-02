@@ -90,15 +90,14 @@ public class GV extends GlobalValuesCursor{
         SubProcess.isOnline();
         
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
-        SubProcess.sincronizeAll();
     }
     /*********************BEGIN PORCENTAJE SYNC***************************/
-    public static void calcularPorcentaje(int limit){
+    public static void porcentajeCalcular(int limit){
         GlobalValuesSyncReportStatus.calcularPorcentaje(limit);
     }
     
-    public static void calcularPorcentajeTotal(int totalProcesos){
-        GlobalValuesSyncReportStatus.calcularPorcentajeTotal(totalProcesos);
+    public static void porcentajeSubCalcular(int subLimit){
+        GlobalValuesSyncReportStatus.calcularSubPorcentaje(subLimit);
     }
     
     public static int porcentaje(){
@@ -113,11 +112,7 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesSyncReportStatus.setReport(reporte);
     }
     
-    public static int porcentajeTotal(){
-        return GlobalValuesSyncReportStatus.getTotal();
-    }
-    
-    public static void resetPorcentaje(){
+    public static void porcentajeReset(){
         GlobalValuesSyncReportStatus.resetPorc();
     }
     
@@ -213,6 +208,11 @@ public class GV extends GlobalValuesCursor{
     public static String getStr(String arg){
         return GlobalValuesFunctions.getStr(arg);
     }
+    
+    public static String className(Object type){
+        return GlobalValuesFunctions.getClassName(type);
+    }
+    
     public static String getToName(String param){
         return GlobalValuesFunctions.getToName(param);
     }
@@ -474,6 +474,35 @@ public class GV extends GlobalValuesCursor{
     }
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
+    public static void backUpLocalBd(){
+        GlobalValuesBD.backUpLocalBd();
+    }
+    
+    public static void sincronizarTodo(){
+        GlobalValuesBD.sincronizarTodo();
+    }
+    
+    /**
+     * usar funcion sincronizarGetEntitiesList, agregar los tipos de entidades 
+     * y enviar como parametro
+     * @param entitiesList 
+     */
+    public static void sincronizarEntitiesList(List<Object> entitiesList){
+        GlobalValuesBD.sincronizar(entitiesList);
+    }
+    
+    public static void stopSincronizacion(){
+        GlobalValuesBD.setSincronizar(false);
+    }
+    
+    public static void startSincronizacion() {
+        GlobalValuesBD.setSincronizar(true);
+    }
+    
+    public static boolean sincronizacionIsStopped() {
+        return !GlobalValuesBD.sincronizacion();
+    }
+    
     public static Connection initDB(){
         return GlobalValuesBD.initDB();
     }

@@ -165,7 +165,7 @@ public class Boton {
         principalAdmin.setCursor(Cursor.getDefaultCursor());
     }
     
-    public void barraProgreso() {
+    public void barraProgresoVisible() {
         OProgress p1 = new OProgress();
         try {
             p1.setLista();

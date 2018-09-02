@@ -50,6 +50,13 @@ public class GlobalValuesFunctions {
         return value.toString().trim();
     }
     
+    public static String getClassName(Object type){
+        if(type == null) return "[...]";
+        String name = (type.getClass().getName().contains("."))?
+                type.getClass().getName().substring(type.getClass().getName().lastIndexOf(".")+1):type.getClass().getName();
+        return name;
+    }
+    
     public static String getStr(String arg){
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
