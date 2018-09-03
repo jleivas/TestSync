@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RootPaneContainer;
 import view.opanel.OpanelConfig;
 import view.opanel.OpanelInventario;
+import view.opanel.OpanelTools;
 import view.opanel.OpanelUserData;
 
 /**
@@ -517,7 +518,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     private void btnToolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseClicked
-        // TODO add your handling code here:
+        OptionPane.showOptionPanel(new OpanelTools(), "Herramientas");
     }//GEN-LAST:event_btnToolsMouseClicked
 
     private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered

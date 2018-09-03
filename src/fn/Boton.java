@@ -181,4 +181,12 @@ public class Boton {
         OptionPane.showMsg("Acceso denegado", "No tienes permiso suficiente para acceder a estas opciones.", 2);
         GV.cursorDF();
     }
+
+    public void mails() {
+        OptionPane.showMsg("crear ventana de correos", "Mails", 3);
+    }
+
+    public void salesReport() {
+        OptionPane.showMsg("crear ventana de reporte", "reporte de ventas", 3);
+    }
 }
