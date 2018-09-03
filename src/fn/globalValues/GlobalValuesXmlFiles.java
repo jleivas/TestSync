@@ -130,7 +130,7 @@ public class GlobalValuesXmlFiles {
             registry.appendChild(lastUpdate); 
             lastUpdate.appendChild(vLastUpdate);
             
-            guardaConFormato(document,GV.filesPath()+"local.xml");
+            guardaConFormato(document,GV.directoryFilesPath()+"local.xml");
             
          }catch(Exception e){
              System.err.println("Class RegistroGlobal: Error");
@@ -175,7 +175,7 @@ public class GlobalValuesXmlFiles {
     
     public static void cargarRegistroLocal(){
         try{
-            File archivo = new File(GV.filesPath()+"local.xml");
+            File archivo = new File(GV.directoryFilesPath()+"local.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document documento = db.parse(archivo);

@@ -28,7 +28,7 @@ public class GlobalValuesSaveXls {
             WorkbookSettings conf = new WorkbookSettings();
             conf.setEncoding("ISO-8859-1");
         
-            WritableWorkbook woorbook = Workbook.createWorkbook(new File(GV.filesPath()+File.separator+"RSP"+File.separator+name+".xls"),conf);
+            WritableWorkbook woorbook = Workbook.createWorkbook(new File(GV.directoryFilesPath()+File.separator+"RSP"+File.separator+name+".xls"),conf);
             
             WritableSheet sheet = woorbook.createSheet("Resultado", 0);
             

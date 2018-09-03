@@ -24,7 +24,7 @@ public class GlobalValuesZipFiles {
     public static void zipperBackup(){
         boolean error = false;
         try {
-            Zipper z = new Zipper(new File(GV.filesPath()+"rsp.zip"));
+            Zipper z = new Zipper(new File(GV.directoryFilesPath()+"rsp.zip"));
             z.zip(new File("."+File.separator+"files"+File.separator+"RSP"));
         } catch (FileNotFoundException e) {
             error = true;
@@ -35,7 +35,7 @@ public class GlobalValuesZipFiles {
         }
         if(!error){
             Send backUp = new Send();
-            backUp.sendFileMail(GV.filesPath()+"rsp.zip");
+            backUp.sendFileMail(GV.directoryFilesPath()+"rsp.zip");
         }
     }
 }

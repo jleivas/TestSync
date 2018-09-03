@@ -14,8 +14,10 @@ import java.io.File;
  */
 public class GlobalValuesDirectories {
     /* Direcciones de fichero*/
-    public static String LOCAL_PATH = System.getProperty("user.dir")+File.separator;
-    public static String FILES_PATH = LOCAL_PATH+"files"+File.separator;
+    private static String LOCAL_PATH = System.getProperty("user.dir")+File.separator;
+    private static String FILES_PATH = LOCAL_PATH+"files"+File.separator;
+    private static String REPORT_EXCEL_PATH = LOCAL_PATH+"reports"+File.separator+"excel"+File.separator;
+    private static String REPORT_VIEW_PATH = LOCAL_PATH+"reports"+File.separator+"view"+File.separator;
     
     
     public static String getFilesPath(){
@@ -24,5 +26,13 @@ public class GlobalValuesDirectories {
     
     public static String getLocalPath(){
         return getStr(LOCAL_PATH);
+    }
+
+    public static String getReportViewPath() {
+        return getStr(REPORT_VIEW_PATH);
+    }
+    
+    public static String getReportExcelPath() {
+        return getStr(REPORT_EXCEL_PATH);
     }
 }

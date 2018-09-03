@@ -667,12 +667,20 @@ public class GV extends GlobalValuesCursor{
     }
     /********************************** END ENTITIES **************************************/
     /*****************************BEGIN DIRECTORY***************************************/
-    public static String filesPath(){
+    public static String directoryFilesPath(){
         return GlobalValuesDirectories.getFilesPath();
     }
     
-    public static String localPath(){
+    public static String directoryLocalPath(){
         return GlobalValuesDirectories.getLocalPath();
+    }
+    
+    public static String directoryReportViewPath(){
+        return GlobalValuesDirectories.getReportViewPath();
+    }
+    
+    public static String directoryReportExcelPath(){
+        return GlobalValuesDirectories.getReportExcelPath();
     }
     
     /*****************************END DIRECTORY***************************************/
