@@ -9,6 +9,8 @@ import com.toedter.calendar.JDateChooser;
 import dao.Dao;
 import entities.Descuento;
 import entities.TipoPago;
+import entities.context.SalesReportFicha;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
@@ -32,7 +34,7 @@ import javax.swing.JTextField;
  * @author jlleivas
  */
 public class GlobalValuesFunctions {
-    
+    private static String TIPO_PAGO_NO_REGISTRADO = "No registrado";    
     public static String dateToString(Date date,String format){
         return Cmp.dateToString(date, format);
     }
@@ -280,6 +282,11 @@ public class GlobalValuesFunctions {
         return resultado;
     }
     
+    /**
+     * debuelbe un arreglo de objetos de tipo string donde [monto][tipoPago][fecha]
+     * @param codFicha
+     * @return 
+     */
     public static Object[][] listarAbonos(String codFicha) {
         Dao load = new Dao();
         int COLUMNAS = 3;//la columna dos corresponde a la descripcion del tipo de pago, se usa en funciones para imprimiry
@@ -300,7 +307,7 @@ public class GlobalValuesFunctions {
             }
             abonos[i][0] = GV.strToPrice(temp.getAbono());
             
-            abonos[i][1] = (tp!=null)? tp.getNombre():"No registrado";
+            abonos[i][1] = (tp!=null)? tp.getNombre():TIPO_PAGO_NO_REGISTRADO;
             
             abonos[i][2] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
             i++;
@@ -312,5 +319,94 @@ public class GlobalValuesFunctions {
         String temp = ""+price;
         int lastN = GV.strToNumber(temp.substring(temp.length()-1));
         return (lastN > 5)? (price-lastN)+10:price-lastN;
+    }
+    
+    public static SalesReportFicha reportSalesObtain(List<Ficha> listFicha){
+        DecimalFormat formateador = new DecimalFormat("###,###,###"); 
+        Dao load = new Dao();
+        int totalVentas = 0;
+        int montoVentas = 0;
+        int montoAbono = 0;
+        int abono = 0;
+        int lentes =0;
+        
+        List<Object> tps = load.listar("-2", new TipoPago());
+        int[] suma = new int[tps.size()];
+        int[] idTp = new int[tps.size()];
+        String[] tipo = new String[tps.size()];
+        
+        for (int i = 0; i < tps.size(); i++) {
+            suma[i]=0;
+            idTp[i]=((TipoPago)tps.get(i)).getId();
+        }
+        for (Object obj : tps) {
+            TipoPago temp = (TipoPago)obj;
+            for (int i = 0; i < tps.size(); i++) {
+                if(temp.getId() == idTp[i])
+                tipo[i]=temp.getNombre();//asignamos un nombre correspondiente al mismo id registrado
+            }
+        }
+        
+        int sumaSinTipoPago = 0;
+        int descuento =0;
+        for (Object objFicha : listFicha) {
+           Ficha ficha = (Ficha)objFicha;
+           lentes=(!ficha.getCerca().getMarca().isEmpty())?lentes+1:lentes;
+           lentes=(!ficha.getLejos().getMarca().isEmpty())?lentes+1:lentes;
+           String[][] abonos = (String[][])listarAbonos(ficha.getCod());
+            int monto = 0;
+            String desc = "";
+            if(abonos != null){
+                for (int i = 0; i < abonos.length; i++) {
+                    if(abonos[i][1].equals(TIPO_PAGO_NO_REGISTRADO)){
+                        sumaSinTipoPago = sumaSinTipoPago+GV.strToNumber(abonos[i][0]);
+                    }else{
+                        for (int j = 0; j < tps.size(); j++) {
+                            if(tipo[j].equals(abonos[i][1])){
+                                suma[j]=suma[j]+hpTmp.getAbono();
+                            }
+                        }
+                    }
+                    monto = monto + GV.strToNumber(abonos[i][0]);
+                    desc = desc+abonos[i][0]+", Medio de pago: "+abonos[i][1]+", Fecha: "+abonos[i][2]+"\n";
+                }
+            }
+            totalVentas++;
+            
+            if(ficha.getDescuento().getPorcetange() > 0){
+            descuento = (ficha.getValorTotal()*ficha.getDescuento().getPorcetange())/100;
+            ficha.setValorTotal(ficha.getValorTotal()-descuento);
+            }
+            
+            montoVentas = montoVentas + ficha.getValorTotal();
+            abono = ficha.getValorTotal() - ficha.getSaldo();
+            montoAbono = montoAbono + abono;
+            abono = 0;
+        }
+        String tipoPagos = "";
+        for (int i = 0; i < tps.size(); i++) {
+            tipoPagos = tipoPagos +"ABONOS         $" +formateador.format(suma[i])+"    ("+tipo[i].toUpperCase()+")\n";
+        }
+        
+        if(totalVentas == 0){
+            return  "\n"+
+                
+                "NO TIENE VENTAS REGISTRADAS.\n"+
+                "\n\n";
+        }
+        
+        return  "------------------------------------------------ \n"+
+                
+                "CANTIDAD VENTAS   : " +formateador.format(totalVentas)+"\n"+
+                "LENTES VENDIDOS: "+formateador.format(lentes)+"     \n"+
+                "MONTO TOTAL VENTAS: $" +formateador.format(montoVentas)+"\n"+
+                //"TOTAL ABONOS      : $" +formateador.format(montoAbono)+"\n"+
+                "------------------------------------------------\n"+
+                "DETALLE DE ABONOS:\n"+
+                "------------------------------------------------\n\n"+
+                tipoPagos+
+                "ABONOS         $"+formateador.format(sumaSinTipoPago)+"    (MONTO SIN REGISTRAR TIPO DE PAGO) \n"+
+                "------------------------------------------------ \n"+
+                "TOTAL ABONOS   $"+formateador.format(montoAbono)+"  \n\n";
     }
 }
