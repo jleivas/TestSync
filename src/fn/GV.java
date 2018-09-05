@@ -712,11 +712,11 @@ public class GV extends GlobalValuesCursor{
     /*****************************END XML***************************************/
     /*****************************BEGIN XSL***************************************/
     public static void excelAllMails() {
-        try {
-            GlobalValuesSaveXls.saveAllMails();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        GlobalValuesSaveXls.saveAllMails();
+    }
+    
+    public static void excelDebtMails() {
+        GlobalValuesSaveXls.saveDebtMails();
     }
     /*****************************END XSL***************************************/
     /**

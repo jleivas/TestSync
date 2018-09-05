@@ -152,6 +152,7 @@ public class OpanelMailExport extends javax.swing.JPanel {
                     OptionPane.closeOptionPanel();
                     break;
                 case 3://sin pagar
+                    GV.excelDebtMails();
                     GV.cursorWAIT(this);
                     OptionPane.closeOptionPanel();
                     break;

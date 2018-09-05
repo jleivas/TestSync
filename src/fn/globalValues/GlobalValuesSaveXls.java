@@ -71,19 +71,31 @@ public class GlobalValuesSaveXls {
         }
     }
     
-    public static boolean saveAllMails() throws ClassNotFoundException {
+    public static boolean saveDebtMails(){
         Dao load = new Dao();
-        List<Object> lista = load.listar("0", new Cliente());
-        String sexo = "Sin registrar";
-        JFileChooser archivo = new JFileChooser();
-        //DATOS DE LA EMPRESA
-        //***************
-        
+        List<Object> lista = load.listar("morosos", new Cliente());
         if(lista.size()<1){
             OptionPane.showMsg("Sin datos", "La exportación no se pudo ejecutar: \n"
                     + "No existen registros para guardar.",2);
             return false;
         }
+        return createXslInput(lista);
+    }
+    
+    public static boolean saveAllMails() {
+        Dao load = new Dao();
+        List<Object> lista = load.listar("0", new Cliente());
+        if(lista.size()<1){
+            OptionPane.showMsg("Sin datos", "La exportación no se pudo ejecutar: \n"
+                    + "No existen registros para guardar.",2);
+            return false;
+        }
+        return createXslInput(lista);
+    }
+    
+    public static boolean createXslInput(List<Object> lista){
+        String sexo = "Sin registrar";
+        JFileChooser archivo = new JFileChooser();
         int resp = archivo.showSaveDialog(archivo);
         if(resp == JFileChooser.APPROVE_OPTION){
             if(lista.size()>0){
