@@ -149,12 +149,15 @@ public class OpanelMailExport extends javax.swing.JPanel {
                     break;
                 case 2://sin despacho
                     GV.cursorWAIT(this);
+                    GV.excelUnDeliveredMails();
                     OptionPane.closeOptionPanel();
+                    GV.cursorDF(this);
                     break;
                 case 3://sin pagar
-                    GV.excelDebtMails();
                     GV.cursorWAIT(this);
+                    GV.excelDebtMails();
                     OptionPane.closeOptionPanel();
+                    GV.cursorDF(this);
                     break;
                 default:
                     OptionPane.closeOptionPanel();

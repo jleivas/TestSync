@@ -1203,12 +1203,30 @@ public class Local implements InterfaceSync {
                 + "(SELECT cliente.cli_estado from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_estado, "
                 + "(SELECT cliente.cli_last_update from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_update, "
                 + "(SELECT cliente.cli_last_hour from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_hour "
-                + "from ficha where fch_estado='1' AND fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"'";
+                + "from ficha where fch_estado="+GV.estadoFichaPending()+" AND fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"'";
+                }
+                if(idParam.equals("retirar")){
+                    sql=" SELECT fch_id, "
+                + "(SELECT cliente.cli_rut from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_rut, "
+                + "(SELECT cliente.cli_nombre from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_nombre, "
+                + "(SELECT cliente.cli_telefono1 from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_telefono1, "
+                + "(SELECT cliente.cli_telefono2 from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_telefono2, "
+                + "(SELECT cliente.cli_email from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_email, "
+                + "(SELECT cliente.cli_direccion from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_direccion, "
+                + "(SELECT cliente.cli_comuna from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_comuna, "
+                + "(SELECT cliente.cli_ciudad from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_ciudad, "
+                + "(SELECT cliente.cli_sexo from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_sexo, "
+                + "(SELECT cliente.cli_nacimiento from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_nacimiento, "
+                + "(SELECT cliente.cli_estado from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_estado, "
+                + "(SELECT cliente.cli_last_update from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_update, "
+                + "(SELECT cliente.cli_last_hour from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_hour "
+                + "from ficha where fch_estado="+GV.estadoFichaPaid()+" AND (fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"' OR fch_fecha_entrega = '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"')";
                 }
                 System.out.println(sql);
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
+                    
                     lista.add(new Cliente(
                         datos.getString("cli_rut"),
                         datos.getString("cli_nombre"),

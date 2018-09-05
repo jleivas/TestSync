@@ -82,6 +82,17 @@ public class GlobalValuesSaveXls {
         return createXslInput(lista);
     }
     
+    public static boolean saveUnDeliveredMails(){
+        Dao load = new Dao();
+        List<Object> lista = load.listar("retirar", new Cliente());
+        if(lista.size()<1){
+            OptionPane.showMsg("Sin datos", "La exportación no se pudo ejecutar: \n"
+                    + "No existen registros para guardar.",2);
+            return false;
+        }
+        return createXslInput(lista);
+    }
+    
     public static boolean saveAllMails() {
         Dao load = new Dao();
         List<Object> lista = load.listar("0", new Cliente());

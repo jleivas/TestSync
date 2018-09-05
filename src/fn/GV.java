@@ -715,6 +715,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesSaveXls.saveAllMails();
     }
     
+    public static void excelUnDeliveredMails() {
+        GlobalValuesSaveXls.saveUnDeliveredMails();
+    }
+    
     public static void excelDebtMails() {
         GlobalValuesSaveXls.saveDebtMails();
     }

@@ -62,6 +62,9 @@ public class GlobalValuesVariables {
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
+    /*
+        Modificaciones tambien afectan en las consultas a bases de datos
+    */
     private static final int DELETED = 0;
     private static final int PENDING = 1;
     private static final int PAID = 2;
