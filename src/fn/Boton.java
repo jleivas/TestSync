@@ -182,10 +182,6 @@ public class Boton {
         GV.cursorDF();
     }
 
-    public void mails() {
-        OptionPane.showMsg("crear ventana de correos", "Mails", 3);
-    }
-
     public void salesReport() {
         OptionPane.showMsg("crear ventana de reporte", "reporte de ventas", 3);
     }

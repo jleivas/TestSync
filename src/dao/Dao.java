@@ -466,17 +466,6 @@ public class Dao{
                 add(hp);
             }
             SubProcess.activateConnectionOnline();
-            
-//
-//                //Guardar valores en BD
-//                
-//                //guardar historial de pago
-//                if(!load.guardarHitorialPago(hp) && abono > 0){
-//                    OptionPane.showMsg(null, "No se pudo completar la operación [1108]", "Error al guardar Ficha",JOptionPane.WARNING_MESSAGE);
-//                    return;
-//                }
-//                
-//                if(load.guardarFicha(ficha,GV.ID_USER)){
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }

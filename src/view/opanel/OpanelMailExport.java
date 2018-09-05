@@ -9,19 +9,22 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author sdx
  */
-public class OpanelTools extends javax.swing.JPanel {
+public class OpanelMailExport extends javax.swing.JPanel {
 
+    private static String OP_1="Seleccione";
+    private static String OP_2="Todos los correos";
+    private static String OP_3="Correo clientes sin despacho";
+    private static String OP_4="Correo clientes morosos";
     /**
      * Creates new form OpanelSelectDate
      */
-    public OpanelTools() {
+    public OpanelMailExport() {
         initComponents();
         cargarCbos();
     }
@@ -42,7 +45,8 @@ public class OpanelTools extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cancel_50px.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Chevron_Left_64px.png"))); // NOI18N
+        btnCancel.setToolTipText("Volver");
         btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCancelMouseClicked(evt);
@@ -59,6 +63,7 @@ public class OpanelTools extends javax.swing.JPanel {
         });
 
         btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/btn_Ok_50px.png"))); // NOI18N
+        btnLoad.setToolTipText("Seleccionar");
         btnLoad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLoadMouseClicked(evt);
@@ -88,7 +93,7 @@ public class OpanelTools extends javax.swing.JPanel {
                 .addContainerGap(49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCancel)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnLoad))
                     .addGroup(layout.createSequentialGroup()
@@ -104,16 +109,16 @@ public class OpanelTools extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboOption, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancel)
-                    .addComponent(btnLoad))
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnLoad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        OptionPane.closeOptionPanel();
+        OptionPane.showOptionPanel(new OpanelTools(), "Herramientas");
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -136,14 +141,18 @@ public class OpanelTools extends javax.swing.JPanel {
                     OptionPane.closeOptionPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
-                case 1://inventarios
+                case 1://todos los correos
+                    GV.cursorWAIT(this);
+                    GV.excelAllMails();
+                    OptionPane.closeOptionPanel();
+                    GV.cursorDF(this);
+                    break;
+                case 2://sin despacho
                     GV.cursorWAIT(this);
                     OptionPane.closeOptionPanel();
-                    OptionPane.showOptionPanel(new OpanelMailExport(), "Exportar correos");
                     break;
-                case 2://armazones
+                case 3://sin pagar
                     GV.cursorWAIT(this);
-                    boton.salesReport();
                     OptionPane.closeOptionPanel();
                     break;
                 default:
@@ -175,8 +184,9 @@ public class OpanelTools extends javax.swing.JPanel {
 
     private void cargarCbos() {
         cboOption.removeAllItems();
-        cboOption.addItem("Seleccione");
-        cboOption.addItem("Exportar correos");
-        cboOption.addItem("Reporte de ventas");
+        cboOption.addItem(OP_1);
+        cboOption.addItem(OP_2);
+        cboOption.addItem(OP_3);
+        cboOption.addItem(OP_4);
     }
 }

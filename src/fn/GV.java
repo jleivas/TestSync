@@ -27,6 +27,7 @@ import fn.globalValues.GlobalValuesEntities;
 import fn.globalValues.GlobalValuesMailProperties;
 import fn.globalValues.GlobalValuesNetwork;
 import fn.globalValues.GlobalValuesPrint;
+import fn.globalValues.GlobalValuesSaveXls;
 import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.globalValues.GlobalValuesUI;
 import fn.globalValues.GlobalValuesXmlFiles;
@@ -709,6 +710,15 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesXmlFiles.cargarRegistroLocal();
     }
     /*****************************END XML***************************************/
+    /*****************************BEGIN XSL***************************************/
+    public static void excelAllMails() {
+        try {
+            GlobalValuesSaveXls.saveAllMails();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /*****************************END XSL***************************************/
     /**
      * Actualiza archivo local de propiedades del sistema con los valores estaticos
      */

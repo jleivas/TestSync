@@ -47,13 +47,24 @@ public class Cmp {
     
     public static String dateToString(Object date,String strOrder){
         Log.setLog(className,Log.getReg());
-        strOrder = strOrder.toLowerCase();
+        strOrder = (strOrder==null)?"dd/mm/yyyy":strOrder;
+        String firstSeparator = (strOrder.toLowerCase().contains("de"))?"de":null;
+        String lastSeparator = (strOrder.toLowerCase().contains("del"))?"del":null;
+        if(firstSeparator!=null){
+            strOrder = strOrder.toLowerCase().replaceAll(" ", "")
+                                         .replaceAll(lastSeparator, "/")
+                                         .replaceAll(firstSeparator, "/");
+        }
         DateFormat fmt = new SimpleDateFormat(strOrder.replaceAll("m","M"));
+        String strDate = "date-error";
         if(date instanceof Date)
-            return fmt.format((Date)date);
+            strDate = fmt.format((Date)date);
         if(date instanceof java.sql.Date)
-            return fmt.format((java.sql.Date)date);
-        return "date-error";
+            strDate = fmt.format((java.sql.Date)date);
+        if(firstSeparator!=null){
+            strDate = strDate.replaceFirst("/", " "+firstSeparator+" ").replace("/", " "+lastSeparator+" ");
+        }
+        return strDate;
     }
     
     public static int hourToInt(Date date){
