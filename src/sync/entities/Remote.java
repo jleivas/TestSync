@@ -997,6 +997,7 @@ public class Remote implements InterfaceSync{
                     return listar(idParam,new ResF());
                 }
                 String sql = "SELECT * FROM ficha WHERE fch_id='" + idParam + "'";
+                sql = (idParam.equals("-2"))?"SELECT * FROM ficha":sql;
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();

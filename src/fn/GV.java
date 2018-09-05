@@ -282,6 +282,22 @@ public class GV extends GlobalValuesCursor{
     public static boolean isNumeric(String arg){
         return GlobalValuesFunctions.isNumeric(arg);
     }
+    
+    public static int abonosMonto(int index,Object[][] abonos){
+        return GlobalValuesFunctions.abonoMontoFromArray(index,abonos);
+    }
+    
+    public static Date abonosDate(int index,Object[][] abonos){
+        return GlobalValuesFunctions.abonoDateFromArray(index,abonos);
+    }
+    
+    public static String abonosName(int index,Object[][] abonos){
+        return GlobalValuesFunctions.abonoNameFromArray(index,abonos);
+    }
+    
+    public static Object[][] abonosListArrayFromFicha(String codFicha){
+        return GlobalValuesFunctions.listarAbonos(codFicha);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static void username(String userName) {
