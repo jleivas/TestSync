@@ -9,6 +9,8 @@ import com.toedter.calendar.JDateChooser;
 import dao.Dao;
 import entities.Descuento;
 import entities.TipoPago;
+import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncStringId;
 import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
@@ -23,11 +25,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -341,5 +345,26 @@ public class GlobalValuesFunctions {
     public static SalesReportFicha reportSalesObtain(List<Object> listFicha){
         SalesReportFicha srf = new SalesReportFicha(listFicha);
         return srf;
+    }
+    
+    public static Object searchByIdInList(String code , List<Object> list, Object classType) {
+        if(classType instanceof SyncIntId){
+            Optional<Object> objectFound = list.stream()
+            .filter(p -> ((SyncIntId)p).getId() == GV.strToNumber(code))
+            .findFirst();
+            return objectFound.isPresent() ? objectFound.get() : null;
+        }
+        if(classType instanceof SyncStringId){
+            Optional<Object> objectFound = list.stream()
+            .filter(p -> ((SyncStringId)p).getCod().equals(code))
+            .findFirst();
+            return objectFound.isPresent() ? objectFound.get() : null;
+        }
+        return null;
+    }
+
+    public static void spinnerNumberDisable(JSpinner spinnerNumber, int currentValue) {
+        spinnerNumber.setModel(new SpinnerNumberModel(currentValue, currentValue, currentValue, 1));
+        spinnerNumber.setValue(currentValue);
     }
 }

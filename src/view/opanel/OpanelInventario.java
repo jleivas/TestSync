@@ -159,8 +159,13 @@ public class OpanelInventario extends javax.swing.JPanel {
                 case 5://generar orden de compras
                     GV.cursorWAIT(this);
                     OptionPane.closeOptionPanel();
+                    GV.cursorDF(this);
                     GV.excelLowStockBuyOrder();
                 case 6://registro de bajas
+                    GV.cursorWAIT(this);
+                    boton.registroBajas();
+                    GV.cursorDF(this);
+                    OptionPane.closeOptionPanel();
                     break;
                 default:
                     OptionPane.closeOptionPanel();

@@ -514,22 +514,9 @@ public class ContentAdmin extends javax.swing.JFrame {
         OptionPane.showOptionPanel(new OpanelInventario(), "Inventario");
     }//GEN-LAST:event_btnInventMouseClicked
 
-    private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
-        SubProcess.sincronizeAll();
-    }//GEN-LAST:event_btnSyncronizeMouseClicked
-
     private void btnToolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseClicked
         OptionPane.showOptionPanel(new OpanelTools(), OptionPane.titleTool());
     }//GEN-LAST:event_btnToolsMouseClicked
-
-    private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIconIfConnected(btnSyncronize.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronizeMouseEntered
-
-    private void btnSyncronizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseExited
-        
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
-    }//GEN-LAST:event_btnSyncronizeMouseExited
 
     private void btnToolsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseEntered
         
@@ -741,6 +728,19 @@ public class ContentAdmin extends javax.swing.JFrame {
     private void btnConveniosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConveniosMouseExited
         btnConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnConvenios.getIcon().toString()))));
     }//GEN-LAST:event_btnConveniosMouseExited
+
+    private void btnSyncronizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseExited
+
+        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
+    }//GEN-LAST:event_btnSyncronizeMouseExited
+
+    private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
+        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIconIfConnected(btnSyncronize.getIcon().toString()))));
+    }//GEN-LAST:event_btnSyncronizeMouseEntered
+
+    private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
+        SubProcess.sincronizeAll();
+    }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     /**
      * @param args the command line arguments

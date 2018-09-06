@@ -299,6 +299,14 @@ public class GV extends GlobalValuesCursor{
     public static Object[][] abonosListArrayFromFicha(String codFicha){
         return GlobalValuesFunctions.listarAbonos(codFicha);
     }
+    
+    public static Object buscarPorIdEnLista(String code,List<Object> list,Object classType){
+        return GlobalValuesFunctions.searchByIdInList(code, list, classType);
+    }
+    
+    public static void spinnerNumberDisable(JSpinner spinnerNumber,int currentValue){
+        GlobalValuesFunctions.spinnerNumberDisable(spinnerNumber,currentValue);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static void username(String userName) {

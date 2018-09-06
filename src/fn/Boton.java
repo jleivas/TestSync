@@ -26,6 +26,7 @@ import view.VInstituciones;
 import view.VInventarios;
 import view.VLentes;
 import view.VMessages;
+import view.VRegistroBajas;
 import view.VTipoPagos;
 import view.VUsuarios;
 import view.opanel.OProgress;
@@ -126,6 +127,15 @@ public class Boton {
         if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VOficinas());
+        }else{
+            accesDenied();
+        }
+    }
+    
+    public void registroBajas() {
+        if(GV.tipoUserAdmin()){
+            GV.cursorWAIT();
+            openView(new VRegistroBajas());
         }else{
             accesDenied();
         }
