@@ -5,27 +5,28 @@
  */
 package view.opanel;
 
+import dao.Dao;
+import entities.Inventario;
 import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author sdx
  */
-public class OpanelMailExport extends javax.swing.JPanel {
-
-    private static String OP_1="Seleccione";
-    private static String OP_2="Todos los correos";
-    private static String OP_3="Correo clientes sin despacho";
-    private static String OP_4="Correo clientes morosos";
+public class OpanelInventaryChooser extends javax.swing.JPanel {
+    List<Object> lista = new ArrayList<>();
     /**
      * Creates new form OpanelSelectDate
      */
-    public OpanelMailExport() {
+    public OpanelInventaryChooser() {
         initComponents();
+        loadList();
         cargarCbos();
     }
 
@@ -83,14 +84,14 @@ public class OpanelMailExport extends javax.swing.JPanel {
         cboOption.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
-        jLabel3.setText("Opciones");
+        jLabel3.setText("Inventarios");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,7 +119,7 @@ public class OpanelMailExport extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        OptionPane.showOptionPanel(new OpanelTools(), OptionPane.titleTool());
+        OptionPane.showOptionPanel(new OpanelInventario(), OptionPane.titleInventary());
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -134,36 +135,19 @@ public class OpanelMailExport extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelMousePressed
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
-        Boton boton = new Boton();
-        
-            switch (cboOption.getSelectedIndex()){
-                case 0:
-                    OptionPane.closeOptionPanel();
-                    OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                case 1://todos los correos
-                    GV.cursorWAIT(this);
-                    GV.excelAllMails();
-                    OptionPane.closeOptionPanel();
-                    GV.cursorDF(this);
-                    break;
-                case 2://sin despacho
-                    GV.cursorWAIT(this);
-                    GV.excelUnDeliveredMails();
-                    OptionPane.closeOptionPanel();
-                    GV.cursorDF(this);
-                    break;
-                case 3://sin pagar
-                    GV.cursorWAIT(this);
-                    GV.excelDebtMails();
-                    OptionPane.closeOptionPanel();
-                    GV.cursorDF(this);
-                    break;
-                default:
-                    OptionPane.closeOptionPanel();
-                    OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
-                    break;
+        GV.cursorWAIT(this);
+        if(cboOption.getSelectedIndex()==0){
+            OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", 1);
+            return;
+        }
+        for (Object object : lista) {
+            if(((Inventario)object).getNombre().equals(cboOption.getSelectedItem().toString())){
+                GV.setInventarioSeleccionado(((Inventario)object).getId());
             }
+        }
+        OptionPane.closeOptionPanel();
+        GV.excelExportInventarySelected();
+        GV.cursorDF(this);
     }//GEN-LAST:event_btnLoadMouseClicked
 
     private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered
@@ -188,9 +172,14 @@ public class OpanelMailExport extends javax.swing.JPanel {
 
     private void cargarCbos() {
         cboOption.removeAllItems();
-        cboOption.addItem(OP_1);
-        cboOption.addItem(OP_2);
-        cboOption.addItem(OP_3);
-        cboOption.addItem(OP_4);
+        cboOption.addItem("Seleccione");
+        for (Object object : lista) {
+            cboOption.addItem(((Inventario)object).getNombre());
+        }
+    }
+
+    private void loadList() {
+        Dao load = new Dao();
+        lista = load.listar("0", new Inventario());
     }
 }

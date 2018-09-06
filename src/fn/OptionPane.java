@@ -23,6 +23,16 @@ public class OptionPane {
     private static String className = "OptionPane";
     private static boolean confirm = false;
     
+    private static String CONFIG_TITLE = "Opciones de configuración";
+    private static String INVENTARY_TITLE = "Opciones de inventario";
+    private static String INVENTARY_CHOOSER_TITLE = "Seleccione inventario";
+    private static String MAIL_EXPORT_TITLE = "Exportar correos electrónicos";
+    private static String CLIENT_CHOOSER_TITLE = "Seleccione cliente";
+    private static String DATE_CHOOSER_TITLE = "Seleccione una fecha";
+    private static String USER_CHOOSER_TITLE = "Seleccione usuario";
+    private static String TOOL_TITLE = "Opciones de herramienta";
+    private static String USER_DATA_TITLE = "Modificar mis datos";
+    
     public static void showOptionPanel(javax.swing.JPanel p1, String title){
         GV.opanel().lblTitle.setText(title);
         GV.opanel().setVisible(true);
@@ -110,4 +120,39 @@ public class OptionPane {
         confirm = param;
     }
 
+    public static String titleConfig(){
+        return CONFIG_TITLE;
+    }
+    
+    public static String titleInventary(){
+        return INVENTARY_TITLE;
+    }
+    
+    public static String titleInventaryChooser(){
+        return INVENTARY_CHOOSER_TITLE;
+    }
+    
+    public static String titleMailExport(){
+        return MAIL_EXPORT_TITLE;
+    }
+    
+    public static String titleClientChooser(){
+        return CLIENT_CHOOSER_TITLE;
+    }
+    
+    public static String titleDateChooser(){
+        return DATE_CHOOSER_TITLE;
+    }
+    
+    public static String titleUserChooser(){
+        return USER_CHOOSER_TITLE;
+    }
+    
+    public static String titleTool(){
+        return TOOL_TITLE;
+    }
+    
+    public static String titleUserData(){
+        return USER_DATA_TITLE;
+    }
 }

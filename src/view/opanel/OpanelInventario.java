@@ -152,6 +152,9 @@ public class OpanelInventario extends javax.swing.JPanel {
                     OptionPane.closeOptionPanel();
                     break;
                 case 4://exportar inventario
+                    GV.cursorWAIT(this);
+                    OptionPane.closeOptionPanel();
+                    OptionPane.showOptionPanel(new OpanelInventaryChooser(), OptionPane.titleInventaryChooser());
                     break;
                 case 5://generar orden de compras
                     break;

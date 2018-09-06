@@ -9,7 +9,6 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -139,7 +138,7 @@ public class OpanelTools extends javax.swing.JPanel {
                 case 1://inventarios
                     GV.cursorWAIT(this);
                     OptionPane.closeOptionPanel();
-                    OptionPane.showOptionPanel(new OpanelMailExport(), "Exportar correos");
+                    OptionPane.showOptionPanel(new OpanelMailExport(), OptionPane.titleMailExport());
                     break;
                 case 2://armazones
                     GV.cursorWAIT(this);

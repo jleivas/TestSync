@@ -24,6 +24,7 @@ import javax.swing.RootPaneContainer;
 import view.opanel.OpanelConfig;
 import view.opanel.OpanelInventario;
 import view.opanel.OpanelTools;
+//import view.opanel.OpanelTools;
 import view.opanel.OpanelUserData;
 
 /**
@@ -518,7 +519,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     private void btnToolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseClicked
-        OptionPane.showOptionPanel(new OpanelTools(), "Herramientas");
+        OptionPane.showOptionPanel(new OpanelTools(), OptionPane.titleTool());
     }//GEN-LAST:event_btnToolsMouseClicked
 
     private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered

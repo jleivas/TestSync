@@ -7,6 +7,7 @@ package sync.entities;
 
 import bd.LcBd;
 import entities.Lente;
+import fn.GV;
 import fn.Log;
 import fn.OptionPane;
 import java.sql.PreparedStatement;
@@ -40,19 +41,19 @@ public class LocalInventario {
     }
     
     public static ArrayList<Object> listarLentes(String idParam) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
-        ArrayList<Object> lista = new ArrayList<Object>();
-        String sql = "SELECT * FROM lente WHERE len_id ='" + idParam + "'";
+        ArrayList<Object> lista = new ArrayList<>();
+        String sql = "SELECT * FROM lente WHERE len_id ='" + idParam + "' AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         if (idParam.equals("0")) {
-            sql = "SELECT * FROM lente WHERE len_estado=1";
+            sql = "SELECT * FROM lente WHERE len_estado=1 AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         }
         if (idParam.equals("-1")) {
-            sql = "SELECT * FROM lente WHERE len_estado=0";
+            sql = "SELECT * FROM lente WHERE len_estado=0 AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         }
         if (idParam.equals("-2")) {
-            sql = "SELECT * FROM lente";
+            sql = "SELECT * FROM lente WHERE inventario_inv_id = "+GV.getInventarioSeleccionado();
         }
         if (idParam.equals("st")) {
-            sql = "SELECT * FROM lente WHERE len_estado=1 AND len_stock > 0";
+            sql = "SELECT * FROM lente WHERE (len_estado=1 AND len_stock > 0) AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         }
 
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);

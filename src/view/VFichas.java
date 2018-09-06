@@ -440,16 +440,16 @@ public class VFichas extends javax.swing.JPanel {
             GV.listarFichasByDate(new Date(),null);
         }
         if(filter==BY_DATE){
-            OptionPane.showOptionPanel(new OpanelSelectDate(), "Seleccione un rango de fechas");
+            OptionPane.showOptionPanel(new OpanelSelectDate(), OptionPane.titleDateChooser());
             String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
             tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
             ContentAdmin.lblTitle.setText(tempTitle);
         }
         if(filter==BY_CLIENT){
-            OptionPane.showOptionPanel(new OpanelSelectClient(), "Seleccione un Cliente");
+            OptionPane.showOptionPanel(new OpanelSelectClient(), OptionPane.titleClientChooser());
         }
         if(filter==BY_USER){
-            OptionPane.showOptionPanel(new OpanelSelectUser(), "Seleccione un Usuario");
+            OptionPane.showOptionPanel(new OpanelSelectUser(), OptionPane.titleUserChooser());
         }
         if(status == 0){
             btnRestaurar.setVisible(true);

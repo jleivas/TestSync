@@ -341,6 +341,14 @@ public class GV extends GlobalValuesCursor{
         saveXMLProperties();
     }
     
+    public static void setInventarioSeleccionado(int idInventario){
+        GlobalValuesVariables.setInventaryChooser(idInventario);
+    }
+    
+    public static int getInventarioSeleccionado(){
+        return GlobalValuesVariables.getInventaryChooser();
+    }
+    
     public static void setInventarioLocalFromXml(String inventario){
         GlobalValuesVariables.setInventarioLocal(inventario);
     }
@@ -721,6 +729,10 @@ public class GV extends GlobalValuesCursor{
     
     public static void excelDebtMails() {
         GlobalValuesSaveXls.saveDebtMails();
+    }
+    
+    public static void excelExportInventarySelected(){
+        GlobalValuesSaveXls.saveInventary();
     }
     /*****************************END XSL***************************************/
     /**

@@ -31,6 +31,7 @@ public class GlobalValuesVariables {
     private static String EQUIPO;//el nombre debe concatenarse con la fecha de instalacion
     private static int EQUIPO_ID = 1;
     private static String INVENTARIO_NAME;
+    private static int ID_INVENTARIO_SELECCIONADO = 0;
     
     /* Seguridad */
     private static String SALT = "optidataodm4softdirex";
@@ -317,5 +318,22 @@ public class GlobalValuesVariables {
                 break;
         }
         return value;
+    }
+    
+    /**
+     * recibe por parametro el id de el inventario seleccionado,
+     * se usa para cargar valores desde la base de datos
+     * @param idInventario 
+     */
+    public static void setInventaryChooser(int idInventario){
+        ID_INVENTARIO_SELECCIONADO = idInventario;
+    }
+    /**
+     * retorna el id del inventario seleccionado para uso temporal,
+     * si el valor es cero es porque no se ha seleccionado un inventario
+     * @return 
+     */
+    public static int getInventaryChooser(){
+        return ID_INVENTARIO_SELECCIONADO;
     }
 }
