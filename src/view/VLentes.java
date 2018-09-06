@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.RowFilter;
@@ -1375,7 +1376,7 @@ public class VLentes extends javax.swing.JPanel {
             if(OptionPane.getConfirmation("Reducción de stock", "¿Confirmo que los datos ingresados son correctos?", 2)){
                txtStock3.commitEdit();
                 int cantidad = (int)txtStock3.getValue();
-                int newStock = stLente.getStock()- (LocalInventario.getStock(stLente.getCod()) + cantidad);
+                int newStock = stLente.getStock()- (LocalInventario.stockDescontado(stLente.getCod()) + cantidad);
                 if(newStock < 0){
                     OptionPane.showMsg("Parámetros incorrectos", "El monto a reducir debe ser menor o igual al stock del producto.", 2);
                     cDF();
@@ -1653,16 +1654,17 @@ public class VLentes extends javax.swing.JPanel {
         }
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new Lente())) {
+            GV.setInventarioSeleccionado(stInventario.getId());
+            List<Object> lista = load.listar(listar, new Lente());
+            GV.setInventarioSeleccionado(0);
+            for (Object object : lista) {
                 Lente temp = (Lente)object;
-                if(temp.getInventario() == stInventario.getId()){
                     Object[] fila = new Object[4];
                     fila[0] = temp.getCod();
                     fila[1] = temp.getMarca();
                     fila[2] = temp.getColor();
                     fila[3] = temp.getStock();
                     modelo.addRow(fila);
-                }
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){

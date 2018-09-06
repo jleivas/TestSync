@@ -304,6 +304,10 @@ public class GV extends GlobalValuesCursor{
     public static void username(String userName) {
         GlobalValuesVariables.setUserName(userName);
     }
+            
+    public static String sqlLowStock() {
+        return GlobalValuesVariables.getSqlLowStock();
+    }
     
     public static int cboFichasFilter(){
         return GlobalValuesVariables.cboFichasFilter();
@@ -725,6 +729,10 @@ public class GV extends GlobalValuesCursor{
     
     public static void excelUnDeliveredMails() {
         GlobalValuesSaveXls.saveUnDeliveredMails();
+    }
+    
+    public static void excelLowStockBuyOrder() {
+        GlobalValuesSaveXls.saveInventaryLowStock();
     }
     
     public static void excelDebtMails() {

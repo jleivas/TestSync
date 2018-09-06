@@ -60,6 +60,7 @@ public class GlobalValuesVariables {
     private static String ID_PARAM_IS_TABLE_LIST = "LIST/";
     private static String ID_PARAM_IS_DATE_LIST = "DATE/";
     private static int CBO_FICHA_FILTER=0;
+    private static String SQL_LOW_STOCK="lowStock";
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
@@ -335,5 +336,9 @@ public class GlobalValuesVariables {
      */
     public static int getInventaryChooser(){
         return ID_INVENTARIO_SELECCIONADO;
+    }
+
+    public static String getSqlLowStock() {
+        return SQL_LOW_STOCK;
     }
 }

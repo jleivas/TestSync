@@ -138,7 +138,7 @@ public class Dao{
                         if(GV.isOnline()){
                             sincronize(new Lente());
                             temp = (Lente)GV.REMOTE_SYNC.getElement(idLente, 0, new Lente());
-                            temp.setStock(temp.getStock()-LocalInventario.getStock(idLente));
+                            temp.setStock(temp.getStock()-LocalInventario.stockDescontado(idLente));
                             if(temp.getStock() < 0){
                                 temp.setStock(0);
                             }

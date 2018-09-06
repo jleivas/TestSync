@@ -7,12 +7,14 @@ package fn.globalValues;
 
 import dao.Dao;
 import entities.Cliente;
+import entities.Inventario;
 import entities.Lente;
 import fn.Boton;
 import fn.GV;
 import fn.OptionPane;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -98,30 +100,32 @@ public class GlobalValuesSaveXls {
     
     public static void saveInventaryLowStock(){
         Dao load = new Dao();
-        List<Object> lista = load.listar("",new Lente());
+        Inventario local = null;
+        try {
+            local = ((Inventario)load.get(GV.inventarioName(), 0, new Inventario()));
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            local = new Inventario();
+        }
+        local = (local!=null)?local:new Inventario();
+        GV.setInventarioSeleccionado(local.getId());//Se prepara el id del inventario que se usara en la consulta a la base de datos
+        List<Object> lista = load.listar(GV.sqlLowStock(),new Lente());
+        GV.setInventarioSeleccionado(0);//Se reinicia el id temporal del inventario seleccionado
         JFileChooser archivo = new JFileChooser();
-        Fechas process = new Fechas();
-        //DATOS DE LA EMPRESA
-        InfoDao loadEmpresa = new InfoDao();
-        Info empresa = new Info();
-        empresa = loadEmpresa.cargar(1);//el id siempre sera uno
-        //***************
-        int resp;
         if(lista.size()<1){
-            JOptionPane.showMessageDialog(null, "No existen productos con stock bajo para generar la orden de compra.");
+            OptionPane.showMsg("No se puede generar archivo", "No existen productos con stock bajo para generar la orden de compra.", 2);
             return;
         }
-        resp = archivo.showSaveDialog(archivo);
+        int resp = archivo.showSaveDialog(archivo);
         if(resp == JFileChooser.APPROVE_OPTION){
             if(lista.size()>0){
                 //[filas][columnas]
                 int filas = lista.size()+6;
                 String [][] entrada = new String[filas][4];
-                entrada[0][1] = "Orden de compra generada el "+process.imprimirFechaActual()+"";
+                entrada[0][1] = "Orden de compra generada el "+GV.dateToString(new Date(), "dd/mm/yyyy")+"";
                 entrada[1][0] = "Empresa:";
-                entrada[1][1] = empresa.getNombre();
+                entrada[1][1] = GV.companyName();
                 entrada[2][0] = "Sistema:";
-                entrada[2][1] = "Optidata 2017";
+                entrada[2][1] = GV.projectName();
                 entrada[3][0] = "Soporte:";
                 entrada[3][1] = "www.softdirex.cl";
                 entrada[5][0] = "Codigo";
@@ -129,10 +133,11 @@ public class GlobalValuesSaveXls {
                 entrada[5][2] = "Color";
                 entrada[5][3] = "Cantidad";
                 int contFilas = 6;
-                for (Lente temp : lista) {
+                for (Object object : lista) {
+                    Lente temp = (Lente)object;
                     for(int i = 0;i< 7; i++){
                         if(i==0)
-                            entrada[contFilas][i] = temp.getId();
+                            entrada[contFilas][i] = temp.getCod();
                         else if(i == 1)
                             entrada[contFilas][i] = temp.getMarca();
                         else if(i == 2)
@@ -142,14 +147,13 @@ public class GlobalValuesSaveXls {
                     }
                     contFilas++;
                 }
-                String ruta = String.valueOf(archivo.getSelectedFile().toString())+"-["+process.imprimirFechaActual()+"].xls";
-                GuardarPlanilla saveXls = new GuardarPlanilla();
-                saveXls.generarExcel(entrada, ruta);
-                JOptionPane.showMessageDialog(null, "Archivo creado con exito.");
+                String ruta = String.valueOf(archivo.getSelectedFile().toString())+"-[Actualizar cantidades].xls";
+                generarExcel(entrada, ruta);
+                msgDone();
                 return;
             }
         }else if(resp == JFileChooser.CANCEL_OPTION){
-            JOptionPane.showMessageDialog(null, "La operacion ha sido cancelada.");
+            OptionPane.showMsg("No se pudo finalizar", "La operacion ha sido cancelada.",2);
         }
         return;
     }
