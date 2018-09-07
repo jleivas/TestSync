@@ -309,12 +309,12 @@ public class GlobalValuesPrint {
 
     public static String obtenerFormatoCliente(Cliente cliente) {
         if(cliente != null){
-            String datosCliente = cliente.getNombre();
             String telefonos = cliente.getTelefono1()+"/"+cliente.getTelefono2();
             telefonos = (telefonos.startsWith("/"))? cliente.getTelefono2():telefonos;
             telefonos = (telefonos.endsWith("/"))? cliente.getTelefono1():telefonos;
             telefonos = (telefonos.isEmpty())? "No registrados":telefonos;
-            datosCliente =  datosCliente + " - Teléfonos: "+telefonos;
+            String mail = (cliente.getEmail().isEmpty())?"":"\nEmail:"+cliente.getEmail();
+            String datosCliente =  "Teléfonos:"+telefonos+mail;
             return datosCliente;
         }else{
             return "Sin datos del cliente";
