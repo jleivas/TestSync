@@ -17,101 +17,144 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.PrintJob;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import reportes.FichaDataSource;
 
 /**
  *
  * @author jlleivas
  */
 public class GlobalValuesPrint {
+    
+    public static void printFichaView(Ficha ficha){
+        InputStream is = null;
+        JasperPrint jsp = null;
+        FichaDataSource dt = new FichaDataSource();
+        dt.addFicha(ficha);
+        try{
+            is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"ficha.jrxml");
+        }catch(FileNotFoundException e){
+            OptionPane.showMsg("No se puede obtener el recurso", 
+                    "Ocurrió un error al intentar abrir el formato de impresión\n"
+                            + e.getMessage(), 3);
+        }
+        
+        
+        try{
+            JasperDesign jsd = JRXmlLoader.load(is);
+            JasperReport jsrp = JasperCompileManager.compileReport(jsd);
+            jsp = JasperFillManager.fillReport(jsrp, null,dt);
+            JasperViewer viewer = new JasperViewer(jsp, false); //Se crea la vista del reportes
+            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
+            viewer.setVisible(true); //Se vizualiza el reporte
+        }catch(JRException e){
+            OptionPane.showMsg("No se puede visualizar el recurso", 
+                    "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
+                            + e.getMessage(), 3);
+        }
+    }
+    
     public static void print(Ficha ficha)
 	{
-            
-            String formatoAbono = obtenerAbonos(ficha.getCod());
-            ///////////////////////////FECHAS
-            String fecha = GV.dateToString(ficha.getFecha(),"dd/mm/yyyy");
-            String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd/mm/yyyy");
-            //////////////////////////FIN FECHAs
-            String endurecidoLejos=(ficha.getLejos().getEndurecido()==1)?"X":"";
-            String capaLejos=(ficha.getLejos().getCapa()==1)?"X":"";
-            String plusMaxLejos=(ficha.getLejos().getPlusMax()==1)?"X":"";
-            
-            
-            
-            String endurecidoCerca=(ficha.getCerca().getEndurecido()==1)?"X":"";
-            String capaCerca=(ficha.getCerca().getCapa()==1)?"X":"";
-            String plusMaxCerca=(ficha.getCerca().getPlusMax()==1)?"X":"";
-
-            int precioLente1 = getPrecioLente(ficha.getCerca().getMarca());
-            int precioLente2 = getPrecioLente(ficha.getLejos().getMarca());
-            int precioCristal1 = getPrecioCristal(ficha.getCerca().getCristal());
-            int precioCristal2 = getPrecioCristal(ficha.getLejos().getCristal());
-
-            int descuento = ficha.getDescuento();
-            
-            String impresion[]=
-            {
-             fecha//0
-            ,ficha.getCod()+""//1
-            ,ficha.getLugarEntrega()//2
-            ,fecha_entrega//3
-            ,ficha.getCliente().getNombre()//4
-            ,ficha.getLejos().getCristal()//5
-            ,ficha.getLejos().getOdEsf()//6
-            ,ficha.getLejos().getOiEsf()//7
-            ,ficha.getLejos().getDp()+""//8
-            ,endurecidoLejos//9
-            ,capaLejos//10
-            ,plusMaxLejos//11----fin lejos
-            ,ficha.getCerca().getCristal()//12
-            ,ficha.getCerca().getOdEsf()//13
-            ,ficha.getCerca().getOiEsf()//14
-            ,ficha.getCerca().getDp()+""//15
-            ,endurecidoCerca//16
-            ,capaCerca//17
-            ,plusMaxCerca//18
-            ,ficha.getObservacion()//19
-            ,GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))//20
-            ,formatoAbono//21
-            ,GV.strToPrice(ficha.getSaldo())//22
-            ,ficha.getHoraEntrega().replaceAll(" ", "")//23
-            ,ficha.getLejos().getMarca()//24
-            ,ficha.getCerca().getMarca()//25
-            ,GV.companyName()//26
-            ,GV.getOficinaWeb()//27
-            ,GV.getOficinaAddress()+"-"+GV.getOficinaCity()//28
-            ,GV.getOficinaMail()+"/"+GV.getOficinaPhone1()+"-"+GV.getOficinaPhone2()//29
-            ,ficha.getLejos().getOdCil()//30 desde aqui
-            ,ficha.getLejos().getOdA()//31
-            ,ficha.getLejos().getOiCil()//32
-            ,ficha.getLejos().getOiA()//33
-            ,ficha.getCerca().getOdCil()//34
-            ,ficha.getCerca().getOdA()//35
-            ,ficha.getCerca().getOiCil()//36
-            ,ficha.getCerca().getOiA()//37
-            ,ficha.getCerca().getAdd()//38
-            ,obtenerFormatoCliente(ficha.getCliente())//39
-            ,obtenerFormatoDireccionCliente(ficha.getCliente())//40
-            ,"TOTAL: "+GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))+", ABONO: "+formatoAbono.replaceAll("_", "")+", SALDO: "+ GV.strToPrice(ficha.getSaldo())//41
-            ,ficha.getLejos().getMarca()//42
-            ,GV.strToPrice(precioLente2)//43
-            ,ficha.getLejos().getCristal()//44
-            ,GV.strToPrice(precioCristal2)//45
-            ,ficha.getCerca().getMarca()//46
-            ,GV.strToPrice(precioLente1)//47
-            ,ficha.getCerca().getCristal()//48
-            ,GV.strToPrice(precioCristal1)//49
-            ,strDescuento(ficha.getDescuento())//50
-            ,strDetalleDescuento(ficha.getDescuento())//51
-            };
-
-            imprimir(impresion); 
+            printFichaView(ficha);
+//            String formatoAbono = obtenerAbonos(ficha.getCod());
+//            ///////////////////////////FECHAS
+//            String fecha = GV.dateToString(ficha.getFecha(),"dd/mm/yyyy");
+//            String fecha_entrega = GV.dateToString(ficha.getFechaEntrega(),"dd/mm/yyyy");
+//            //////////////////////////FIN FECHAs
+//            String endurecidoLejos=(ficha.getLejos().getEndurecido()==1)?"X":"";
+//            String capaLejos=(ficha.getLejos().getCapa()==1)?"X":"";
+//            String plusMaxLejos=(ficha.getLejos().getPlusMax()==1)?"X":"";
+//            
+//            
+//            
+//            String endurecidoCerca=(ficha.getCerca().getEndurecido()==1)?"X":"";
+//            String capaCerca=(ficha.getCerca().getCapa()==1)?"X":"";
+//            String plusMaxCerca=(ficha.getCerca().getPlusMax()==1)?"X":"";
+//
+//            int precioLente1 = getPrecioLente(ficha.getCerca().getMarca());
+//            int precioLente2 = getPrecioLente(ficha.getLejos().getMarca());
+//            int precioCristal1 = getPrecioCristal(ficha.getCerca().getCristal());
+//            int precioCristal2 = getPrecioCristal(ficha.getLejos().getCristal());
+//
+//            int descuento = ficha.getDescuento();
+//            
+//            String impresion[]=
+//            {
+//             fecha//0
+//            ,ficha.getCod()+""//1
+//            ,ficha.getLugarEntrega()//2
+//            ,fecha_entrega//3
+//            ,ficha.getCliente().getNombre()//4
+//            ,ficha.getLejos().getCristal()//5
+//            ,ficha.getLejos().getOdEsf()//6
+//            ,ficha.getLejos().getOiEsf()//7
+//            ,ficha.getLejos().getDp()+""//8
+//            ,endurecidoLejos//9
+//            ,capaLejos//10
+//            ,plusMaxLejos//11----fin lejos
+//            ,ficha.getCerca().getCristal()//12
+//            ,ficha.getCerca().getOdEsf()//13
+//            ,ficha.getCerca().getOiEsf()//14
+//            ,ficha.getCerca().getDp()+""//15
+//            ,endurecidoCerca//16
+//            ,capaCerca//17
+//            ,plusMaxCerca//18
+//            ,ficha.getObservacion()//19
+//            ,GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))//20
+//            ,formatoAbono//21
+//            ,GV.strToPrice(ficha.getSaldo())//22
+//            ,ficha.getHoraEntrega().replaceAll(" ", "")//23
+//            ,ficha.getLejos().getMarca()//24
+//            ,ficha.getCerca().getMarca()//25
+//            ,GV.companyName()//26
+//            ,GV.getOficinaWeb()//27
+//            ,GV.getOficinaAddress()+"-"+GV.getOficinaCity()//28
+//            ,GV.getOficinaMail()+"/"+GV.getOficinaPhone1()+"-"+GV.getOficinaPhone2()//29
+//            ,ficha.getLejos().getOdCil()//30 desde aqui
+//            ,ficha.getLejos().getOdA()//31
+//            ,ficha.getLejos().getOiCil()//32
+//            ,ficha.getLejos().getOiA()//33
+//            ,ficha.getCerca().getOdCil()//34
+//            ,ficha.getCerca().getOdA()//35
+//            ,ficha.getCerca().getOiCil()//36
+//            ,ficha.getCerca().getOiA()//37
+//            ,ficha.getCerca().getAdd()//38
+//            ,obtenerFormatoCliente(ficha.getCliente())//39
+//            ,obtenerFormatoDireccionCliente(ficha.getCliente())//40
+//            ,"TOTAL: "+GV.strToPrice((ficha.getValorTotal()-ficha.getDescuento()))+", ABONO: "+formatoAbono.replaceAll("_", "")+", SALDO: "+ GV.strToPrice(ficha.getSaldo())//41
+//            ,ficha.getLejos().getMarca()//42
+//            ,GV.strToPrice(precioLente2)//43
+//            ,ficha.getLejos().getCristal()//44
+//            ,GV.strToPrice(precioCristal2)//45
+//            ,ficha.getCerca().getMarca()//46
+//            ,GV.strToPrice(precioLente1)//47
+//            ,ficha.getCerca().getCristal()//48
+//            ,GV.strToPrice(precioCristal1)//49
+//            ,strDescuento(ficha.getDescuento())//50
+//            ,strDetalleDescuento(ficha.getDescuento())//51
+//            };
+//
+//            imprimir(impresion); 
 	}
 
-    private static int getPrecioLente(String marca) {
+    public static int getPrecioLente(String marca) {
         Dao load = new Dao();
         try {
             Lente lente = ((Lente)load.get(marca, 0, new Lente()));
@@ -122,7 +165,7 @@ public class GlobalValuesPrint {
         }
     }
 
-    private static int getPrecioCristal(String cod) {
+    public static int getPrecioCristal(String cod) {
         Dao load = new Dao();
         try {
             Cristal cristal = ((Cristal)load.get(cod, 0, new Cristal()));
@@ -246,7 +289,7 @@ public class GlobalValuesPrint {
            f.setVisible(false);
         }
 
-    private static String obtenerAbonos(String codFicha){
+    public static String obtenerAbonos(String codFicha){
         String resumen = null;
         String desc = null;
         String[][] abonos = (String[][])GlobalValuesFunctions.listarAbonos(codFicha);
@@ -264,7 +307,7 @@ public class GlobalValuesPrint {
     
     
 
-    private static String obtenerFormatoCliente(Cliente cliente) {
+    public static String obtenerFormatoCliente(Cliente cliente) {
         if(cliente != null){
             String datosCliente = cliente.getNombre();
             String telefonos = cliente.getTelefono1()+"/"+cliente.getTelefono2();
@@ -299,6 +342,10 @@ public class GlobalValuesPrint {
 
     private static String strDescuento(int descuento) {
         return (descuento!=0)? " (Descuento aplicado)":"";
+    }
+    
+    public static String descuentoFormatPrint(int descuento) {
+        return (descuento!=0)? GV.strToPrice(descuento):"No aplicado";
     }
 
     private static String strDetalleDescuento(int descuento) {
