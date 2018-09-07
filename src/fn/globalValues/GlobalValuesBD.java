@@ -530,7 +530,7 @@ public class GlobalValuesBD {
         }
     }
     
-    private static boolean sincronizeObject(Object object){
+    public static boolean sincronizeObject(Object object){
         if(GV.isOnline()){
             if(!GV.sincronizacionIsStopped()){
                 String className = GV.className(object).trim();

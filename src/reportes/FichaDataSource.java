@@ -47,7 +47,7 @@ public class FichaDataSource implements JRDataSource{
         String saldo = GV.strToPrice(ficha.getSaldo());
         rpf = new ReportFicha(GV.dateToString(ficha.getFecha(), "dd/mm/yyyy"),
                 ficha.getCod(), ficha.getLugarEntrega(), 
-                GV.dateToString(ficha.getFechaEntrega(), "dd/mm/yyyy")+" "+ficha.getHoraEntrega(),
+                GV.dateToString(ficha.getFechaEntrega(), "dd/mm/yyyy")+" "+ficha.getHoraEntrega().replaceAll(" ", ""),
                 ficha.getCliente().getNombre(), GlobalValuesPrint.obtenerFormatoCliente(ficha.getCliente()), 
                 ficha.getCliente().getDireccion(), ficha.getCliente().getComuna(), 
                 total, 
@@ -63,7 +63,7 @@ public class FichaDataSource implements JRDataSource{
                 GV.getOficinaMail(), GV.getOficinaPhone1()+"-"+GV.getOficinaPhone2(), 
                 GV.strToPrice(precioLente1), GV.strToPrice(precioCristal1), 
                 GV.strToPrice(precioLente2), GV.strToPrice(precioCristal2), 
-                total,descuentoFormatPrint(ficha.getDescuento()), abonos, saldo,
+                GV.strToPrice(ficha.getValorTotal()),descuentoFormatPrint(-ficha.getDescuento()), abonos, saldo,
                 "Servicios informaticos",
                 "17.665.703-0","Desarrollo de software","Garantía de 3 meses, no cubre daños provocados por el cliente");
         this.thisFicha.add(rpf);
@@ -183,6 +183,9 @@ public class FichaDataSource implements JRDataSource{
             valor = thisFicha.get(currentIndex).getTotales();
         }if("abonos".equals(jrf.getName())){
             valor = thisFicha.get(currentIndex).getAbonos();
+        }
+        if("descuento".equals(jrf.getName())){
+            valor = thisFicha.get(currentIndex).getDescuento();
         }if("saldos".equals(jrf.getName())){
             valor = thisFicha.get(currentIndex).getSaldos();
         }

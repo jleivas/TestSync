@@ -52,6 +52,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     private static Cliente stCliente = new Cliente();
     private static Institucion stInstitucion = new Institucion();
     private static Descuento stDescuento = null;
+    private static Inventario stInventario = new Inventario();
     Boton boton = new Boton();
     /**
      * Creates new form VNuevaFicha
@@ -59,7 +60,14 @@ public class VCrearFicha extends javax.swing.JPanel {
     public VCrearFicha() throws SQLException, ClassNotFoundException {
         
         initComponents();
-        
+        stInventario = new Inventario();
+        try {
+            stInventario = (Inventario)load.get(GV.inventarioName(), 0, new Inventario());
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ContentAdmin.lblTitle.setText("Nueva Ficha");
         validateDataTemp();
         load();
@@ -2261,6 +2269,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void autocompletar() throws SQLException, ClassNotFoundException {
+        
         TextAutoCompleter textAutoCompleter = new TextAutoCompleter(txtInstitucion);
         textAutoCompleter.setMode(0);
         for (Object temp : load.listar("0", new Institucion())) {
@@ -2290,24 +2299,16 @@ public class VCrearFicha extends javax.swing.JPanel {
             textAutoCompleter5.addItem(((Cristal)temp).getNombre());
             textAutoCompleter5.setMode(0);
         }
-        Inventario local = null;
-        try {
-            local = (Inventario)load.get(GV.inventarioName(), 0, new Inventario());
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(local != null){
-            TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
+        TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
             TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
+            GV.setInventarioSeleccionado(stInventario.getId());
             for (Object temp : load.listar("st",new Lente())) {
-                if(((Lente)temp).getStock() > 0 && ((Lente)temp).getInventario() == local.getId()){
                     textAutoCompleter6.addItem(((Lente)temp).getCod());
                     textAutoCompleter6.setMode(0);
                     textAutoCompleter7.addItem(((Lente)temp).getCod());
                     textAutoCompleter7.setMode(0);
-                }
             }
-        }
+            GV.setInventarioSeleccionado(0);
             
         TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
         textAutoCompleter8.setMode(0);
