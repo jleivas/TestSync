@@ -194,6 +194,10 @@ public class GV extends GlobalValuesCursor{
     }
      /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
+    public static String strToRut(String rut){
+        return GlobalValuesFunctions.formatRut(rut);
+    }
+    
     public static String dateToString(Date date, String format){
         return GlobalValuesFunctions.dateToString(date,format);
     }

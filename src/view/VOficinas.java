@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import view.opanel.OpanelCompanyData;
 
 /**
  *
@@ -40,6 +41,7 @@ public class VOficinas extends javax.swing.JPanel {
         ContentAdmin.lblTitle.setText("Registro de oficinas ("+GV.getLblNombreOficina()+")");
 //        load.sincronize(new Oficina());
         initComponents();
+        loadCompanyData();
         modelo.addColumn("Nombre");
         modelo.addColumn("Direccion");
         modelo.addColumn("Ciudad");
@@ -103,8 +105,11 @@ public class VOficinas extends javax.swing.JPanel {
         btnUpdate = new javax.swing.JLabel();
         btnCancel = new javax.swing.JLabel();
         pnlCompanyName = new javax.swing.JPanel();
-        txtCompanyName = new javax.swing.JTextField();
         btnSaveCompanyName = new javax.swing.JLabel();
+        txtCompanyName = new javax.swing.JLabel();
+        txtCompanyDescripcion = new javax.swing.JLabel();
+        txtCompanyRut = new javax.swing.JLabel();
+        txtCompanyGiro = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -578,13 +583,7 @@ public class VOficinas extends javax.swing.JPanel {
         );
 
         pnlCompanyName.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCompanyName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Nombre de empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
-
-        txtCompanyName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCompanyNameKeyTyped(evt);
-            }
-        });
+        pnlCompanyName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos de empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         btnSaveCompanyName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
         btnSaveCompanyName.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -599,14 +598,32 @@ public class VOficinas extends javax.swing.JPanel {
             }
         });
 
+        txtCompanyName.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        txtCompanyName.setText("Nombre");
+
+        txtCompanyDescripcion.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        txtCompanyDescripcion.setText("Nombre");
+
+        txtCompanyRut.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        txtCompanyRut.setText("Nombre");
+
+        txtCompanyGiro.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        txtCompanyGiro.setText("Nombre");
+
         javax.swing.GroupLayout pnlCompanyNameLayout = new javax.swing.GroupLayout(pnlCompanyName);
         pnlCompanyName.setLayout(pnlCompanyNameLayout);
         pnlCompanyNameLayout.setHorizontalGroup(
             pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCompanyNameLayout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCompanyName, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                    .addComponent(txtCompanyDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCompanyRut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCompanyGiro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSaveCompanyName)
                 .addContainerGap())
         );
@@ -617,7 +634,13 @@ public class VOficinas extends javax.swing.JPanel {
                     .addComponent(btnSaveCompanyName)
                     .addGroup(pnlCompanyNameLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCompanyName)
+                            .addComponent(txtCompanyRut))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlCompanyNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCompanyDescripcion)
+                            .addComponent(txtCompanyGiro, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1048,26 +1071,8 @@ public class VOficinas extends javax.swing.JPanel {
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancel.getIcon().toString()))));
     }//GEN-LAST:event_btnCancelMouseExited
 
-    private void txtCompanyNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompanyNameKeyTyped
-        int largo = 45;
-        if(txtCompanyName.getText().length() >= largo){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
-        }
-    }//GEN-LAST:event_txtCompanyNameKeyTyped
-
     private void btnSaveCompanyNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseClicked
-        if(OptionPane.getConfirmation("Modificar nombre de empresa", "¿Estas seguro de cambiar el nombre a tu empresa?", 2)){
-           String oldName = GV.companyName();
-            cWT();
-            String nombre=txtCompanyName.getText();
-            GV.setCompanyName(nombre);
-            txtCompanyName.setText(GV.companyName());
-            cDF();
-            OptionPane.showMsg("Datos actualizados", "El nombre de la empresa ha cambiado de "+oldName+" a "+GV.companyName(), 1); 
-        }else{
-            OptionPane.showMsg("Operación cancelada", "El nombre de la empresa no se ha cambiado", 1); 
-        }  
+        OptionPane.showOptionPanel(new OpanelCompanyData(), OptionPane.titleCompanyData());
     }//GEN-LAST:event_btnSaveCompanyNameMouseClicked
 
     private void btnSaveCompanyNameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseEntered
@@ -1111,7 +1116,6 @@ public class VOficinas extends javax.swing.JPanel {
     private javax.swing.JLabel btnCancel;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
-    private javax.swing.JLabel btnGuardar1;
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JLabel btnSaveCompanyName;
     private javax.swing.JLabel btnUpdate;
@@ -1127,7 +1131,6 @@ public class VOficinas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -1135,19 +1138,20 @@ public class VOficinas extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel pnl1;
     private javax.swing.JPanel pnl2;
-    private javax.swing.JPanel pnl3;
     private javax.swing.JPanel pnlCompanyName;
     private javax.swing.JTable tblListar;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCiudad2;
     private javax.swing.JTextField txtCiudadNew;
-    private javax.swing.JTextField txtCompanyName;
+    private javax.swing.JLabel txtCompanyDescripcion;
+    private javax.swing.JLabel txtCompanyGiro;
+    private javax.swing.JLabel txtCompanyName;
+    private javax.swing.JLabel txtCompanyRut;
     private javax.swing.JTextField txtDireccion2;
     private javax.swing.JTextField txtDireccionNew;
     private javax.swing.JTextField txtEmail2;
     private javax.swing.JTextField txtEmailNew;
     private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreNew;
     private javax.swing.JTextField txtTelefono1_2;
     private javax.swing.JTextField txtTelefono2_2;
@@ -1250,5 +1254,12 @@ public class VOficinas extends javax.swing.JPanel {
     }
     private void cDF(){
         GV.cursorDF(this);
+    }
+
+    private void loadCompanyData() {
+        txtCompanyName.setText("Nombre: "+GV.companyName());
+        txtCompanyGiro.setText("Giro: "+GV.getCompanyGiro());
+        txtCompanyDescripcion.setText("Descripción: "+GV.getCompanyDescription());
+        txtCompanyRut.setText("Rut: "+GV.getCompanyRut());
     }
 }

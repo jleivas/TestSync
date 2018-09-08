@@ -88,7 +88,12 @@ public class GlobalValuesXmlFiles {
             Text vOffice = document.createTextNode(GV.getNombreOficina());
             Text vCompany = document.createTextNode(GV.companyName());
             Text vInventary = document.createTextNode(GV.inventarioName());
-            Text vLastUpdate = document.createTextNode(GV.dateToString(GV.getLastUpdate(),"dd-mm-yyyy"));
+            Text vLastUpdate = document.createTextNode(GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy"));
+            Text vCompanyDesc = document.createTextNode(GV.getCompanyDescription());
+            Text vCompanyRut = document.createTextNode(GV.getCompanyRut());
+            Text vCompanyGiro = document.createTextNode(GV.getCompanyGiro());
+            Text vMsgMessage = document.createTextNode(GV.getMessageFile());
+            
             /**************USER*******************************************/
             //Asignamos la versión de nuestro XML
             document.setXmlVersion("1.0"); 
@@ -133,6 +138,18 @@ public class GlobalValuesXmlFiles {
             
             registry.appendChild(lastUpdate); 
             lastUpdate.appendChild(vLastUpdate);
+            
+            registry.appendChild(companyDesc); 
+            companyDesc.appendChild(vCompanyDesc);
+            
+            registry.appendChild(companyGiro); 
+            companyGiro.appendChild(vCompanyGiro);
+            
+            registry.appendChild(companyRut); 
+            companyRut.appendChild(vCompanyRut);
+            
+            registry.appendChild(msgFile); 
+            msgFile.appendChild(vMsgMessage);
             
             guardaConFormato(document,GV.directoryFilesPath()+"local.xml");
             

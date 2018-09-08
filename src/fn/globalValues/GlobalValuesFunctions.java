@@ -367,4 +367,24 @@ public class GlobalValuesFunctions {
         spinnerNumber.setModel(new SpinnerNumberModel(currentValue, currentValue, currentValue, 1));
         spinnerNumber.setValue(currentValue);
     }
+    
+    public static String formatRut(String rut) {
+        if(rut == null || rut.isEmpty()){
+            return "";
+        }
+        int cont = 0;
+        String format;
+        rut = rut.replace(".", "");
+        rut = rut.replace("-", "");
+        format = "-" + rut.substring(rut.length() - 1);
+        for (int i = rut.length() - 2; i >= 0; i--) {
+            format = rut.substring(i, i + 1) + format;
+            cont++;
+            if (cont == 3 && i != 0) {
+                format = "." + format;
+                cont = 0;
+            }
+        }
+        return format;
+    }
 }
