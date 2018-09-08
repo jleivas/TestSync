@@ -1222,7 +1222,6 @@ public class Local implements InterfaceSync {
                 + "(SELECT cliente.cli_last_hour from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_hour "
                 + "from ficha where fch_estado="+GV.estadoFichaPaid()+" AND (fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"' OR fch_fecha_entrega = '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"')";
                 }
-                System.out.println(sql);
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {

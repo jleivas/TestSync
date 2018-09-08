@@ -309,6 +309,58 @@ public class GV extends GlobalValuesCursor{
     }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
+    public static String getCompanyDescription(){
+        return GlobalValuesVariables.getCompanyDescription();
+    }
+    
+    public static void setCompanyDescription(String companyDescription){
+        GlobalValuesVariables.setCompanyDescription(companyDescription);
+        saveXMLProperties();
+    }
+    
+    public static void setCompanyDescriptionFromXml(String companyDescription){
+        GlobalValuesVariables.setCompanyDescription(companyDescription);
+    }
+    
+    public static String getCompanyRut(){
+        return GlobalValuesVariables.getCompanyRut();
+    }
+    
+    public static void setCompanyRut(String companyRut){
+        GlobalValuesVariables.setCompanyRut(companyRut);
+        saveXMLProperties();
+    }
+    
+    public static void setCompanyRutFromXml(String companyRut){
+        GlobalValuesVariables.setCompanyRut(companyRut);
+    }
+    
+    public static String getCompanyGiro(){
+        return GlobalValuesVariables.getCompanyGiro();
+    }
+    
+    public static void setCompanyGiro(String companyGiro){
+        GlobalValuesVariables.setCompanyGiro(companyGiro);
+        saveXMLProperties();
+    }
+    
+    public static void setCompanyGiroFromXml(String companyGiro){
+        GlobalValuesVariables.setCompanyGiro(companyGiro);
+    }
+    
+    public static String getMessageFile(){
+        return GlobalValuesVariables.getMessageFile();
+    }
+    
+    public static void setMessageFile(String messageFile){
+        GlobalValuesVariables.setMessageFile(messageFile);
+        saveXMLProperties();
+    }
+    
+    public static void setMessageFileFromXml(String messageFile){
+        GlobalValuesVariables.setMessageFile(messageFile);
+    }
+    
     public static void username(String userName) {
         GlobalValuesVariables.setUserName(userName);
     }

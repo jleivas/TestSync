@@ -32,6 +32,10 @@ public class GlobalValuesVariables {
     private static int EQUIPO_ID = 1;
     private static String INVENTARIO_NAME;
     private static int ID_INVENTARIO_SELECCIONADO = 0;
+    private static String COMPANY_DESCRIPTION;
+    private static String COMPANY_RUT;
+    private static String COMPANY_GIRO;
+    private static String MESSAGE_FILE;//texto informativo que se imprimirá en la ficha
     
     /* Seguridad */
     private static String SALT = "optidataodm4softdirex";
@@ -83,6 +87,39 @@ public class GlobalValuesVariables {
         FILTER_LIST.add(ID_PARAM_IS_DATE_LIST);
         return FILTER_LIST;
     }
+    
+    public static String getCompanyDescription(){
+        return getStr(COMPANY_DESCRIPTION);
+    }
+    
+    public static void setCompanyDescription(String companyDescription){
+        COMPANY_DESCRIPTION = companyDescription;
+    }
+    
+    public static String getCompanyRut(){
+        return getStr(COMPANY_RUT);
+    }
+    
+    public static void setCompanyRut(String companyRut){
+        COMPANY_RUT = companyRut;
+    }
+    
+    public static String getCompanyGiro(){
+        return getStr(COMPANY_GIRO);
+    }
+    
+    public static void setCompanyGiro(String companyGiro){
+        COMPANY_GIRO = companyGiro;
+    }
+    
+    public static String getMessageFile(){
+        return getStr(MESSAGE_FILE);
+    }
+    
+    public static void setMessageFile(String messageFile){
+        MESSAGE_FILE = messageFile;
+    }
+    
     public static void setInventarioLocal(String inventario){
         INVENTARIO_NAME = getStr(inventario);
     }

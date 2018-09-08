@@ -35,13 +35,27 @@ public class FichaDataSource implements JRDataSource{
         String e1 = (ficha.getLejos().getEndurecido()==1)?"SI":"NO";
         String c1 = (ficha.getLejos().getCapa()==1)?"SI":"NO";
         String p1 = (ficha.getLejos().getPlusMax()==1)?"SI":"NO";
+        String dpLejos = ""+ficha.getLejos().getDp();
+        if(ficha.getLejos().getMarca().isEmpty() && ficha.getLejos().getCristal().isEmpty()){
+            e1 = "";
+            c1 = "";
+            p1 = "";
+            dpLejos = "";
+        }
         String e2 = (ficha.getCerca().getEndurecido()==1)?"SI":"NO";
         String c2 = (ficha.getCerca().getCapa()==1)?"SI":"NO";
         String p2 = (ficha.getCerca().getPlusMax()==1)?"SI":"NO";
-        int precioLente1 = getPrecioLente(ficha.getCerca().getMarca());
-        int precioLente2 = getPrecioLente(ficha.getLejos().getMarca());
-        int precioCristal1 = getPrecioCristal(ficha.getCerca().getCristal());
-        int precioCristal2 = getPrecioCristal(ficha.getLejos().getCristal());
+        String dpCerca = ""+ficha.getCerca().getDp();
+        if(ficha.getCerca().getMarca().isEmpty() && ficha.getCerca().getCristal().isEmpty()){
+            e2 = "";
+            c2 = "";
+            p2 = "";
+            dpCerca = "";
+        }
+        int precioLente1 = getPrecioLente(ficha.getLejos().getMarca());
+        int precioLente2 = getPrecioLente(ficha.getCerca().getMarca());
+        int precioCristal1 = getPrecioCristal(ficha.getLejos().getCristal());
+        int precioCristal2 = getPrecioCristal(ficha.getCerca().getCristal());
         String total = GV.strToPrice(ficha.getValorTotal()-ficha.getDescuento());
         String abonos = obtenerAbonos(ficha.getCod());
         String saldo = GV.strToPrice(ficha.getSaldo());
@@ -54,18 +68,18 @@ public class FichaDataSource implements JRDataSource{
                 abonos, saldo,
                 ficha.getLejos().getMarca(), ficha.getLejos().getCristal(), ficha.getLejos().getOdEsf(), 
                 ficha.getLejos().getOdCil(), ficha.getLejos().getOdA(), ficha.getLejos().getOiEsf(), 
-                ficha.getLejos().getOiCil(), ficha.getLejos().getOiA(), ""+ficha.getLejos().getDp(), e1, c1, p1,
+                ficha.getLejos().getOiCil(), ficha.getLejos().getOiA(), dpLejos, e1, c1, p1,
                 ficha.getCerca().getMarca(),
                 ficha.getCerca().getCristal(), ficha.getCerca().getAdd(), ficha.getCerca().getOdEsf(),
                 ficha.getCerca().getOdCil(), ficha.getCerca().getOdA(), ficha.getCerca().getOiEsf(), 
-                ficha.getCerca().getOiCil(), ficha.getCerca().getOiA(), ""+ficha.getCerca().getDp(), e2, c2, p2,
+                ficha.getCerca().getOiCil(), ficha.getCerca().getOiA(), dpCerca, e2, c2, p2,
                 ficha.getObservacion(), GV.companyName(), GV.getOficinaWeb(), GV.getOficinaAddress()+"-"+GV.getOficinaCity(),
                 GV.getOficinaMail(), GV.getOficinaPhone1()+"-"+GV.getOficinaPhone2(), 
                 GV.strToPrice(precioLente1), GV.strToPrice(precioCristal1), 
                 GV.strToPrice(precioLente2), GV.strToPrice(precioCristal2), 
                 GV.strToPrice(ficha.getValorTotal()),descuentoFormatPrint(-ficha.getDescuento()), abonos, saldo,
-                "Servicios informaticos",
-                "17.665.703-0","Desarrollo de software","Garantía de 3 meses, no cubre daños provocados por el cliente");
+                GV.getCompanyDescription(),
+                GV.getCompanyRut(),GV.getCompanyGiro(),GV.getMessageFile());
         this.thisFicha.add(rpf);
     }
     

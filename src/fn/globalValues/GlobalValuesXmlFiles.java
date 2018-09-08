@@ -80,6 +80,10 @@ public class GlobalValuesXmlFiles {
             Element company= document.createElement("company");
             Element inventary= document.createElement("inventary");
             Element lastUpdate = document.createElement("last_update_bd");
+            Element companyDesc = document.createElement("company_description");
+            Element companyRut = document.createElement("company_rut");
+            Element companyGiro = document.createElement("company_giro");
+            Element msgFile = document.createElement("message_file");
             //Ingresamos la info. 
             Text vOffice = document.createTextNode(GV.getNombreOficina());
             Text vCompany = document.createTextNode(GV.companyName());
@@ -230,7 +234,11 @@ public class GlobalValuesXmlFiles {
                     GV.setOficina(element.getElementsByTagName("office").item(0).getTextContent());
                     GV.setCompanyNameFromXml(element.getElementsByTagName("company").item(0).getTextContent());
                     GV.setInventarioLocalFromXml(element.getElementsByTagName("inventary").item(0).getTextContent());
-                    GV.setLastUpdate(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));
+                    GV.setLastUpdateFromXml(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));
+                    GV.setCompanyDescriptionFromXml(element.getElementsByTagName("company_description").item(0).getTextContent());
+                    GV.setCompanyRutFromXml(element.getElementsByTagName("company_rut").item(0).getTextContent());
+                    GV.setCompanyGiroFromXml(element.getElementsByTagName("company_giro").item(0).getTextContent());
+                    GV.setMessageFileFromXml(element.getElementsByTagName("message_file").item(0).getTextContent());
                 }
             }
         } catch (Exception e) {
