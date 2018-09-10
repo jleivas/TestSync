@@ -301,8 +301,7 @@ public class GlobalValuesPrint {
                 desc = abonos[i][1];
             }
         }
-        resumen = (monto > 0)? GV.strToPrice(monto)+" ("+i+" Abonos)":"No registrado";
-        return (i==1)? GV.strToPrice(monto)+" ("+desc+")":resumen;
+        return (monto > 0)? GV.strToPrice(monto):"No registrado";
     }
     
     

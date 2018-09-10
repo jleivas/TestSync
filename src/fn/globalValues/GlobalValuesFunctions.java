@@ -387,4 +387,17 @@ public class GlobalValuesFunctions {
         }
         return format;
     }
+    
+    /**
+     * Retorna una lista con fichas y todos sus datos, si userId y clientCod son nuls, buscara por fecha, 
+     * de lo contratrio validara los userId o clientId
+     * @param dateFrom
+     * @param dateTo
+     * @param userId
+     * @param clientCod
+     * @return 
+     */
+    public static List<Ficha> listarFichas(Date dateFrom,Date dateTo,String userId, String clientCod){
+        return null;
+    }
 }

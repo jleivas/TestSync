@@ -49,7 +49,7 @@ public class SalesReportFicha {
             addAbonos(GV.abonosListArrayFromFicha(ficha.getCod()));
             validateAbonos(ficha.getCod());
             }else{
-                OptionPane.showMsg("Errord e construcción", "No se pudo construir la entidad,\n"
+                OptionPane.showMsg("Error de construcción", "No se pudo construir la entidad,\n"
                         + "verifique que la lista recibida por parámetros sea una instancia de la clase Ficha", 2);
             }
         }
