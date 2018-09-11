@@ -389,15 +389,38 @@ public class GlobalValuesFunctions {
     }
     
     /**
-     * Retorna una lista con fichas y todos sus datos, si userId y clientCod son nuls, buscara por fecha, 
+     * Retorna un where en sql para listar fichas y todos sus datos, si userId y clientCod son null,
+     * buscara por fecha, 
      * de lo contratrio validara los userId o clientId
      * @param dateFrom
      * @param dateTo
-     * @param userId
-     * @param clientCod
+     * @param idUser
+     * @param codClient
+     * @param idFicha 
      * @return 
      */
-    public static List<Ficha> listarFichas(Date dateFrom,Date dateTo,String userId, String clientCod){
-        return null;
+    public static String getWhereFromFicha(Date dateTo, Date dateFrom,String idUser, String codClient, String idFicha){
+        if(idFicha!=null){
+            return "where f.fch_id = '"+idFicha+"'";
+        }
+        if(dateTo==null && dateFrom==null){
+            if(idUser != null){
+                return "where f.usuario_us_id = "+idUser+" and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
+            }
+            if(codClient != null){
+                return "where f.cliente_cli_rut = '"+codClient+"' and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
+            }
+            return "where f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
+        }
+        dateTo=(dateTo==null)?dateFrom:dateTo;
+        dateFrom=(dateFrom==null)?dateTo:dateFrom;
+        if(Cmp.localIsNewOrEqual(dateTo, dateFrom)){
+            Date aux = dateFrom;
+            dateFrom=dateTo;
+            dateTo=aux;
+        }
+        String d1 = (!GV.dateToString(dateTo, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateTo, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
+        String d2 = (!GV.dateToString(dateFrom, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateFrom, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
+        return "where f.fch_fecha BETWEEN '"+d1+"' and '"+d2+"' and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
     }
 }

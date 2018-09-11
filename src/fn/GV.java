@@ -502,6 +502,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.cleanIdParam(arg);
     }
     
+    public static boolean fichaIdParamIsFichaList(String arg) {
+        return GlobalValuesVariables.fichaIdParamIsFichaList(arg);
+    }
+    
     public static boolean fichaIdParamIsIdFicha(String arg){
         return GlobalValuesVariables.fichaIdParamIsIdFicha(arg);
     }
@@ -540,6 +544,13 @@ public class GV extends GlobalValuesCursor{
     
     public static String convertFichaIdParamToDateList(String arg){
         return GlobalValuesVariables.convertFichaIdParamToDateList(arg);
+    }
+    
+    /*tansforma el parametro de entrada de la funcion listar para que retorune una 
+        lista de objetos de tipo ficha con todos sus datos
+    */
+    public static String convertFichaIdToFichaList(String arg){
+        return GlobalValuesVariables.convertFichaIdParamToFichaList(arg);
     }
     
     public static String estadoFicha(int status){

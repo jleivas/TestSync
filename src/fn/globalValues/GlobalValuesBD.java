@@ -32,6 +32,7 @@ import fn.Boton;
 import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
+import static fn.globalValues.GlobalValuesFunctions.getWhereFromFicha;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -775,5 +776,23 @@ public class GlobalValuesBD {
 
     public static boolean sincronizacion() {
         return SINCRONIZAR;
+    }
+    
+    /**
+     * Retorna una lista de entidades tipo ficha con todos sus datos, si userId y clientCod son null,
+     * buscara por fecha, 
+     * de lo contratriovlidara un idFicha
+     * @param dateFrom
+     * @param dateTo
+     * @param idUser
+     * @param codClient
+     * @param idFicha 
+     * @return 
+     */
+    public static List<Object> listarFichas(Date dateTo, Date dateFrom,String idUser, String codClient, String idFicha){
+        Dao load = new Dao();
+        String idParam = getWhereFromFicha(dateTo, dateFrom, idUser, codClient, idFicha);
+        idParam = GV.convertFichaIdToFichaList(idParam);
+        return load.listar(idParam, new Ficha());
     }
 }

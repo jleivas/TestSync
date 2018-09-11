@@ -12,6 +12,7 @@ import fn.GV;
 import static fn.GV.dateToString;
 import static fn.GV.getStr;
 import static fn.GV.getToName;
+import fn.date.Cmp;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,6 +64,7 @@ public class GlobalValuesVariables {
     private static String ID_PARAM_IS_CLIENT = "CLIENT/";
     private static String ID_PARAM_IS_TABLE_LIST = "LIST/";
     private static String ID_PARAM_IS_DATE_LIST = "DATE/";
+    private static String ID_PARAM_IS_FICHA_LIST = "LISTAR_FICHAS/";
     private static int CBO_FICHA_FILTER=0;
     private static String SQL_LOW_STOCK="lowStock";
     //used in filterList()
@@ -290,8 +292,17 @@ public class GlobalValuesVariables {
         return (GV.getStr(arg).startsWith(ID_PARAM_IS_TABLE_LIST)) ? true:false;
     }
     
+    
+    public static boolean fichaIdParamIsFichaList(String arg) {
+        return GV.getStr(arg).startsWith(ID_PARAM_IS_FICHA_LIST);
+    }
+    
     public static boolean fichaIdParamIsDateList(String arg) {
         return (GV.getStr(arg).startsWith(ID_PARAM_IS_DATE_LIST)) ? true:false;
+    }
+    
+    public static String convertFichaIdParamToFichaList(String arg){
+        return ID_PARAM_IS_FICHA_LIST+arg;
     }
     
     public static String convertFichaIdParamToUSer(String arg){
@@ -323,6 +334,13 @@ public class GlobalValuesVariables {
     }
     
     public static String cleanIdParam(String arg){
+        if(fichaIdParamIsFichaList(arg)){
+        /*
+            No se agrega diecto al filterList porque en una validacion del Local.java
+            debe pasar inadvertido para listar entidades de tipo Ficha
+        */
+            return GV.getStr(arg).replaceAll(ID_PARAM_IS_FICHA_LIST, "");
+        }
         List<String> filter = filterList();
         for (String clean : filter) {
             arg = GV.getStr(arg).replaceAll(clean, "");
