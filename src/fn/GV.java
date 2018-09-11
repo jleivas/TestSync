@@ -17,6 +17,7 @@ import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
+import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
 import fn.globalValues.GlobalValuesBD;
 import fn.globalValues.GlobalValuesCursor;
@@ -196,6 +197,10 @@ public class GV extends GlobalValuesCursor{
     /**************************BEGIN FUNTIONS**********************************/
     public static String strToRut(String rut){
         return GlobalValuesFunctions.formatRut(rut);
+    }
+    
+    public static SalesReportFicha obtenerReporteVentas(List<Object> listFicha){
+        return GlobalValuesFunctions.reportSalesObtain(listFicha);
     }
     
     public static String dateToString(Date date, String format){
