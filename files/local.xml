@@ -18,6 +18,10 @@
       <company>Softdirex</company>
       <inventary>Local</inventary>
       <last_update_bd>05-09-2018</last_update_bd>
+      <company_description>desc</company_description>
+      <company_rut>rut</company_rut>
+      <company_giro>giro</company_giro>
+      <message_file>message file</message_file>
    </registry>
 </local>
 
