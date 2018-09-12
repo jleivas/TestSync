@@ -474,6 +474,10 @@ public class GlobalValuesBD {
         return LcBd.crear();
     }
     
+    /**
+     * Elimina todos los datos y las tablas de la base de datos
+     * @return 
+     */
     public static Connection dropDB(){
         return LcBd.deleteAll();
     }
@@ -545,6 +549,10 @@ public class GlobalValuesBD {
         return false;
     }
     
+    /**
+     * leimina todos los datos de las tablas
+     * @return 
+     */
     public static Connection truncateDB(){
         return LcBd.truncateAll();
     }
@@ -781,7 +789,7 @@ public class GlobalValuesBD {
     /**
      * Retorna una lista de entidades tipo ficha con todos sus datos, si userId y clientCod son null,
      * buscara por fecha, 
-     * de lo contratriovlidara un idFicha
+     * de lo contratrio vlidara un idFicha
      * @param dateFrom
      * @param dateTo
      * @param idUser

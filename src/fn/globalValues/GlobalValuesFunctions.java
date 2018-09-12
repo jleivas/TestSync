@@ -17,6 +17,7 @@ import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
 import fn.date.Cmp;
+import fn.mail.Send;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -422,5 +423,10 @@ public class GlobalValuesFunctions {
         String d1 = (!GV.dateToString(dateTo, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateTo, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
         String d2 = (!GV.dateToString(dateFrom, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateFrom, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
         return "where f.fch_fecha BETWEEN '"+d1+"' and '"+d2+"' and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
+    }
+    
+    public static void sendReportSalesMail(SalesReportFicha report){
+        Send mail = new Send();
+        mail.sendReportSalesMail(report);
     }
 }

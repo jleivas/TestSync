@@ -5,6 +5,7 @@
  */
 package fn.mail;
 
+import entities.context.SalesReportFicha;
 import fn.GV;
 import fn.OptionPane;
 import java.io.File;
@@ -199,6 +200,22 @@ public class Send {
             sendMail("["+GV.projectName()+"] Nuevo mensaje: "+asunto,
                     mailDestino, "Tienes un nuevo mensaje en tu buzon de entrada", "Inicia sesión en "+GV.projectName()+" para verlo.",
                     "Usuario: "+GV.user().getNombre(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
+                    "https://www.softdirex.cl/imgOptics/report/user.png", 
+                    "https://www.softdirex.cl/imgOptics/report/company.png");
+            width = 100;
+            height = 140;
+        }
+    }
+    
+    public void sendReportSalesMail(SalesReportFicha salesReport){
+        if(GV.isOnline()){
+            width = 25;
+            height = 50;
+            color1 =  color_turquesa;
+            
+            sendMail("Reporte de ventas desde "+GV.equipo()+" ["+GV.companyName()+"]",
+                    GV.mailReport(), "Reporte de ventas", salesReport.toHtml("Reporte de todas las ventas a la fecha"),
+                    "Usuario: "+GV.user().getUsername(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;

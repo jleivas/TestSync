@@ -149,4 +149,41 @@ public class SalesReportFicha {
                 "------------------------------------------------ \n"+
                 "TOTAL ABONOS   "+GV.strToPrice(getMontoAbonos())+"  \n\n";
     }
+    
+    public String toHtml(String title){
+        DecimalFormat formateador = new DecimalFormat("###,###,###");
+        String detalle = "";
+        for (srTipoPago listAbono : listAbonos) {
+            detalle = detalle + "<TR>\n" +
+                    "                <TD>"+listAbono.name+"</TD> <TD style=\"text-align: right;\">" +GV.strToPrice(listAbono.monto)+"</TD>\n" +
+                    "            </TR>\n";
+        }
+        return  "<p>"+title+"</p>\n" +
+                "<TABLE BORDER CELLPADDING=10 CELLSPACING=0>\n" +
+                "	<TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Cantidad de ventas</strong></TD> <TD style=\"text-align: right;\"><strong>" +formateador.format(getNumVentas())+"</strong></TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Lentes vendidos</strong></TD> <TD style=\"text-align: right;\"><strong>"+formateador.format(getNumLentes())+"</strong></TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Monto total de ventas</strong></TD> <TD style=\"text-align: right;\"><strong>" +GV.strToPrice(getMontoVentas())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "	<TR style=\"background-color: #dddddd;\">\n" +
+                "		<TH>Medio</TH> <TH>Abonos</TH>\n" +
+                "	</TR>\n" +
+                detalle+
+                "    <TR style=\"background-color: #dddddd;\">\n" +
+                "		<TD><strong>Total Abonos</strong></TD> <TD style=\"text-align: right;\"><strong>"+GV.strToPrice(getMontoAbonos())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "</TABLE>"
+                + "<style>\n" +
+                "table {\n" +
+                "    font-family: arial, sans-serif;\n" +
+                "    border-collapse: collapse;\n" +
+                "    width: 100%;\n" +
+                "}\n" +
+                "\n" +
+                "</style>";
+    }
 }

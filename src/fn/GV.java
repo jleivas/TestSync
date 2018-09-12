@@ -199,6 +199,14 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.formatRut(rut);
     }
     
+    /**
+     * Envia un reporte de ventas por correo
+     * @param report 
+     */
+    public static void mailSendSalesReport(SalesReportFicha report){
+        GlobalValuesFunctions.sendReportSalesMail(report);
+    }
+            
     public static SalesReportFicha obtenerReporteVentas(List<Object> listFicha){
         return GlobalValuesFunctions.reportSalesObtain(listFicha);
     }
@@ -476,7 +484,7 @@ public class GV extends GlobalValuesCursor{
     }
     
     public static String equipo(){
-        return GlobalValuesVariables.getEquipo();
+        return getStr(GlobalValuesVariables.getEquipo());
     }
     
     public static void setCurrentEquipo(String name){
@@ -488,7 +496,7 @@ public class GV extends GlobalValuesCursor{
     }
     
     public static String uri(){
-        return GlobalValuesVariables.apiUriLicence();
+        return getStr(GlobalValuesVariables.apiUriLicence());
     }
     
     public static void setUri(String uri){
@@ -662,6 +670,21 @@ public class GV extends GlobalValuesCursor{
     
     public static List<Object> getFichas() {
         return GlobalValuesBD.getFichas();
+    }
+    
+    /**
+     * Retorna una lista de entidades tipo ficha con todos sus datos, si userId y clientCod son null,
+     * buscara por fecha, 
+     * de lo contratrio validara un codFicha
+     * @param dateFrom
+     * @param dateTo
+     * @param idUser
+     * @param codCliente
+     * @param codFicha
+     * @return 
+     */
+    public static List<Object> listarFichas(Date dateFrom, Date dateTo, int idUser, String codCliente, String codFicha){
+        return GlobalValuesBD.listarFichas(dateTo, dateFrom,""+idUser, codCliente, codFicha);
     }
     /*****************************END BD***************************************/
     

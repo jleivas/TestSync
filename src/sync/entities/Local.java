@@ -1848,7 +1848,7 @@ public class Local implements InterfaceSync {
                 while (datos.next()) {
                     lista.add(new EtiquetFicha(
                         datos.getString("fch_id"),
-                        datos.getDate("	fch_fecha"),
+                        datos.getDate("fch_fecha"),
                         datos.getDate("fch_fecha_entrega"),
                         datos.getString("fch_lugar_entrega"),
                         datos.getString("fch_hora_entrega"),
