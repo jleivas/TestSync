@@ -17,6 +17,7 @@ import view.VClientes;
 import view.VOficinas;
 import view.VConvenios;
 import view.VCrearFicha;
+import view.VCrearFichaConvenio;
 import view.VCristales;
 import view.VDescuentos;
 import view.VDoctores;
@@ -42,6 +43,10 @@ public class Boton {
     
     public void crearFicha() throws SQLException, ClassNotFoundException {
         openView(new VCrearFicha());
+    }
+    
+    public void crearFichaConvenio() throws SQLException, ClassNotFoundException {
+        openView(new VCrearFichaConvenio());
     }
     
     public void cristales() throws SQLException, ClassNotFoundException {

@@ -7,6 +7,7 @@ package fn.globalValues;
 
 import bd.LcBd;
 import dao.Dao;
+import entities.Convenio;
 import entities.Equipo;
 import entities.context.SalesReportFicha;
 import fn.GV;
@@ -68,6 +69,7 @@ public class GlobalValuesVariables {
     private static int CBO_FICHA_FILTER=0;
     private static String SQL_LOW_STOCK="lowStock";
     private static SalesReportFicha SALESREPORT = new SalesReportFicha();
+    private static Convenio CONVENIO_SELECTED = null;
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
@@ -404,5 +406,13 @@ public class GlobalValuesVariables {
     
     public static void setSalesReportFicha(SalesReportFicha report){
         SALESREPORT = report;
+    }
+
+    public static void setConvenio(Convenio convenio) {
+        CONVENIO_SELECTED = convenio;
+    }
+
+    public static Convenio getConvenio() {
+        return CONVENIO_SELECTED;
     }
 }

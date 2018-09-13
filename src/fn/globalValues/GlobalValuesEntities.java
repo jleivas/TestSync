@@ -23,6 +23,7 @@ public class GlobalValuesEntities {
     public static User USER;
     public static Oficina OFICINA;
     public static Ficha stFicha = new Ficha();
+    public static Ficha stFichaConvenio = new Ficha();
     public static Ficha stOpenFicha = new Ficha();
     
     
@@ -32,6 +33,14 @@ public class GlobalValuesEntities {
     
     public static void setFicha(Ficha value){
         stFicha = value;
+    }
+    
+    public static Ficha getFichaConvenio(){
+        return stFichaConvenio;
+    }
+    
+    public static void setFichaConvenio(Ficha value){
+        stFichaConvenio = value;
     }
     
     /**

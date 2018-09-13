@@ -15,6 +15,7 @@ import fn.GV;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
+import static fn.date.Cmp.localIsNewOrEqual;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -81,6 +82,7 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        btnCrearFichas = new javax.swing.JLabel();
         pnl1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -210,6 +212,20 @@ public class VConvenios extends javax.swing.JPanel {
             }
         });
 
+        btnCrearFichas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_New_Resume_Template_50px.png"))); // NOI18N
+        btnCrearFichas.setToolTipText("Crear fichas con convenio seleccionado");
+        btnCrearFichas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCrearFichasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCrearFichasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCrearFichasMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -230,6 +246,8 @@ public class VConvenios extends javax.swing.JPanel {
                         .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btnRestaurar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCrearFichas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -250,7 +268,8 @@ public class VConvenios extends javax.swing.JPanel {
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnAbrir, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrearFichas, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(36, 36, 36))
         );
 
@@ -264,7 +283,7 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel2.setText("Monto máximo");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel3.setText("Cuotas");
+        jLabel3.setText("Cantidad clientes");
 
         txtNombreN.setToolTipText("Nombre del convenio");
         txtNombreN.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -312,7 +331,7 @@ public class VConvenios extends javax.swing.JPanel {
         txtCuotasN.setToolTipText("Cantidad tope de cuotas mensuales");
 
         txtMontoMaxN.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        txtMontoMaxN.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máxima, deje el valor en cero");
+        txtMontoMaxN.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máximo, deje el valor en cero");
 
         jLabel21.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel21.setText("Monto unitario");
@@ -344,7 +363,7 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel13.setText("% Valor Adicional");
 
         txtPorcentajeAdicionalN.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
-        txtPorcentajeAdicionalN.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
+        txtPorcentajeAdicionalN.setToolTipText("Aumentar el valor total de los productos para este convenio");
 
         javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
         pnl1.setLayout(pnl1Layout);
@@ -354,7 +373,7 @@ public class VConvenios extends javax.swing.JPanel {
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel9)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -488,7 +507,7 @@ public class VConvenios extends javax.swing.JPanel {
         txtCuotasU.setToolTipText("Cantidad tope de cuotas mensuales");
 
         txtMontoMaxU.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        txtMontoMaxU.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máxima, deje el valor en cero");
+        txtMontoMaxU.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máximo, deje el valor en cero");
 
         txtMontoPpU.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         txtMontoPpU.setToolTipText("Monto máximo del valor total de una receta por cliente, si no desea añadir un tope máximo, deje el valor en cero");
@@ -536,7 +555,7 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel15.setText("% Valor Adicional");
 
         txtPorcentajeAdicionalU.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
-        txtPorcentajeAdicionalU.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
+        txtPorcentajeAdicionalU.setToolTipText("Aumentar el valor total de los productos para este convenio");
 
         javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
         pnl2.setLayout(pnl2Layout);
@@ -802,6 +821,11 @@ public class VConvenios extends javax.swing.JPanel {
         }
         Date fechaIni = txtFechaIniN.getDate();
         Date fechaFin = txtFechaTerN.getDate();
+        if(localIsNewOrEqual(fechaIni, fechaFin)){
+            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
+            cDF();
+            return;
+        }
         try {
             txtCuotasN.commitEdit();
             txtMontoMaxN.commitEdit();
@@ -920,6 +944,11 @@ public class VConvenios extends javax.swing.JPanel {
         }
         Date fechaIni = txtFechaIniU.getDate();
         Date fechaFin = txtFechaFinU.getDate();
+        if(localIsNewOrEqual(fechaIni, fechaFin)){
+            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
+            cDF();
+            return;
+        }
         try {
             txtCuotasU.commitEdit();
             txtMontoMaxU.commitEdit();
@@ -972,6 +1001,33 @@ public class VConvenios extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtNombreUKeyTyped
 
+    private void btnCrearFichasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichasMouseClicked
+        try{
+            cWT();
+            int fila = tblListar.getSelectedRow();
+            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            
+            stConvenio = (Convenio)GV.buscarPorIdEnLista(""+id, listConvenios, new Convenio());
+            if(stConvenio != null){
+                GV.setConvenio(stConvenio);
+                boton.crearFichaConvenio();
+            }
+            
+        }catch(Exception e){
+            OptionPane.showMsg("Seleccione un elemento en la tabla","Debe hacer clic sobre un elemento de la tabla,\n"
+                    + "Luego presione el botón \"Ver\".",  2);
+        }
+        cDF();
+    }//GEN-LAST:event_btnCrearFichasMouseClicked
+
+    private void btnCrearFichasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichasMouseEntered
+        btnCrearFichas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnCrearFichas.getIcon().toString()))));
+    }//GEN-LAST:event_btnCrearFichasMouseEntered
+
+    private void btnCrearFichasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearFichasMouseExited
+        btnCrearFichas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCrearFichas.getIcon().toString()))));
+    }//GEN-LAST:event_btnCrearFichasMouseExited
+
     private void institucioValidate(JTextField txt){
         if(GV.strToNumber(txt.getText()) > 0){
             txt.setForeground(Color.black);
@@ -983,6 +1039,7 @@ public class VConvenios extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
     private javax.swing.JLabel btnCancelar;
+    private javax.swing.JLabel btnCrearFichas;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;

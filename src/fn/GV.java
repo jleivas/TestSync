@@ -8,6 +8,7 @@ package fn;
 import bd.LcBd;
 import com.toedter.calendar.JDateChooser;
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
@@ -187,6 +188,10 @@ public class GV extends GlobalValuesCursor{
     }
     /*********************END MAIL*****************************/
      /**************************BEGIN PRINT**********************************/
+    public static void printFichaConvenio(){
+        GlobalValuesPrint.print(getFichaConvenio());
+    }
+    
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
     }
@@ -617,6 +622,14 @@ public class GV extends GlobalValuesCursor{
     public static int estadoFichaWarranty(){
         return GlobalValuesVariables.estadoFichaWarranty();
     }
+    
+    public static void setConvenio(Convenio convenio) {
+        GlobalValuesVariables.setConvenio(convenio);
+    }
+    
+    public static Convenio getConvenio() {
+        return GlobalValuesVariables.getConvenio();
+    }
     /*****************************END VARIABLES DEL SISTEMA***************************************/
     /*****************************BEGIN BD***************************************/
     public static void backUpLocalBd(){
@@ -745,6 +758,14 @@ public class GV extends GlobalValuesCursor{
     
     public static void setFicha(Ficha ficha){
         GlobalValuesEntities.setFicha(ficha);
+    }
+    
+    public static Ficha getFichaConvenio(){
+        return GlobalValuesEntities.getFichaConvenio();
+    }
+    
+    public static void setFichaConvenio(Ficha ficha){
+        GlobalValuesEntities.setFichaConvenio(ficha);
     }
     
     /**
