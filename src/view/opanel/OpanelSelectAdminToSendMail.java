@@ -76,7 +76,7 @@ public class OpanelSelectAdminToSendMail extends javax.swing.JPanel {
             }
         });
 
-        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Filter_50px.png"))); // NOI18N
+        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Forward_Message_50px.png"))); // NOI18N
         btnLoad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLoadMouseClicked(evt);
@@ -144,6 +144,7 @@ public class OpanelSelectAdminToSendMail extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelMousePressed
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
+        GV.cursorWAIT(this);
         String idUser = txtNombreUsuario.getText();
         if(idUser.contains("<")){
             idUser = idUser.substring(idUser.indexOf("<")+1);
@@ -152,10 +153,13 @@ public class OpanelSelectAdminToSendMail extends javax.swing.JPanel {
             if(user!=null){
                 if(user.getEmail().isEmpty()){
                     OptionPane.showMsg("Usuario no tiene email", "El administrador seleccionado no tiene un email registrado", 2);
+                    GV.cursorDF(this);
                     return;
                 }
-                GlobalValuesFunctions.sendReportSalesMail(GV.getSalesReportFicha(), user.getEmail());
+                GlobalValuesFunctions.sendReportSalesMail(GV.getSalesReportFicha(), user.getEmail(),ContentAdmin.lblTitle.getText());
                 OptionPane.showMsg("Reporte enviado", "Se ha enviado el reporte satisfactoriamente", 1);
+                OptionPane.closeOptionPanel();
+                GV.cursorDF(this);
                 return;
             }
             
@@ -163,6 +167,7 @@ public class OpanelSelectAdminToSendMail extends javax.swing.JPanel {
         }else{
             OptionPane.showMsg("El usuario no existe", "Debe seleccionar un usuario de la lista desplegable", 2);
         }
+        GV.cursorDF(this);
     }//GEN-LAST:event_btnLoadMouseClicked
 
     private void btnLoadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseEntered

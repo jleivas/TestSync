@@ -332,6 +332,18 @@ public class GV extends GlobalValuesCursor{
     public static void spinnerNumberDisable(JSpinner spinnerNumber,int currentValue){
         GlobalValuesFunctions.spinnerNumberDisable(spinnerNumber,currentValue);
     }
+    
+    
+    /**
+     * Devuelde una fecha de tipo Date con el resultado según parámetro sumaresta ingresado
+     * @param fecha
+     * @param sumaresta
+     * @param opcion Parámetros validos: DAYS, MONTHS o YEARS.
+     * @return 
+     */
+    public static Date dateSumaResta(Date fecha,int sumaresta,String opcion){
+        return GlobalValuesFunctions.SumaRestarFecha(fecha, sumaresta, opcion);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){

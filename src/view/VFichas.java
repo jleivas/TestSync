@@ -6,8 +6,8 @@
 package view;
 
 import dao.Dao;
+import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
-import entities.ficha.ResF;
 import fn.Boton;
 import fn.GV;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +30,8 @@ import view.opanel.OpanelSelectUser;
 public class VFichas extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
+    private static boolean isFiltering = false;
+    private static SalesReportFicha reportSales = new SalesReportFicha();
     private static int BY_DAY =0;
     private static int BY_DATE=1;
     private static int BY_CLIENT=2;
@@ -84,6 +86,7 @@ public class VFichas extends javax.swing.JPanel {
         cboFilterOptions = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         btnReloadFilter = new javax.swing.JLabel();
+        btnReportSales = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -193,6 +196,20 @@ public class VFichas extends javax.swing.JPanel {
             }
         });
 
+        btnReportSales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Analyze_50px.png"))); // NOI18N
+        btnReportSales.setToolTipText("Enviar reporte de ventas");
+        btnReportSales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReportSalesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnReportSalesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnReportSalesMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -206,6 +223,8 @@ public class VFichas extends javax.swing.JPanel {
                         .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btnRestaurar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReportSales)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -239,11 +258,12 @@ public class VFichas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAbrir, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRestaurar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnAbrir)
+                    .addComponent(btnRestaurar)
+                    .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReportSales))
                 .addGap(36, 36, 36))
         );
 
@@ -269,7 +289,7 @@ public class VFichas extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String codigo = tblListar.getValueAt(fila, 0).toString();
-            Ficha ficha = (Ficha)load.get(codigo, 0, new Ficha());
+            Ficha ficha = (Ficha)GV.buscarPorIdEnLista(codigo, GV.getFichas(), new Ficha());
             GV.setOpenFicha(ficha);
             boton.ficha();
             cDF();
@@ -369,25 +389,22 @@ public class VFichas extends javax.swing.JPanel {
 
             @Override
             public void keyReleased(final KeyEvent e) {
-//                trs.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1));
                 trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtBuscar.getText(), 0,1,2,3,4,5,7,8,9,10));
             }
             
         });
-        
-        
-        
         trs = new TableRowSorter(modelo);
-        
         tblListar.setRowSorter(trs);
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void cboFilterOptionsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboFilterOptionsItemStateChanged
+        isFiltering = true;
         GV.setCboFichasFilter(cboFilterOptions.getSelectedIndex());
         load();
     }//GEN-LAST:event_cboFilterOptionsItemStateChanged
 
     private void btnReloadFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadFilterMouseClicked
+        isFiltering = true;
         load();
     }//GEN-LAST:event_btnReloadFilterMouseClicked
 
@@ -400,11 +417,25 @@ public class VFichas extends javax.swing.JPanel {
         btnReloadFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnReloadFilter.getIcon().toString()))));
     }//GEN-LAST:event_btnReloadFilterMouseExited
 
+    private void btnReportSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseClicked
+        reportSales = new SalesReportFicha(GV.getFichas());
+        GV.mailSendSalesReport(reportSales);
+    }//GEN-LAST:event_btnReportSalesMouseClicked
+
+    private void btnReportSalesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseEntered
+        btnReportSales.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnReportSales.getIcon().toString()))));
+    }//GEN-LAST:event_btnReportSalesMouseEntered
+
+    private void btnReportSalesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseExited
+        btnReportSales.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnReportSales.getIcon().toString()))));
+    }//GEN-LAST:event_btnReportSalesMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnReloadFilter;
+    private javax.swing.JLabel btnReportSales;
     private javax.swing.JLabel btnRestaurar;
     public static javax.swing.JComboBox<String> cboFilterOptions;
     private javax.swing.JComboBox<String> cboMostrar;
@@ -435,95 +466,108 @@ public class VFichas extends javax.swing.JPanel {
     }
     private void cargarDatos(int status) {
         int filter = cboFilterOptions.getSelectedIndex();
+        boolean openDialog = (isFiltering)?false:true;
         if(filter==BY_DAY){
             ContentAdmin.lblTitle.setText("Fichas al día "+GV.dateToString(new Date(), "dd/mm/yyyy"));
             GV.listarFichasByDate(new Date(),null);
         }
         if(filter==BY_DATE){
-            OptionPane.showOptionPanel(new OpanelSelectDate(), OptionPane.titleDateChooser());
+            if(isFiltering){
+                OptionPane.showOptionPanel(new OpanelSelectDate(), OptionPane.titleDateChooser());
+                isFiltering = false;
+            }
             String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
             tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
             ContentAdmin.lblTitle.setText(tempTitle);
         }
         if(filter==BY_CLIENT){
-            OptionPane.showOptionPanel(new OpanelSelectClient(), OptionPane.titleClientChooser());
+            if(isFiltering){
+                OptionPane.showOptionPanel(new OpanelSelectClient(), OptionPane.titleClientChooser());
+                isFiltering = false;
+                openDialog = false;
+            }
         }
         if(filter==BY_USER){
-            OptionPane.showOptionPanel(new OpanelSelectUser(), OptionPane.titleUserChooser());
+            if(isFiltering){
+                OptionPane.showOptionPanel(new OpanelSelectUser(), OptionPane.titleUserChooser());
+                isFiltering = false;
+                openDialog = false;
+            }
         }
         if(status == 0){
             btnRestaurar.setVisible(true);
             btnEliminar.setVisible(false);
             btnAbrir.setVisible(false);
+            btnReportSales.setVisible(false);
         }else{
             btnRestaurar.setVisible(false);
             btnEliminar.setVisible(true);
             btnAbrir.setVisible(true);
+            btnReportSales.setVisible(true);
         }
         try{
             modelo.setNumRows(0);
             for (Object object : GV.getFichas()) {
-                ResF temp = (ResF)object;
+                Ficha temp = (Ficha)object;
                 if(status == -1 && temp.getEstado() > GV.estadoFichaDeleted()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDeleted() && temp.getEstado() < GV.estadoFichaDeleted()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDelivered()&& temp.getEstado() == GV.estadoFichaDelivered()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaPaid()&& temp.getEstado() == GV.estadoFichaPaid()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaPending()&& temp.getEstado() == GV.estadoFichaPending()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaWarranty()&& temp.getEstado() == GV.estadoFichaWarranty()){
                     Object[] fila = new Object[5];
-                    fila[0] = temp.getFolio();
+                    fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente();
+                    fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getTotal()-temp.getDescuento()));
+                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
             }
             tblListar.updateUI();
-            if(tblListar.getRowCount() == 0){
+            if(tblListar.getRowCount() == 0 && openDialog){
                 GV.emptyTable(cboMostrar, txtBuscar, "Fichas");
             }
-            
         }catch(Exception e){
             OptionPane.showMsg("Ocurrió un error inesperado", "Ocurrió un error inesperado al cargar valores en la tabla, ["+e.getMessage()+"]",3);
         }

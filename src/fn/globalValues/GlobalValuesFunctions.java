@@ -12,7 +12,6 @@ import entities.TipoPago;
 import entities.abstractclasses.SyncIntId;
 import entities.abstractclasses.SyncStringId;
 import entities.context.SalesReportFicha;
-import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
@@ -23,6 +22,10 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +36,6 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import view.opanel.OpanelSelectAdminToSendMail;
 
 /**
  *
@@ -426,8 +428,74 @@ public class GlobalValuesFunctions {
         return "where f.fch_fecha BETWEEN '"+d1+"' and '"+d2+"' and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
     }
     
-    public static void sendReportSalesMail(SalesReportFicha report, String email){
+    /**
+     * Retorna un where en sql para listar todas las fichas incluidas las anuladas
+     * y todos sus datos, si userId y clientCod son null,
+     * buscara por fecha, 
+     * de lo contratrio validara los userId o clientId
+     * @param dateFrom
+     * @param dateTo
+     * @param idUser
+     * @param codClient
+     * @param idFicha 
+     * @return 
+     */
+    public static String getWhereFromAllFichas(Date dateTo, Date dateFrom,String idUser, String codClient, String idFicha){
+        if(idFicha!=null){
+            return "where f.fch_id = '"+idFicha+"'";
+        }
+        if(dateTo==null && dateFrom==null){
+            if(idUser != null){
+                return "where f.usuario_us_id = "+idUser+" ORDER BY f.fch_fecha DESC";
+            }
+            if(codClient != null){
+                return "where f.cliente_cli_rut = '"+codClient+"' ORDER BY f.fch_fecha DESC";
+            }
+            return "where f.fch_fecha ='"+GV.dateToString(new Date(), "yyyy-mm-dd")+"' ORDER BY f.fch_fecha DESC";
+        }
+        dateTo=(dateTo==null)?dateFrom:dateTo;
+        dateFrom=(dateFrom==null)?dateTo:dateFrom;
+        if(Cmp.localIsNewOrEqual(dateTo, dateFrom)){
+            Date aux = dateFrom;
+            dateFrom=dateTo;
+            dateTo=aux;
+        }
+        String d1 = (!GV.dateToString(dateTo, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateTo, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
+        String d2 = (!GV.dateToString(dateFrom, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(dateFrom, "yyyy-mm-dd"):GV.dateToString(new Date(), "yyyy-mm-dd");
+        return "where f.fch_fecha BETWEEN '"+d1+"' and '"+d2+"' ORDER BY f.fch_fecha DESC";
+    }
+    
+    public static void sendReportSalesMail(SalesReportFicha report, String email, String title){
         Send mail = new Send();
-        mail.sendReportSalesMail(report, email);
+        mail.sendReportSalesMail(report, email, title);
+    }
+    
+    /**
+     * Devuelde una fecha de tipo Date con el resultado según parámetro sumaresta ingresado
+     * @param fecha
+     * @param sumaresta
+     * @param opcion Parámetros validos: DAYS, MONTHS o YEARS.
+     * @return 
+     */
+    public static Date SumaRestarFecha(Date fecha, int sumaresta, String opcion){
+        LocalDate date = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //Con Java9
+        //LocalDate date = LocalDate.ofInstant(input.toInstant(), ZoneId.systemDefault());
+        TemporalUnit unidadTemporal = null;
+        switch(opcion){
+            case "DAYS":
+                unidadTemporal = ChronoUnit.DAYS;
+                break;
+            case "MONTHS":
+                unidadTemporal = ChronoUnit.MONTHS;
+                break;
+            case "YEARS":
+                unidadTemporal = ChronoUnit.YEARS;
+                break;
+            default:
+                //Controlar error
+        }
+        LocalDate dateResultado = date.plus(sumaresta, unidadTemporal);
+        return Date.from(dateResultado.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

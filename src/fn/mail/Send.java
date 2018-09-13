@@ -207,14 +207,14 @@ public class Send {
         }
     }
     
-    public void sendReportSalesMail(SalesReportFicha salesReport,String mail){
+    public void sendReportSalesMail(SalesReportFicha salesReport,String mail, String title){
         if(GV.isOnline()){
             width = 25;
             height = 50;
             color1 =  color_turquesa;
             
             sendMail("Reporte de ventas desde "+GV.equipo()+" ["+GV.companyName()+"]",
-                    mail, "Reporte de ventas", salesReport.toHtml("Reporte de todas las ventas a la fecha"),
+                    mail, "Reporte de ventas", salesReport.toHtml(title),
                     "Usuario: "+GV.user().getUsername(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
