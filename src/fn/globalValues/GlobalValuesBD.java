@@ -126,6 +126,7 @@ public class GlobalValuesBD {
 " CNV_MONTO_PP INTEGER," +
 " CNV_MAXIMO_CLIENTES INTEGER," +
 " DESCUENTO_DES_ID INTEGER," +
+" CNV_PORC_VALOR_ADICIONAL INTEGER,"+
 " INSTITUCION_INS_ID INTEGER," +
 " CNV_ESTADO INTEGER," +
 " CNV_LAST_UPDATE DATE," +
@@ -318,6 +319,7 @@ public class GlobalValuesBD {
 " CNV_MONTO_PP," +
 " CNV_MAXIMO_CLIENTES," +
 " DESCUENTO_DES_ID," +
+" CNV_PORC_VALOR_ADICIONAL,"+
 " INSTITUCION_INS_ID," +
 " CNV_ESTADO," +
 " CNV_LAST_UPDATE," +
@@ -483,6 +485,11 @@ public class GlobalValuesBD {
     }
     
     public static void sincronizarTodo(){
+        //si la ultima fecha de actualizacion corresponde al dia actual
+        //restamos un dia a LastUpdate para validar actualización
+        if(GV.isCurrentDate(GV.getLastUpdate())){
+            GV.setLastUpdate(GV.dateSumaResta(GV.getLastUpdate(), -1, "DAYS"));
+        }
         sincronizar(allEntities());
         GV.setLastUpdate(new Date());
     }

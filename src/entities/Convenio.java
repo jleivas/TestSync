@@ -21,12 +21,13 @@ public class Convenio extends SyncIntId{
     private int montoPp;
     private int maximoClientes;
     private int idDescuento;
+    private int porcentajeAdicion;
     private int idInstitucion;
 
     public Convenio() {
     }
 
-    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
+    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento, int porcentajeAdicion,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
         setId(id);
         setNombre(nombre);
         setFechaInicio(fechaInicio);
@@ -36,10 +37,19 @@ public class Convenio extends SyncIntId{
         setMontoPp(montoPp);
         setMaximoClientes(maximoClientes);
         setIdDescuento(idDescuento);
+        setPorcentajeAdicion(porcentajeAdicion);
         setIdInstitucion(idInstitucion);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
+    }
+
+    public void setPorcentajeAdicion(int porcentajeAdicion) {
+        this.porcentajeAdicion = porcentajeAdicion;
+    }
+
+    public int getPorcentajeAdicion() {
+        return porcentajeAdicion;
     }
 
     public void setNombre(String nombre) {

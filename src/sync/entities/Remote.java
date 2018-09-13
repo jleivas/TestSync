@@ -1355,6 +1355,7 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cnv_monto_pp"),
                         datos.getInt("cnv_maximo_clientes"),
                         datos.getInt("descuento_des_id"),
+                        datos.getInt("cnv_porc_valor_adicional"),
                         datos.getInt("institucion_ins_id"),
                         datos.getInt("cnv_estado"),
                         datos.getDate("cnv_last_update"),
@@ -1941,6 +1942,7 @@ public class Remote implements InterfaceSync{
                         datos.getInt("cnv_monto_pp"),
                         datos.getInt("cnv_maximo_clientes"),
                         datos.getInt("descuento_des_id"),
+                        datos.getInt("cnv_porc_valor_adicional"),
                         datos.getInt("institucion_ins_id"),
                         datos.getInt("cnv_estado"),
                         datos.getDate("cnv_last_update"),
@@ -2676,6 +2678,7 @@ public class Remote implements InterfaceSync{
                     + object.getMontoPp()+ ","
                     + object.getMaximoClientes()+ ","
                     + object.getIdDescuento()+ ","
+                    + object.getPorcentajeAdicion()+ ","
                     + object.getIdInstitucion()+ ","
                     + object.getEstado() + ",'"
                     + sqlfecha3 + "',"
@@ -2967,6 +2970,7 @@ public class Remote implements InterfaceSync{
                         + ", cnv_maximo_clientes = " + object.getMaximoClientes()
                         + ", descuento_des_id = " + object.getIdDescuento()
                         + ", institucion_ins_id = " + object.getIdInstitucion()
+                        + ", cnv_porc_valor_adicional = " + object.getPorcentajeAdicion()
                         + ", cnv_estado = " + object.getEstado()
                         + ", cnv_last_update = '" + sqlfecha3
                         + "', cnv_last_hour = " + object.getLastHour()

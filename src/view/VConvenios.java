@@ -20,7 +20,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
@@ -35,6 +37,7 @@ public class VConvenios extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
     private static Convenio stConvenio =  null;
+    private static List<Object> listConvenios = new ArrayList<>();
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -47,8 +50,6 @@ public class VConvenios extends javax.swing.JPanel {
      */
     public VConvenios() throws SQLException, ClassNotFoundException {
         ContentAdmin.lblTitle.setText("Convenios");
-//        load.sincronize(new Convenio());
-        
         initComponents();
         autocompletar();
         modelo.addColumn("Id");
@@ -100,6 +101,8 @@ public class VConvenios extends javax.swing.JPanel {
         txtMontoPpN = new javax.swing.JSpinner();
         txtCantidadClientesN = new javax.swing.JSpinner();
         txtInstitucionN = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        txtPorcentajeAdicionalN = new javax.swing.JSpinner();
         pnl2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -121,6 +124,8 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel24 = new javax.swing.JLabel();
         txtInstitucionU = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txtPorcentajeAdicionalU = new javax.swing.JSpinner();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -253,14 +258,15 @@ public class VConvenios extends javax.swing.JPanel {
         pnl1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Crear nuevo convenio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 11))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel1.setText("Nombre");
+        jLabel1.setText("Fecha inicio");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel2.setText("Fecha inicio");
+        jLabel2.setText("Monto máximo");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel3.setText("Cuotas");
 
+        txtNombreN.setToolTipText("Nombre del convenio");
         txtNombreN.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreNKeyTyped(evt);
@@ -268,10 +274,10 @@ public class VConvenios extends javax.swing.JPanel {
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel5.setText("Monto tope");
+        jLabel5.setText("Nombre");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
-        jLabel7.setText("Cantidad clientes");
+        jLabel7.setText("Cuotas");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel8.setText("Descuento");
@@ -295,19 +301,27 @@ public class VConvenios extends javax.swing.JPanel {
             }
         });
 
+        txtFechaIniN.setToolTipText("Fecha en que se habilitará la aplicacion del convenio");
+
         jLabel20.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel20.setText("Fecha termino");
 
+        txtFechaTerN.setToolTipText("Fecha de vencimiento del convenio, después de esta fecha no se podrán ingresar mas registros con este convenio");
+
         txtCuotasN.setModel(new javax.swing.SpinnerNumberModel(1, 1, 72, 1));
+        txtCuotasN.setToolTipText("Cantidad tope de cuotas mensuales");
 
         txtMontoMaxN.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtMontoMaxN.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máxima, deje el valor en cero");
 
         jLabel21.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel21.setText("Monto unitario");
 
         txtMontoPpN.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtMontoPpN.setToolTipText("Monto máximo del valor total de una receta por cliente, si no desea añadir un tope máximo, deje el valor en cero");
 
         txtCantidadClientesN.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtCantidadClientesN.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
 
         txtInstitucionN.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -326,6 +340,12 @@ public class VConvenios extends javax.swing.JPanel {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel13.setText("% Valor Adicional");
+
+        txtPorcentajeAdicionalN.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        txtPorcentajeAdicionalN.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
+
         javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
         pnl1.setLayout(pnl1Layout);
         pnl1Layout.setHorizontalGroup(
@@ -333,79 +353,84 @@ public class VConvenios extends javax.swing.JPanel {
             .addGroup(pnl1Layout.createSequentialGroup()
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnl1Layout.createSequentialGroup()
-                        .addComponent(txtFechaIniN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel20))
                     .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCantidadClientesN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtInstitucionN)
-                    .addComponent(cboDescuentoN, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl1Layout.createSequentialGroup()
+                    .addComponent(txtCuotasN, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtInstitucionN, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPorcentajeAdicionalN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnl1Layout.createSequentialGroup()
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtMontoMaxN)
-                            .addComponent(txtCuotasN, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel21)))
-                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addContainerGap())
-                    .addGroup(pnl1Layout.createSequentialGroup()
+                            .addGroup(pnl1Layout.createSequentialGroup()
+                                .addComponent(txtFechaIniN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel20))
+                            .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtCantidadClientesN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl1Layout.createSequentialGroup()
+                                    .addComponent(txtMontoMaxN, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel21))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMontoPpN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaTerN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 209, Short.MAX_VALUE))))
+                            .addComponent(txtFechaTerN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMontoPpN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cboDescuentoN, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 133, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addContainerGap())
         );
         pnl1Layout.setVerticalGroup(
             pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl1Layout.createSequentialGroup()
-                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGuardar))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl1Layout.createSequentialGroup()
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtFechaIniN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20)
-                    .addComponent(txtFechaTerN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtCuotasN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtMontoMaxN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel21)
-                    .addComponent(txtMontoPpN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl1Layout.createSequentialGroup()
-                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtCantidadClientesN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl1Layout.createSequentialGroup()
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaIniN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel20)
+                            .addComponent(txtFechaTerN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(cboDescuentoN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCuotasN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtMontoMaxN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21)
+                            .addComponent(txtMontoPpN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtInstitucionN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addComponent(btnGuardar)))
+                            .addComponent(txtCantidadClientesN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cboDescuentoN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(2, 2, 2)
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPorcentajeAdicionalN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13)))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtInstitucionN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnl2.setBackground(new java.awt.Color(108, 217, 186));
@@ -420,6 +445,7 @@ public class VConvenios extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel12.setText("Cuotas");
 
+        txtNombreU.setToolTipText("Nombre del convenio");
         txtNombreU.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreUKeyTyped(evt);
@@ -451,19 +477,27 @@ public class VConvenios extends javax.swing.JPanel {
             }
         });
 
+        txtFechaIniU.setToolTipText("Fecha en que se habilitará la aplicacion del convenio");
+
         jLabel22.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel22.setText("Fecha termino");
 
+        txtFechaFinU.setToolTipText("Fecha de vencimiento del convenio, después de esta fecha no se podrán ingresar mas registros con este convenio");
+
         txtCuotasU.setModel(new javax.swing.SpinnerNumberModel(1, 1, 72, 1));
+        txtCuotasU.setToolTipText("Cantidad tope de cuotas mensuales");
 
         txtMontoMaxU.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtMontoMaxU.setToolTipText("Monto total de ventas máximo para el convenio, si no desea añadir un monto máxima, deje el valor en cero");
 
         txtMontoPpU.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtMontoPpU.setToolTipText("Monto máximo del valor total de una receta por cliente, si no desea añadir un tope máximo, deje el valor en cero");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel23.setText("Monto unitario");
 
         txtCantidadClientesU.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        txtCantidadClientesU.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
 
         jLabel24.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel24.setText("Institucion");
@@ -498,21 +532,27 @@ public class VConvenios extends javax.swing.JPanel {
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel15.setText("% Valor Adicional");
+
+        txtPorcentajeAdicionalU.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        txtPorcentajeAdicionalU.setToolTipText("Si no desea fijar un limite de clientes, deje este valor en cero");
+
         javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
         pnl2.setLayout(pnl2Layout);
         pnl2Layout.setHorizontalGroup(
             pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl2Layout.createSequentialGroup()
-                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl2Layout.createSequentialGroup()
                         .addComponent(txtCantidadClientesU, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -538,7 +578,8 @@ public class VConvenios extends javax.swing.JPanel {
                             .addGroup(pnl2Layout.createSequentialGroup()
                                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cboDescuentoU, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtInstitucionU, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtInstitucionU, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPorcentajeAdicionalU, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCancelar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -587,6 +628,10 @@ public class VConvenios extends javax.swing.JPanel {
                                     .addComponent(cboDescuentoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(txtPorcentajeAdicionalU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel24)
                                     .addComponent(txtInstitucionU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(pnl2Layout.createSequentialGroup()
@@ -620,14 +665,6 @@ public class VConvenios extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtNombreUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUKeyTyped
-        int largo = 45;
-        if(txtNombreU.getText().length() >= largo ){
-            evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos","El nombre solo debe contener hasta 45 caracteres", 2);
-        }
-    }//GEN-LAST:event_txtNombreUKeyTyped
 
     private void btnAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseClicked
         try{
@@ -724,71 +761,6 @@ public class VConvenios extends javax.swing.JPanel {
         cDF();
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
-    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        cWT();
-        if(stConvenio == null){
-            OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", 3);
-            cDF();
-            return;
-        }
-        String nombre = (txtNombreU.getText());
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        Date fechaIni = txtFechaIniU.getDate();
-        Date fechaFin = txtFechaFinU.getDate();
-        try {
-            txtCuotasU.commitEdit();
-            txtMontoMaxU.commitEdit();
-            txtMontoPpU.commitEdit();
-            txtCantidadClientesU.commitEdit();
-        } catch (ParseException ex) {
-            Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int cuotas = (int)txtCuotasU.getValue();
-        int montoMax = (int)txtMontoMaxU.getValue();
-        int montoPp = (int)txtMontoPpU.getValue();
-        int cantClientes = (int)txtCantidadClientesU.getValue();
-        int idDescuento  =  cboDescuentoU.getSelectedIndex();
-        int idInstitucion = GV.strToNumber(txtInstitucionU.getText());
-        if(idInstitucion <= 0){
-            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada\n"
-                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
-            cDF();
-            return;
-        }
-        
-        
-        stConvenio.setNombre(nombre);
-        stConvenio.setCuotas(cuotas);
-        stConvenio.setEstado(1);
-        stConvenio.setFechaFin(fechaFin);
-        stConvenio.setFechaInicio(fechaIni);
-        stConvenio.setIdDescuento(idDescuento);
-        stConvenio.setIdInstitucion(idInstitucion);
-        stConvenio.setMaximoClientes(cantClientes);
-        stConvenio.setMontoMaximo(montoMax);
-        stConvenio.setMontoPp(montoPp);
-        
-        if(load.update(stConvenio)){
-            OptionPane.showMsg("Modificar convenio", "Operación realizada con exito",  1);
-        }else{
-            OptionPane.showMsg("Modificar convenio", "No se pudo efectuar la operación", 2);
-        }
-        cargarDatos("0");
-        cDF();
-    }//GEN-LAST:event_btnModificarMouseClicked
-
-    private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnModificar.getIcon().toString()))));// TODO add your handling code here:
-    }//GEN-LAST:event_btnModificarMouseEntered
-
-    private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnModificar.getIcon().toString()))));// TODO add your handling code here:
-    }//GEN-LAST:event_btnModificarMouseExited
-
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
@@ -844,6 +816,7 @@ public class VConvenios extends javax.swing.JPanel {
         int cantClientes = (int)txtCantidadClientesN.getValue();
         int idDescuento  =  cboDescuentoN.getSelectedIndex();
         int idInstitucion = GV.strToNumber(txtInstitucionN.getText());
+        int porcAdicional = (int)txtPorcentajeAdicionalN.getValue();
         if(idInstitucion <= 0){
             OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada\n"
                     + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
@@ -851,7 +824,7 @@ public class VConvenios extends javax.swing.JPanel {
             return;
         }
 
-        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas, montoMax, montoPp, cantClientes, idDescuento, 1, idInstitucion, null, 0);
+        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, 1, idInstitucion, null, 0);
         try {
             cWT();
             load.add(convenio);
@@ -883,38 +856,9 @@ public class VConvenios extends javax.swing.JPanel {
         institucioValidate(txtInstitucionN);
     }//GEN-LAST:event_txtInstitucionNKeyTyped
 
-    private void txtInstitucionUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInstitucionUKeyTyped
-
-    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
-        limpiarTextField();
-        loadPanels(1);
-    }//GEN-LAST:event_btnCancelarMouseClicked
-
-    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnCancelar.getIcon().toString()))));
-    }//GEN-LAST:event_btnCancelarMouseEntered
-
-    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));
-    }//GEN-LAST:event_btnCancelarMouseExited
-
     private void txtInstitucionNFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionNFocusLost
         institucioValidate(txtInstitucionN);
     }//GEN-LAST:event_txtInstitucionNFocusLost
-
-    private void txtInstitucionUFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionUFocusLost
-        institucioValidate(txtInstitucionU);
-    }//GEN-LAST:event_txtInstitucionUFocusLost
-
-    private void txtInstitucionUKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyPressed
-        institucioValidate(txtInstitucionN);
-    }//GEN-LAST:event_txtInstitucionUKeyPressed
-
-    private void txtInstitucionUKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyReleased
-        institucioValidate(txtInstitucionU);
-    }//GEN-LAST:event_txtInstitucionUKeyReleased
 
     private void txtInstitucionNKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionNKeyPressed
         institucioValidate(txtInstitucionN);
@@ -923,6 +867,110 @@ public class VConvenios extends javax.swing.JPanel {
     private void txtInstitucionNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionNKeyReleased
         institucioValidate(txtInstitucionN);
     }//GEN-LAST:event_txtInstitucionNKeyReleased
+
+    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));
+    }//GEN-LAST:event_btnCancelarMouseExited
+
+    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnCancelar.getIcon().toString()))));
+    }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        limpiarTextField();
+        loadPanels(1);
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void txtInstitucionUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInstitucionUKeyTyped
+
+    private void txtInstitucionUKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyReleased
+        institucioValidate(txtInstitucionU);
+    }//GEN-LAST:event_txtInstitucionUKeyReleased
+
+    private void txtInstitucionUKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionUKeyPressed
+        institucioValidate(txtInstitucionN);
+    }//GEN-LAST:event_txtInstitucionUKeyPressed
+
+    private void txtInstitucionUFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionUFocusLost
+        institucioValidate(txtInstitucionU);
+    }//GEN-LAST:event_txtInstitucionUFocusLost
+
+    private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnModificar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarMouseExited
+
+    private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnModificar.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarMouseEntered
+
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        cWT();
+        if(stConvenio == null){
+            OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", 3);
+            cDF();
+            return;
+        }
+        String nombre = (txtNombreU.getText());
+        if(nombre.isEmpty() || nombre.length()<3){
+            OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", 2);
+            cDF();
+            return;
+        }
+        Date fechaIni = txtFechaIniU.getDate();
+        Date fechaFin = txtFechaFinU.getDate();
+        try {
+            txtCuotasU.commitEdit();
+            txtMontoMaxU.commitEdit();
+            txtMontoPpU.commitEdit();
+            txtCantidadClientesU.commitEdit();
+            txtPorcentajeAdicionalU.commitEdit();
+        } catch (ParseException ex) {
+            Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int cuotas = (int)txtCuotasU.getValue();
+        int montoMax = (int)txtMontoMaxU.getValue();
+        int montoPp = (int)txtMontoPpU.getValue();
+        int cantClientes = (int)txtCantidadClientesU.getValue();
+        int idDescuento  =  cboDescuentoU.getSelectedIndex();
+        int idInstitucion = GV.strToNumber(txtInstitucionU.getText());
+        int porcAdicional = (int)txtPorcentajeAdicionalU.getValue();
+        if(idInstitucion <= 0){
+            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada\n"
+                + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
+            cDF();
+            return;
+        }
+
+        stConvenio.setNombre(nombre);
+        stConvenio.setCuotas(cuotas);
+        stConvenio.setEstado(1);
+        stConvenio.setFechaFin(fechaFin);
+        stConvenio.setFechaInicio(fechaIni);
+        stConvenio.setIdDescuento(idDescuento);
+        stConvenio.setPorcentajeAdicion(porcAdicional);
+        stConvenio.setIdInstitucion(idInstitucion);
+        stConvenio.setMaximoClientes(cantClientes);
+        stConvenio.setMontoMaximo(montoMax);
+        stConvenio.setMontoPp(montoPp);
+
+        if(load.update(stConvenio)){
+            OptionPane.showMsg("Modificar convenio", "Operación realizada con exito",  1);
+        }else{
+            OptionPane.showMsg("Modificar convenio", "No se pudo efectuar la operación", 2);
+        }
+        cargarDatos("0");
+        cDF();
+    }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void txtNombreUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUKeyTyped
+        int largo = 45;
+        if(txtNombreU.getText().length() >= largo ){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos","El nombre solo debe contener hasta 45 caracteres", 2);
+        }
+    }//GEN-LAST:event_txtNombreUKeyTyped
 
     private void institucioValidate(JTextField txt){
         if(GV.strToNumber(txt.getText()) > 0){
@@ -946,7 +994,9 @@ public class VConvenios extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
@@ -984,6 +1034,8 @@ public class VConvenios extends javax.swing.JPanel {
     private javax.swing.JSpinner txtMontoPpU;
     private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreU;
+    private javax.swing.JSpinner txtPorcentajeAdicionalN;
+    private javax.swing.JSpinner txtPorcentajeAdicionalU;
     // End of variables declaration//GEN-END:variables
 
     private void cargarCbos(){
@@ -1009,6 +1061,7 @@ public class VConvenios extends javax.swing.JPanel {
         cargarCbos();
         limpiarTextField();
         loadPanels(1);
+        listConvenios = load.listar(listar, new Convenio());
         if(listar.equals("-1")){
             btnRestaurar.setVisible(true);
             btnEliminar.setVisible(false);
@@ -1022,7 +1075,7 @@ public class VConvenios extends javax.swing.JPanel {
         }
         try{
             modelo.setNumRows(0);
-            for (Object object : load.listar(listar, new Convenio())) {
+            for (Object object : listConvenios) {
                 Convenio temp = (Convenio)object;
                 Institucion ins = (Institucion)load.get(null, temp.getIdInstitucion(), new Institucion());
                 String insName = "No asignada";
@@ -1046,7 +1099,7 @@ public class VConvenios extends javax.swing.JPanel {
 
     private void abrirConvenio(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         loadPanels(2);
-        stConvenio = (Convenio)load.get(null,id,new Convenio());
+        stConvenio = (Convenio)GV.buscarPorIdEnLista(""+id, listConvenios, new Convenio());
             if(stConvenio!=null){
                 if(stConvenio.getNombre().isEmpty() || stConvenio.getNombre().equals("null"))
                     txtNombreU.setText("");
