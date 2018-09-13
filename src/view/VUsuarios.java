@@ -707,7 +707,7 @@ public class VUsuarios extends javax.swing.JPanel {
             return;
         }
         
-        if(GV.tipoUserSuperAdmin()&& tipo == 1){
+        if(!GV.tipoUserSuperAdmin()&& tipo == 1){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
                     + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
             cDF();
@@ -728,7 +728,7 @@ public class VUsuarios extends javax.swing.JPanel {
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
                     + "No se pudo insertar el usuario\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
+                    + ex, 3);
         } 
         cargarDatos("0");
         cDF();

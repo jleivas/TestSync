@@ -51,6 +51,7 @@ import sync.entities.Local;
 import sync.entities.Remote;
 import view.opanel.MPanel;
 import view.opanel.OPanel;
+import view.opanel.OpanelSelectAdminToSendMail;
 
 /**
  *s
@@ -204,7 +205,8 @@ public class GV extends GlobalValuesCursor{
      * @param report 
      */
     public static void mailSendSalesReport(SalesReportFicha report){
-        GlobalValuesFunctions.sendReportSalesMail(report);
+        setSalesReportFicha(report);
+        OptionPane.showOptionPanel(new OpanelSelectAdminToSendMail(), OptionPane.titleUserChooser());
     }
             
     public static SalesReportFicha obtenerReporteVentas(List<Object> listFicha){
@@ -316,7 +318,13 @@ public class GV extends GlobalValuesCursor{
     public static Object[][] abonosListArrayFromFicha(String codFicha){
         return GlobalValuesFunctions.listarAbonos(codFicha);
     }
-    
+    /**
+     * retorna un objeto de la lista enviada por parametros
+     * @param code
+     * @param list
+     * @param classType
+     * @return 
+     */
     public static Object buscarPorIdEnLista(String code,List<Object> list,Object classType){
         return GlobalValuesFunctions.searchByIdInList(code, list, classType);
     }
@@ -326,6 +334,14 @@ public class GV extends GlobalValuesCursor{
     }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
+    public static SalesReportFicha getSalesReportFicha(){
+        return GlobalValuesVariables.getSalesReportFicha();
+    }
+    
+    public static void setSalesReportFicha(SalesReportFicha report){
+        GlobalValuesVariables.setSalesReportFicha(report);
+    }
+    
     public static String getCompanyDescription(){
         return GlobalValuesVariables.getCompanyDescription();
     }

@@ -33,6 +33,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import view.opanel.OpanelSelectAdminToSendMail;
 
 /**
  *
@@ -425,8 +426,8 @@ public class GlobalValuesFunctions {
         return "where f.fch_fecha BETWEEN '"+d1+"' and '"+d2+"' and f.fch_estado <> 0 ORDER BY f.fch_fecha DESC";
     }
     
-    public static void sendReportSalesMail(SalesReportFicha report){
+    public static void sendReportSalesMail(SalesReportFicha report, String email){
         Send mail = new Send();
-        mail.sendReportSalesMail(report);
+        mail.sendReportSalesMail(report, email);
     }
 }

@@ -198,30 +198,30 @@
 			</textField>
 			<textField>
 				<reportElement x="390" y="11" width="163" height="20" uuid="c3f7bb1b-ef6f-450f-8c95-ba9c5809e32c"/>
-				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="390" y="31" width="163" height="18" uuid="85a79a89-a48a-47b7-abc9-ea547f60a4f5"/>
-				<box padding="3">
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="390" y="49" width="163" height="18" uuid="43a233a7-f462-47d7-9ef0-1f0d1c9c9fb1"/>
-				<box leftPadding="3">
+				<box leftPadding="0" rightPadding="3">
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
@@ -1039,10 +1039,10 @@
 					<reportElement x="216" y="11" width="96" height="10" uuid="9254557c-398f-41ed-a032-5643483facf0">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="701b73e6-b6e6-45c2-b7ce-c85d55a52051"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.25"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{vm1}]]></textFieldExpression>
@@ -1051,10 +1051,10 @@
 					<reportElement x="216" y="21" width="96" height="10" uuid="9ecb9338-fa7f-4765-b89a-4ea0f8d14023">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="72578fb5-1790-4e88-acd8-73ac95ee9d8f"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.25"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{vc1}]]></textFieldExpression>
@@ -1063,10 +1063,10 @@
 					<reportElement x="216" y="31" width="96" height="10" uuid="05bfc019-1bce-42d3-a9dc-f138379c9c09">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cb699728-a18b-44f0-9d2e-1cce97d703fd"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.25"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{vm2}]]></textFieldExpression>
@@ -1075,10 +1075,10 @@
 					<reportElement x="216" y="41" width="96" height="10" uuid="79f6a918-ee95-48e1-81db-17123afb6781">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e255d099-dddb-4493-bac9-d5118af16e06"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.25"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{vc2}]]></textFieldExpression>
@@ -1087,10 +1087,10 @@
 					<reportElement x="216" y="51" width="96" height="10" uuid="e95ce274-8c32-48c6-8696-674a922e7c3d">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef1958d5-f25e-4e8b-a57c-bef47c86a521"/>
 					</reportElement>
-					<box topPadding="0" leftPadding="3">
+					<box topPadding="0" leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.5"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{totales}]]></textFieldExpression>
@@ -1129,10 +1129,10 @@
 					<reportElement x="216" y="61" width="96" height="10" uuid="8fd141d8-c78b-479a-9fd3-0ac6dfc845d4">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="95afcdba-8522-4e89-8d87-95c68ca9352c"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
@@ -1141,10 +1141,10 @@
 					<reportElement x="216" y="71" width="96" height="10" uuid="bd2a3f0c-b8c2-4daa-bf23-bd7663e2cdd2">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7fea5fc-ea19-4457-84d6-241420e58fa6"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.5"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{abonos}]]></textFieldExpression>
@@ -1153,10 +1153,10 @@
 					<reportElement x="216" y="81" width="96" height="10" uuid="6b1ec7ff-9c01-4a7a-a4b6-d3d441b6ba6f">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc822b9e-0b6a-4a9b-88d2-890e89842834"/>
 					</reportElement>
-					<box leftPadding="3">
+					<box leftPadding="0" rightPadding="3">
 						<pen lineWidth="0.5"/>
 					</box>
-					<textElement verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{saldos}]]></textFieldExpression>
