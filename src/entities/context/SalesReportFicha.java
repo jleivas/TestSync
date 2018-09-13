@@ -39,15 +39,17 @@ public class SalesReportFicha {
     public SalesReportFicha(List<Object> lista) {
         for (Object object : lista) {
             if(object instanceof Ficha){
-            Ficha ficha = (Ficha)object;
-            sumNumVentas();
-            if((ficha.getCerca()!=null) && !ficha.getCerca().getMarca().isEmpty())sumNumLentes();
-            if((ficha.getLejos()!=null) && !ficha.getLejos().getMarca().isEmpty())sumNumLentes();
-            int valTotal = ficha.getValorTotal()-ficha.getDescuento();
-            sumMontoVentas(valTotal);
-            sumMontoAbonos(valTotal-ficha.getSaldo());
-            addAbonos(GV.abonosListArrayFromFicha(ficha.getCod()));
-            validateAbonos(ficha.getCod());
+                if(((Ficha)object).getEstado() != 0){
+                    Ficha ficha = (Ficha)object;
+                    sumNumVentas();
+                    if((ficha.getCerca()!=null) && !ficha.getCerca().getMarca().isEmpty())sumNumLentes();
+                    if((ficha.getLejos()!=null) && !ficha.getLejos().getMarca().isEmpty())sumNumLentes();
+                    int valTotal = ficha.getValorTotal()-ficha.getDescuento();
+                    sumMontoVentas(valTotal);
+                    sumMontoAbonos(valTotal-ficha.getSaldo());
+                    addAbonos(GV.abonosListArrayFromFicha(ficha.getCod()));
+                    validateAbonos(ficha.getCod());
+                }
             }else{
                 OptionPane.showMsg("Error de construcción", "No se pudo construir la entidad,\n"
                         + "verifique que la lista recibida por parámetros sea una instancia de la clase Ficha", 2);
