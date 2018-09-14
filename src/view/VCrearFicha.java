@@ -2394,6 +2394,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void calcularSaldo() {
+        cargarValores();
         int total =  GV.roundPrice(GV.strToNumber(txtTotal.getText()));
         int abono = (int)txtAbono.getValue();
         int descuento = obtenerDescuento();
@@ -2511,6 +2512,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void calcularTotal() {
+        cargarValores();
         int cristales = 0;
         if(stCristalLejos != null){
             cristales = cristales+stCristalLejos.getPrecio();
@@ -2656,7 +2658,6 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void comprobarDatosFicha(){
-        load();
         calcularTotal();
         if(txtFecha.getDate() == null || !lugarEntregaValido()){
             msgRejected("Debe ingresar una fecha y lugar de entrega");
@@ -2994,69 +2995,79 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void asigAllDatas() {
-        int tpCerca = 0;
-        int tpLejos = 1;
-        int capa1 = (chkCapaCerca.isSelected())? 1:0;
-        int capa2 = (chkCapaLejos.isSelected())? 1:0;
-        int en1 = (chkEndurecidoCerca.isSelected())? 1:0;
-        int en2 = (chkEndurecidoLejos.isSelected())? 1:0;
-        int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
-        int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
-        
-        stCristalCerca = (stCristalCerca==null)?new Cristal():stCristalCerca;
-        stCristalLejos = (stCristalLejos==null)?new Cristal():stCristalLejos;
-        stLenteCerca = (stLenteCerca==null)?new Lente():stLenteCerca;
-        stLenteLejos = (stLenteLejos==null)?new Lente():stLenteLejos;
-        
-        stArmazonCerca = new Armazon();
-        stArmazonCerca.setAdd(txtAddCerca.getText());
-        stArmazonCerca.setCapa(capa1);
-        stArmazonCerca.setCristal(stCristalCerca.getNombre());
-        int precioCristalCerca = (stConvenio==null)?stCristalCerca.getPrecio():stCristalCerca.getPrecio() + ((stCristalCerca.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
-        stArmazonCerca.setPrecioCristal(precioCristalCerca);
-        stArmazonCerca.setDp((int)txtDPCerca.getValue());
-        stArmazonCerca.setEndurecido(en1);
-        stArmazonCerca.setEstado(1);
-        stArmazonCerca.setMarca(stLenteCerca.getCod());
-        int precioMarcaCerca = (stConvenio==null)?stLenteCerca.getPrecioAct():stLenteCerca.getPrecioAct() + ((stLenteCerca.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
-        stArmazonCerca.setPrecioMarca(precioMarcaCerca);
-        stArmazonCerca.setOdA(txtODCercaA.getText());
-        stArmazonCerca.setOdCil(txtODCercaCIL.getText());
-        stArmazonCerca.setOdEsf(txtODCercaESF.getText());
-        stArmazonCerca.setOiA(txtOICercaA.getText());
-        stArmazonCerca.setOiCil(txtOICercaCIL.getText());
-        stArmazonCerca.setOiEsf(txtOICercaESF.getText());
-        stArmazonCerca.setPlusMax(pm1);
-        stArmazonCerca.setTipo(tpCerca);
-        
-        
-        stArmazonLejos = new Armazon();
-        stArmazonLejos.setCapa(capa2);
-        stArmazonLejos.setCristal(stCristalLejos.getNombre());
-        int precioCristalLejos = (stConvenio==null)?stCristalLejos.getPrecio():stCristalLejos.getPrecio() + ((stCristalLejos.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
-        stArmazonLejos.setPrecioCristal(precioCristalLejos);
-        stArmazonLejos.setDp((int)txtDPLejos.getValue());
-        stArmazonLejos.setEndurecido(en2);
-        stArmazonLejos.setEstado(1);
-        stArmazonLejos.setMarca(stLenteLejos.getCod());
-        int precioMarcaLejos = (stConvenio==null)?stLenteLejos.getPrecioAct():stLenteLejos.getPrecioAct() + ((stLenteLejos.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
-        stArmazonLejos.setPrecioMarca(precioMarcaLejos);
-        stArmazonLejos.setOdA(txtODLejosA.getText());
-        stArmazonLejos.setOdCil(txtODLejosCIL.getText());
-        stArmazonLejos.setOdEsf(txtODLejosESF.getText());
-        stArmazonLejos.setOiA(txtOILejosA.getText());
-        stArmazonLejos.setOiCil(txtOILejosCIL.getText());
-        stArmazonLejos.setOiEsf(txtOILejosESF.getText());
-        stArmazonLejos.setPlusMax(pm2);
-        stArmazonLejos.setTipo(tpLejos);
-        
-        GV.getFicha().setLejos(stArmazonLejos);
-        GV.getFicha().setCerca(stArmazonCerca);
-        
-        GV.getFicha().setObservacion(txtObs.getText());
-        GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
-        GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
-        GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
+        try {
+            int tpCerca = 0;
+            int tpLejos = 1;
+            int capa1 = (chkCapaCerca.isSelected())? 1:0;
+            int capa2 = (chkCapaLejos.isSelected())? 1:0;
+            int en1 = (chkEndurecidoCerca.isSelected())? 1:0;
+            int en2 = (chkEndurecidoLejos.isSelected())? 1:0;
+            int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
+            int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
+            
+            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
+            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
+            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
+            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
+            
+            stArmazonCerca = new Armazon();
+            stArmazonCerca.setAdd(txtAddCerca.getText());
+            stArmazonCerca.setCapa(capa1);
+            stArmazonCerca.setCristal(stCristalCerca.getNombre());
+            int precioCristalCerca = (stConvenio==null)?stCristalCerca.getPrecio():stCristalCerca.getPrecio() + ((stCristalCerca.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonCerca.setPrecioCristal(precioCristalCerca);
+            stArmazonCerca.setDp((int)txtDPCerca.getValue());
+            stArmazonCerca.setEndurecido(en1);
+            stArmazonCerca.setEstado(1);
+            stArmazonCerca.setMarca(stLenteCerca.getCod());
+            int precioMarcaCerca = (stConvenio==null)?stLenteCerca.getPrecioAct():stLenteCerca.getPrecioAct() + ((stLenteCerca.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonCerca.setPrecioMarca(precioMarcaCerca);
+            stArmazonCerca.setOdA(txtODCercaA.getText());
+            stArmazonCerca.setOdCil(txtODCercaCIL.getText());
+            stArmazonCerca.setOdEsf(txtODCercaESF.getText());
+            stArmazonCerca.setOiA(txtOICercaA.getText());
+            stArmazonCerca.setOiCil(txtOICercaCIL.getText());
+            stArmazonCerca.setOiEsf(txtOICercaESF.getText());
+            stArmazonCerca.setPlusMax(pm1);
+            stArmazonCerca.setTipo(tpCerca);
+            
+            
+            stArmazonLejos = new Armazon();
+            stArmazonLejos.setCapa(capa2);
+            stArmazonLejos.setCristal(stCristalLejos.getNombre());
+            int precioCristalLejos = (stConvenio==null)?stCristalLejos.getPrecio():stCristalLejos.getPrecio() + ((stCristalLejos.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonLejos.setPrecioCristal(precioCristalLejos);
+            stArmazonLejos.setDp((int)txtDPLejos.getValue());
+            stArmazonLejos.setEndurecido(en2);
+            stArmazonLejos.setEstado(1);
+            stArmazonLejos.setMarca(stLenteLejos.getCod());
+            int precioMarcaLejos = (stConvenio==null)?stLenteLejos.getPrecioAct():stLenteLejos.getPrecioAct() + ((stLenteLejos.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonLejos.setPrecioMarca(precioMarcaLejos);
+            stArmazonLejos.setOdA(txtODLejosA.getText());
+            stArmazonLejos.setOdCil(txtODLejosCIL.getText());
+            stArmazonLejos.setOdEsf(txtODLejosESF.getText());
+            stArmazonLejos.setOiA(txtOILejosA.getText());
+            stArmazonLejos.setOiCil(txtOILejosCIL.getText());
+            stArmazonLejos.setOiEsf(txtOILejosESF.getText());
+            stArmazonLejos.setPlusMax(pm2);
+            stArmazonLejos.setTipo(tpLejos);
+            
+            GV.getFicha().setLejos(stArmazonLejos);
+            GV.getFicha().setCerca(stArmazonCerca);
+            
+            GV.getFicha().setObservacion(txtObs.getText());
+            GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
+            GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
+            GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
+        } catch (SQLException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private boolean institucionValida() {
@@ -3186,5 +3197,16 @@ public class VCrearFicha extends javax.swing.JPanel {
             strCnvName = " - Convenio seleccionado: "+stConvenio.getNombre();
         }
         comprobarDatosFicha();
+    }
+
+    private void cargarValores() {
+        try {
+            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
+            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
+            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
+            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
