@@ -16,7 +16,9 @@ public class Armazon extends SyncFichaClass{
     
     private int tipo;
     private String marca;
+    private int precioMarca;
     private String cristal;
+    private int precioCristal;
     private String add;
     private String odA;
     private String odEsf;
@@ -33,13 +35,16 @@ public class Armazon extends SyncFichaClass{
     public Armazon() {
     }
 
-    public Armazon(String cod, int tipo, String marca, String cristal, String add, 
-            String odA, String odEsf, String odCil, String oiA, String oiEsf, 
-            String oiCil, int dp, int endurecido, int capa, int plusMax, String IdFicha, 
+    public Armazon(String cod, int tipo, String marca, int precioMarca,
+            String cristal,int precioCristal, String add, 
+            String odA, String odEsf, String odCil, String oiA, 
+            String oiEsf,String oiCil, int dp, int endurecido, 
+            int capa, int plusMax, String IdFicha, 
             int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setTipo(tipo);
         setCristal(cristal);
+        setPrecioCristal(precioCristal);
         setAdd(add);
         setOdA(odA);
         setOdEsf(odEsf);
@@ -53,6 +58,7 @@ public class Armazon extends SyncFichaClass{
         setPlusMax(plusMax);
         setIdFicha(IdFicha);
         setMarca(marca);
+        setPrecioMarca(precioMarca);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
@@ -60,6 +66,22 @@ public class Armazon extends SyncFichaClass{
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public void setPrecioMarca(int precioMarca) {
+        this.precioMarca = precioMarca;
+    }
+
+    public void setPrecioCristal(int precioCristal) {
+        this.precioCristal = precioCristal;
+    }
+
+    public int getPrecioMarca() {
+        return precioMarca;
+    }
+
+    public int getPrecioCristal() {
+        return precioCristal;
     }
 
     public void setCristal(String cristal) {

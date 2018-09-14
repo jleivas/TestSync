@@ -88,7 +88,9 @@ public class GlobalValuesBD {
     private static String ARMAZON = "ARM_ID VARCHAR(25) not null primary key," +
 " ARM_TIPO INTEGER," +
 " ARM_MARCA VARCHAR(45)," +
+" ARM_PRECIO_MARCA INTEGER," +
 " ARM_CRISTAL VARCHAR(45)," +
+" ARM_PRECIO_CRISTAL INTEGER," +
 " ARM_ADD VARCHAR(45)," +
 " ARM_OD_A VARCHAR(45)," +
 " ARM_OD_ESF VARCHAR(45)," +
@@ -281,7 +283,9 @@ public class GlobalValuesBD {
     private static String COL_ARMAZON = "ARM_ID," +
 " ARM_TIPO," +
 " ARM_MARCA," +
+" ARM_PRECIO_MARCA," +
 " ARM_CRISTAL," +
+" ARM_PRECIO_CRISTAL," +
 " ARM_ADD," +
 " ARM_OD_A," +
 " ARM_OD_ESF," +

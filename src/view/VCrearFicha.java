@@ -8,6 +8,7 @@ package view;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import dao.Dao;
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
@@ -27,7 +28,9 @@ import fn.ValidaRut;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -39,6 +42,7 @@ import javax.swing.JOptionPane;
 public class VCrearFicha extends javax.swing.JPanel {
 
     private Dao load = new Dao();
+    private static String strCnvName;
     private static Color rojo = Color.red;
     private static Color negro = Color.black;
     private static TipoPago stTipoPago = new TipoPago();
@@ -53,6 +57,13 @@ public class VCrearFicha extends javax.swing.JPanel {
     private static Institucion stInstitucion = new Institucion();
     private static Descuento stDescuento = null;
     private static Inventario stInventario = new Inventario();
+    private static Convenio stConvenio = null;
+    
+    private static List<Object> listInstituciones = new ArrayList<>();
+    private static List<Object> listClientes = new ArrayList<>();
+    private static List<Object> listDoctores = new ArrayList<>();
+    private static List<Object> listCristales = new ArrayList<>();
+    private static List<Object> listLentes = new ArrayList<>();
     Boton boton = new Boton();
     /**
      * Creates new form VNuevaFicha
@@ -68,7 +79,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ContentAdmin.lblTitle.setText("Nueva Ficha");
+        
+        convenioObtenerSeleccionado();
+        
         validateDataTemp();
         load();
         
@@ -2269,53 +2282,56 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void autocompletar() throws SQLException, ClassNotFoundException {
-        
+        listInstituciones = load.listar("0", new Institucion());
+        listClientes = load.listar("0", new Cliente());
+        listDoctores = load.listar("0", new Doctor());
+        listCristales = load.listar("0", new Cristal());
+        GV.setInventarioSeleccionado(stInventario.getId());
+        listLentes = load.listar("st", new Lente());
+        GV.setInventarioSeleccionado(0);
         TextAutoCompleter textAutoCompleter = new TextAutoCompleter(txtInstitucion);
         textAutoCompleter.setMode(0);
-        for (Object temp : load.listar("0", new Institucion())) {
+        TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
+        textAutoCompleter8.setMode(0);
+        for (Object temp : listInstituciones) {
             textAutoCompleter.addItem(((Institucion)temp).getNombre()+" <"+((Institucion)temp).getId()+">");
             textAutoCompleter.setMode(0);
+            textAutoCompleter8.addItem(((Institucion)temp).getNombre());
+            textAutoCompleter8.setMode(0);
         }
+        
         TextAutoCompleter textAutoCompleter2 = new TextAutoCompleter(txtRutCliente);
-        for (Object temp : load.listar("0", new Cliente())) {
+        for (Object temp : listClientes) {
             textAutoCompleter2.addItem(((Cliente)temp).getCod());
             textAutoCompleter2.setMode(0);
         }
         
         TextAutoCompleter textAutoCompleter3 = new TextAutoCompleter(txtDoctor);
-        for (Object temp : load.listar("0",new Doctor())) {
+        for (Object temp : listDoctores) {
             textAutoCompleter3.addItem(((Doctor)temp).getNombre()+" <"+(((Doctor)temp).getCod())+">");
             textAutoCompleter3.setMode(0);
         }
         
         TextAutoCompleter textAutoCompleter4 = new TextAutoCompleter(txtCristalCerca);
-        for (Object temp : load.listar("0",new Cristal())) {
+        TextAutoCompleter textAutoCompleter5 = new TextAutoCompleter(txtCristalLejos);
+        for (Object temp : listCristales) {
             textAutoCompleter4.addItem(((Cristal)temp).getNombre());
             textAutoCompleter4.setMode(0);
-        }
-        
-        TextAutoCompleter textAutoCompleter5 = new TextAutoCompleter(txtCristalLejos);
-        for (Object temp : load.listar("0",new Cristal())) {
             textAutoCompleter5.addItem(((Cristal)temp).getNombre());
             textAutoCompleter5.setMode(0);
         }
+        
+        
         TextAutoCompleter textAutoCompleter6 = new TextAutoCompleter(txtArmazonCerca);
-            TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
-            GV.setInventarioSeleccionado(stInventario.getId());
-            for (Object temp : load.listar("st",new Lente())) {
-                    textAutoCompleter6.addItem(((Lente)temp).getCod());
-                    textAutoCompleter6.setMode(0);
-                    textAutoCompleter7.addItem(((Lente)temp).getCod());
-                    textAutoCompleter7.setMode(0);
-            }
-            GV.setInventarioSeleccionado(0);
-            
-        TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
-        textAutoCompleter8.setMode(0);
-        for (Object temp : load.listar("0", new Institucion())) {
-            textAutoCompleter8.addItem(((Institucion)temp).getNombre());
-            textAutoCompleter8.setMode(0);
+        TextAutoCompleter textAutoCompleter7 = new TextAutoCompleter(txtArmazonLejos);
+        
+        for (Object temp : listLentes) {
+                textAutoCompleter6.addItem(((Lente)temp).getCod());
+                textAutoCompleter6.setMode(0);
+                textAutoCompleter7.addItem(((Lente)temp).getCod());
+                textAutoCompleter7.setMode(0);
         }
+        
     }
 
     private void calcularSaldo() {
@@ -2548,7 +2564,7 @@ public class VCrearFicha extends javax.swing.JPanel {
      * @param message 
      */
     private void msgRejected(String message) {
-        message = GV.getStr(message);
+        message = GV.getStr(message) + strCnvName;
         if(message.isEmpty()){
             lblMessageStatus.setText("");
             lblMessageStatus.setVisible(false);
@@ -2560,7 +2576,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
     
     private void msgWarning(String message){
-        message = GV.getStr(message);
+        message = GV.getStr(message) + strCnvName;
         if(message.isEmpty()){
             lblMessageStatus.setText("");
             lblMessageStatus.setVisible(false);
@@ -2631,7 +2647,8 @@ public class VCrearFicha extends javax.swing.JPanel {
                                                         if(sinCristal()){
                                                             msgWarning("Falta ingresar un cristal...");
                                                         }else{
-                                                            msgRejectedClear();
+                                                            /*muestra el nombre del convenio si es que existe alguno seleccionado*/
+                                                            msgWarning(strCnvName.replaceFirst("-", ""));
                                                         }
                                                     }
                                                 }
@@ -2924,14 +2941,19 @@ public class VCrearFicha extends javax.swing.JPanel {
         int en2 = (chkEndurecidoLejos.isSelected())? 1:0;
         int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
         int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
+        
         stArmazonCerca = new Armazon();
         stArmazonCerca.setAdd(txtAddCerca.getText());
         stArmazonCerca.setCapa(capa1);
-        stArmazonCerca.setCristal(txtCristalCerca.getText());
+        stArmazonCerca.setCristal(stCristalCerca.getNombre());
+        int precioCristalCerca = (stConvenio==null)?stCristalCerca.getPrecio():stCristalCerca.getPrecio() + ((stCristalCerca.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+        stArmazonCerca.setPrecioCristal(precioCristalCerca);
         stArmazonCerca.setDp((int)txtDPCerca.getValue());
         stArmazonCerca.setEndurecido(en1);
         stArmazonCerca.setEstado(1);
-        stArmazonCerca.setMarca(txtArmazonCerca.getText());
+        stArmazonCerca.setMarca(stLenteCerca.getCod());
+        int precioMarcaCerca = (stConvenio==null)?stLenteCerca.getPrecioAct():stLenteCerca.getPrecioAct() + ((stLenteCerca.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+        stArmazonCerca.setPrecioMarca(precioMarcaCerca);
         stArmazonCerca.setOdA(txtODCercaA.getText());
         stArmazonCerca.setOdCil(txtODCercaCIL.getText());
         stArmazonCerca.setOdEsf(txtODCercaESF.getText());
@@ -2942,14 +2964,17 @@ public class VCrearFicha extends javax.swing.JPanel {
         stArmazonCerca.setTipo(tpCerca);
         
         
-        
         stArmazonLejos = new Armazon();
         stArmazonLejos.setCapa(capa2);
-        stArmazonLejos.setCristal(txtCristalLejos.getText());
+        stArmazonLejos.setCristal(stCristalLejos.getNombre());
+        int precioCristalLejos = (stConvenio==null)?stCristalLejos.getPrecio():stCristalLejos.getPrecio() + ((stCristalLejos.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+        stArmazonLejos.setPrecioCristal(precioCristalLejos);
         stArmazonLejos.setDp((int)txtDPLejos.getValue());
         stArmazonLejos.setEndurecido(en2);
         stArmazonLejos.setEstado(1);
-        stArmazonLejos.setMarca(txtArmazonLejos.getText());
+        stArmazonLejos.setMarca(stLenteLejos.getCod());
+        int precioMarcaLejos = (stConvenio==null)?stLenteLejos.getPrecioAct():stLenteLejos.getPrecioAct() + ((stLenteLejos.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+        stArmazonLejos.setPrecioMarca(precioMarcaLejos);
         stArmazonLejos.setOdA(txtODLejosA.getText());
         stArmazonLejos.setOdCil(txtODLejosCIL.getText());
         stArmazonLejos.setOdEsf(txtODLejosESF.getText());
@@ -3072,5 +3097,26 @@ public class VCrearFicha extends javax.swing.JPanel {
                 clearData();
             }
         }
+    }
+
+    private void convenioLimpiarSeleccionado(){
+        convenioAssign(null);
+    }
+    
+    private void convenioAssign(Convenio selected){
+        GV.setConvenio(selected);
+        convenioObtenerSeleccionado();
+    }
+    
+    private void convenioObtenerSeleccionado() {
+        stConvenio = GV.getConvenio();
+        if(stConvenio == null){
+            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica corriente");
+            strCnvName = "";
+        }else{
+            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica con convenio: "+stConvenio.getNombre());
+            strCnvName = " - Convenio seleccionado: "+stConvenio.getNombre();
+        }
+        comprobarDatosFicha();
     }
 }

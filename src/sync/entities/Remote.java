@@ -1042,7 +1042,9 @@ public class Remote implements InterfaceSync{
                         + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_id_cerca,"
                         + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_tipo_cerca,"
                         + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_marca_cerca,"
+                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_marca_cerca,"
                         + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_cristal_cerca,"
+                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_cristal_cerca,"
                         + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_add_cerca,"
                         + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_a_cerca,"
                         + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_esf_cerca,"
@@ -1060,7 +1062,9 @@ public class Remote implements InterfaceSync{
                         + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_id_lejos,"
                         + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_tipo_lejos,"
                         + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_marca_lejos,"
+                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_marca_lejos,"
                         + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_cristal_lejos,"
+                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_cristal_lejos,"
                         + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_add_lejos,"
                         + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_a_lejos,"
                         + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_esf_lejos,"
@@ -1085,45 +1089,298 @@ public class Remote implements InterfaceSync{
                         + "(SELECT usuario.us_last_hour from usuario WHERE usuario.us_id=usuario_us_id) as us_last_hour"
                         + " from ficha f "+GV.cleanIdParam(idParam);
                     //where f.fch_id = '"+idParam+"' and f.user_us_id='"+idParam+"' and f.fch_estado <> 0"
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        /*------------------------CLIENTE-------------------*/
+                        String rutCl;
+                        try{rutCl = datos.getString("cliente_cli_rut");}catch (Exception e){rutCl = "";}
+                        String nomCl;
+                        try{nomCl = datos.getString("cli_nombre");}catch (Exception e){nomCl = "";}
+                        String tel1Cl;
+                        try{tel1Cl = datos.getString("cli_telefono1");}catch (Exception e){tel1Cl = "";}
+                        String tel2Cl ;
+                        try{tel2Cl = datos.getString("cli_telefono2");}catch (Exception e){tel2Cl = "";}
+                        String emCl;
+                        try{emCl = datos.getString("cli_email");}catch (Exception e){emCl="";}
+                        String dirCl;
+                        try{dirCl = datos.getString("cli_direccion");}catch (Exception e){dirCl="";}
+                        String comCl;
+                        try{comCl = datos.getString("cli_comuna");}catch (Exception e){comCl="";}
+                        String ciuCl;
+                        try{ciuCl = datos.getString("cli_ciudad");}catch (Exception e){ciuCl="";}
+                        int sexCl;
+                        try{sexCl = datos.getInt("cli_sexo");}catch (Exception e){sexCl=0;}
+                        Date nacCl;
+                        try{nacCl = datos.getDate("cli_nacimiento");}catch (Exception e){nacCl=new Date();}
+                        int estaCl;
+                        try{estaCl = datos.getInt("cli_estado");}catch (Exception e){estaCl=0;}
+                        Date lastUpdCl;
+                        try{lastUpdCl = datos.getDate("cli_last_update");}catch (Exception e){lastUpdCl=null;}
+                        int lastHouCl;
+                        try{lastHouCl = datos.getInt("cli_last_hour");}catch (Exception e){lastHouCl=0;}
+                        
+                        Cliente cliente = new Cliente(rutCl, nomCl, 
+                                tel1Cl, tel2Cl, emCl, dirCl, comCl, ciuCl,
+                                sexCl, nacCl, estaCl, lastUpdCl, lastHouCl);
+                        /*--------------------------------------------------*/
+                        /*------------------------DOCTOR--------------------*/
+                        String rutDc;
+                        try{rutDc = datos.getString("doctor_doc_rut");}catch (Exception e){rutDc ="";}
+                        String nomDc;
+                        try{nomDc = datos.getString("doc_nombre");}catch (Exception e){nomDc="";}
+                        String telDc;
+                        try{telDc = datos.getString("doc_telefono");}catch (Exception e){telDc="";}
+                        String emDc;
+                        try{emDc = datos.getString("doc_mail");}catch (Exception e){emDc="";}
+                        int estaDc;
+                        try{estaDc = datos.getInt("doc_estado");}catch (Exception e){estaDc=0;}
+                        Date lastUpdDc;
+                        try{lastUpdDc = datos.getDate("doc_last_update");}catch (Exception e){lastUpdDc=null;}
+                        int lastHouDc;
+                        try{lastHouDc = datos.getInt("doc_last_hour");}catch (Exception e){lastHouDc=0;}
+                        
+                        Doctor doctor = new Doctor(rutDc, nomDc, telDc, 
+                                emDc, estaDc, lastUpdDc, lastHouDc);
+                        /*--------------------------------------------------*/
+                        /*---------------------INSTITUCION------------------*/
+                        int idIns;
+                        try{idIns = datos.getInt("institucion_ins_id");}catch (Exception e){idIns=0;}
+                        String nomIns;
+                        try{nomIns = datos.getString("ins_nombre");}catch (Exception e){nomIns="";}
+                        String telIns;
+                        try{telIns = datos.getString("ins_telefono");}catch (Exception e){telIns="";}
+                        String emIns;
+                        try{emIns = datos.getString("ins_mail");}catch (Exception e){emIns="";}
+                        String webIns;
+                        try{webIns = datos.getString("ins_web");}catch (Exception e){webIns="";}
+                        String dirIns;
+                        try{dirIns = datos.getString("ins_direccion");}catch (Exception e){dirIns="";}
+                        String comIns;
+                        try{comIns = datos.getString("ins_comuna");}catch (Exception e){comIns="";}
+                        String ciuIns;
+                        try{ciuIns = datos.getString("ins_ciudad");}catch (Exception e){ciuIns="";}
+                        int estaIns;
+                        try{estaIns = datos.getInt("ins_estado");}catch (Exception e){estaIns=0;}
+                        Date lastUpdIns;
+                        try{lastUpdIns = datos.getDate("ins_last_update");}catch (Exception e){lastUpdIns=null;}
+                        int lastHouIns;
+                        try{lastHouIns = datos.getInt("ins_last_hour");}catch (Exception e){lastHouIns=0;}
+                        
+                        Institucion institucion = new Institucion(idIns, 
+                                nomIns, telIns, emIns, webIns, dirIns, comIns, 
+                                ciuIns, estaIns, lastUpdIns, lastHouIns);
+                        /*--------------------------------------------------*/
+                        /*----------------------DESPACHO--------------------*/
+                        String codDs;
+                        try{codDs = datos.getString("despacho_dsp_id");}catch (Exception e){codDs="";}
+                        String rutDs;
+                        try{rutDs = datos.getString("dsp_rut");}catch (Exception e){rutDs="";}
+                        String nomDs;
+                        try{nomDs = datos.getString("dsp_nombre");}catch (Exception e){nomDs="";}
+                        Date fechDs;
+                        try{fechDs = datos.getDate("dsp_fecha");}catch (Exception e){fechDs=null;}
+                        String idFichDs;
+                        try{idFichDs = datos.getString("fch_id");}catch (Exception e){idFichDs="";}
+                        int estaDs;
+                        try{estaDs = datos.getInt("dsp_estado");}catch (Exception e){estaDs=0;}
+                        Date lastUpdDs;
+                        try{lastUpdDs = datos.getDate("dsp_last_update");}catch (Exception e){lastUpdDs=null;}
+                        int lastHouDs;
+                        try{lastHouDs = datos.getInt("dsp_last_hour");}catch (Exception e){lastHouDs=0;}
+                        
+                        Despacho despacho = new Despacho(codDs, rutDs, nomDs, 
+                                fechDs, idFichDs, estaDs, lastUpdDs, lastHouDs);
+                        /*--------------------------------------------------*/
+                        /*-----------------ARMAZON LEJOS--------------------*/
+                        String codLj;
+                        try{codLj = datos.getString("arm_id_lejos");}catch (Exception e){codLj="";}
+                        int tipoLj;
+                        try{tipoLj = datos.getInt("arm_tipo_lejos");}catch (Exception e){tipoLj=0;}
+                        String marcaLj;
+                        try{marcaLj = datos.getString("arm_marca_lejos");}catch (Exception e){marcaLj="";}
+                        int precioMLj;
+                        try{precioMLj = datos.getInt("arm_precio_marca_lejos");}catch (Exception e){precioMLj=0;}
+                        String cristalLj;
+                        try{cristalLj = datos.getString("arm_cristal_lejos");}catch (Exception e){cristalLj="";}
+                        int precioCLj;
+                        try{precioCLj = datos.getInt("arm_precio_cristal_lejos");}catch (Exception e){precioCLj=0;}
+                        String addLj;
+                        try{addLj = datos.getString("arm_add_lejos");}catch (Exception e){addLj="";}
+                        String odALj;
+                        try{odALj = datos.getString("arm_od_a_lejos");}catch (Exception e){odALj="";}
+                        String odEsfLj;
+                        try{odEsfLj = datos.getString("arm_od_esf_lejos");}catch (Exception e){odEsfLj="";}
+                        String odCilLj;
+                        try{odCilLj = datos.getString("arm_od_cil_lejos");}catch (Exception e){odCilLj="";}
+                        String oiALj;
+                        try{oiALj = datos.getString("arm_oi_a_lejos");}catch (Exception e){oiALj="";}
+                        String oiEsfLj;
+                        try{oiEsfLj = datos.getString("arm_oi_esf_lejos");}catch (Exception e){oiEsfLj="";}
+                        String oiCilLj;
+                        try{oiCilLj = datos.getString("arm_oi_cil_lejos");}catch (Exception e){oiCilLj="";}
+                        int dpLj;
+                        try{dpLj = datos.getInt("arm_dp_lejos");}catch (Exception e){dpLj=0;}
+                        int endurecidoLj;
+                        try{endurecidoLj = datos.getInt("arm_endurecido_lejos");}catch (Exception e){endurecidoLj=0;}
+                        int capaLj;
+                        try{capaLj = datos.getInt("arm_capa_lejos");}catch (Exception e){capaLj=0;}
+                        int plusMaxLj;
+                        try{plusMaxLj = datos.getInt("arm_plus_max_lejos");}catch (Exception e){plusMaxLj=0;}
+                        String IdFichaLj;
+                        try{IdFichaLj = datos.getString("fch_id");}catch (Exception e){IdFichaLj="";}
+                        int estaLj;
+                        try{estaLj = datos.getInt("arm_estado_lejos");}catch (Exception e){estaLj=0;}
+                        Date lastUpdLj;
+                        try{lastUpdLj = datos.getDate("arm_last_update_lejos");}catch (Exception e){lastUpdLj=null;}
+                        int lastHouLj;
+                        try{lastHouLj = datos.getInt("arm_last_hour_lejos");}catch (Exception e){lastHouLj=0;}
+                        
+                        Armazon lejos = new Armazon(codLj, tipoLj, marcaLj, 
+                                precioMLj, cristalLj, precioCLj, addLj, odALj, 
+                                odEsfLj, odCilLj, oiALj, oiEsfLj, oiCilLj, 
+                                dpLj, endurecidoLj, capaLj, plusMaxLj, 
+                                IdFichaLj, estaLj, lastUpdLj, lastHouLj);
+                        /*--------------------------------------------------*/
+                        /*-----------------ARMAZON CERCA--------------------*/
+                        String codCr;
+                        try{codCr = datos.getString("arm_id_cerca");}catch (Exception e){codCr="";}
+                        int tipoCr;
+                        try{tipoCr = datos.getInt("arm_tipo_cerca");}catch (Exception e){tipoCr=0;}
+                        String marcaCr;
+                        try{marcaCr = datos.getString("arm_marca_cerca");}catch (Exception e){marcaCr="";}
+                        int precioMCr;
+                        try{precioMCr = datos.getInt("arm_precio_marca_cerca");}catch (Exception e){precioMCr=0;}
+                        String cristalCr;
+                        try{cristalCr = datos.getString("arm_cristal_cerca");}catch (Exception e){cristalCr="";}
+                        int precioCCr;
+                        try{precioCCr = datos.getInt("arm_precio_cristal_cerca");}catch (Exception e){precioCCr=0;}
+                        String addCr;
+                        try{addCr = datos.getString("arm_add_cerca");}catch (Exception e){addCr="";}
+                        String odACr;
+                        try{odACr = datos.getString("arm_od_a_cerca");}catch (Exception e){odACr="";}
+                        String odEsfCr;
+                        try{odEsfCr = datos.getString("arm_od_esf_cerca");}catch (Exception e){odEsfCr="";}
+                        String odCilCr;
+                        try{odCilCr = datos.getString("arm_od_cil_cerca");}catch (Exception e){odCilCr="";}
+                        String oiACr;
+                        try{oiACr = datos.getString("arm_oi_a_cerca");}catch (Exception e){oiACr="";}
+                        String oiEsfCr;
+                        try{oiEsfCr = datos.getString("arm_oi_esf_cerca");}catch (Exception e){oiEsfCr="";}
+                        String oiCilCr;
+                        try{oiCilCr = datos.getString("arm_oi_cil_cerca");}catch (Exception e){oiCilCr="";}
+                        int dpCr;
+                        try{dpCr = datos.getInt("arm_dp_cerca");}catch (Exception e){dpCr=0;}
+                        int endurecidoCr;
+                        try{endurecidoCr = datos.getInt("arm_endurecido_cerca");}catch (Exception e){endurecidoCr=0;}
+                        int capaCr;
+                        try{capaCr = datos.getInt("arm_capa_cerca");}catch (Exception e){capaCr=0;}
+                        int plusMaxCr;
+                        try{plusMaxCr = datos.getInt("arm_plus_max_cerca");}catch (Exception e){plusMaxCr=0;}
+                        String IdFichaCr;
+                        try{IdFichaCr = datos.getString("fch_id");}catch (Exception e){IdFichaCr="";}
+                        int estaCr;
+                        try{estaCr = datos.getInt("arm_estado_cerca");}catch (Exception e){estaCr=0;}
+                        Date lastUpdCr;
+                        try{lastUpdCr = datos.getDate("arm_last_update_cerca");}catch (Exception e){lastUpdCr=null;}
+                        int lastHouCr;
+                        try{lastHouCr = datos.getInt("arm_last_hour_cerca");}catch (Exception e){lastHouCr=0;}
+                        
+                        Armazon cerca = new Armazon(codCr, tipoCr, marcaCr, 
+                                precioMCr, cristalCr, precioCCr, addCr, odACr, 
+                                odEsfCr, odCilCr, oiACr, oiEsfCr, oiCilCr, 
+                                dpCr, endurecidoCr, capaCr, plusMaxCr, 
+                                IdFichaCr, estaCr, lastUpdCr, lastHouCr);
+                        /*--------------------------------------------------*/
+                        /*----------------------USER------------------------*/
+                        int idUs;
+                        try{idUs = datos.getInt("usuario_us_id");}catch (Exception e){idUs=0;}
+                        String nomUs;
+                        try{nomUs = datos.getString("us_nombre");}catch (Exception e){nomUs="";}
+                        String usernUs;
+                        try{usernUs = datos.getString("us_username");}catch (Exception e){usernUs="";}
+                        String emUs;
+                        try{emUs = datos.getString("us_email");}catch (Exception e){emUs="";}
+                        String passUs;
+                        try{passUs = datos.getString("us_pass");}catch (Exception e){passUs="";}
+                        int tipUs;
+                        try{tipUs = datos.getInt("us_tipo");}catch (Exception e){tipUs=0;}
+                        int estaUs;
+                        try{estaUs = datos.getInt("us_estado");}catch (Exception e){estaUs=0;}
+                        Date lastUpdUs;
+                        try{lastUpdUs = datos.getDate("us_last_update");}catch (Exception e){lastUpdUs=null;}
+                        int lastHouUs;
+                        try{lastHouUs = datos.getInt("us_last_hour");}catch (Exception e){lastHouUs=0;}
+                        
+                        User usuario = new User(idUs, nomUs, usernUs, emUs, 
+                                passUs, tipUs, estaUs, lastUpdUs, lastHouUs);
+                        /*--------------------------------------------------*/
+                        lista.add(new Ficha(
+                                  datos.getString("fch_id")
+                                , datos.getDate("fch_fecha")
+                                , datos.getDate("fch_fecha_entrega")
+                                , datos.getString("fch_lugar_entrega")
+                                , datos.getString("fch_hora_entrega")
+                                , datos.getString("fch_obs")
+                                , datos.getInt("fch_valor_total")
+                                , datos.getInt("fch_descuento")
+                                ,datos.getInt("fch_saldo")
+                                , cliente
+                                , doctor
+                                , institucion
+                                , despacho
+                                , lejos
+                                , cerca
+                                , usuario
+                                , new Convenio()
+                                , datos.getInt("fch_estado")
+                                , datos.getDate("fch_last_update")
+                                , datos.getInt("fch_last_hour")
+                                )
+                        );
+                    }
+                    RmBd.cerrar();
+                    return lista;
+                    
+                }else{
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        Cliente cliente = (Cliente)getElement(datos.getString("cliente_cli_rut"), 0, new Cliente());
+                        Doctor doctor = (Doctor)getElement(datos.getString("doctor_doc_rut"), 0, new Doctor());
+                        Institucion institucion = (Institucion)getElement(null, datos.getInt("institucion_ins_id"), new Institucion());
+                        Despacho despacho = (Despacho)getElement(datos.getString("fch_id"), 0, new Despacho());
+                        User user = (User)getElement(null, datos.getInt("usuario_us_id"), new User());
+                        Convenio convenio = (Convenio)getElement(null, datos.getInt("convenio_cnv_id"), new Convenio());
+                        Armazon cerca = (Armazon)getElement(datos.getString("fch_id"), 0, new Armazon());
+                        Armazon lejos = (Armazon)getElement(datos.getString("fch_id"), 1, new Armazon());
+                        lista.add(new Ficha(
+                            datos.getString("fch_id"),
+                            datos.getDate("fch_fecha"),
+                            datos.getDate("fch_fecha_entrega"),
+                            datos.getString("fch_lugar_entrega"),
+                            datos.getString("fch_hora_entrega"),
+                            datos.getString("fch_obs"),
+                            datos.getInt("fch_valor_total"),
+                            datos.getInt("fch_descuento"),
+                            datos.getInt("fch_saldo"),
+                            cliente,
+                            doctor,
+                            institucion,
+                            despacho,
+                            lejos,
+                            cerca,
+                            user,
+                            convenio,
+                            datos.getInt("fch_estado"),
+                            datos.getDate("fch_last_update"),
+                            datos.getInt("fch_last_hour")
+                            )
+                        );
+                    }
+                    RmBd.cerrar();
+                    return lista;
                 }
-
-                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
-                ResultSet datos = consulta.executeQuery();
-                while (datos.next()) {
-                    Cliente cliente = (Cliente)getElement(datos.getString("cliente_cli_rut"), 0, new Cliente());
-                    Doctor doctor = (Doctor)getElement(datos.getString("doctor_doc_rut"), 0, new Doctor());
-                    Institucion institucion = (Institucion)getElement(null, datos.getInt("institucion_ins_id"), new Institucion());
-                    Despacho despacho = (Despacho)getElement(datos.getString("fch_id"), 0, new Despacho());
-                    User user = (User)getElement(null, datos.getInt("usuario_us_id"), new User());
-                    Convenio convenio = (Convenio)getElement(null, datos.getInt("convenio_cnv_id"), new Convenio());
-                    Armazon cerca = (Armazon)getElement(datos.getString("fch_id"), 0, new Armazon());
-                    Armazon lejos = (Armazon)getElement(datos.getString("fch_id"), 1, new Armazon());
-                    lista.add(new Ficha(
-                        datos.getString("fch_id"),
-                        datos.getDate("fch_fecha"),
-                        datos.getDate("fch_fecha_entrega"),
-                        datos.getString("fch_lugar_entrega"),
-                        datos.getString("fch_hora_entrega"),
-                        datos.getString("fch_obs"),
-                        datos.getInt("fch_valor_total"),
-                        datos.getInt("fch_descuento"),
-                        datos.getInt("fch_saldo"),
-                        cliente,
-                        doctor,
-                        institucion,
-                        despacho,
-                        lejos,
-                        cerca,
-                        user,
-                        convenio,
-                        datos.getInt("fch_estado"),
-                        datos.getDate("fch_last_update"),
-                        datos.getInt("fch_last_hour")
-                        )
-                    );
-                }
-                RmBd.cerrar();
-                return lista;
             }
             if(type instanceof ResF){
                 String sql = "SELECT * FROM ficha";
@@ -1239,7 +1496,9 @@ public class Remote implements InterfaceSync{
                         datos.getString("arm_id"),
                         datos.getInt("arm_tipo"),
                         datos.getString("arm_marca"),
+                        datos.getInt("arm_precio_marca"),
                         datos.getString("arm_cristal"),
+                        datos.getInt("arm_precio_cristal"),
                         datos.getString("arm_add"),
                         datos.getString("arm_od_a"),
                         datos.getString("arm_od_esf"),
@@ -1878,7 +2137,9 @@ public class Remote implements InterfaceSync{
                         datos.getString("arm_id"),
                         datos.getInt("arm_tipo"),
                         datos.getString("arm_marca"),
+                        datos.getInt("arm_precio_marca"),
                         datos.getString("arm_cristal"),
+                        datos.getInt("arm_precio_cristal"),
                         datos.getString("arm_add"),
                         datos.getString("arm_od_a"),
                         datos.getString("arm_od_esf"),
@@ -2626,8 +2887,10 @@ public class Remote implements InterfaceSync{
             return  "INSERT INTO armazon VALUES('"
                     + object.getCod() + "',"
                     + object.getTipo()+ ",'"
-                    + object.getMarca()+ "','"
-                    + object.getCristal()+ "','"
+                    + object.getMarca()+ "',"
+                    + object.getPrecioMarca()+ ",'"
+                    + object.getCristal()+ "',"
+                    + object.getPrecioCristal()+ ",'"
                     + object.getAdd()+ "','"
                     + object.getOdA()+ "','"
                     + object.getOdEsf()+ "','"
@@ -2916,8 +3179,10 @@ public class Remote implements InterfaceSync{
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
             return "UPDATE armazon set arm_tipo = " + object.getTipo()
                         + ", arm_marca = '" + object.getMarca()
-                        + "', arm_cristal = '" + object.getCristal()
-                        + "', arm_add = '" + object.getAdd()
+                        + "', arm_precio_marca = " + object.getPrecioMarca()
+                        + ", arm_cristal = '" + object.getCristal()
+                        + "', arm_precio_cristal = " + object.getPrecioCristal()
+                        + ", arm_add = '" + object.getAdd()
                         + "', arm_od_a = '" + object.getOdA()
                         + "', arm_od_esf = '" + object.getOdEsf()
                         + "', arm_od_cil = '" + object.getOdCil()

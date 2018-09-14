@@ -153,28 +153,6 @@ public class GlobalValuesPrint {
 //
 //            imprimir(impresion); 
 	}
-
-    public static int getPrecioLente(String marca) {
-        Dao load = new Dao();
-        try {
-            Lente lente = ((Lente)load.get(marca, 0, new Lente()));
-            return (lente!=null)?lente.getPrecioAct():0;
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(GlobalValuesPrint.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
-        }
-    }
-
-    public static int getPrecioCristal(String cod) {
-        Dao load = new Dao();
-        try {
-            Cristal cristal = ((Cristal)load.get(cod, 0, new Cristal()));
-            return (cristal!=null)?cristal.getPrecio():0;
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(GlobalValuesPrint.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
-        }
-    }
  
     private static void imprimir(String[] impresion){
         try {
