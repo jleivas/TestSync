@@ -1660,15 +1660,12 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtArmazonCercaKeyTyped
 
     private void txtArmazonCercaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArmazonCercaFocusLost
-        try {
-            stLenteCerca = (Lente)load.get(txtArmazonCerca.getText(),0,new Lente());
-            if(stLenteCerca != null){
-                txtArmazonCerca.setForeground(negro);
-            }else{
-                txtArmazonCerca.setForeground(rojo);
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+   
+        stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(),listLentes,new Lente());
+        if(stLenteCerca != null){
+            txtArmazonCerca.setForeground(negro);
+        }else{
+            txtArmazonCerca.setForeground(rojo);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonCercaFocusLost
@@ -1757,16 +1754,13 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtArmazonLejosActionPerformed
 
     private void txtArmazonLejosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtArmazonLejosFocusLost
-        try {
-            stLenteLejos = (Lente)load.get(txtArmazonLejos.getText(),0,new Lente());
-            if(stLenteLejos != null){
-                txtArmazonLejos.setForeground(negro);
+      
+        stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(),listLentes,new Lente());
+        if(stLenteLejos != null){
+            txtArmazonLejos.setForeground(negro);
 
-            }else{
-                txtArmazonLejos.setForeground(rojo);
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            txtArmazonLejos.setForeground(rojo);
         }
         comprobarDatosFicha();
     }//GEN-LAST:event_txtArmazonLejosFocusLost
@@ -2941,6 +2935,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         int en2 = (chkEndurecidoLejos.isSelected())? 1:0;
         int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
         int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
+        
+        stCristalCerca = (stCristalCerca==null)?new Cristal():stCristalCerca;
+        stCristalLejos = (stCristalLejos==null)?new Cristal():stCristalLejos;
+        stLenteCerca = (stLenteCerca==null)?new Lente():stLenteCerca;
+        stLenteLejos = (stLenteLejos==null)?new Lente():stLenteLejos;
         
         stArmazonCerca = new Armazon();
         stArmazonCerca.setAdd(txtAddCerca.getText());
