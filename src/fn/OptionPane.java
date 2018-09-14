@@ -33,6 +33,7 @@ public class OptionPane {
     private static String TOOL_TITLE = "Opciones de herramienta";
     private static String USER_DATA_TITLE = "Modificar mis datos";
     private static String COMPANY_DATA_TITLE = "Modificar datos de la empresa";
+    private static String CONV_CHOOSER_TITLE = "Seleccione un convenio";
     
     public static void showOptionPanel(javax.swing.JPanel p1, String title){
         GV.opanel().lblTitle.setText(title);
@@ -143,6 +144,10 @@ public class OptionPane {
     
     public static String titleClientChooser(){
         return CLIENT_CHOOSER_TITLE;
+    }
+    
+    public static String titleConvenyChooser() {
+        return CONV_CHOOSER_TITLE;
     }
     
     public static String titleDateChooser(){

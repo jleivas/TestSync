@@ -831,6 +831,7 @@ public class VConvenios extends javax.swing.JPanel {
             txtMontoMaxN.commitEdit();
             txtMontoPpN.commitEdit();
             txtCantidadClientesN.commitEdit();
+            txtPorcentajeAdicionalN.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1169,6 +1170,7 @@ public class VConvenios extends javax.swing.JPanel {
                 txtMontoPpU.setValue((int)stConvenio.getMontoPp());
                 txtCantidadClientesU.setValue((int)stConvenio.getMaximoClientes());
                 cboDescuentoU.setSelectedIndex(stConvenio.getIdDescuento());
+                txtPorcentajeAdicionalU.setValue((int)stConvenio.getPorcentajeAdicion());
                 if(stConvenio.getIdInstitucion()==0)
                     txtInstitucionU.setText("");
                 else

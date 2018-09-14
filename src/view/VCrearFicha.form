@@ -52,7 +52,13 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnClearConvenio" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnSelectConvenios" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -105,7 +111,11 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSelectConvenios" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnClearConvenio" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -1760,6 +1770,32 @@
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="btnSelectConvenios">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icons/icons8_Handshake_50px.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Generar recetas con convenios"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSelectConveniosMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSelectConveniosMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSelectConveniosMouseExited"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="btnClearConvenio">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icons/icons8_Cancel_50px.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Quitar convenio seleccionado"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnClearConvenioMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnClearConvenioMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnClearConvenioMouseExited"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

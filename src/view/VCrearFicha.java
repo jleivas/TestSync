@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import view.opanel.OpanelSelectConvenio;
 
 /**
  *
@@ -211,6 +212,8 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtTotal = new javax.swing.JTextField();
         btnSave = new javax.swing.JLabel();
         lblMessageStatus = new javax.swing.JLabel();
+        btnSelectConvenios = new javax.swing.JLabel();
+        btnClearConvenio = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1415,6 +1418,34 @@ public class VCrearFicha extends javax.swing.JPanel {
         lblMessageStatus.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         lblMessageStatus.setText("jLabel1");
 
+        btnSelectConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
+        btnSelectConvenios.setToolTipText("Generar recetas con convenios");
+        btnSelectConvenios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSelectConveniosMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSelectConveniosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSelectConveniosMouseExited(evt);
+            }
+        });
+
+        btnClearConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cancel_50px.png"))); // NOI18N
+        btnClearConvenio.setToolTipText("Quitar convenio seleccionado");
+        btnClearConvenio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearConvenioMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnClearConvenioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnClearConvenioMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1438,7 +1469,12 @@ public class VCrearFicha extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnSave)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnClearConvenio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSelectConvenios)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSave))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -1478,7 +1514,10 @@ public class VCrearFicha extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSave)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSave)
+                    .addComponent(btnSelectConvenios)
+                    .addComponent(btnClearConvenio))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -2132,9 +2171,35 @@ public class VCrearFicha extends javax.swing.JPanel {
         comprobarDatosFicha();
     }//GEN-LAST:event_chkPlusMaxCercaItemStateChanged
 
+    private void btnSelectConveniosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelectConveniosMouseClicked
+        OptionPane.showOptionPanel(new OpanelSelectConvenio(), OptionPane.titleConvenyChooser());
+    }//GEN-LAST:event_btnSelectConveniosMouseClicked
+
+    private void btnSelectConveniosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelectConveniosMouseEntered
+        btnSelectConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnSelectConvenios.getIcon().toString()))));
+    }//GEN-LAST:event_btnSelectConveniosMouseEntered
+
+    private void btnSelectConveniosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSelectConveniosMouseExited
+        btnSelectConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSelectConvenios.getIcon().toString()))));
+    }//GEN-LAST:event_btnSelectConveniosMouseExited
+
+    private void btnClearConvenioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearConvenioMouseClicked
+        convenioLimpiarSeleccionado();
+    }//GEN-LAST:event_btnClearConvenioMouseClicked
+
+    private void btnClearConvenioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearConvenioMouseEntered
+        btnClearConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnClearConvenio.getIcon().toString()))));
+    }//GEN-LAST:event_btnClearConvenioMouseEntered
+
+    private void btnClearConvenioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearConvenioMouseExited
+        btnClearConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnClearConvenio.getIcon().toString()))));
+    }//GEN-LAST:event_btnClearConvenioMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnClearConvenio;
     private javax.swing.JLabel btnSave;
+    private javax.swing.JLabel btnSelectConvenios;
     private javax.swing.JComboBox<String> cboDescuento;
     private javax.swing.JComboBox<String> cboSexo;
     private javax.swing.JComboBox<String> cboTipoPago;
@@ -2461,7 +2526,8 @@ public class VCrearFicha extends javax.swing.JPanel {
             lentes = lentes + stLenteLejos.getPrecioAct();
         }
         int total = GV.roundPrice((cristales+lentes));
-        txtTotal.setText(GV.strToPrice(total));
+        int precio = (stConvenio==null)?total:total + ((total * stConvenio.getPorcentajeAdicion())/100);
+        txtTotal.setText(GV.strToPrice(GV.roundPrice(precio)));
         calcularSaldo();
     }
 
@@ -2590,6 +2656,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void comprobarDatosFicha(){
+        load();
         calcularTotal();
         if(txtFecha.getDate() == null || !lugarEntregaValido()){
             msgRejected("Debe ingresar una fecha y lugar de entrega");
@@ -3110,9 +3177,11 @@ public class VCrearFicha extends javax.swing.JPanel {
     private void convenioObtenerSeleccionado() {
         stConvenio = GV.getConvenio();
         if(stConvenio == null){
+            btnClearConvenio.setVisible(false);
             ContentAdmin.lblTitle.setText("Nueva receta oftalmológica corriente");
             strCnvName = "";
         }else{
+            btnClearConvenio.setVisible(true);
             ContentAdmin.lblTitle.setText("Nueva receta oftalmológica con convenio: "+stConvenio.getNombre());
             strCnvName = " - Convenio seleccionado: "+stConvenio.getNombre();
         }
