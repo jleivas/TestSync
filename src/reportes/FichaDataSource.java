@@ -9,8 +9,6 @@ import entities.ficha.Ficha;
 import fn.GV;
 import fn.globalValues.GlobalValuesPrint;
 import static fn.globalValues.GlobalValuesPrint.descuentoFormatPrint;
-import static fn.globalValues.GlobalValuesPrint.getPrecioCristal;
-import static fn.globalValues.GlobalValuesPrint.getPrecioLente;
 import static fn.globalValues.GlobalValuesPrint.obtenerAbonos;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +50,10 @@ public class FichaDataSource implements JRDataSource{
             p2 = "";
             dpCerca = "";
         }
-        int precioLente1 = getPrecioLente(ficha.getLejos().getMarca());
-        int precioLente2 = getPrecioLente(ficha.getCerca().getMarca());
-        int precioCristal1 = getPrecioCristal(ficha.getLejos().getCristal());
-        int precioCristal2 = getPrecioCristal(ficha.getCerca().getCristal());
+        int precioLente1 = ficha.getLejos().getPrecioMarca();
+        int precioLente2 = ficha.getCerca().getPrecioMarca();
+        int precioCristal1 = ficha.getLejos().getPrecioCristal();
+        int precioCristal2 = ficha.getCerca().getPrecioCristal();
         String total = GV.strToPrice(ficha.getValorTotal()-ficha.getDescuento());
         String abonos = obtenerAbonos(ficha.getCod());
         String saldo = GV.strToPrice(ficha.getSaldo());
