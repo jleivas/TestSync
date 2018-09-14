@@ -1010,7 +1010,7 @@ public class VConvenios extends javax.swing.JPanel {
             stConvenio = (Convenio)GV.buscarPorIdEnLista(""+id, listConvenios, new Convenio());
             if(stConvenio != null){
                 GV.setConvenio(stConvenio);
-                boton.crearFichaConvenio();
+                boton.crearFicha();
             }
             
         }catch(Exception e){
