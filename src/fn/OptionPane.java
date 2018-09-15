@@ -34,6 +34,7 @@ public class OptionPane {
     private static String USER_DATA_TITLE = "Modificar mis datos";
     private static String COMPANY_DATA_TITLE = "Modificar datos de la empresa";
     private static String CONV_CHOOSER_TITLE = "Seleccione un convenio";
+    private static String FICHA_GARANTIA_TITLE = "Ingresa datos de entrega para generar garantía";
     
     public static void showOptionPanel(javax.swing.JPanel p1, String title){
         GV.opanel().lblTitle.setText(title);
@@ -164,5 +165,9 @@ public class OptionPane {
     
     public static String titleUserData(){
         return USER_DATA_TITLE;
+    }
+
+    public static String titleFichaGuarantee() {
+        return FICHA_GARANTIA_TITLE;
     }
 }

@@ -349,6 +349,10 @@ public class GV extends GlobalValuesCursor{
     public static Date dateSumaResta(Date fecha,int sumaresta,String opcion){
         return GlobalValuesFunctions.SumaRestarFecha(fecha, sumaresta, opcion);
     }
+    
+    public static void crearGarantia(Ficha ficha) {
+        GlobalValuesFunctions.createGuaranteeFicha(ficha);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){
@@ -881,6 +885,10 @@ public class GV extends GlobalValuesCursor{
     
     public static void excelUnDeliveredMails() {
         GlobalValuesSaveXls.saveUnDeliveredMails();
+    }
+    
+    public static void excelExportFichas(List<Object> fichas) {
+        GlobalValuesSaveXls.exportarFichasAExcel(fichas);
     }
     
     public static void excelLowStockBuyOrder() {

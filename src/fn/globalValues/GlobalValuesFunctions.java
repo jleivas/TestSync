@@ -12,6 +12,7 @@ import entities.TipoPago;
 import entities.abstractclasses.SyncIntId;
 import entities.abstractclasses.SyncStringId;
 import entities.context.SalesReportFicha;
+import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
@@ -497,5 +498,19 @@ public class GlobalValuesFunctions {
         }
         LocalDate dateResultado = date.plus(sumaresta, unidadTemporal);
         return Date.from(dateResultado.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static void createGuaranteeFicha(Ficha ficha) {
+        try {
+            Dao load = new Dao();
+            load.createFicha(ficha, null);
+            load.add(ficha.getCerca());
+            load.add(ficha.getLejos());
+            load.add(ficha);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al guardar los datos", "La garantía no se pudo generar\n"
+                    + ex.getMessage(), 3);
+        }
     }
 }

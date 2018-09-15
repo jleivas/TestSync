@@ -11,6 +11,7 @@ import entities.Doctor;
 import entities.Institucion;
 import entities.TipoPago;
 import entities.ficha.Armazon;
+import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.Boton;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
+import view.opanel.OpanelGuaranteeData;
 
 /**
  *
@@ -170,6 +172,7 @@ public class VFicha extends javax.swing.JPanel {
         iconClock3 = new javax.swing.JLabel();
         btnAbonar = new javax.swing.JLabel();
         btnHistorialPagos = new javax.swing.JLabel();
+        btnGarantia = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1177,12 +1180,28 @@ public class VFicha extends javax.swing.JPanel {
             }
         });
 
+        btnGarantia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Guarantee_50px.png"))); // NOI18N
+        btnGarantia.setToolTipText("Generar garantía");
+        btnGarantia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGarantiaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGarantiaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGarantiaMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnGarantia)
+                .addGap(18, 18, 18)
                 .addComponent(btnHistorialPagos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAbonar)
@@ -1247,7 +1266,8 @@ public class VFicha extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPrint)
                     .addComponent(btnAbonar)
-                    .addComponent(btnHistorialPagos))
+                    .addComponent(btnHistorialPagos)
+                    .addComponent(btnGarantia))
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1612,9 +1632,23 @@ public class VFicha extends javax.swing.JPanel {
         btnHistorialPagos.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnHistorialPagos.getIcon().toString()))));
     }//GEN-LAST:event_btnHistorialPagosMouseExited
 
+    private void btnGarantiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGarantiaMouseClicked
+        OptionPane.showOptionPanel(new OpanelGuaranteeData(GV.getOpenFicha()), OptionPane.titleFichaGuarantee());
+           
+    }//GEN-LAST:event_btnGarantiaMouseClicked
+
+    private void btnGarantiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGarantiaMouseEntered
+        btnGarantia.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnGarantia.getIcon().toString()))));
+    }//GEN-LAST:event_btnGarantiaMouseEntered
+
+    private void btnGarantiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGarantiaMouseExited
+        btnGarantia.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnGarantia.getIcon().toString()))));
+    }//GEN-LAST:event_btnGarantiaMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbonar;
+    private javax.swing.JLabel btnGarantia;
     private javax.swing.JLabel btnHistorialPagos;
     private javax.swing.JLabel btnPrint;
     private javax.swing.JComboBox<String> cboSexo;

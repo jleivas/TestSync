@@ -9,7 +9,7 @@ import dao.Dao;
 import entities.Cliente;
 import entities.Inventario;
 import entities.Lente;
-import fn.Boton;
+import entities.ficha.Ficha;
 import fn.GV;
 import fn.OptionPane;
 import java.io.File;
@@ -27,7 +27,6 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import view.opanel.OpanelInventaryChooser;
 
 /**
  *
@@ -153,7 +152,7 @@ public class GlobalValuesSaveXls {
                 return;
             }
         }else if(resp == JFileChooser.CANCEL_OPTION){
-            OptionPane.showMsg("No se pudo finalizar", "La operacion ha sido cancelada.",2);
+            msgRejected();
         }
         return;
     }
@@ -216,7 +215,7 @@ public class GlobalValuesSaveXls {
                 return;
             }
         }else if(resp == JFileChooser.CANCEL_OPTION){
-            OptionPane.showMsg("No se pudo finalizar", "La operacion ha sido cancelada.",2);
+            msgRejected();
         }
         return;
 
@@ -290,10 +289,119 @@ public class GlobalValuesSaveXls {
                 return true;
             }
         }else if(resp == JFileChooser.CANCEL_OPTION){
-            OptionPane.showMsg("No se generó el archivo", "La operacion ha sido cancelada.",2);
+            msgRejected();
         }
         return false;
     }
+
+    private static void msgRejected() {
+        OptionPane.showMsg("No se generó el archivo", "La operacion ha sido cancelada.",2);
+    }
+    
+    public static boolean exportarFichasAExcel(List<Object> fichas) {
+        JFileChooser archivo = new JFileChooser();
+        int resp;
+        if(fichas.size()<1){
+            OptionPane.showMsg("No se pudo generar archivo", "No existen registros para guardar, Genere una lista de datos válidos.",2);
+            return false;
+        }
+        resp = archivo.showSaveDialog(archivo);
+        if(resp == JFileChooser.APPROVE_OPTION){
+            if(fichas.size()>0){
+                //[filas][columnas]
+                int filas = fichas.size()+6;
+                int columns = 19;
+                String [][] entrada = new String[filas][columns];
+                entrada[0][1] = "Documento generado el "+GV.dateToString(new Date(), "dd/mm/yyyy")+"";
+                entrada[1][0] = "Empresa:";
+                entrada[1][1] = GV.companyName();
+                entrada[2][0] = "Sistema:";
+                entrada[2][1] = GV.projectName();
+                entrada[3][0] = "Soporte:";
+                entrada[3][1] = "www.softdirex.cl";
+                
+                entrada[4][14] = "Datos";
+                entrada[4][15] = "de";
+                entrada[4][16] = "entrega";
+                
+                entrada[5][0] = "Fecha";
+                entrada[5][1] = "Folio";
+                entrada[5][2] = "Rut";
+                entrada[5][3] = "Nombre";
+                entrada[5][4] = "Dirección";
+                entrada[5][5] = "Teléfono";
+                entrada[5][6] = "Teléfono";
+                entrada[5][7] = "Comuna";
+                entrada[5][8] = "Ciudad";
+                entrada[5][9] = "Precio";
+                entrada[5][10] = "Descuento";
+                entrada[5][11] = "Total";
+                entrada[5][12] = "Abono";
+                entrada[5][13] = "Saldo";
+                entrada[5][14] = "Fecha";
+                entrada[5][15] = "Hora";
+                entrada[5][16] = "Lugar";
+                entrada[5][17] = "Vendedor";
+                int contFilas = 6;
+                for (Object object : fichas) {
+                    Ficha temp = (Ficha)object;
+                    int precio = temp.getValorTotal();
+                    temp.setValorTotal(temp.getValorTotal()-temp.getDescuento());
+                    
+                    for(int i = 0;i< columns; i++){
+                        if(i==0)
+                            entrada[contFilas][i] = ""+temp.getFecha();
+                        else if(i == 1)
+                            entrada[contFilas][i] = ""+temp.getCod();
+                        else if(i == 2)
+                            entrada[contFilas][i] = temp.getCliente().getCod();
+                        else if(i == 3)
+                            entrada[contFilas][i] = temp.getCliente().getNombre();
+                        else if(i == 4)
+                            entrada[contFilas][i] = temp.getCliente().getDireccion();
+                        else if(i == 5)
+                            entrada[contFilas][i] = temp.getCliente().getTelefono1();
+                        else if(i == 6)
+                            entrada[contFilas][i] = temp.getCliente().getTelefono2();
+                        else if(i == 7)
+                            entrada[contFilas][i] = temp.getCliente().getComuna();
+                        else if(i == 8)
+                            entrada[contFilas][i] = temp.getCliente().getCiudad();
+                        else if(i == 9)
+                            entrada[contFilas][i] = ""+precio;
+                        else if(i == 10)
+                            entrada[contFilas][i] = ""+temp.getDescuento();
+                        else if(i == 11)
+                            entrada[contFilas][i] = ""+temp.getValorTotal();
+                        else if(i == 12)
+                            entrada[contFilas][i] = ""+(temp.getValorTotal()-temp.getSaldo());
+                        else if(i == 13)
+                            entrada[contFilas][i] = ""+temp.getSaldo();
+                        else if(i == 14)
+                            entrada[contFilas][i] = ""+temp.getFechaEntrega();
+                        else if(i == 15)
+                            entrada[contFilas][i] = temp.getHoraEntrega();
+                        else if(i == 16)
+                            entrada[contFilas][i] = temp.getLugarEntrega();
+                        else if(i == 17)
+                            entrada[contFilas][i] = temp.getUser().getNombre();
+                    }
+                    contFilas++;
+                }
+                String ruta = String.valueOf(archivo.getSelectedFile().toString())+".xls";
+                if(ruta.startsWith(".xls")){
+                    ruta = "Report"+GV.dateToString(new Date(), "dd-mm-yyyy")+ruta;
+                }
+                generarExcel(entrada, ruta);
+                msgDone();
+                return true;
+            }
+        }else if(resp == JFileChooser.CANCEL_OPTION){
+            msgRejected();
+        }
+        return false;
+    }
+
     
     public static void generarExcel(String[][] entrada, String ruta){
         try {
