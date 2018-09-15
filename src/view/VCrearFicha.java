@@ -65,6 +65,8 @@ public class VCrearFicha extends javax.swing.JPanel {
     private static List<Object> listDoctores = new ArrayList<>();
     private static List<Object> listCristales = new ArrayList<>();
     private static List<Object> listLentes = new ArrayList<>();
+    private static List<Object> listTipoPagos = new ArrayList<>();
+    private static List<Object> listDescuentos = new ArrayList<>();
     Boton boton = new Boton();
     /**
      * Creates new form VNuevaFicha
@@ -75,12 +77,10 @@ public class VCrearFicha extends javax.swing.JPanel {
         stInventario = new Inventario();
         try {
             stInventario = (Inventario)load.get(GV.inventarioName(), 0, new Inventario());
-        } catch (InstantiationException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        loadStaticObjectList();
         convenioObtenerSeleccionado();
         
         validateDataTemp();
@@ -210,6 +210,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtSaldo = new javax.swing.JTextField();
         txtDescuento = new javax.swing.JTextField();
         txtTotal = new javax.swing.JTextField();
+        txtCnvName = new javax.swing.JLabel();
         btnSave = new javax.swing.JLabel();
         lblMessageStatus = new javax.swing.JLabel();
         btnSelectConvenios = new javax.swing.JLabel();
@@ -1401,6 +1402,10 @@ public class VCrearFicha extends javax.swing.JPanel {
         });
         jPanel7.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 117, -1));
 
+        txtCnvName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtCnvName.setText("jLabel1");
+        jPanel7.add(txtCnvName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 460, -1));
+
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Save_50px.png"))); // NOI18N
         btnSave.setToolTipText("Enviar datos");
         btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1415,7 +1420,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             }
         });
 
-        lblMessageStatus.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        lblMessageStatus.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
         lblMessageStatus.setText("jLabel1");
 
         btnSelectConvenios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Handshake_50px.png"))); // NOI18N
@@ -1468,28 +1473,26 @@ public class VCrearFicha extends javax.swing.JPanel {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnClearConvenio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSelectConvenios)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSave))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lblMessageStatus)))
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMessageStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnClearConvenio)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnSelectConvenios)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSave)
+                        .addGap(51, 51, 51)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1503,12 +1506,9 @@ public class VCrearFicha extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblMessageStatus))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1517,7 +1517,8 @@ public class VCrearFicha extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSave)
                     .addComponent(btnSelectConvenios)
-                    .addComponent(btnClearConvenio))
+                    .addComponent(btnClearConvenio)
+                    .addComponent(lblMessageStatus))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1956,7 +1957,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtInstitucionActionPerformed
 
     private void txtInstitucionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtInstitucionFocusLost
-        institucionValida();
+        validaInstitucion();
         comprobarDatosFicha();
     }//GEN-LAST:event_txtInstitucionFocusLost
 
@@ -2084,7 +2085,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMailClienteFocusLost
 
     private void cboSexoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboSexoItemStateChanged
-        comprobarDatosFicha();
+//        comprobarDatosFicha();
     }//GEN-LAST:event_cboSexoItemStateChanged
 
     private void txtNacimientoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNacimientoFocusLost
@@ -2272,6 +2273,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     private javax.swing.JTextField txtArmazonCerca;
     private javax.swing.JTextField txtArmazonLejos;
     private javax.swing.JTextField txtCiudad;
+    private javax.swing.JLabel txtCnvName;
     private javax.swing.JTextField txtComuna;
     private javax.swing.JTextField txtCristalCerca;
     private javax.swing.JTextField txtCristalLejos;
@@ -2311,7 +2313,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     
-    private void cargarCbos() throws SQLException, ClassNotFoundException {
+    private void cargarCbos() {
         cboSexo.removeAllItems();
         cboSexo.addItem("Sin Seleccionar");
         cboSexo.addItem("Femenino");
@@ -2320,7 +2322,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         
         cboDescuento.removeAllItems();
         int contDscto = 0;
-        for (Object object : load.listar("0", new Descuento())) {
+        for (Object object : listDescuentos) {
             Descuento temp = (Descuento)object;
             if(temp.getPorcetange() == 0){
                 cboDescuento.addItem(temp.getNombre()+" ("+GV.strToPrice(temp.getMonto())+")");
@@ -2335,19 +2337,12 @@ public class VCrearFicha extends javax.swing.JPanel {
         
         cboTipoPago.removeAllItems();
         cboTipoPago.addItem("Seleccione");
-        for (Object temp : load.listar("0", new TipoPago())) {
+        for (Object temp : listTipoPagos) {
             cboTipoPago.addItem(((TipoPago)temp).getNombre());
         }
     }
 
     private void autocompletar() throws SQLException, ClassNotFoundException {
-        listInstituciones = load.listar("0", new Institucion());
-        listClientes = load.listar("0", new Cliente());
-        listDoctores = load.listar("0", new Doctor());
-        listCristales = load.listar("0", new Cristal());
-        GV.setInventarioSeleccionado(stInventario.getId());
-        listLentes = load.listar("st", new Lente());
-        GV.setInventarioSeleccionado(0);
         TextAutoCompleter textAutoCompleter = new TextAutoCompleter(txtInstitucion);
         textAutoCompleter.setMode(0);
         TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
@@ -2403,10 +2398,13 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtSaldo.setText(GV.strToPrice(saldo));
     }
 
-    private void cargarDatos() throws SQLException, ClassNotFoundException {
+    private void cargarDatos() {
         //Limpiar todo menos doctor y datos de entrega
         resetTxtCliente();
+        txtCnvName.setText(strCnvName);
         Ficha ficha = GV.getFicha();
+        stArmazonCerca = GV.getFicha().getCerca();
+        stArmazonLejos = GV.getFicha().getLejos();
         Armazon cerca = stArmazonCerca;
         Armazon lejos = stArmazonLejos;
         Cliente cliente = stCliente;
@@ -2502,7 +2500,8 @@ public class VCrearFicha extends javax.swing.JPanel {
         txtCiudad.setText(ciudad);
         String comuna = (cliente!= null)? cliente.getComuna():"";
         txtComuna.setText(comuna);
-        cboSexo.setSelectedIndex(stCliente.getSexo());
+        int sexo = (cliente != null)? cliente.getSexo():0;
+        cboSexo.setSelectedIndex(sexo);
         String direccion = (cliente != null)? cliente.getDireccion():"";
         txtDireccionCliente.setText(direccion);
         Date nac = (cliente!=null)? cliente.getNacimiento():null;
@@ -2593,14 +2592,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         chkPlusMaxCerca.setSelected(false);
         chkPlusMaxLejos.setSelected(false);
         cboDescuento.setVisible(false);
+        cargarDatos();
+        cargarCbos();
         try {
-            cargarDatos();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            cargarCbos();
             autocompletar();
             calcularSaldo();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -2626,7 +2620,7 @@ public class VCrearFicha extends javax.swing.JPanel {
      * @param message 
      */
     private void msgRejected(String message) {
-        message = GV.getStr(message) + strCnvName;
+        message = GV.getStr(message);
         if(message.isEmpty()){
             lblMessageStatus.setText("");
             lblMessageStatus.setVisible(false);
@@ -2638,7 +2632,7 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
     
     private void msgWarning(String message){
-        message = GV.getStr(message) + strCnvName;
+        message = GV.getStr(message);
         if(message.isEmpty()){
             lblMessageStatus.setText("");
             lblMessageStatus.setVisible(false);
@@ -2657,73 +2651,93 @@ public class VCrearFicha extends javax.swing.JPanel {
         return !lblMessageStatus.isVisible();
     }
 
+//    private void comprobarDatosFicha(){
+//        calcularTotal();
+//        if(txtFecha.getDate() == null || !lugarEntregaValido()){
+//            msgRejected("Debe ingresar una fecha y lugar de entrega");
+//        }else{
+//            GV.getFicha().setFecha(new Date());
+//            GV.getFicha().setFechaEntrega(txtFecha.getDate());
+//            GV.getFicha().setLugarEntrega(txtEntrega.getText());
+//            GV.getFicha().setUser(GV.user());
+//            GV.getFicha().setObservacion(txtObs.getText());
+//            if(!hourIsValid()){
+//                msgRejected("Debe ingresar una hora de entrega válida");
+//            }else{
+//                if(!validaEspecialista()){
+//                    msgRejected("El especialista no se encuentra registrado en el sistema.");
+//                }else{
+//                    if(!rutValido()){
+//                        msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
+//                    }else{
+//                        if(!institucionValida()){
+//                            msgRejected("Debe ingresar una institución registrada en el sistema.");
+//                        }else{
+//                            if(!clientValid()){
+//                                msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
+//                            }else{
+//                                if(!mailValido()){
+//                                    msgRejected("Debe ingresar un email válido");
+//                                }else{
+//                                    if(!nacimientoValido()){
+//                                        msgRejected("Debe ingresar una fecha de nacimiento válida.");
+//                                    }else{
+//                                        if(!valorTotalValido()){
+//                                            msgRejected("Debe ingresar receta de lente.");
+//                                        }else{
+//                                            if(someGlassAndOneInStock()){
+//                                                msgRejected("Debe seleccionar un lente diferente, no hay stock disponible.");
+//                                            }else{
+//                                                if(!TipoPagoValido()){
+//                                                    msgRejected("Debe ingresar un tipo de pago válido.");
+//                                                }else{
+//                                                    asigAllDatas();
+//                                                    if(GV.getFicha().getSaldo()<0){
+//                                                        if(GV.strToNumber(txtDescuento.getText())>GV.strToNumber(txtTotal.getText())){
+//                                                            msgRejected("El descuento seleccionado no es válido, su monto es mayor al valor total.");
+//                                                        }else{
+//                                                            txtAbono.setValue(0);
+//                                                            msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
+//                                                        }
+//                                                    }else{
+//                                                        if(sinCristal()){
+//                                                            msgWarning("Falta ingresar un cristal...");
+//                                                        }else{
+//                                                            /*muestra el nombre del convenio si es que existe alguno seleccionado*/
+//                                                            msgWarning(strCnvName.replaceFirst("-", ""));
+//                                                        }
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     private void comprobarDatosFicha(){
         calcularTotal();
-        if(txtFecha.getDate() == null || !lugarEntregaValido()){
-            msgRejected("Debe ingresar una fecha y lugar de entrega");
-        }else{
-            GV.getFicha().setFecha(new Date());
-            GV.getFicha().setFechaEntrega(txtFecha.getDate());
-            GV.getFicha().setLugarEntrega(txtEntrega.getText());
-            GV.getFicha().setUser(GV.user());
-            GV.getFicha().setObservacion(txtObs.getText());
-            if(!hourIsValid()){
-                msgRejected("Debe ingresar una hora de entrega válida");
-            }else{
-                if(!validaEspecialista()){
-                    msgRejected("El especialista no se encuentra registrado en el sistema.");
-                }else{
-                    if(!rutValido()){
-                        msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
-                    }else{
-                        if(!institucionValida()){
-                            msgRejected("Debe ingresar una institución registrada en el sistema.");
-                        }else{
-                            if(!clientValid()){
-                                msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
-                            }else{
-                                if(!mailValido()){
-                                    msgRejected("Debe ingresar un email válido");
-                                }else{
-                                    if(!nacimientoValido()){
-                                        msgRejected("Debe ingresar una fecha de nacimiento válida.");
-                                    }else{
-                                        if(!valorTotalValido()){
-                                            msgRejected("Debe ingresar receta de lente.");
-                                        }else{
-                                            if(someGlassAndOneInStock()){
-                                                msgRejected("Debe seleccionar un lente diferente, no hay stock disponible.");
-                                            }else{
-                                                if(!TipoPagoValido()){
-                                                    msgRejected("Debe ingresar un tipo de pago válido.");
-                                                }else{
-                                                    asigAllDatas();
-                                                    if(GV.getFicha().getSaldo()<0){
-                                                        if(GV.strToNumber(txtDescuento.getText())>GV.strToNumber(txtTotal.getText())){
-                                                            msgRejected("El descuento seleccionado no es válido, su monto es mayor al valor total.");
-                                                        }else{
-                                                            txtAbono.setValue(0);
-                                                            msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
-                                                        }
-                                                    }else{
-                                                        if(sinCristal()){
-                                                            msgWarning("Falta ingresar un cristal...");
-                                                        }else{
-                                                            /*muestra el nombre del convenio si es que existe alguno seleccionado*/
-                                                            msgWarning(strCnvName.replaceFirst("-", ""));
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        msgRejectedClear();
+        validaTipoPago();
+        validaSaldo();
+        validaCristales();
+        validaStockDeLentesIguales();
+        validaTotalMayorACero();
+        validaFechaNacimiento();
+        validaMail();
+        validaCliente();
+        validaInstitucion();
+        validaRut();
+        validaEspecialista();
+        validaHora();
+        validaLugarEntrega();
+        validaFechaEntrega();
+        asigAllDatas();
     }
     
     private void commitSpinner() {
@@ -2738,24 +2752,25 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
     }
 
-    private boolean someGlassAndOneInStock(){
+    private boolean validaStockDeLentesIguales(){
         String lenName1 = txtArmazonLejos.getText();
         String lenName2 = txtArmazonCerca.getText();
-        if(lenName1.toLowerCase().equals(lenName2.toLowerCase())){
+        if(lenName1.length() > 2 && lenName1.toLowerCase().equals(lenName2.toLowerCase())){
             Lente temp;
             try {
                 temp = ((Lente)load.get(lenName2, 0, new Lente())!=null)? (Lente)load.get(lenName2, 0, new Lente()):new Lente();
-                if(temp.getStock()==1){
-                    return true;
+                if(temp.getStock()==0){
+                    msgRejected("Debe seleccionar un lente diferente, no hay stock disponible.");
+                    return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return false;
+        return true;
     }
     
-    private boolean hourIsValid() {
+    private boolean validaHora() {
         commitSpinner();
         int hora1 = GV.strToNumber(txtHora1.getValue().toString());
         int hora2 = GV.strToNumber(txtHora2.getValue().toString());
@@ -2766,10 +2781,11 @@ public class VCrearFicha extends javax.swing.JPanel {
                 return true;
             }
         }
+        msgRejected("Debe ingresar una hora de entrega válida");
         return false;
     }
 
-    private boolean clientValid() {
+    private boolean validaCliente() {
         String nombre  = GV.getStr(txtNombreCliente.getText());
         String tel1 = GV.getStr(txtTelefonoCliente1.getText());
         String tel2 = GV.getStr(txtTelefonoCliente2.getText());
@@ -2805,6 +2821,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 }
             }
         }
+        msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
         return false;
     }
 
@@ -2837,7 +2854,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
     }
 
-    private boolean nacimientoValido() {
+    private boolean validaFechaNacimiento() {
         int year = GV.strToNumber(GV.dateToString(txtNacimiento.getDate(), "yyyy"));
         int currentYear = GV.strToNumber(GV.dateToString(new Date(), "yyyy"));
         int dif = currentYear - year;
@@ -2847,24 +2864,27 @@ public class VCrearFicha extends javax.swing.JPanel {
             }
             return true;
         }
+        msgRejected("Debe ingresar una fecha de nacimiento válida.");
         return false;
     }
 
-    private boolean valorTotalValido() {
+    private boolean validaTotalMayorACero() {
         int total = GV.strToNumber(txtTotal.getText());
         if(total > 0){
             setArmazones();
             return true;
         }
+        msgRejected("Debe ingresar receta de lente.");
         return false;
     }
  
-    private boolean TipoPagoValido() {
+    private boolean validaTipoPago() {
         commitSpinner();
         stTipoPago = null;
         int abono = (int)txtAbono.getValue();
         if(abono > 0){
             if(cboTipoPago.getSelectedIndex() == 0){
+                msgRejected("Debe ingresar un tipo de pago válido.");
                 return false;
             }else{
                 try {
@@ -2873,6 +2893,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                     Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if(stTipoPago == null){
+                    msgRejected("Debe ingresar un tipo de pago válido.");
                     return false;
                 }
             }
@@ -2880,11 +2901,13 @@ public class VCrearFicha extends javax.swing.JPanel {
         return true;
     }
 
-    private boolean rutValido() {
+    private boolean validaRut() {
         if(GV.getStr(txtRutCliente.getText()).isEmpty()){
+            msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
             return false;
         }else{
             if(txtRutCliente.getForeground() == rojo && !chkExtranjero.isSelected()){
+                msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
                 return false;
             }
         }
@@ -2919,13 +2942,27 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         return arg.trim();
     }
+    
+    private boolean validaFechaEntrega(){
+        if(txtFecha.getDate() == null){
+            msgRejected("Debe ingresar datos de entrega");
+            return false;
+        }else{
+            GV.getFicha().setFecha(new Date());
+            GV.getFicha().setUser(GV.user());
+            GV.getFicha().setObservacion(GV.getStr(txtObs.getText()));
+            GV.getFicha().setFechaEntrega(txtFecha.getDate());
+            return true;
+        }
+    }
 
-    private boolean lugarEntregaValido() {
+    private boolean validaLugarEntrega() {
         int largo = txtEntrega.getText().length();
         if(largo > 4 && largo < 45){
             GV.getFicha().setLugarEntrega(GV.getStr(txtEntrega.getText()));
             return true;
         }
+        msgRejected("Debe ingresar datos de entrega");
         return false;
     }
 
@@ -2941,6 +2978,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 stDoctor = (Doctor)load.get(getIdFromString(rut), 0, new Doctor());
                 if(stDoctor == null){
                     txtDoctor.setForeground(rojo);
+                    msgRejected("El especialista no se encuentra registrado en el sistema.");
                     return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -2958,10 +2996,11 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
     }
 
-    private boolean mailValido() {
+    private boolean validaMail() {
         String mail = GV.mailValidate(txtMailCliente.getText());
         if(!GV.getStr(txtMailCliente.getText()).isEmpty() && 
                 mail.isEmpty()){
+            msgRejected("Debe ingresar un email válido");
             return false;
         }
         if(stCliente != null){
@@ -2978,24 +3017,32 @@ public class VCrearFicha extends javax.swing.JPanel {
         
     }
 
-    private boolean sinCristal() {
+    private boolean validaCristales() {
         Color c1 = txtCristalCerca.getForeground();
         Color c2 = txtCristalLejos.getForeground();
         if(!GV.getStr(txtArmazonCerca.getText()).isEmpty()){
             if(GV.getStr(txtCristalCerca.getText()).isEmpty() || c1 == rojo){
-                return true;
+                msgWarning("Falta ingresar un cristal...");
+                return false;
+            }else{
+                stArmazonCerca.setCristal(stCristalCerca.getNombre());
+                GV.getFicha().setCerca(stArmazonCerca);
             }
         }
         if(!GV.getStr(txtArmazonLejos.getText()).isEmpty()){
             if(GV.getStr(txtCristalLejos.getText()).isEmpty() || c2 == rojo){
-                return true;
+                msgWarning("Falta ingresar un cristal...");
+                return false;
+            }else{
+                stArmazonLejos.setCristal(stCristalLejos.getNombre());
+                GV.getFicha().setLejos(stArmazonLejos);
             }
         }
-        return false;
+        return true;
     }
 
     private void asigAllDatas() {
-        try {
+//        try {
             int tpCerca = 0;
             int tpLejos = 1;
             int capa1 = (chkCapaCerca.isSelected())? 1:0;
@@ -3005,22 +3052,28 @@ public class VCrearFicha extends javax.swing.JPanel {
             int pm1 = (chkPlusMaxCerca.isSelected())? 1:0;
             int pm2 = (chkPlusMaxLejos.isSelected())? 1:0;
             
-            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
-            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
-            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
-            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
+//            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
+//            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
+//            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
+//            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
             
-            stArmazonCerca = new Armazon();
+            stArmazonCerca = (stArmazonCerca==null)?new Armazon():stArmazonCerca;
             stArmazonCerca.setAdd(txtAddCerca.getText());
             stArmazonCerca.setCapa(capa1);
-            stArmazonCerca.setCristal(stCristalCerca.getNombre());
-            int precioCristalCerca = (stConvenio==null)?stCristalCerca.getPrecio():stCristalCerca.getPrecio() + ((stCristalCerca.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonCerca.setCristal(txtCristalCerca.getText());
+            int precioCristalCerca=0;
+            if(stCristalCerca != null){
+            precioCristalCerca = (stConvenio==null)?stCristalCerca.getPrecio():stCristalCerca.getPrecio() + ((stCristalCerca.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            }
             stArmazonCerca.setPrecioCristal(precioCristalCerca);
             stArmazonCerca.setDp((int)txtDPCerca.getValue());
             stArmazonCerca.setEndurecido(en1);
             stArmazonCerca.setEstado(1);
-            stArmazonCerca.setMarca(stLenteCerca.getCod());
-            int precioMarcaCerca = (stConvenio==null)?stLenteCerca.getPrecioAct():stLenteCerca.getPrecioAct() + ((stLenteCerca.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonCerca.setMarca(txtArmazonCerca.getText());
+            int precioMarcaCerca=0;
+            if(stLenteCerca != null){
+                precioMarcaCerca = (stConvenio==null)?stLenteCerca.getPrecioAct():stLenteCerca.getPrecioAct() + ((stLenteCerca.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            }
             stArmazonCerca.setPrecioMarca(precioMarcaCerca);
             stArmazonCerca.setOdA(txtODCercaA.getText());
             stArmazonCerca.setOdCil(txtODCercaCIL.getText());
@@ -3032,16 +3085,22 @@ public class VCrearFicha extends javax.swing.JPanel {
             stArmazonCerca.setTipo(tpCerca);
             
             
-            stArmazonLejos = new Armazon();
+            stArmazonLejos = (stArmazonLejos == null)?new Armazon():stArmazonLejos;
             stArmazonLejos.setCapa(capa2);
-            stArmazonLejos.setCristal(stCristalLejos.getNombre());
-            int precioCristalLejos = (stConvenio==null)?stCristalLejos.getPrecio():stCristalLejos.getPrecio() + ((stCristalLejos.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonLejos.setCristal(txtCristalLejos.getText());
+            int precioCristalLejos =0;
+            if(stCristalLejos != null){
+                precioCristalLejos = (stConvenio==null)?stCristalLejos.getPrecio():stCristalLejos.getPrecio() + ((stCristalLejos.getPrecio() * stConvenio.getPorcentajeAdicion())/100);
+            }
             stArmazonLejos.setPrecioCristal(precioCristalLejos);
             stArmazonLejos.setDp((int)txtDPLejos.getValue());
             stArmazonLejos.setEndurecido(en2);
             stArmazonLejos.setEstado(1);
-            stArmazonLejos.setMarca(stLenteLejos.getCod());
-            int precioMarcaLejos = (stConvenio==null)?stLenteLejos.getPrecioAct():stLenteLejos.getPrecioAct() + ((stLenteLejos.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            stArmazonLejos.setMarca(txtArmazonLejos.getText());
+            int precioMarcaLejos = 0;
+            if(stLenteLejos != null){
+                precioMarcaLejos = (stConvenio==null)?stLenteLejos.getPrecioAct():stLenteLejos.getPrecioAct() + ((stLenteLejos.getPrecioAct() * stConvenio.getPorcentajeAdicion())/100);
+            }
             stArmazonLejos.setPrecioMarca(precioMarcaLejos);
             stArmazonLejos.setOdA(txtODLejosA.getText());
             stArmazonLejos.setOdCil(txtODLejosCIL.getText());
@@ -3059,18 +3118,12 @@ public class VCrearFicha extends javax.swing.JPanel {
             GV.getFicha().setDescuento(GV.strToNumber(txtDescuento.getText()));
             GV.getFicha().setValorTotal(GV.strToNumber(txtTotal.getText()));
             GV.getFicha().setSaldo(GV.strToNumber(txtSaldo.getText()));
-        } catch (SQLException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+//            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
-    private boolean institucionValida() {
+    private boolean validaInstitucion() {
         String ins = GV.getStr(txtInstitucion.getText());
         stInstitucion = null;
         GV.getFicha().setInstitucion(null);
@@ -3082,6 +3135,7 @@ public class VCrearFicha extends javax.swing.JPanel {
                 stInstitucion = (Institucion)load.get(null, GV.strToNumber(getIdFromString(ins)), new Institucion());
                 if(stInstitucion == null){
                     txtInstitucion.setForeground(rojo);
+                    msgRejected("Debe ingresar una institución registrada en el sistema.");
                     return false;
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
@@ -3194,19 +3248,43 @@ public class VCrearFicha extends javax.swing.JPanel {
         }else{
             btnClearConvenio.setVisible(true);
             ContentAdmin.lblTitle.setText("Nueva receta oftalmológica con convenio: "+stConvenio.getNombre());
-            strCnvName = " - Convenio seleccionado: "+stConvenio.getNombre();
+            strCnvName = "Convenio: "+stConvenio.getNombre();
         }
+        cargarDatos();
         comprobarDatosFicha();
     }
 
     private void cargarValores() {
-        try {
-            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
-            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
-            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
-            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+//        try {
+//            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
+//            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
+//            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
+//            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
+//        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+//            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+    }
+
+    private void validaSaldo() {
+        if(GV.getFicha().getSaldo()<0){
+            if(GV.strToNumber(txtDescuento.getText())>GV.strToNumber(txtTotal.getText())){
+                msgRejected("El descuento seleccionado no es válido, su monto es mayor al valor total.");
+            }else{
+                txtAbono.setValue(0);
+                msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
+            }
         }
+    }
+
+    private void loadStaticObjectList() {
+        listTipoPagos = load.listar("0", new TipoPago());
+        listInstituciones = load.listar("0", new Institucion());
+        listClientes = load.listar("0", new Cliente());
+        listDoctores = load.listar("0", new Doctor());
+        listCristales = load.listar("0", new Cristal());
+        listDescuentos = load.listar("0", new Descuento());
+        GV.setInventarioSeleccionado(stInventario.getId());
+        listLentes = load.listar("st", new Lente());
+        GV.setInventarioSeleccionado(0);
     }
 }
