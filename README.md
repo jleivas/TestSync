@@ -2,7 +2,11 @@
 
 ## Introducción
 
-Opcentra es una aplicación de escritorio basada en OptiData version 3 utilizado para registrar recetas doftalmológicas y almacenamiento de datos de clientes en las ópticas, tiene la capacidad tanto de imprimir el comprobante para el cliente como de enviarlo por correo, envía reporte de recetas efectuadas y obtiene reportes de ventas por periodo, actualmente se encuentra disponible la tercera versión del sistema.
+Opcentra es una aplicación de escritorio basada en OptiData version 3 utilizado para registrar recetas 
+oftalmológicas y almacenamiento de datos de clientes en las ópticas, tiene la capacidad tanto de imprimir 
+el comprobante para el cliente como de enviarlo por correo, envía reporte de recetas efectuadas y 
+obtiene reportes de ventas por periodo, actualmente se encuentra disponible la tercera versión del 
+sistema en softdirex.cl, Opcentra es la cuarta versión y se encuentra en desarrollo.
 
 ## Mejoras
 
@@ -21,4 +25,5 @@ Opcentra es una aplicación de escritorio basada en OptiData version 3 utilizado
 Requisitos previos:
 - Tener instalado java 1.8 o superior
 Para instalar:
-No requiere de otro software adicional, la instalación será sencilla y no requierirá de un mayor conocimiento técnico para que el sistema quede habilitado.
+- No requiere de otro software adicional, la instalación será más sencilla y no será necesario tener un mayor conocimiento 
+técnico para la puesta en marcha del sistema.
