@@ -5,10 +5,7 @@
  */
 package fn.globalValues;
 
-import dao.Dao;
 import entities.Cliente;
-import entities.Cristal;
-import entities.Lente;
 import entities.ficha.Ficha;
 import fn.CalibracionGlobal;
 import fn.GV;
@@ -21,10 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -46,7 +40,9 @@ public class GlobalValuesPrint {
         InputStream is = null;
         JasperPrint jsp = null;
         FichaDataSource dt = new FichaDataSource();
+//        for (int i = 0; i < 5; i++) {
         dt.addFicha(ficha);
+//        }
         try{
             is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"ficha.jrxml");
         }catch(FileNotFoundException e){
