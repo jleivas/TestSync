@@ -6,6 +6,7 @@
 package entities;
 
 import entities.abstractclasses.SyncIntId;
+import fn.GV;
 import java.util.Date;
 
 /**
@@ -42,6 +43,15 @@ public class Convenio extends SyncIntId{
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
+    }
+    
+    public boolean activo(){
+        if(getFechaInicio() == null || getFechaFin() == null)
+            return false;
+        if(GV.fechaActualOPasada(getFechaInicio()) && 
+                GV.fechaActualOFutura(getFechaFin()))
+            return true;
+        return false;
     }
 
     public void setPorcentajeAdicion(int porcentajeAdicion) {

@@ -11,7 +11,6 @@ import entities.Doctor;
 import entities.Institucion;
 import entities.TipoPago;
 import entities.ficha.Armazon;
-import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.Boton;
@@ -27,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SpinnerNumberModel;
 import view.opanel.OpanelGuaranteeData;
+import view.opanel.OpanelViewOrOpenDelivery;
 
 /**
  *
@@ -46,12 +46,8 @@ public class VFicha extends javax.swing.JPanel {
     public VFicha() throws SQLException, ClassNotFoundException {
         
         initComponents();
-        
-        ContentAdmin.lblTitle.setText("Ficha");
         cargarCbos();
         load();
-        
-        
         GV.cursorDF();
         GV.cursorDF(this);
         
@@ -173,6 +169,7 @@ public class VFicha extends javax.swing.JPanel {
         btnAbonar = new javax.swing.JLabel();
         btnHistorialPagos = new javax.swing.JLabel();
         btnGarantia = new javax.swing.JLabel();
+        btnDespachar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -206,7 +203,7 @@ public class VFicha extends javax.swing.JPanel {
         jPanel1.add(txtLugarEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, -1));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Hasta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 1, 14))); // NOI18N
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Hora", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 1, 14))); // NOI18N
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         iconClock2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Clock_25px.png"))); // NOI18N
@@ -1194,12 +1191,28 @@ public class VFicha extends javax.swing.JPanel {
             }
         });
 
+        btnDespachar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Move_Stock_50px.png"))); // NOI18N
+        btnDespachar.setToolTipText("Datos de despacho");
+        btnDespachar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDespacharMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDespacharMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDespacharMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnDespachar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGarantia)
                 .addGap(18, 18, 18)
                 .addComponent(btnHistorialPagos)
@@ -1267,7 +1280,8 @@ public class VFicha extends javax.swing.JPanel {
                     .addComponent(btnPrint)
                     .addComponent(btnAbonar)
                     .addComponent(btnHistorialPagos)
-                    .addComponent(btnGarantia))
+                    .addComponent(btnGarantia)
+                    .addComponent(btnDespachar))
                 .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1633,8 +1647,12 @@ public class VFicha extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHistorialPagosMouseExited
 
     private void btnGarantiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGarantiaMouseClicked
-        OptionPane.showOptionPanel(new OpanelGuaranteeData(GV.getOpenFicha()), OptionPane.titleFichaGuarantee());
-           
+        if(GV.getOpenFicha().getEstado() == GV.estadoFichaDelivered()){
+            OptionPane.showOptionPanel(new OpanelGuaranteeData(GV.getOpenFicha()), OptionPane.titleFichaGuarantee());
+        }else{
+            OptionPane.showMsg("No se pudo generar solicitud", "Sólo se generan garantías a productos despachados", 2);
+        }
+        return;  
     }//GEN-LAST:event_btnGarantiaMouseClicked
 
     private void btnGarantiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGarantiaMouseEntered
@@ -1645,9 +1663,29 @@ public class VFicha extends javax.swing.JPanel {
         btnGarantia.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnGarantia.getIcon().toString()))));
     }//GEN-LAST:event_btnGarantiaMouseExited
 
+    private void btnDespacharMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharMouseClicked
+        if(GV.getOpenFicha().getEstado() == GV.estadoFichaDelivered() || 
+                GV.getOpenFicha().getEstado()==GV.estadoFichaPaid() || 
+                GV.getOpenFicha().getEstado() == GV.estadoFichaWarranty()){
+            OptionPane.showOptionPanel(new OpanelViewOrOpenDelivery(), OptionPane.titleDeliver());
+        }else{
+            OptionPane.showMsg("No se puede generar reporte", "Para generar un reporte de despacho debe seleccionar una\n"
+                    + "receta oftalmológica pagada o en garantía", 2);
+        }
+    }//GEN-LAST:event_btnDespacharMouseClicked
+
+    private void btnDespacharMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharMouseEntered
+        btnDespachar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnDespachar.getIcon().toString()))));
+    }//GEN-LAST:event_btnDespacharMouseEntered
+
+    private void btnDespacharMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharMouseExited
+        btnDespachar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnDespachar.getIcon().toString()))));
+    }//GEN-LAST:event_btnDespacharMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbonar;
+    private javax.swing.JLabel btnDespachar;
     private javax.swing.JLabel btnGarantia;
     private javax.swing.JLabel btnHistorialPagos;
     private javax.swing.JLabel btnPrint;
@@ -1768,7 +1806,14 @@ public class VFicha extends javax.swing.JPanel {
 
     private void cargarDatos() throws SQLException, ClassNotFoundException {
         //Limpiar todo menos doctor y datos de entrega
+        
         Ficha ficha = GV.getOpenFicha();
+        if(ficha.getConvenio() !=null && 
+                ficha.getConvenio().getFechaInicio() != null){
+            ContentAdmin.lblTitle.setText("Receta oftalmológica "+getEstado()+" con convenio: "+ficha.getConvenio().getNombre());
+        }else{
+            ContentAdmin.lblTitle.setText("Receta oftalmológica "+getEstado()+" generada el "+GV.dateToString(GV.getOpenFicha().getFecha(), "dd.mm.yyyy"));
+        }
         String folio = (ficha.getCod() != null)? ficha.getCod():"";
         
         Doctor doctor = (ficha.getDoctor()!= null)? ficha.getDoctor():new Doctor();
@@ -1932,5 +1977,17 @@ public class VFicha extends javax.swing.JPanel {
     
     private void msgRejectedClear(){
         msgRejected(null);
+    }
+
+    private String getEstado() {
+        String status = "";
+        int estado = GV.getOpenFicha().getEstado();
+        if(estado == GV.estadoFichaDeleted())status = "anulada";
+        if(estado == GV.estadoFichaDelivered())status = "entregada";
+        if(estado == GV.estadoFichaPaid())status = "pagada";
+        if(estado == GV.estadoFichaPending())status = "por pagar";
+        if(estado == GV.estadoFichaWarranty())status = "en garantía";
+        if(GV.getOpenFicha().getValorTotal() == 0)status = "en garantía";
+        return status;
     }
 }

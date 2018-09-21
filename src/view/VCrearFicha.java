@@ -3191,7 +3191,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(abono > 0){
             hp = new HistorialPago(null, new Date(), abono, stTipoPago.getId(), GV.getFicha().getCod(),1, null, 0);
         }
-        
+        if(stConvenio != null){
+            GV.getFicha().setConvenio(stConvenio);
+        }
         load.createFicha(GV.getFicha(),hp);
     }
 
@@ -3243,7 +3245,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         stConvenio = GV.getConvenio();
         if(stConvenio == null){
             btnClearConvenio.setVisible(false);
-            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica corriente");
+            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica");
             strCnvName = "";
         }else{
             btnClearConvenio.setVisible(true);

@@ -16,6 +16,7 @@ import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
 import fn.OptionPane;
+import static fn.ValidaRut.validarRut;
 import fn.date.Cmp;
 import fn.mail.Send;
 import java.sql.SQLException;
@@ -501,16 +502,60 @@ public class GlobalValuesFunctions {
     }
 
     public static void createGuaranteeFicha(Ficha ficha) {
-        try {
-            Dao load = new Dao();
-            load.createFicha(ficha, null);
-            load.add(ficha.getCerca());
-            load.add(ficha.getLejos());
-            load.add(ficha);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
-            OptionPane.showMsg("Error al guardar los datos", "La garantía no se pudo generar\n"
-                    + ex.getMessage(), 3);
+        Dao load = new Dao();
+        load.createFicha(ficha, null);
+        OptionPane.showMsg("Operación finalizada", "Se ha registrado una nueva garantía", 1);
+    }
+
+    public static boolean validaRut(String rut) {
+        return validarRut(rut);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es igual
+     * o superior a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaActualOFutura(Date date){
+        if(GV.dateToString(date, "ddmmyyyy")
+                .equals(GV.dateToString(new Date(), "ddmmyyyy"))){
+            return true;
         }
+        return fechaFutura(date);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es
+     * superior a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaFutura(Date date){
+        return date.after(new Date());
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es inferior
+     * a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaPasada(Date date){
+        if(GV.dateToString(date, "ddmmyyyy")
+                .equals(GV.dateToString(new Date(), "ddmmyyyy"))){
+            return false;
+        }
+        return fechaActualOPasada(date);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es 
+     * pasada o igual a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaActualOPasada(Date date){
+        return date.before(new Date());
     }
 }

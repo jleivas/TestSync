@@ -571,7 +571,7 @@ public class VFichas extends javax.swing.JPanel {
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
-                if(status == GV.estadoFichaPaid()&& temp.getEstado() == GV.estadoFichaPaid()){
+                if(status == GV.estadoFichaPaid()&& (temp.getEstado() == GV.estadoFichaPaid() || temp.getEstado() == GV.estadoFichaDelivered())){
                     Object[] fila = new Object[5];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");

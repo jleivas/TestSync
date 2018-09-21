@@ -60,6 +60,9 @@
 	<field name="abonos" class="java.lang.String"/>
 	<field name="saldos" class="java.lang.String"/>
 	<field name="defaultMsg" class="java.lang.String"/>
+	<field name="dspRut" class="java.lang.String"/>
+	<field name="dspNombre" class="java.lang.String"/>
+	<field name="dspFecha" class="java.lang.String"/>
 	<background>
 		<band/>
 	</background>
@@ -741,6 +744,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="310" width="140" height="20" forecolor="#002259" uuid="9fdf891e-6132-4dee-a495-fb8feda51e96"/>
+				<box rightPadding="3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
@@ -763,31 +767,10 @@
 				<text><![CDATA[Firma]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="210" y="290" width="202" height="20" uuid="74f31f6b-09d0-4d9c-8721-6a4f43561884"/>
+				<reportElement x="482" y="310" width="73" height="30" uuid="b4c54acf-f8ab-485b-9fcf-6f2eab1a18c5"/>
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="150" y="310" width="262" height="20" uuid="75af1750-8096-44a1-a60c-c0fe84a5de17"/>
-				<box>
-					<pen lineWidth="0.25"/>
-				</box>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="482" y="310" width="72" height="30" uuid="b4c54acf-f8ab-485b-9fcf-6f2eab1a18c5"/>
-				<box>
-					<pen lineWidth="0.25"/>
-				</box>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="482" y="290" width="72" height="20" uuid="4853a72a-6579-4744-8c7f-4aad895d56c8"/>
-				<box>
-					<pen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="false"/>
-				</textElement>
 			</textField>
 			<staticText>
 				<reportElement x="3" y="340" width="554" height="10" forecolor="#002259" uuid="41dbbdc3-99da-47c1-be2e-878f96bae976"/>
@@ -842,6 +825,30 @@
 					<text><![CDATA[Detalle de venta]]></text>
 				</staticText>
 			</frame>
+			<textField isBlankWhenNull="true">
+				<reportElement x="208" y="290" width="204" height="20" uuid="88035db0-23e1-4f94-917e-6a78eed662e6"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dspRut}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="310" width="272" height="20" uuid="2b4c29e4-35b6-405a-8028-d4ff12c48f51"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dspNombre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="482" y="290" width="73" height="20" uuid="93569163-8110-428a-b50b-bca5720082d7"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dspFecha}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

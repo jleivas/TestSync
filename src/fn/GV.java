@@ -205,6 +205,9 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.formatRut(rut);
     }
     
+    public static boolean validaRut(String rut) {
+        return GlobalValuesFunctions.validaRut(rut);
+    }
     /**
      * Envia un reporte de ventas por correo
      * @param report 
@@ -232,6 +235,10 @@ public class GV extends GlobalValuesCursor{
     
     public static String getStr(String arg){
         return GlobalValuesFunctions.getStr(arg);
+    }
+    
+    public static String getStToName(String arg){
+        return GlobalValuesFunctions.getToName(arg);
     }
     
     public static String className(Object type){
@@ -352,6 +359,46 @@ public class GV extends GlobalValuesCursor{
     
     public static void crearGarantia(Ficha ficha) {
         GlobalValuesFunctions.createGuaranteeFicha(ficha);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es igual
+     * o superior a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaActualOFutura(Date date){
+        return GlobalValuesFunctions.fechaActualOFutura(date);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es
+     * superior a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaFutura(Date date){
+        return GlobalValuesFunctions.fechaFutura(date);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es inferior
+     * a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaPasada(Date date){
+        return GlobalValuesFunctions.fechaPasada(date);
+    }
+    
+    /**
+     * retorna true si la fecha ingresada por parametros es 
+     * pasada o igual a la fecha actual
+     * @param date
+     * @return 
+     */
+    public static boolean fechaActualOPasada(Date date){
+        return GlobalValuesFunctions.fechaActualOPasada(date);
     }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/

@@ -64,6 +64,9 @@ public class ReportFicha {
     String companyRut;
     String companyGiro;
     String defaultMsg;
+    String dspRut;
+    String dspNombre;
+    String dspFecha;
 
     public ReportFicha() {
     }
@@ -73,7 +76,10 @@ public class ReportFicha {
             String companyPronombre,
             String companyRut,
             String companyGiro,
-            String defaulMsg
+            String defaulMsg,
+            String dspRut,
+            String dspNombre,
+            String dspFecha
     ) {
         this.defaultMsg = defaulMsg;
         this.date = date;
@@ -129,6 +135,33 @@ public class ReportFicha {
         this.companyPronombre = companyPronombre;
         this.companyRut = companyRut;
         this.companyGiro = companyGiro;
+        this.dspFecha = dspFecha;
+        this.dspNombre = dspNombre;
+        this.dspRut = dspRut;
+    }
+
+    public void setDspRut(String dspRut) {
+        this.dspRut = dspRut;
+    }
+
+    public void setDspNombre(String dspNombre) {
+        this.dspNombre = dspNombre;
+    }
+
+    public void setDspFecha(String dspFecha) {
+        this.dspFecha = dspFecha;
+    }
+
+    public String getDspRut() {
+        return dspRut;
+    }
+
+    public String getDspNombre() {
+        return dspNombre;
+    }
+
+    public String getDspFecha() {
+        return dspFecha;
     }
 
     public void setDefaultMsg(String defaultMsg) {

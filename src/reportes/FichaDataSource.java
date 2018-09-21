@@ -57,6 +57,7 @@ public class FichaDataSource implements JRDataSource{
         String total = GV.strToPrice(ficha.getValorTotal()-ficha.getDescuento());
         String abonos = obtenerAbonos(ficha.getCod());
         String saldo = GV.strToPrice(ficha.getSaldo());
+        String dspFecha = (ficha.getDespacho().getFecha() != null)?GV.dateToString(ficha.getDespacho().getFecha(), "dd/mm/yyyy"):"";
         rpf = new ReportFicha(GV.dateToString(ficha.getFecha(), "dd/mm/yyyy"),
                 ficha.getCod(), ficha.getLugarEntrega(), 
                 GV.dateToString(ficha.getFechaEntrega(), "dd/mm/yyyy")+" "+ficha.getHoraEntrega().replaceAll(" ", ""),
@@ -77,7 +78,9 @@ public class FichaDataSource implements JRDataSource{
                 GV.strToPrice(precioLente2), GV.strToPrice(precioCristal2), 
                 GV.strToPrice(ficha.getValorTotal()),descuentoFormatPrint(-ficha.getDescuento()), abonos, saldo,
                 GV.getCompanyDescription(),
-                GV.getCompanyRut(),GV.getCompanyGiro(),GV.getMessageFile());
+                GV.getCompanyRut(),GV.getCompanyGiro(),GV.getMessageFile(),
+                ficha.getDespacho().getRut(),ficha.getDespacho().getNombre(),
+                dspFecha);
         this.thisFicha.add(rpf);
     }
     
@@ -212,6 +215,15 @@ public class FichaDataSource implements JRDataSource{
         }
         if("defaultMsg".equals(jrf.getName())){
             valor = thisFicha.get(currentIndex).getDefaultMsg();
+        }
+        if("dspRut".equals(jrf.getName())){
+            valor = thisFicha.get(currentIndex).getDspRut();
+        }
+        if("dspNombre".equals(jrf.getName())){
+            valor = thisFicha.get(currentIndex).getDspNombre();
+        }
+        if("dspFecha".equals(jrf.getName())){
+            valor = thisFicha.get(currentIndex).getDspFecha();
         }
         
         return valor;

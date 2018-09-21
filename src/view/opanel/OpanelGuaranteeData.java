@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 public class OpanelGuaranteeData extends javax.swing.JPanel {
     private static Ficha ficha;
     private static String horaEntrega="";
+    private static String stOldFicha="";
     /**
      * Creates new form OpanelSelectDate
      */
@@ -304,6 +305,7 @@ public class OpanelGuaranteeData extends javax.swing.JPanel {
         if(datosValidos()){
             asignarDatos();
             GV.crearGarantia(ficha);
+            GV.getFichas().add(ficha);
             OptionPane.closeOptionPanel();
         }else{
             return;
@@ -406,6 +408,7 @@ public class OpanelGuaranteeData extends javax.swing.JPanel {
 
     private void loadData() {
             txtLugar.setText(ficha.getLugarEntrega());
+            stOldFicha = ficha.getCod();
     }
 
     private boolean datosValidos() {
@@ -423,6 +426,10 @@ public class OpanelGuaranteeData extends javax.swing.JPanel {
     private boolean validaFecha() {
         Date fecha = txtFecha.getDate();
         if(fecha == null)return false;
+        if(GV.dateToString(fecha, "ddmmyyyy")
+                .equals(GV.dateToString(new Date(), "ddmmyyyy"))){
+            return true;
+        }
         if(fecha.compareTo(new Date()) < 0)return false;
         return true;
     }
@@ -483,6 +490,7 @@ public class OpanelGuaranteeData extends javax.swing.JPanel {
     }
 
     private void asignarDatos() {
+        Dao load = new Dao();
         Armazon lejos = new Armazon(null, ficha.getLejos().getTipo(), ficha.getLejos().getMarca()
                 , 0, ficha.getLejos().getCristal(), 0, ficha.getLejos().getAdd(), ficha.getLejos().getOdA(), 
                 ficha.getLejos().getOdEsf(), ficha.getLejos().getOdCil(), ficha.getLejos().getOiA(), 
@@ -495,13 +503,15 @@ public class OpanelGuaranteeData extends javax.swing.JPanel {
                 ficha.getCerca().getOiEsf(), ficha.getCerca().getOiCil(), ficha.getCerca().getDp(), 
                 ficha.getCerca().getEndurecido(), ficha.getCerca().getCapa(), ficha.getCerca().getPlusMax(), 
                 null, 1, null, 0);
-        Ficha garantia = new Ficha(null, new Date(), txtFecha.getDate(), txtLugar.getText(), 
+        Ficha garantia = new Ficha(load.getCurrentCod(new Ficha()), new Date(), txtFecha.getDate(), txtLugar.getText(), 
                 horaEntrega, txtObs.getText(), 0, 0, 0, ficha.getCliente(), ficha.getDoctor(), 
                 ficha.getInstitucion(), null, lejos, cerca, GV.user(), null, 4, null, 0);
-        Dao load = new Dao();
-        ficha.setCod(load.getCurrentCod(new Ficha()));
-        ficha.getCerca().setIdFicha(ficha.getCod());
-        ficha.getLejos().setIdFicha(ficha.getCod());
+        
+        
+        garantia.getCerca().setIdFicha(garantia.getCod());
+        garantia.getLejos().setIdFicha(garantia.getCod());
+        garantia.setObservacion(garantia.getObservacion()+"\n"+
+                "[Garantía correspondiente a la ficha: "+stOldFicha+"]");
         ficha = garantia;
     }
 }
