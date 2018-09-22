@@ -1039,46 +1039,46 @@ public class Remote implements InterfaceSync{
                         + "(SELECT despacho.dsp_estado from despacho where f.despacho_dsp_id=despacho.dsp_id)  as dsp_estado,"
                         + "(SELECT despacho.dsp_last_update from despacho where f.despacho_dsp_id=despacho.dsp_id)  as dsp_last_update,"
                         + "(SELECT despacho.dsp_last_hour from despacho where f.despacho_dsp_id=despacho.dsp_id)  as dsp_last_hour,"
-                        + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_id_cerca,"
-                        + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_tipo_cerca,"
-                        + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_marca_cerca,"
-                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_marca_cerca,"
-                        + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_cristal_cerca,"
-                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_cristal_cerca,"
-                        + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_add_cerca,"
-                        + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_a_cerca,"
-                        + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_esf_cerca,"
-                        + "(SELECT armazon.arm_od_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_cil_cerca,"
-                        + "(SELECT armazon.arm_oi_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_a_cerca,"
-                        + "(SELECT armazon.arm_oi_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_esf_cerca,"
-                        + "(SELECT armazon.arm_oi_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_cil_cerca,"
-                        + "(SELECT armazon.arm_dp from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_dp_cerca,"
-                        + "(SELECT armazon.arm_endurecido from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_endurecido_cerca,"
-                        + "(SELECT armazon.arm_capa from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_capa_cerca,"
-                        + "(SELECT armazon.arm_plus_max from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_plus_max_cerca,"
-                        + "(SELECT armazon.arm_estado from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_estado_cerca,"
-                        + "(SELECT armazon.arm_last_update from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_last_update_cerca,"
-                        + "(SELECT armazon.arm_last_hour from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_last_hour_cerca,"
-                        + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_id_lejos,"
-                        + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_tipo_lejos,"
-                        + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_marca_lejos,"
-                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_marca_lejos,"
-                        + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_cristal_lejos,"
-                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_cristal_lejos,"
-                        + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_add_lejos,"
-                        + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_a_lejos,"
-                        + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_esf_lejos,"
-                        + "(SELECT armazon.arm_od_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_cil_lejos,"
-                        + "(SELECT armazon.arm_oi_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_a_lejos,"
-                        + "(SELECT armazon.arm_oi_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_esf_lejos,"
-                        + "(SELECT armazon.arm_oi_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_cil_lejos,"
-                        + "(SELECT armazon.arm_dp from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_dp_lejos,"
-                        + "(SELECT armazon.arm_endurecido from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_endurecido_lejos,"
-                        + "(SELECT armazon.arm_capa from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_capa_lejos,"
-                        + "(SELECT armazon.arm_plus_max from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_plus_max_lejos, "
-                        + "(SELECT armazon.arm_estado from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_estado_lejos,"
-                        + "(SELECT armazon.arm_last_update from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_last_update_lejos,"
-                        + "(SELECT armazon.arm_last_hour from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_last_hour_lejos,"
+                        + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_id_cerca,"
+                        + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_tipo_cerca,"
+                        + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_marca_cerca,"
+                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_marca_cerca,"
+                        + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_cristal_cerca,"
+                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_precio_cristal_cerca,"
+                        + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_add_cerca,"
+                        + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_a_cerca,"
+                        + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_esf_cerca,"
+                        + "(SELECT armazon.arm_od_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_od_cil_cerca,"
+                        + "(SELECT armazon.arm_oi_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_a_cerca,"
+                        + "(SELECT armazon.arm_oi_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_esf_cerca,"
+                        + "(SELECT armazon.arm_oi_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_oi_cil_cerca,"
+                        + "(SELECT armazon.arm_dp from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_dp_cerca,"
+                        + "(SELECT armazon.arm_endurecido from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_endurecido_cerca,"
+                        + "(SELECT armazon.arm_capa from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_capa_cerca,"
+                        + "(SELECT armazon.arm_plus_max from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_plus_max_cerca,"
+                        + "(SELECT armazon.arm_estado from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_estado_cerca,"
+                        + "(SELECT armazon.arm_last_update from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_last_update_cerca,"
+                        + "(SELECT armazon.arm_last_hour from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=0)  as arm_last_hour_cerca,"
+                        + "(SELECT armazon.arm_id from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_id_lejos,"
+                        + "(SELECT armazon.arm_tipo from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_tipo_lejos,"
+                        + "(SELECT armazon.arm_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_marca_lejos,"
+                        + "(SELECT armazon.arm_precio_marca from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_marca_lejos,"
+                        + "(SELECT armazon.arm_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_cristal_lejos,"
+                        + "(SELECT armazon.arm_precio_cristal from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_precio_cristal_lejos,"
+                        + "(SELECT armazon.arm_add from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_add_lejos,"
+                        + "(SELECT armazon.arm_od_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_a_lejos,"
+                        + "(SELECT armazon.arm_od_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_esf_lejos,"
+                        + "(SELECT armazon.arm_od_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_od_cil_lejos,"
+                        + "(SELECT armazon.arm_oi_a from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_a_lejos,"
+                        + "(SELECT armazon.arm_oi_esf from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_esf_lejos,"
+                        + "(SELECT armazon.arm_oi_cil from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_oi_cil_lejos,"
+                        + "(SELECT armazon.arm_dp from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_dp_lejos,"
+                        + "(SELECT armazon.arm_endurecido from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_endurecido_lejos,"
+                        + "(SELECT armazon.arm_capa from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_capa_lejos,"
+                        + "(SELECT armazon.arm_plus_max from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_plus_max_lejos, "
+                        + "(SELECT armazon.arm_estado from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_estado_lejos,"
+                        + "(SELECT armazon.arm_last_update from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_last_update_lejos,"
+                        + "(SELECT armazon.arm_last_hour from armazon where armazon.ficha_fch_id=f.fch_id and armazon.arm_tipo=1)  as arm_last_hour_lejos,"
                         + "(SELECT usuario.us_nombre from usuario where usuario.us_id=usuario_us_id) as us_nombre,"
                         + "(SELECT usuario.us_username from usuario where usuario.us_id=usuario_us_id) as us_username,"
                         + "(SELECT usuario.us_email from usuario where usuario.us_id=usuario_us_id) as us_email,"
@@ -1086,9 +1086,24 @@ public class Remote implements InterfaceSync{
                         + "(SELECT usuario.us_tipo from usuario WHERE usuario.us_id=usuario_us_id) as us_tipo,"
                         + "(SELECT usuario.us_estado from usuario WHERE usuario.us_id=usuario_us_id) as us_estado,"
                         + "(SELECT usuario.us_last_update from usuario WHERE usuario.us_id=usuario_us_id) as us_last_update,"
-                        + "(SELECT usuario.us_last_hour from usuario WHERE usuario.us_id=usuario_us_id) as us_last_hour"
+                        + "(SELECT usuario.us_last_hour from usuario WHERE usuario.us_id=usuario_us_id) as us_last_hour,"
+                        + "(SELECT convenio.cnv_nombre from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_nombre,"
+                        + "(SELECT convenio.cnv_fecha_inicio from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_fecha_inicio,"
+                        + "(SELECT convenio.cnv_fecha_fin from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_fecha_fin,"
+                        + "(SELECT convenio.cnv_cuotas from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_cuotas,"
+                        + "(SELECT convenio.cnv_fecha_cobro from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_fecha_cobro,"
+                        + "(SELECT convenio.cnv_monto_maximo from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_monto_maximo,"
+                        + "(SELECT convenio.cnv_monto_pp from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_monto_pp,"
+                        + "(SELECT convenio.cnv_maximo_clientes from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_maximo_clientes,"
+                        + "(SELECT convenio.descuento_des_id from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_descuento_des_id,"
+                        + "(SELECT convenio.cnv_porc_valor_adicional from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_porc_valor_adicional,"
+                        + "(SELECT convenio.institucion_ins_id from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_institucion_ins_id,"
+                        + "(SELECT convenio.cnv_estado from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_estado,"
+                        + "(SELECT convenio.cnv_last_update from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_last_update,"
+                        + "(SELECT convenio.cnv_last_hour from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_last_hour"
                         + " from ficha f "+GV.cleanIdParam(idParam);
                     //where f.fch_id = '"+idParam+"' and f.user_us_id='"+idParam+"' and f.fch_estado <> 0"
+//                    OptionPane.showMsg("sql", sql, 1);
                     PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
@@ -1315,6 +1330,41 @@ public class Remote implements InterfaceSync{
                         User usuario = new User(idUs, nomUs, usernUs, emUs, 
                                 passUs, tipUs, estaUs, lastUpdUs, lastHouUs);
                         /*--------------------------------------------------*/
+                        /*--------------------CONVENIO----------------------*/
+                        int idCnv;
+                        try{idCnv = datos.getInt("convenio_cnv_id");}catch (Exception e){idCnv=0;}
+                        String nomCnv;
+                        try{nomCnv = datos.getString("cnv_nombre");}catch (Exception e){nomCnv="";}
+                        Date fechIni;
+                        try{fechIni = datos.getDate("cnv_fecha_inicio");}catch (Exception e){fechIni=null;}
+                        Date fechFin;
+                        try{fechFin = datos.getDate("cnv_fecha_fin");}catch (Exception e){fechFin=null;}
+                        int cuotCnv;
+                        try{cuotCnv = datos.getInt("cnv_cuotas");}catch (Exception e){cuotCnv=0;}
+                        Date cobrCnv;
+                        try{cobrCnv = datos.getDate("cnv_fecha_cobro");}catch (Exception e){cobrCnv=null;}
+                        int montMaxCnv;
+                        try{montMaxCnv = datos.getInt("cnv_monto_maximo");}catch (Exception e){montMaxCnv=0;}
+                        int montoPPCnv;
+                        try{montoPPCnv = datos.getInt("cnv_monto_pp");}catch (Exception e){montoPPCnv=0;}
+                        int maxCliCnv;
+                        try{maxCliCnv = datos.getInt("cnv_maximo_clientes");}catch (Exception e){maxCliCnv=0;}
+                        int descIdCnv;
+                        try{descIdCnv = datos.getInt("cnv_descuento_des_id");}catch (Exception e){descIdCnv=0;}
+                        int porcCnv;
+                        try{porcCnv = datos.getInt("cnv_porc_valor_adicional");}catch (Exception e){porcCnv=0;}
+                        int idInstCnv;
+                        try{idInstCnv = datos.getInt("cnv_institucion_ins_id");}catch (Exception e){idInstCnv=0;}
+                        int estaCnv;
+                        try{estaCnv = datos.getInt("cnv_estado");}catch (Exception e){estaCnv=0;}
+                        Date lastUpdCnv;
+                        try{lastUpdCnv = datos.getDate("cnv_last_update");}catch (Exception e){lastUpdCnv=null;}
+                        int lastHouCnv;
+                        try{lastHouCnv = datos.getInt("cnv_last_hour");}catch (Exception e){lastHouCnv=0;}
+                        
+                        Convenio convenio = new Convenio(idCnv, nomCnv, fechIni, fechFin, cuotCnv,cobrCnv, montMaxCnv, montoPPCnv, 
+                                maxCliCnv, idInstCnv, porcCnv, idInstCnv, estaCnv, lastUpdCnv, lastHouCnv);
+                        /*--------------------------------------------------*/
                         lista.add(new Ficha(
                                   datos.getString("fch_id")
                                 , datos.getDate("fch_fecha")
@@ -1332,7 +1382,7 @@ public class Remote implements InterfaceSync{
                                 , lejos
                                 , cerca
                                 , usuario
-                                , new Convenio()
+                                , convenio
                                 , datos.getInt("fch_estado")
                                 , datos.getDate("fch_last_update")
                                 , datos.getInt("fch_last_hour")
@@ -1610,6 +1660,7 @@ public class Remote implements InterfaceSync{
                         datos.getDate("cnv_fecha_inicio"),
                         datos.getDate("cnv_fecha_fin"),
                         datos.getInt("cnv_cuotas"),
+                        datos.getDate("cnv_fecha_cobro"),
                         datos.getInt("cnv_monto_maximo"),
                         datos.getInt("cnv_monto_pp"),
                         datos.getInt("cnv_maximo_clientes"),
@@ -2199,6 +2250,7 @@ public class Remote implements InterfaceSync{
                         datos.getDate("cnv_fecha_inicio"),
                         datos.getDate("cnv_fecha_fin"),
                         datos.getInt("cnv_cuotas"),
+                        datos.getDate("cnv_fecha_cobro"),
                         datos.getInt("cnv_monto_maximo"),
                         datos.getInt("cnv_monto_pp"),
                         datos.getInt("cnv_maximo_clientes"),
@@ -2931,12 +2983,14 @@ public class Remote implements InterfaceSync{
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFechaInicio().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaFin().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha3 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            java.sql.Date sqlfechaCobro = new java.sql.Date(object.getFechaCobro().getTime());//la transforma a sql.Date
             return  "INSERT INTO convenio VALUES("
                     + object.getId()+ ",'"
                     + object.getNombre() + "','"
                     + sqlfecha1+ "','"
                     + sqlfecha2+ "',"
-                    + object.getCuotas()+ ","
+                    + object.getCuotas()+ ",'"
+                    + sqlfechaCobro+ "',"
                     + object.getMontoMaximo()+ ","
                     + object.getMontoPp()+ ","
                     + object.getMaximoClientes()+ ","
@@ -3226,11 +3280,13 @@ public class Remote implements InterfaceSync{
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFechaInicio().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getFechaFin().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha3 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            java.sql.Date fechaCobro = new java.sql.Date(object.getFechaCobro().getTime());//la transforma a sql.Date
             return "UPDATE convenio set cnv_nombre = '" + object.getNombre()
                         + "', cnv_fecha_inicio = '" + sqlfecha1
                         + "', cnv_fecha_fin = '" + sqlfecha2
                         + "', cnv_cuotas = " + object.getCuotas()
-                        + ", cnv_monto_maximo = " + object.getMontoMaximo()
+                        + ", cnv_fecha_cobro = '" + fechaCobro
+                        + "', cnv_monto_maximo = " + object.getMontoMaximo()
                         + ", cnv_monto_pp = " + object.getMontoPp()
                         + ", cnv_maximo_clientes = " + object.getMaximoClientes()
                         + ", descuento_des_id = " + object.getIdDescuento()

@@ -124,6 +124,7 @@ public class GlobalValuesBD {
 " CNV_FECHA_INICIO DATE," +
 " CNV_FECHA_FIN DATE," +
 " CNV_CUOTAS INTEGER," +
+" CNV_FECHA_COBRO DATE," +
 " CNV_MONTO_MAXIMO INTEGER," +
 " CNV_MONTO_PP INTEGER," +
 " CNV_MAXIMO_CLIENTES INTEGER," +
@@ -319,6 +320,7 @@ public class GlobalValuesBD {
 " CNV_FECHA_INICIO," +
 " CNV_FECHA_FIN," +
 " CNV_CUOTAS," +
+" CNV_FECHA_COBRO," +
 " CNV_MONTO_MAXIMO," +
 " CNV_MONTO_PP," +
 " CNV_MAXIMO_CLIENTES," +
@@ -766,21 +768,26 @@ public class GlobalValuesBD {
 //        String d2 = (!GV.dateToString(date2, "yyyy-mm-dd").equals("date-error"))?GV.dateToString(date2, "yyyy-mm-dd"):"";
 //        String idParam = GV.convertFichaIdParamToDateList(d1+"/"+d2);
 //        LISTA_FICHAS = load.listar(idParam, new Ficha());
-        LISTA_FICHAS = listarAllFichas(date1, date2, null, null, null);
+        LISTA_FICHAS = listarAllFichas(date1, date2, null, null,null, null);
     }
     
     public static void listarFichasByClient(String rut) {
 //        Dao load = new Dao();
 //        String idParam = GV.convertFichaIdParamToClient(rut);
 //        LISTA_FICHAS = load.listar(idParam, new Ficha());
-        LISTA_FICHAS = listarAllFichas(null, null, null, rut, null);
+        LISTA_FICHAS = listarAllFichas(null, null, null, rut,null, null);
     }
     
     public static void listarFichasByUser(String user) {
 //        Dao load = new Dao();
 //        String idParam = GV.convertFichaIdParamToUSer(user);
 //        LISTA_FICHAS = load.listar(idParam, new Ficha());
-        LISTA_FICHAS = listarAllFichas(null, null, user, null, null);
+        LISTA_FICHAS = listarAllFichas(null, null, user, null,null, null);
+    }
+    
+    
+    public static void listarFichasByConveny(String idCnv) {
+        LISTA_FICHAS = listarAllFichas(null, null, null, null,idCnv, null);
     }
     
     
@@ -829,9 +836,9 @@ public class GlobalValuesBD {
      * @param idFicha 
      * @return 
      */
-    public static List<Object> listarAllFichas(Date dateTo, Date dateFrom,String idUser, String codClient, String idFicha){
+    public static List<Object> listarAllFichas(Date dateTo, Date dateFrom,String idUser, String codClient, String idConvenio, String idFicha){
         Dao load = new Dao();
-        String idParam = getWhereFromAllFichas(dateTo, dateFrom, idUser, codClient, idFicha);
+        String idParam = getWhereFromAllFichas(dateTo, dateFrom, idUser, codClient,idConvenio, idFicha);
         idParam = GV.convertFichaIdToFichaList(idParam);
         return load.listar(idParam, new Ficha());
     }

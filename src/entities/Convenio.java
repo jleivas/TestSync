@@ -18,6 +18,7 @@ public class Convenio extends SyncIntId{
     private Date fechaInicio;
     private Date fechaFin;
     private int cuotas;
+    private Date fechaCobro;
     private int montoMaximo;
     private int montoPp;
     private int maximoClientes;
@@ -28,12 +29,13 @@ public class Convenio extends SyncIntId{
     public Convenio() {
     }
 
-    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas, int montoMaximo, int montoPp, int maximoClientes, int idDescuento, int porcentajeAdicion,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
+    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas,Date fechaCobro, int montoMaximo, int montoPp, int maximoClientes, int idDescuento, int porcentajeAdicion,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
         setId(id);
         setNombre(nombre);
         setFechaInicio(fechaInicio);
         setFechaFin(fechaFin);
         setCuotas(cuotas);
+        setFechaCobro(fechaCobro);
         setMontoMaximo(montoMaximo);
         setMontoPp(montoPp);
         setMaximoClientes(maximoClientes);
@@ -44,7 +46,22 @@ public class Convenio extends SyncIntId{
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
     }
+
+    public Date getFechaCobro() {
+        return fechaCobro;
+    }
+
+    public void setFechaCobro(Date fechaCobro) {
+        this.fechaCobro = fechaCobro;
+    }
+
     
+    
+    /**
+     * retorna true si se encuentra activo para seguir
+     * generando mas recetas oftalmologicas
+     * @return 
+     */
     public boolean activo(){
         if(getFechaInicio() == null || getFechaFin() == null)
             return false;

@@ -442,9 +442,12 @@ public class GlobalValuesFunctions {
      * @param idFicha 
      * @return 
      */
-    public static String getWhereFromAllFichas(Date dateTo, Date dateFrom,String idUser, String codClient, String idFicha){
+    public static String getWhereFromAllFichas(Date dateTo, Date dateFrom,String idUser, String codClient,String idConvenio, String idFicha){
         if(idFicha!=null){
             return "where f.fch_id = '"+idFicha+"'";
+        }
+        if(idConvenio != null){
+            return "where f.convenio_cnv_id = "+idConvenio+" ORDER BY f.fch_fecha DESC";
         }
         if(dateTo==null && dateFrom==null){
             if(idUser != null){

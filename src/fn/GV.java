@@ -760,6 +760,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesBD.listarFichasByUser(idUser);
     }
     
+    public static void listarFichasByConveny(String idCnv) {
+        GlobalValuesBD.listarFichasByConveny(idCnv);
+    }
+    
     public static List<Object> getFichas() {
         return GlobalValuesBD.getFichas();
     }

@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import view.opanel.OpanelSelectClient;
+import view.opanel.OpanelSelectConvenyFilter;
 import view.opanel.OpanelSelectDate;
 import view.opanel.OpanelSelectUser;
 
@@ -36,6 +37,7 @@ public class VFichas extends javax.swing.JPanel {
     private static int BY_DATE=1;
     private static int BY_CLIENT=2;
     private static int BY_USER=3;
+    private static int BY_CONVENY=4;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -53,7 +55,8 @@ public class VFichas extends javax.swing.JPanel {
         initComponents();       
         modelo.addColumn("Folio");
         modelo.addColumn("Fecha");
-        modelo.addColumn("Cliente");
+        modelo.addColumn("Rut cliente");
+        modelo.addColumn("Nombre cliente");
         modelo.addColumn("Estado");
         modelo.addColumn("Total");
         tblListar.setModel(modelo);
@@ -104,13 +107,13 @@ public class VFichas extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Fecha", "Cliente", "Estado", "Total"
+                "Folio", "Fecha", "Rut cliente", "Nombre cliente", "Estado", "Total"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
@@ -173,7 +176,7 @@ public class VFichas extends javax.swing.JPanel {
         });
 
         cboFilterOptions.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboFilterOptions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Día", "Por Fechas", "Por Cliente", "Por Vendedor" }));
+        cboFilterOptions.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Día", "Por Fechas", "Por Cliente", "Por Vendedor", "Por Convenios" }));
         cboFilterOptions.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboFilterOptionsItemStateChanged(evt);
@@ -529,6 +532,13 @@ public class VFichas extends javax.swing.JPanel {
                 openDialog = false;
             }
         }
+        if(filter==BY_CONVENY){
+            if(isFiltering){
+                OptionPane.showOptionPanel(new OpanelSelectConvenyFilter(), OptionPane.titleConvenyChooser());
+                isFiltering = false;
+                openDialog = false;
+            }
+        }
         if(status == 0){
             btnRestaurar.setVisible(true);
             btnEliminar.setVisible(false);
@@ -545,12 +555,13 @@ public class VFichas extends javax.swing.JPanel {
             for (Object object : GV.getFichas()) {
                 Ficha temp = (Ficha)object;
                 if(status == -1 && temp.getEstado() > GV.estadoFichaDeleted()){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[6];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
-                    fila[2] = temp.getCliente().getNombre();
-                    fila[3] = GV.estadoFicha(temp.getEstado());
-                    fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[2] = temp.getCliente().getCod();
+                    fila[3] = temp.getCliente().getNombre();
+                    fila[4] = GV.estadoFicha(temp.getEstado());
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDeleted() && temp.getEstado() < GV.estadoFichaDeleted()){

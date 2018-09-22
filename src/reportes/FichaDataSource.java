@@ -57,7 +57,10 @@ public class FichaDataSource implements JRDataSource{
         String total = GV.strToPrice(ficha.getValorTotal()-ficha.getDescuento());
         String abonos = obtenerAbonos(ficha.getCod());
         String saldo = GV.strToPrice(ficha.getSaldo());
-        String dspFecha = (ficha.getDespacho().getFecha() != null)?GV.dateToString(ficha.getDespacho().getFecha(), "dd/mm/yyyy"):"";
+        String dspFecha = "";
+        if(ficha.getDespacho() != null){
+            dspFecha = (ficha.getDespacho().getFecha() != null)?GV.dateToString(ficha.getDespacho().getFecha(), "dd/mm/yyyy"):"";
+        }
         rpf = new ReportFicha(GV.dateToString(ficha.getFecha(), "dd/mm/yyyy"),
                 ficha.getCod(), ficha.getLugarEntrega(), 
                 GV.dateToString(ficha.getFechaEntrega(), "dd/mm/yyyy")+" "+ficha.getHoraEntrega().replaceAll(" ", ""),
