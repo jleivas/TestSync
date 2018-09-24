@@ -192,6 +192,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesPrint.print(getFichaConvenio());
     }
     
+    public static void printFichas(List<Object> fichas) {
+        GlobalValuesPrint.printFichas(fichas);
+    }
+    
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
     }

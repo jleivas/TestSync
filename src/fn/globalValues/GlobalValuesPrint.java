@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -29,6 +30,8 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import reportes.FichaDataSource;
+import reportes.FichaRecursoDatos;
+import view.ContentAdmin;
 
 /**
  *
@@ -60,6 +63,38 @@ public class GlobalValuesPrint {
             viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
             viewer.setVisible(true); //Se vizualiza el reporte
         }catch(JRException e){
+            OptionPane.showMsg("No se puede visualizar el recurso", 
+                    "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
+                            + e.getMessage(), 3);
+        }
+    }
+    
+    public static void printFichas(List<Object> fichas) {
+        InputStream is = null;
+        JasperPrint jsp = null;
+        FichaRecursoDatos dt = new FichaRecursoDatos();
+        dt.addTitle(ContentAdmin.lblTitle.getText(), "Documento generado por "+GV.projectName());
+        for (Object ficha : fichas) {
+            dt.addFicha((Ficha)ficha);
+        }
+        try{
+            is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"fichas.jrxml");
+        }catch(FileNotFoundException e){
+            OptionPane.showMsg("No se puede obtener el recurso", 
+                    "Ocurrió un error al intentar abrir el formato de impresión\n"
+                            + e.getMessage(), 3);
+        }
+        
+        
+        try{
+            JasperDesign jsd = JRXmlLoader.load(is);
+            JasperReport jsrp = JasperCompileManager.compileReport(jsd);
+            jsp = JasperFillManager.fillReport(jsrp, null,dt);
+            JasperViewer viewer = new JasperViewer(jsp, false); //Se crea la vista del reportes
+            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
+            viewer.setVisible(true); //Se vizualiza el reporte
+//            generateReport(jsp, true, "src"+File.separator+"reportes"+File.separator+"fichasConvenio.xls");
+        }catch( JRException e){
             OptionPane.showMsg("No se puede visualizar el recurso", 
                     "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
                             + e.getMessage(), 3);

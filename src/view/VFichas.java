@@ -456,7 +456,7 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReportSalesMouseExited
 
     private void btnExportExcelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseClicked
-        GV.excelExportFichas(GV.getFichas());
+        GV.printFichas(GV.getFichas());
     }//GEN-LAST:event_btnExportExcelMouseClicked
 
     private void btnExportExcelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseEntered
