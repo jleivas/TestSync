@@ -161,6 +161,18 @@ public class Convenio extends SyncIntId{
     public int getIdInstitucion() {
         return idInstitucion;
     }
+
+    @Override
+    public String toString() {
+        return "ID:"+getId()+
+                "\nnombre:"+getNombre()+
+                "\nfecha inicio:"+getFechaInicio()+
+                "\nfecha fin:"+getFechaFin()+
+                "\nFecha cobro:"+getFechaCobro()+
+                "\ncuotas:"+getCuotas()+
+                "\nporcentaje adicion:"+getPorcentajeAdicion()+
+                "\nestado:"+getEstado(); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

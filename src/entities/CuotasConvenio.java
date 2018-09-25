@@ -63,4 +63,14 @@ public class CuotasConvenio extends SyncStringId{
     public void setFechaPagado(Date fechaPagado) {
         this.fechaPagado = fechaPagado;
     }
+
+    @Override
+    public String toString() {
+        return "ID:"+getCod()+"\n"+
+        "fecha:"+getFecha()+"\n"+
+        "fecha pagado:"+getFechaPagado()+"\n"+
+        "monto:"+getMonto()+"\n"+
+        "idConvenio:"+getIdConvenio()+"\n"+
+        "estado:"+getEstado(); //To change body of generated methods, choose Tools | Templates.
+    }
 }
