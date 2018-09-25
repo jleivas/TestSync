@@ -5,24 +5,28 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author jlleivas
  */
-public class CuotasConvenio extends SyncIntId{
+public class CuotasConvenio extends SyncStringId{
     private Date fecha;
+    private Date fechaPagado;
     private int monto;
+    private int idConvenio;
 
     public CuotasConvenio() {
     }
 
-    public CuotasConvenio(int id,Date fecha, int monto, int estado, Date lastUpdate,int lastHour) {
-        setId(id);
+    public CuotasConvenio(String cod,Date fecha, Date fechaPagado, int monto, int idConvenio, int estado, Date lastUpdate,int lastHour) {
+        setCod(cod);
         setFecha(fecha);
+        setFechaPagado(fechaPagado);
         setMonto(monto);
+        setIdConvenio(idConvenio);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
@@ -43,6 +47,20 @@ public class CuotasConvenio extends SyncIntId{
     public int getMonto() {
         return monto;
     }
-    
-    
+
+    public void setIdConvenio(int idConvenio) {
+        this.idConvenio = idConvenio;
+    }
+
+    public int getIdConvenio() {
+        return idConvenio;
+    }
+
+    public Date getFechaPagado() {
+        return fechaPagado;
+    }
+
+    public void setFechaPagado(Date fechaPagado) {
+        this.fechaPagado = fechaPagado;
+    }
 }

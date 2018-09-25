@@ -793,7 +793,14 @@ public class VConvenios extends javax.swing.JPanel {
         Date fechaFin = txtFechaFinU.getDate();
         Date fechaCobro = txtFechaCobroU.getDate();
         if(localIsNewOrEqual(fechaIni, fechaFin)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
+            if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+                cDF();
+                return;
+            }
+        }
+        if(GV.fechaPasada(fechaFin)){
+            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser igual o superior a la fecha actual.", 2);
             cDF();
             return;
         }
@@ -939,9 +946,11 @@ public class VConvenios extends javax.swing.JPanel {
         Date fechaCobro = txtFechaCobroN.getDate();
         
         if(localIsNewOrEqual(fechaIni, fechaFin)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
-            cDF();
-            return;
+            if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
+                cDF();
+                return;
+            }
         }
         if(localIsNewOrEqual(fechaFin, fechaCobro)){
             OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);

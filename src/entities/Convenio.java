@@ -7,7 +7,9 @@ package entities;
 
 import entities.abstractclasses.SyncIntId;
 import fn.GV;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -25,6 +27,7 @@ public class Convenio extends SyncIntId{
     private int idDescuento;
     private int porcentajeAdicion;
     private int idInstitucion;
+    private List<CuotasConvenio> listCuotas = new ArrayList<CuotasConvenio>();
 
     public Convenio() {
     }
@@ -47,6 +50,14 @@ public class Convenio extends SyncIntId{
         setLastHour(lastHour);
     }
 
+    public void addCuotaConvenio(CuotasConvenio cuota){
+        this.listCuotas.add(cuota);
+    }
+    
+    public List<CuotasConvenio> getCuotasConvenio(){
+        return this.listCuotas;
+    }
+    
     public Date getFechaCobro() {
         return fechaCobro;
     }

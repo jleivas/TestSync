@@ -140,9 +140,11 @@ public class GlobalValuesBD {
 " CRI_ESTADO INTEGER," +
 " CRI_LAST_UPDATE DATE," +
 " CRI_LAST_HOUR INTEGER";
-    private static String CUOTAS_CONVENIO = "CC_ID INTEGER not null primary key," +
+    private static String CUOTAS_CONVENIO = "CC_ID VARCHAR(25) not null primary key," +
 " CC_FECHA DATE," +
+" CC_FECHA_PAGADO DATE," +
 " CC_MONTO INTEGER," +
+" CONVENIO_CNV_ID INTEGER,"+
 " CC_ESTADO INTEGER," +
 " CC_LAST_UPDATE DATE," +
 " CC_LAST_HOUR INTEGER";
@@ -338,7 +340,9 @@ public class GlobalValuesBD {
 " CRI_LAST_HOUR";
     private static String COL_CUOTAS_CONVENIO = "CC_ID," +
 " CC_FECHA," +
+" CC_FECHA_PAGADO," +
 " CC_MONTO," +
+" CONVENIO_CNV_CONVENIO," +            
 " CC_ESTADO," +
 " CC_LAST_UPDATE," +
 " CC_LAST_HOUR";
@@ -788,6 +792,10 @@ public class GlobalValuesBD {
     
     public static void listarFichasByConveny(String idCnv) {
         LISTA_FICHAS = listarAllFichas(null, null, null, null,idCnv, null);
+    }
+    
+    public static List<Object> getFichasByConveny(int idCnv){
+        return listarAllFichas(null, null, null, null,""+idCnv, null);
     }
     
     
