@@ -72,10 +72,11 @@ técnico para la puesta en marcha del sistema.
 
  #### Pago de cuotas (CON-006)
  - Crear un botón para registrar el pago de cuotas en la visualización de los convenios
- - Preguntar cantidad de cuotas pagadas y fecha de pago, confirmar datos y guardar
+ - Preguntar cantidad de cuotas pagadas y fecha de pago, confirmar datos y guardar solo en Convenio
  - Seleccionar primeras x cuotas pagadas y cambiar estado de 1 a 2
  - Crear un botón para resetear cuotas pagadas de estado 2 a 1 con confirmación de usuario tipo jefatura
  - Crear botón para visualizar cuotas pagadas con fecha, fecha pagada, monto y saldo pendiente
+ - En las fichas con convenio no se pueden agregar abonos, solo abono inicial al crear nueva ficha
 
 
 
