@@ -66,7 +66,7 @@ public class Convenio extends SyncIntId{
     }
 
     public void setFechaCobro(Date fechaCobro) {
-        this.fechaCobro = fechaCobro;
+        this.fechaCobro = getDate(fechaCobro);
     }
 
     
@@ -98,11 +98,11 @@ public class Convenio extends SyncIntId{
     }
 
     public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+        this.fechaInicio = getDate(fechaInicio);
     }
 
     public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+        this.fechaFin = getDate(fechaFin);
     }
 
     public void setCuotas(int cuotas) {
@@ -164,6 +164,14 @@ public class Convenio extends SyncIntId{
     public int getIdInstitucion() {
         return idInstitucion;
     }
+    
+    private Date getDate(Date date){
+        java.util.Date javaDate = null;
+        if (date != null) {
+            javaDate = (date instanceof  java.sql.Date)?new Date(date.getTime()):date;
+        }
+        return javaDate;
+    }
 
     @Override
     public String toString() {
@@ -215,7 +223,7 @@ public class Convenio extends SyncIntId{
                         
                         addCuotaConvenio(
                                 new CuotasConvenio(null, GV.dateSumaResta(getFechaCobro(), i, "MONTHS"),
-                                null, valorCuota, getId(),
+                                GV.fechaDefaultCuotasConvenio(), valorCuota, getId(),
                                 1, null, 0)
                         );
                     }

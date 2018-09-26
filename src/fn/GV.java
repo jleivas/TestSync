@@ -405,6 +405,11 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.fechaActualOPasada(date);
     }
     
+    /**
+     * Para usar esta funcion no se debe validar el convenio antes de enviarlo por
+     * parametros ya que el método lo valiada dentro de el.
+     * @param convenio 
+     */
     public static void convenioUpdateBDIfValidated(Convenio convenio){
         GlobalValuesFunctions.updateBDConvenioValidado(convenio);
     }
@@ -994,5 +999,14 @@ public class GV extends GlobalValuesCursor{
             return email;
         }
         return "";
+    }
+
+    /**
+     * Retorna una fecha por defecto, esta fecha indica que no ha sido registrado
+     * un pago de cuotas
+     * @return 01-01-2001
+     */
+    public static Date fechaDefaultCuotasConvenio() {
+        return GV.strToDate("01-01-2001");
     }
 }

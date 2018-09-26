@@ -683,8 +683,6 @@ public class VFichas extends javax.swing.JPanel {
     }
 
     private void validaConvenio(Convenio cnv) {
-        if(cnv.validate()){
-            GV.convenioUpdateBDIfValidated(cnv);
-        }
+        GV.convenioUpdateBDIfValidated(cnv);
     }
 }

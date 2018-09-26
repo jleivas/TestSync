@@ -342,7 +342,7 @@ public class GlobalValuesBD {
 " CC_FECHA," +
 " CC_FECHA_PAGADO," +
 " CC_MONTO," +
-" CONVENIO_CNV_CONVENIO," +            
+" CONVENIO_CNV_ID," +            
 " CC_ESTADO," +
 " CC_LAST_UPDATE," +
 " CC_LAST_HOUR";

@@ -33,7 +33,7 @@ public class CuotasConvenio extends SyncFichaClass{
     }
 
     public void setFecha(Date fecha) {
-        this.fecha = fecha;
+        this.fecha = getDate(fecha);
     }
 
     public void setMonto(int monto) {
@@ -61,7 +61,15 @@ public class CuotasConvenio extends SyncFichaClass{
     }
 
     public void setFechaPagado(Date fechaPagado) {
-        this.fechaPagado = fechaPagado;
+        this.fechaPagado = getDate(fechaPagado);
+    }
+    
+    private Date getDate(Date date){
+        java.util.Date javaDate = null;
+        if (date != null) {
+            javaDate = (date instanceof  java.sql.Date)?new Date(date.getTime()):date;
+        }
+        return javaDate;
     }
 
     @Override

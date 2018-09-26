@@ -3060,7 +3060,8 @@ public class Remote implements InterfaceSync{
         if(objectParam instanceof CuotasConvenio){
             CuotasConvenio object = (CuotasConvenio)objectParam;
             java.sql.Date fecha = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
-            java.sql.Date fechaPagado = new java.sql.Date(object.getFechaPagado().getTime());//la transforma a sql.Date
+            java.sql.Date fechaPagado = (object.getFechaPagado() != null)? 
+                    (new java.sql.Date(object.getFechaPagado().getTime())):null;
             java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
             return  "INSERT INTO cuotas_convenio VALUES('"
                     + object.getCod()+ "','"
