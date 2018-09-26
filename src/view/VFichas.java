@@ -6,6 +6,7 @@
 package view;
 
 import dao.Dao;
+import entities.Convenio;
 import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
 import fn.Boton;
@@ -61,6 +62,7 @@ public class VFichas extends javax.swing.JPanel {
         modelo.addColumn("Total");
         tblListar.setModel(modelo);
         cboFilterOptions.setSelectedIndex(filter);
+        btnExportConvenio.setVisible(false);
         load();
         OptionPane.closeOptionPanel();
         GV.cursorDF();
@@ -91,6 +93,7 @@ public class VFichas extends javax.swing.JPanel {
         btnReloadFilter = new javax.swing.JLabel();
         btnReportSales = new javax.swing.JLabel();
         btnExportExcel = new javax.swing.JLabel();
+        btnExportConvenio = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -214,8 +217,8 @@ public class VFichas extends javax.swing.JPanel {
             }
         });
 
-        btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_XLS_50px.png"))); // NOI18N
-        btnExportExcel.setToolTipText("Exportar fichas a Excel");
+        btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Report_Card_50px.png"))); // NOI18N
+        btnExportExcel.setToolTipText("Exportar fichas");
         btnExportExcel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnExportExcelMouseClicked(evt);
@@ -225,6 +228,20 @@ public class VFichas extends javax.swing.JPanel {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnExportExcelMouseExited(evt);
+            }
+        });
+
+        btnExportConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Report_Cnv_50px.png"))); // NOI18N
+        btnExportConvenio.setToolTipText("Exportar convenio");
+        btnExportConvenio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExportConvenioMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnExportConvenioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnExportConvenioMouseExited(evt);
             }
         });
 
@@ -245,6 +262,8 @@ public class VFichas extends javax.swing.JPanel {
                         .addComponent(btnReportSales)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnExportExcel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnExportConvenio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -267,9 +286,6 @@ public class VFichas extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnExportExcel))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -288,7 +304,12 @@ public class VFichas extends javax.swing.JPanel {
                             .addComponent(btnAbrir)
                             .addComponent(btnRestaurar)
                             .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReportSales))))
+                            .addComponent(btnReportSales)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnExportExcel)
+                            .addComponent(btnExportConvenio))))
                 .addGap(36, 36, 36))
         );
 
@@ -467,10 +488,43 @@ public class VFichas extends javax.swing.JPanel {
         btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnExportExcel.getIcon().toString()))));
     }//GEN-LAST:event_btnExportExcelMouseExited
 
+    private void btnExportConvenioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseClicked
+//        GV.printFichas(GV.getFichas());
+        if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
+            Convenio cnv = ((Ficha)GV.getFichas().get(0))
+                    .getConvenio();
+            validaConvenio(cnv);
+            if(cnv.getEstado() == 1){
+                if(OptionPane.getConfirmation("Generar reporte de convenio", "La fecha de cierre aún no ha caducado.\n"
+                        + "Si generas este reporte ahora, el convenio se cerrará para futuras recetas y tendrás que crear otro convenio.\n"
+                        + "¿Estas seguro de cerrar el convenio para futuras nuevas recetas?", 2)){
+                    cnv.setFechaInicio((GV.fechaActualOFutura(cnv.getFechaInicio()))?
+                            GV.dateSumaResta(new Date(), -1, "DAYS"):cnv.getFechaInicio());
+                    cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
+                    validaConvenio(cnv);
+                }else{
+                    return;
+                }
+            }
+            //aqui se debe generar el reporte
+        }else{
+            OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
+        }
+    }//GEN-LAST:event_btnExportConvenioMouseClicked
+
+    private void btnExportConvenioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseEntered
+        btnExportConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnExportConvenio.getIcon().toString()))));
+    }//GEN-LAST:event_btnExportConvenioMouseEntered
+
+    private void btnExportConvenioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseExited
+        btnExportConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnExportConvenio.getIcon().toString()))));
+    }//GEN-LAST:event_btnExportConvenioMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
     private javax.swing.JLabel btnEliminar;
+    private javax.swing.JLabel btnExportConvenio;
     private javax.swing.JLabel btnExportExcel;
     private javax.swing.JLabel btnReloadFilter;
     private javax.swing.JLabel btnReportSales;
@@ -532,7 +586,9 @@ public class VFichas extends javax.swing.JPanel {
                 openDialog = false;
             }
         }
+        btnExportConvenio.setVisible(false);
         if(filter==BY_CONVENY){
+            btnExportConvenio.setVisible(true);
             if(isFiltering){
                 OptionPane.showOptionPanel(new OpanelSelectConvenyFilter(), OptionPane.titleConvenyChooser());
                 isFiltering = false;
@@ -624,5 +680,11 @@ public class VFichas extends javax.swing.JPanel {
     }
     private void cDF(){
         GV.cursorDF(this);
+    }
+
+    private void validaConvenio(Convenio cnv) {
+        if(cnv.validate()){
+            GV.convenioUpdateBDIfValidated(cnv);
+        }
     }
 }
