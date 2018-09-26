@@ -947,7 +947,7 @@ public class VConvenios extends javax.swing.JPanel {
         
         if(localIsNewOrEqual(fechaIni, fechaFin)){
             if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor a la fecha de inicio.", 2);
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
                 cDF();
                 return;
             }
@@ -959,11 +959,6 @@ public class VConvenios extends javax.swing.JPanel {
         }
         if(!GV.fechaActualOFutura(fechaIni)){
             OptionPane.showMsg("Fechas mal ingresadas", "La fecha de inicio debe ser igual o superior a la fecha actual.", 2);
-            cDF();
-            return;
-        }
-        if(!GV.fechaFutura(fechaFin)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser superior a la fecha actual.", 2);
             cDF();
             return;
         }
