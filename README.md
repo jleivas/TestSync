@@ -66,8 +66,8 @@ técnico para la puesta en marcha del sistema.
  - Validar convenio
 
  #### Generar reporte (CON-005)
- - Generar reportes solo de convenios finalizados en estado 2
- - Generar una clase reporte con todos los datos
+ - Generar reportes solo de convenios finalizados en estado 2 [(PARTE 1)](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
+ - Generar una clase reporte con todos los datos [(PARTE 1)](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
  - Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas
 
  #### Pago de cuotas (CON-006)
