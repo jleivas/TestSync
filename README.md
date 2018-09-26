@@ -30,7 +30,7 @@ técnico para la puesta en marcha del sistema.
 
  # Current Working
 
- ## 25.09.2018-17.09.2018
+ ## 25.09.2018-27.09.2018
  ### TestSync US Convenios 2° Etapa
  *Objetivo*
  Plan de trabajo segunda etapa para generar convenios
