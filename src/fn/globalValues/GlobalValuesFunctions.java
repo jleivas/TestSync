@@ -485,6 +485,10 @@ public class GlobalValuesFunctions {
      * @return 
      */
     public static Date SumaRestarFecha(Date fecha, int sumaresta, String opcion){
+        if(fecha == null)return null;
+        if(fecha instanceof java.sql.Date){
+            fecha = new Date(fecha.getTime());
+        }
         LocalDate date = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         //Con Java9
         //LocalDate date = LocalDate.ofInstant(input.toInstant(), ZoneId.systemDefault());

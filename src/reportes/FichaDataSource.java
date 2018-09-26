@@ -82,7 +82,7 @@ public class FichaDataSource implements JRDataSource{
                 GV.strToPrice(ficha.getValorTotal()),descuentoFormatPrint(-ficha.getDescuento()), abonos, saldo,
                 GV.getCompanyDescription(),
                 GV.getCompanyRut(),GV.getCompanyGiro(),GV.getMessageFile(),
-                ficha.getDespacho().getRut(),ficha.getDespacho().getNombre(),
+                (ficha.getDespacho()!=null)?ficha.getDespacho().getRut():"",(ficha.getDespacho()!=null)?ficha.getDespacho().getNombre():"",
                 dspFecha);
         this.thisFicha.add(rpf);
     }

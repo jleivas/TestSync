@@ -174,7 +174,7 @@ public class Remote implements InterfaceSync{
             if(objectParam instanceof CuotasConvenio){
                 CuotasConvenio object = (CuotasConvenio)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT cc_id FROM descuento WHERE cc_id = '" + object.getCod() + "'");
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT cc_id FROM cuotas_convenio WHERE cc_id = '" + object.getCod() + "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         RmBd.cerrar();
@@ -1687,7 +1687,7 @@ public class Remote implements InterfaceSync{
             if(type instanceof Convenio){
                 String sql = "SELECT * FROM convenio WHERE cnv_id=" + idParam + "";
                 if (idParam.equals("0")) {
-                    sql = "SELECT * FROM convenio WHERE cnv_estado=1";
+                    sql = "SELECT * FROM convenio WHERE cnv_estado <> 0";
                 }
                 if (idParam.equals("-1")) {
                     sql = "SELECT * FROM convenio WHERE cnv_estado=0";

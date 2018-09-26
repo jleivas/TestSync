@@ -3242,18 +3242,26 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
     
     private void convenioObtenerSeleccionado() {
-        stConvenio = GV.getConvenio();
-        if(stConvenio == null){
-            btnClearConvenio.setVisible(false);
-            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica");
-            strCnvName = "";
-        }else{
-            btnClearConvenio.setVisible(true);
-            ContentAdmin.lblTitle.setText("Nueva receta oftalmológica con convenio: "+stConvenio.getNombre());
-            strCnvName = "Convenio: "+stConvenio.getNombre();
+        try {
+            stConvenio = (Convenio)load.get(null, (GV.getConvenio() != null)?GV.getConvenio().getId():0, new Convenio());
+            GV.setConvenio(stConvenio);
+            if(stConvenio == null){
+                btnClearConvenio.setVisible(false);
+                ContentAdmin.lblTitle.setText("Nueva receta oftalmológica");
+                strCnvName = "";
+            }else{
+                btnClearConvenio.setVisible(true);
+                ContentAdmin.lblTitle.setText("Nueva receta oftalmológica con convenio: "+stConvenio.getNombre());
+                strCnvName = "Convenio: "+stConvenio.getNombre();
+            }
+            cargarDatos();
+            comprobarDatosFicha();
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
+            stConvenio = null;
+            GV.setConvenio(null);
+            OptionPane.showMsg("Error inesperado", "Ocurrió un problema al cargar el convenio seleccionado", 3);
         }
-        cargarDatos();
-        comprobarDatosFicha();
     }
 
     private void cargarValores() {

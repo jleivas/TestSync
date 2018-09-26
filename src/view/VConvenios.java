@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
 import static fn.date.Cmp.localIsNewOrEqual;
+import fn.globalValues.GlobalValuesBD;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -116,6 +117,8 @@ public class VConvenios extends javax.swing.JPanel {
         txtPorcentajeAdicionalU = new javax.swing.JSpinner();
         jLabel23 = new javax.swing.JLabel();
         txtFechaCobroU = new com.toedter.calendar.JDateChooser();
+        btnPagarCuotas = new javax.swing.JLabel();
+        btnMostrarCuotas = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -494,6 +497,34 @@ public class VConvenios extends javax.swing.JPanel {
 
         txtFechaCobroU.setToolTipText("Fecha de vencimiento del convenio, después de esta fecha no se podrán ingresar mas registros con este convenio");
 
+        btnPagarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Paper_Money_50px.png"))); // NOI18N
+        btnPagarCuotas.setToolTipText("Pagar cuotas");
+        btnPagarCuotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPagarCuotasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPagarCuotasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPagarCuotasMouseExited(evt);
+            }
+        });
+
+        btnMostrarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Stack_of_Money_50px.png"))); // NOI18N
+        btnMostrarCuotas.setToolTipText("Mostrar cuotas");
+        btnMostrarCuotas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMostrarCuotasMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnMostrarCuotasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnMostrarCuotasMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
         pnl2.setLayout(pnl2Layout);
         pnl2Layout.setHorizontalGroup(
@@ -507,30 +538,31 @@ public class VConvenios extends javax.swing.JPanel {
                     .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnl2Layout.createSequentialGroup()
+                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaIniU, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCuotasU, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl2Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFechaFinU, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnl2Layout.createSequentialGroup()
+                                .addComponent(jLabel23)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtFechaCobroU, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnl2Layout.createSequentialGroup()
                         .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtInstitucionU, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPorcentajeAdicionalU, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar))
-                    .addGroup(pnl2Layout.createSequentialGroup()
-                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombreU, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnl2Layout.createSequentialGroup()
-                                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFechaIniU, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCuotasU, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
-                                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnl2Layout.createSequentialGroup()
-                                        .addComponent(jLabel22)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtFechaFinU, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnl2Layout.createSequentialGroup()
-                                        .addComponent(jLabel23)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtFechaCobroU, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 69, Short.MAX_VALUE)))
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMostrarCuotas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPagarCuotas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnModificar)
                 .addContainerGap())
@@ -569,9 +601,13 @@ public class VConvenios extends javax.swing.JPanel {
                             .addComponent(txtInstitucionU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                        .addComponent(btnModificar))))
+            .addGroup(pnl2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnPagarCuotas)
+                    .addComponent(btnMostrarCuotas)
+                    .addComponent(btnCancelar)))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
@@ -642,7 +678,12 @@ public class VConvenios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Convenio temp = (Convenio)load.get(null,id,new Convenio());
+            Convenio temp = (Convenio)load.get(null, id, new Convenio());
+            if(temp.getEstado() == 2){
+                OptionPane.showMsg("No se puede anular", "Este convenio ya fué generado, por lo tanto es imposible eliminar", 2);
+                cDF();
+                return;
+            }
             if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el convenio "+temp.getNombre()+"?", 2)){
                 cWT();
                 if(load.delete(null,id, temp)){
@@ -654,6 +695,7 @@ public class VConvenios extends javax.swing.JPanel {
             cargarDatos("0");
             
         }catch(Exception e){
+            cDF();
             OptionPane.showMsg("Seleccione Convenio","Error al cargar valores,\n"
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
@@ -778,10 +820,21 @@ public class VConvenios extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
+        
         if(stConvenio == null){
             OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", 3);
             cDF();
             return;
+        }
+        if(stConvenio.getEstado() == 2){
+            try {
+                OptionPane.showMsg("No se puede modificar el registro", "El convenio ya se encuentra generado, no se puede modificar", 2);
+                abrirConvenio(stConvenio.getId());
+                cDF();
+                return;
+            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         String nombre = (txtNombreU.getText());
         if(nombre.isEmpty() || nombre.length()<3){
@@ -837,7 +890,20 @@ public class VConvenios extends javax.swing.JPanel {
         stConvenio.setFechaInicio(fechaIni);
         stConvenio.setIdDescuento(idDescuento);
         stConvenio.setPorcentajeAdicion(porcAdicional);
-        stConvenio.setIdInstitucion(idInstitucion);
+        if(idInstitucion != stConvenio.getIdInstitucion()){
+            if(GlobalValuesBD.getFichasByConveny(stConvenio.getId()).size() > 0){
+                if(OptionPane.getConfirmation("¿Estas seguro que deseas modificar este convenio?", 
+                        "El convenio ya contiene fichas generadas que supuestamente tienen relación con\n"
+                                + "la empresa que estás modificando, si confirmas esta acción\n"
+                                + "todas las fichas generadas pasarán a pertenecer a un convenio con\n"
+                                + " esta nueva institución. ¿Estas seguro?", 2)){
+                    stConvenio.setIdInstitucion(idInstitucion);
+                    
+                }
+            }else{
+                stConvenio.setIdInstitucion(idInstitucion);
+            }
+        }
         stConvenio.setMaximoClientes(cantClientes);
         stConvenio.setMontoMaximo(montoMax);
         stConvenio.setMontoPp(montoPp);
@@ -1009,6 +1075,30 @@ public class VConvenios extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtNombreNKeyTyped
 
+    private void btnPagarCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPagarCuotasMouseClicked
+
+    private void btnPagarCuotasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseEntered
+        btnPagarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnPagarCuotas.getIcon().toString()))));// TODO add your handling code here:
+    }//GEN-LAST:event_btnPagarCuotasMouseEntered
+
+    private void btnPagarCuotasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseExited
+        btnPagarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnPagarCuotas.getIcon().toString()))));
+    }//GEN-LAST:event_btnPagarCuotasMouseExited
+
+    private void btnMostrarCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarCuotasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMostrarCuotasMouseClicked
+
+    private void btnMostrarCuotasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarCuotasMouseEntered
+        btnMostrarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnMostrarCuotas.getIcon().toString()))));
+    }//GEN-LAST:event_btnMostrarCuotasMouseEntered
+
+    private void btnMostrarCuotasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarCuotasMouseExited
+        btnMostrarCuotas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnMostrarCuotas.getIcon().toString()))));
+    }//GEN-LAST:event_btnMostrarCuotasMouseExited
+
     private void institucioValidate(JTextField txt){
         if(GV.strToNumber(txt.getText()) > 0){
             txt.setForeground(Color.black);
@@ -1024,6 +1114,8 @@ public class VConvenios extends javax.swing.JPanel {
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnGuardar;
     private javax.swing.JLabel btnModificar;
+    private javax.swing.JLabel btnMostrarCuotas;
+    private javax.swing.JLabel btnPagarCuotas;
     private javax.swing.JLabel btnRestaurar;
     private javax.swing.JComboBox<String> cboMostrar;
     private javax.swing.JLabel jLabel1;
@@ -1118,6 +1210,11 @@ public class VConvenios extends javax.swing.JPanel {
         loadPanels(2);
         stConvenio = (Convenio)GV.buscarPorIdEnLista(""+id, listConvenios, new Convenio());
             if(stConvenio!=null){
+                if(stConvenio.getEstado() == 2){
+                    setBtnVisible(true);
+                }else{
+                    setBtnVisible(false);
+                }
                 if(stConvenio.getNombre().isEmpty() || stConvenio.getNombre().equals("null"))
                     txtNombreU.setText("");
                 else
@@ -1183,5 +1280,10 @@ public class VConvenios extends javax.swing.JPanel {
             pnl1.setVisible(true);
             pnl2.setVisible(false);
         }
+    }
+
+    private void setBtnVisible(boolean b) {
+        btnMostrarCuotas.setVisible(b);
+        btnPagarCuotas.setVisible(b);
     }
 }
