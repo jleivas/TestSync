@@ -586,4 +586,13 @@ public class GlobalValuesFunctions {
             }
         }
     }
+    
+    public void convenioGenerarReporte(Convenio cnv){
+        if(cnv.getEstado() == 2){
+            
+        }else{
+            OptionPane.showMsg("No se puede generar el reporte", "El convenio debe estar generado,\n"
+                    + "el sistema no adminte convenios anulados ni activos.", 2);
+        }
+    }
 }

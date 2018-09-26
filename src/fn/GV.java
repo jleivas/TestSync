@@ -1009,4 +1009,8 @@ public class GV extends GlobalValuesCursor{
     public static Date fechaDefaultCuotasConvenio() {
         return GV.strToDate("01-01-2001");
     }
+
+    public static int cuotaConvenioPagada() {
+        return 2;
+    }
 }
