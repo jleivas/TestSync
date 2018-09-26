@@ -404,6 +404,10 @@ public class GV extends GlobalValuesCursor{
     public static boolean fechaActualOPasada(Date date){
         return GlobalValuesFunctions.fechaActualOPasada(date);
     }
+    
+    public static void convenioUpdateBDIfValidated(Convenio convenio){
+        GlobalValuesFunctions.updateBDConvenioValidado(convenio);
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){

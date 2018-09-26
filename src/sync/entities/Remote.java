@@ -8,6 +8,7 @@ import bd.RmBd;
 import entities.Cliente;
 import entities.Convenio;
 import entities.Cristal;
+import entities.CuotasConvenio;
 import entities.Descuento;
 import entities.Doctor;
 import entities.Equipo;
@@ -168,6 +169,27 @@ public class Remote implements InterfaceSync{
                     }
                 }
                 OptionPane.showMsg("Error inseperado en la operación", "Cristal: " + object.getNombre() + "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
+                return false;
+            }
+            if(objectParam instanceof CuotasConvenio){
+                CuotasConvenio object = (CuotasConvenio)objectParam;
+                if (object != null) {
+                    PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT cc_id FROM descuento WHERE cc_id = '" + object.getCod() + "'");
+                    ResultSet datos = consulta.executeQuery();
+                    while (datos.next()) {
+                        RmBd.cerrar();
+                        return update(object);
+                    }
+                    PreparedStatement insert = RmBd.obtener().prepareStatement(
+                            sqlInsert(object)
+                    );
+                    if (insert.executeUpdate() != 0) {
+                        RmBd.cerrar();
+
+                        return true;
+                    }
+                }
+                OptionPane.showMsg("Error inseperado en la operación", "CuotasConvenio: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof Descuento){
@@ -582,6 +604,29 @@ public class Remote implements InterfaceSync{
                 PreparedStatement insert = RmBd.obtener().prepareStatement(
                         sqlUpdate(object)
                 );
+                insert.executeUpdate();
+                RmBd.cerrar();
+                return true;
+            }
+            if(objectParam instanceof CuotasConvenio){
+                CuotasConvenio object = (CuotasConvenio)objectParam;
+                PreparedStatement consulta = RmBd.obtener().prepareStatement("SELECT * FROM cuotas_convenio WHERE cc_id = '" + object.getCod()+ "'");
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    
+                    try {
+                        dsp_fecha = datos.getDate("cc_last_update");
+                        hour = datos.getInt("cc_last_hour");
+                    } catch (Exception e) {
+                        OptionPane.showMsg("Error al convertir fecha", "Se cayó al intentar convertir la fecha.\nDetalle:\n" + Log.getLog(), 3);
+                    }
+                    if (!fn.date.Cmp.objectIsNew(object.getLastUpdate(),object.getLastHour(), dsp_fecha,hour)) {
+                        RmBd.cerrar();
+                        return false;
+                    }
+                }
+                PreparedStatement insert = RmBd.obtener().prepareStatement(
+                        sqlUpdate(object));
                 insert.executeUpdate();
                 RmBd.cerrar();
                 return true;
@@ -3012,6 +3057,21 @@ public class Remote implements InterfaceSync{
                     + sqlfecha + "',"
                     + object.getLastHour() + ")";
         }
+        if(objectParam instanceof CuotasConvenio){
+            CuotasConvenio object = (CuotasConvenio)objectParam;
+            java.sql.Date fecha = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date fechaPagado = new java.sql.Date(object.getFechaPagado().getTime());//la transforma a sql.Date
+            java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "INSERT INTO cuotas_convenio VALUES('"
+                    + object.getCod()+ "','"
+                    + fecha + "','"
+                    + fechaPagado + "',"
+                    + object.getMonto()+ ","
+                    + object.getIdConvenio()+ ","
+                    + object.getEstado() + ",'"
+                    + lastUpdate + "',"
+                    + object.getLastHour() + ")";
+        }
         if(objectParam instanceof Descuento){
             Descuento object = (Descuento)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
@@ -3290,8 +3350,8 @@ public class Remote implements InterfaceSync{
                         + ", cnv_monto_pp = " + object.getMontoPp()
                         + ", cnv_maximo_clientes = " + object.getMaximoClientes()
                         + ", descuento_des_id = " + object.getIdDescuento()
-                        + ", institucion_ins_id = " + object.getIdInstitucion()
                         + ", cnv_porc_valor_adicional = " + object.getPorcentajeAdicion()
+                        + ", institucion_ins_id = " + object.getIdInstitucion()
                         + ", cnv_estado = " + object.getEstado()
                         + ", cnv_last_update = '" + sqlfecha3
                         + "', cnv_last_hour = " + object.getLastHour()
@@ -3310,6 +3370,22 @@ public class Remote implements InterfaceSync{
                         + " WHERE cri_id = " + object.getId() 
                         + " AND ((cri_last_update < '"+sqlfecha+"')OR"
                         + "(cri_last_update = '"+sqlfecha+"' AND cri_last_hour < "+object.getLastHour()+"))";
+        }
+        if(objectParam instanceof CuotasConvenio){
+            CuotasConvenio object = (CuotasConvenio)objectParam;
+            java.sql.Date fecha = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
+            java.sql.Date fechaPago = new java.sql.Date(object.getFechaPagado().getTime());//la transforma a sql.Date
+            java.sql.Date lastUpdate = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
+            return  "UPDATE cuotas_convenio set cc_fecha = '" + fecha
+                        + "', cc_fecha_pagado = '" + fechaPago
+                        + "', cc_monto = " + object.getMonto()
+                        + ", convenio_cnv_id = " + object.getIdConvenio()
+                        + ", cc_estado = " + object.getEstado()
+                        + ", cc_last_update = '" + lastUpdate
+                        + "', cc_last_hour = " + object.getLastHour()
+                        + " WHERE cc_id = '" + object.getCod()
+                        + "' AND ((cc_last_update < '"+lastUpdate+"')OR"
+                        + "(cc_last_update = '"+lastUpdate+"' AND cc_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Descuento){
             Descuento object = (Descuento)objectParam;

@@ -564,40 +564,22 @@ public class GlobalValuesFunctions {
         return date.before(new Date());
     }
     
-    /**
-     * Validar fecha de término, Si la fecha de término caduca el convenio debe pasar a estado 2.
-     * Validar si existen fichas registradas con el convenio a generar, si no existen, 
-     * se debe modificar la fecha de termino en un día más, si la fecha de termino es 
-     * igual a la fecha de cobro, se debe sumar un mes a la fecha de cobro y dejar el convenio en estado 1.
-     * @param convenio
-     * @return 
-     */
-    public static Convenio validateConvenio(Convenio convenio){
-        if(convenio.getEstado() == 1){
-            if(GV.fechaPasada(convenio.getFechaFin())){
-                List<Object> lista = GlobalValuesBD.getFichasByConveny(convenio.getId());
-                if(lista.isEmpty()){
-                    convenio.setFechaFin(GV.dateSumaResta(convenio.getFechaFin(), 1,"DAYS"));
-                    if(GV.dateToString(convenio.getFechaFin(), "ddmmyyyy")
-                            .equals(GV.dateToString(convenio.getFechaCobro(), "ddmmyyyy"))){
-                        convenio.setFechaCobro(GV.dateSumaResta(convenio.getFechaCobro(), 1, "MONTHS"));
+    public static void updateBDConvenioValidado(Convenio convenio){
+        if(convenio.validate()){
+            Dao load = new Dao();
+            load.update(convenio);
+            List<CuotasConvenio> listCuotas = convenio.getCuotasConvenio();
+            if(listCuotas.size()>0){
+                for (CuotasConvenio cc : listCuotas) {
+                    try {
+                        load.add(cc);
+                    } catch (InstantiationException | IllegalAccessException ex) {
+                        Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+                        OptionPane.showMsg("Error en BD", "Ocurrió un error al intentar guardar entidades\n"
+                                + "CuotasConvenio de la clase Convenio ID:"+convenio.getId(), 3);
                     }
-                }else{
-                    int totalPendiente = 0;
-                    for (Object object : lista) {
-                        totalPendiente = totalPendiente + ((Ficha)object).getSaldo();
-                    }
-                    for (int i = 0; i < convenio.getCuotas(); i++) {
-                        convenio.addCuotaConvenio(
-                                new CuotasConvenio(null, GV.dateSumaResta(convenio.getFechaCobro(), i, "MONTHS"),
-                                null, (totalPendiente/convenio.getCuotas()), convenio.getId(),
-                                1, null, 0)
-                        );
-                    }
-                    convenio.setEstado(2);
                 }
             }
         }
-        return convenio;
     }
 }

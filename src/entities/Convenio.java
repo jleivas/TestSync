@@ -6,7 +6,10 @@
 package entities;
 
 import entities.abstractclasses.SyncIntId;
+import entities.ficha.Ficha;
 import fn.GV;
+import fn.date.Cmp;
+import fn.globalValues.GlobalValuesBD;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,5 +177,56 @@ public class Convenio extends SyncIntId{
                 "\nestado:"+getEstado(); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * Validar fecha de término, Si la fecha de término caduca el convenio debe pasar a estado 2.
+     * Validar si existen fichas registradas con el convenio a generar, si no existen, 
+     * se debe modificar la fecha de termino en un día más, si la fecha de termino es 
+     * igual a la fecha de cobro, se debe sumar un mes a la fecha de cobro y dejar el convenio en estado 1.
+     * @return true si sufre modificaciones(Guardar en BD), false si no.
+     */
+    public boolean validate(){
+        if(getEstado() == 1){
+            if(GV.fechaPasada(getFechaFin())){
+                List<Object> lista = GlobalValuesBD.getFichasByConveny(getId());
+                if(lista.isEmpty()){
+                    //se debe modificar la fecha de término en el día actual
+                    setFechaFin(new Date());
+                    //si la fecha de término es igual o superior a la fecha de cobro, se debe sumar un 
+                    //mes a la fecha de cobro y dejar el convenio en estado 1
+                    if(Cmp.localIsNewOrEqual(getFechaFin(), getFechaCobro()) ||
+                            GV.dateToString(getFechaFin(), "ddmmyyyy")
+                            .equals(GV.dateToString(getFechaCobro(), "ddmmyyyy"))){
+                        setFechaCobro(GV.dateSumaResta(new Date(), 1, "DAYS"));
+                        setEstado(1);
+                    }
+                }else{
+                    int totalPendiente = 0;
+                    for (Object object : lista) {
+                        totalPendiente = totalPendiente + ((Ficha)object).getSaldo();
+                    }
+                    int valorCuotas = 0;
+                    int valorCuota = GV.roundPrice((totalPendiente/getCuotas()));
+                    int cuota = getCuotas();
+                    for (int i = 0; i < cuota; i++) {
+                        valorCuotas = valorCuotas + valorCuota;
+                        //ajuste de valor en la ultima cuota
+                        valorCuota = ((i == (cuota-1)) && (valorCuotas < totalPendiente))?
+                                (valorCuota + (totalPendiente - valorCuotas)):valorCuota;
+                        
+                        addCuotaConvenio(
+                                new CuotasConvenio(null, GV.dateSumaResta(getFechaCobro(), i, "MONTHS"),
+                                null, valorCuota, getId(),
+                                1, null, 0)
+                        );
+                    }
+                    setEstado(2);
+                }
+                //si sufrio modificaciones
+                return true;
+            }
+        }
+        //no sufrio modificaciones
+        return false;
+    }
     
 }

@@ -8,7 +8,6 @@ package view;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import dao.Dao;
 import entities.Convenio;
-import entities.Descuento;
 import entities.Institucion;
 import fn.Boton;
 import fn.GV;
@@ -56,6 +55,7 @@ public class VConvenios extends javax.swing.JPanel {
         modelo.addColumn("Id");
         modelo.addColumn("Convenio");
         modelo.addColumn("Institución");
+        modelo.addColumn("Estado");
         tblListar.setModel(modelo);
         load();
         loadPanels(1);
@@ -135,13 +135,13 @@ public class VConvenios extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Id", "Convenio", "Institución"
+                "Id", "Convenio", "Institución", "Estado"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
@@ -1098,14 +1098,15 @@ public class VConvenios extends javax.swing.JPanel {
             modelo.setNumRows(0);
             for (Object object : listConvenios) {
                 Convenio temp = (Convenio)object;
+                GV.convenioUpdateBDIfValidated(temp);
                 Institucion ins = (Institucion)load.get(null, temp.getIdInstitucion(), new Institucion());
-                String insName = "No asignada";
-                if(ins != null)
-                    insName = ((Institucion)ins).getNombre();
-                Object[] fila = new Object[4];
+                String insName = (ins != null)?((Institucion)ins).getNombre():"No asignada";
+                String estado = (temp.getEstado() == 1)?"Activo":"Generado";
+                Object[] fila = new Object[5];
                 fila[0] = temp.getId();
                 fila[1] = temp.getNombre();
                 fila[2] = insName;
+                fila[3] = (listar.equals("-1"))?"Anulado":estado;
                 modelo.addRow(fila);
             }
             tblListar.updateUI();

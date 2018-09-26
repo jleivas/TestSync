@@ -5,14 +5,14 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncStringId;
+import entities.abstractclasses.SyncFichaClass;
 import java.util.Date;
 
 /**
  *
  * @author jlleivas
  */
-public class CuotasConvenio extends SyncStringId{
+public class CuotasConvenio extends SyncFichaClass{
     private Date fecha;
     private Date fechaPagado;
     private int monto;

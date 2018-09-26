@@ -183,6 +183,7 @@ public class OpanelSelectConvenio extends javax.swing.JPanel {
     private void autocompletar() throws SQLException, ClassNotFoundException {
         TextAutoCompleter textAutoCompleter2 = new TextAutoCompleter(txtNombreConvenio);
         for (Object temp : stList) {
+            GV.convenioUpdateBDIfValidated((Convenio)temp);
             if(((Convenio)temp).activo()){
                 textAutoCompleter2.addItem(((Convenio)temp).getNombre()+" <"+((Convenio)temp).getId()+">");
                 textAutoCompleter2.setMode(0);
