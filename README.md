@@ -35,20 +35,20 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Plan de trabajo segunda etapa para generar convenios
  
- #### Validar Convenios (CON-001)
- https://github.com/softdirex/TestSync/commit/c50f7b601da7c71932d6656eb60f7d63244e0e13
+ #### [Validar Convenios (CON-001)](https://github.com/softdirex/TestSync/commit/c50f7b601da7c71932d6656eb60f7d63244e0e13)
+ 
  - Validar si existen convenios en estado 1 en la BD cada vez que se listen los convenios o se cree una nueva ficha
  - Validar fecha de término, Si la fecha de término caduca el convenio debe pasar a estado 2.
  - Validar si existen fichas registradas con el convenio a generar, si no existen, se debe modificar la fecha de término en el día actual, si la fecha de término es igual o superior a la fecha de cobro, se debe sumar un día a la fecha de cobro y dejar el convenio en estado 1.
  - Generar todas las cuotas a partir del saldo pendiente total dividido en la cantidad de cuotas y guardar cuotas en la BD con estado 1
 
- #### Generar una entidad convenio nuevo (CON-002)
- https://github.com/softdirex/TestSync/commit/2577e3e12a08ac5315a5e6f3c563656dc7ebc0c9
+ #### [Generar una entidad convenio nuevo (CON-002)](https://github.com/softdirex/TestSync/commit/2577e3e12a08ac5315a5e6f3c563656dc7ebc0c9)
+ 
  - Fecha de inicio debe ser día actual, fecha de termino puede ser actual o superior.
  - Fecha de pago debe ser superior a la fecha de termino
 
- #### Modificar una entidad convenio (CON-003)
- https://github.com/softdirex/TestSync/commit/2b03ab6de9de8d4f2de1ec5a27c4f43190c6e624
+ #### [Modificar una entidad convenio (CON-003)](https://github.com/softdirex/TestSync/commit/2b03ab6de9de8d4f2de1ec5a27c4f43190c6e624)
+ 
  - Solo se puede modificar si la fecha de término no ha caducado
  - Fecha de inicio debe ser inferior a fecha de termino
  - Fecha de termino puede ser actual o superior
@@ -59,8 +59,8 @@ técnico para la puesta en marcha del sistema.
  - Si el convenio no se puede modificar (fecha de término caducada) se mostrarán los datos, pero no se podrán modificar, el botón guardar no debe estar visible o mostrar un mensaje de error al presionar, debe aparecer un botón para visualizar las cuotas pagadas y fechas de pago.
  - Si el convenio tiene estado 2 no se puede anular
 
- #### Generar convenios (CON-004)
- https://github.com/softdirex/TestSync/commit/fb55dece0ddc8655a768d31e6da539f867689a1b
+ #### [Generar convenios (CON-004)](https://github.com/softdirex/TestSync/commit/fb55dece0ddc8655a768d31e6da539f867689a1b)
+ 
  - Crear un botón para generar un reporte de convenio solo cuando se filtren fichas por convenio
  - Validar si la fecha de termino ha caducado, de lo contrario se deberá preguntar si desea cerrar el convenio para futuras fichas y de ser afirmativo se modifica la fecha de término en un día menos de la fecha actual y se valida con el método booleano interno. 
  - Validar convenio
