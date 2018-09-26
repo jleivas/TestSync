@@ -35,19 +35,22 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Plan de trabajo segunda etapa para generar convenios
  
- #### [Validar Convenios *CON-001*] (https://github.com/softdirex/TestSync/commit/c50f7b601da7c71932d6656eb60f7d63244e0e13)
+ #### Validar Convenios 
+ [CON-001] (https://github.com/softdirex/TestSync/commit/c50f7b601da7c71932d6656eb60f7d63244e0e13)
  *Reglas de negocio*
  - Validar si existen convenios en estado 1 en la BD cada vez que se listen los convenios o se cree una nueva ficha
  - Validar fecha de término, Si la fecha de término caduca el convenio debe pasar a estado 2.
  - Validar si existen fichas registradas con el convenio a generar, si no existen, se debe modificar la fecha de término en el día actual, si la fecha de término es igual o superior a la fecha de cobro, se debe sumar un día a la fecha de cobro y dejar el convenio en estado 1.
  - Generar todas las cuotas a partir del saldo pendiente total dividido en la cantidad de cuotas y guardar cuotas en la BD con estado 1
 
- #### [Generar una entidad convenio nuevo *CON-002*] (https://github.com/softdirex/TestSync/commit/2577e3e12a08ac5315a5e6f3c563656dc7ebc0c9)
+ #### Generar una entidad convenio nuevo 
+ [CON-002] (https://github.com/softdirex/TestSync/commit/2577e3e12a08ac5315a5e6f3c563656dc7ebc0c9)
  *Reglas de negocio*
  - Fecha de inicio debe ser día actual, fecha de termino puede ser actual o superior.
  - Fecha de pago debe ser superior a la fecha de termino
 
-  #### Modificar una entidad convenio *CON-003*
+ #### Modificar una entidad convenio 
+ CON-003
  *Reglas de negocio*
  - Solo se puede modificar si la fecha de término no ha caducado
  - Fecha de inicio debe ser inferior a fecha de termino
@@ -59,19 +62,22 @@ técnico para la puesta en marcha del sistema.
  - Si el convenio no se puede modificar (fecha de término caducada) se mostrarán los datos, pero no se podrán modificar, el botón guardar no debe estar visible o mostrar un mensaje de error al presionar, debe aparecer un botón para visualizar las cuotas pagadas y fechas de pago.
  - Si el convenio tiene estado 2 no se puede anular
 
- #### Generar convenios *CON-004*
+ #### Generar convenios 
+ CON-004
  *Reglas de negocio*
  - Crear un botón para generar un reporte de convenio solo cuando se filtren fichas por convenio
  - Validar si la fecha de termino ha caducado, de lo contrario se deberá preguntar si desea cerrar el convenio para futuras fichas y de ser afirmativo se modifica la fecha de término en un día menos de la fecha actual y se valida con el método booleano interno. 
  - Validar convenio
 
- #### Generar reporte *CON-005*
+ #### Generar reporte 
+ CON-005
  *Reglas de negocio*
  - Generar reportes solo de convenios finalizados en estado 2
  - Generar una clase reporte con todos los datos
  - Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas
 
- #### Pago de cuotas *CON-006*
+ #### Pago de cuotas 
+ CON-006
  *Reglas de negocio*
  - Crear un botón para registrar el pago de cuotas en la visualización de los convenios
  - Preguntar cantidad de cuotas pagadas y fecha de pago, confirmar datos y guardar
