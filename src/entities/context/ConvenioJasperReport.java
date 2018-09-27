@@ -9,7 +9,6 @@ import dao.Dao;
 import entities.Convenio;
 import entities.CuotasConvenio;
 import entities.Institucion;
-import entities.ficha.Ficha;
 import fn.GV;
 import static fn.GV.companyName;
 import static fn.GV.dateSumaResta;
@@ -118,7 +117,7 @@ public class ConvenioJasperReport {
             //En este metodo se calcula el resumen
             setConvenio(cnv);
             setCliente(
-                    (Institucion)load.get(null, getConvenio().getIdInstitucion(), new Institucion())
+                    (Institucion)load.get(getConvenio().getIdInstitucion(), 0, new Institucion())
             );
             setCompanyName(companyName());
             setWeb(getOficinaWeb());

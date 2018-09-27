@@ -2348,7 +2348,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         TextAutoCompleter textAutoCompleter8 = new TextAutoCompleter(txtEntrega);
         textAutoCompleter8.setMode(0);
         for (Object temp : listInstituciones) {
-            textAutoCompleter.addItem(((Institucion)temp).getNombre()+" <"+((Institucion)temp).getId()+">");
+            textAutoCompleter.addItem(((Institucion)temp).getNombre()+" <"+((Institucion)temp).getCod()+">");
             textAutoCompleter.setMode(0);
             textAutoCompleter8.addItem(((Institucion)temp).getNombre());
             textAutoCompleter8.setMode(0);
@@ -2442,7 +2442,7 @@ public class VCrearFicha extends javax.swing.JPanel {
         docName = (docName.equals(" <null>")) ? "":docName;
         txtDoctor.setText(docName);
         stInstitucion = ficha.getInstitucion();
-        String inst =  (stInstitucion!=null && stInstitucion.getId() != 0)? stInstitucion.getNombre()+"<"+stInstitucion.getId()+">":"";
+        String inst =  (stInstitucion!=null && !stInstitucion.getCod().isEmpty())? stInstitucion.getNombre()+"<"+stInstitucion.getCod()+">":"";
         txtInstitucion.setText(inst);
         
         
@@ -3132,7 +3132,7 @@ public class VCrearFicha extends javax.swing.JPanel {
             return true;
         }else{
             try {
-                stInstitucion = (Institucion)load.get(null, GV.strToNumber(getIdFromString(ins)), new Institucion());
+                stInstitucion = (Institucion)load.get((getIdFromString(ins)), 0, new Institucion());
                 if(stInstitucion == null){
                     txtInstitucion.setForeground(rojo);
                     msgRejected("Debe ingresar una institución registrada en el sistema.");

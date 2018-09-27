@@ -300,7 +300,7 @@ public class Local implements InterfaceSync {
             if(objectParam instanceof Institucion){
                 Institucion object = (Institucion)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT ins_id FROM institucion WHERE ins_id=" + object.getId()+ "");
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT ins_id FROM institucion WHERE ins_id= '" + object.getCod()+ "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         LcBd.cerrar();
@@ -314,7 +314,7 @@ public class Local implements InterfaceSync {
                         return true;
                     }
                 }
-                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getId() + "\nNo se pudo insertar.", 3);
+                OptionPane.showMsg("Error inseperado en la operación", "Institucion: " + object.getNombre()+ "\nId: " + object.getCod()+ "\nNo se pudo insertar.", 3);
                 return false;
             }
             if(objectParam instanceof InternMail){
@@ -752,7 +752,7 @@ public class Local implements InterfaceSync {
             }
             if(objectParam instanceof Institucion){
                 Institucion object = (Institucion)objectParam;
-                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM institucion WHERE ins_id=" + object.getId()+ "");
+                PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT * FROM institucion WHERE ins_id='" + object.getCod()+ "'");
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     
@@ -1208,8 +1208,8 @@ public class Local implements InterfaceSync {
                                 emDc, estaDc, lastUpdDc, lastHouDc);
                         /*--------------------------------------------------*/
                         /*---------------------INSTITUCION------------------*/
-                        int idIns;
-                        try{idIns = datos.getInt("institucion_ins_id");}catch (Exception e){idIns=0;}
+                        String idIns;
+                        try{idIns = datos.getString("institucion_ins_id");}catch (Exception e){idIns="";}
                         String nomIns;
                         try{nomIns = datos.getString("ins_nombre");}catch (Exception e){nomIns="";}
                         String telIns;
@@ -1402,8 +1402,8 @@ public class Local implements InterfaceSync {
                         try{descIdCnv = datos.getInt("cnv_descuento_des_id");}catch (Exception e){descIdCnv=0;}
                         int porcCnv;
                         try{porcCnv = datos.getInt("cnv_porc_valor_adicional");}catch (Exception e){porcCnv=0;}
-                        int idInstCnv;
-                        try{idInstCnv = datos.getInt("cnv_institucion_ins_id");}catch (Exception e){idInstCnv=0;}
+                        String idInstCnv;
+                        try{idInstCnv = datos.getString("cnv_institucion_ins_id");}catch (Exception e){idInstCnv="";}
                         int estaCnv;
                         try{estaCnv = datos.getInt("cnv_estado");}catch (Exception e){estaCnv=0;}
                         Date lastUpdCnv;
@@ -1412,7 +1412,7 @@ public class Local implements InterfaceSync {
                         try{lastHouCnv = datos.getInt("cnv_last_hour");}catch (Exception e){lastHouCnv=0;}
                         
                         Convenio convenio = new Convenio(idCnv, nomCnv, fechIni, fechFin, cuotCnv,cobrCnv, montMaxCnv, montoPPCnv, 
-                                maxCliCnv, idInstCnv, porcCnv, idInstCnv, estaCnv, lastUpdCnv, lastHouCnv);
+                                maxCliCnv, descIdCnv, porcCnv, idInstCnv, estaCnv, lastUpdCnv, lastHouCnv);
                         /*--------------------------------------------------*/
                         lista.add(new Ficha(
                                   datos.getString("fch_id")
@@ -1703,7 +1703,7 @@ public class Local implements InterfaceSync {
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
-                    lista.add(new Convenio(
+                    Convenio cnv = new Convenio(
                         datos.getInt("cnv_id"),
                         datos.getString("cnv_nombre"),
                         datos.getDate("cnv_fecha_inicio"),
@@ -1715,12 +1715,28 @@ public class Local implements InterfaceSync {
                         datos.getInt("cnv_maximo_clientes"),
                         datos.getInt("descuento_des_id"),
                         datos.getInt("cnv_porc_valor_adicional"),
-                        datos.getInt("institucion_ins_id"),
+                        datos.getString("institucion_ins_id"),
                         datos.getInt("cnv_estado"),
                         datos.getDate("cnv_last_update"),
                         datos.getInt("cnv_last_hour")
-                        )
-                    );
+                        );
+                    PreparedStatement consulta2 = LcBd.obtener().prepareStatement("SELECT * FROM cuotas_convenio WHERE convenio_cnv_id = " + cnv.getId() + " AND cc_estado <> 0");
+                    ResultSet datos2 = consulta2.executeQuery();
+                    while (datos2.next()){
+                        cnv.addCuotaConvenio(
+                        new CuotasConvenio(
+                                datos2.getString("cc_id"),
+                                datos2.getDate("cc_fecha"), 
+                                datos2.getDate("cc_fecha_pagado"), 
+                                datos2.getInt("cc_monto"), 
+                                datos2.getInt("convenio_cnv_id"), 
+                                datos2.getInt("cc_estado"), 
+                                datos2.getDate("cc_last_update"), 
+                                datos2.getInt("cc_last_hour"))
+                        );
+                    }
+                    
+                    lista.add(cnv);
                 }
                 LcBd.cerrar();
                 return lista;
@@ -1914,7 +1930,7 @@ public class Local implements InterfaceSync {
                 return lista;
             }
             if (type instanceof Institucion){
-                String sql = "SELECT * FROM institucion WHERE ins_id =" + idParam + "";
+                String sql = "SELECT * FROM institucion WHERE ins_id ='" + idParam + "'";
                 if (idParam.equals("0")) {
                     sql = "SELECT * FROM institucion WHERE ins_estado=1";
                 }
@@ -1929,7 +1945,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Institucion(
-                        datos.getInt("ins_id"),
+                        datos.getString("ins_id"),
                         datos.getString("ins_nombre"),
                         datos.getString("ins_telefono"),
                         datos.getString("ins_mail"),
@@ -2214,7 +2230,7 @@ public class Local implements InterfaceSync {
                         datos.getInt("fch_saldo"),
                         datos.getString("cliente_cli_rut"),
                         datos.getString("doctor_doc_rut"),
-                        datos.getInt("institucion_ins_id"),
+                        datos.getString("institucion_ins_id"),
                         datos.getString("despacho_dsp_id"),
                         datos.getInt("usuario_us_id"),
                         datos.getInt("convenio_cnv_id"),
@@ -2305,7 +2321,7 @@ public class Local implements InterfaceSync {
                         datos.getInt("cnv_maximo_clientes"),
                         datos.getInt("descuento_des_id"),
                         datos.getInt("cnv_porc_valor_adicional"),
-                        datos.getInt("institucion_ins_id"),
+                        datos.getString("institucion_ins_id"),
                         datos.getInt("cnv_estado"),
                         datos.getDate("cnv_last_update"),
                         datos.getInt("cnv_last_hour")
@@ -2472,7 +2488,7 @@ public class Local implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Institucion(
-                        datos.getInt("ins_id"),
+                        datos.getString("ins_id"),
                         datos.getString("ins_nombre"),
                         datos.getString("ins_telefono"),
                         datos.getString("ins_mail"),
@@ -2767,8 +2783,8 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if(type instanceof Institucion){
-                for (Object object : listar(""+id, type)) {//id debe ser el id de la institucion
-                    if (((Institucion) object).getId() == id) {
+                for (Object object : listar(cod, type)) {//id debe ser el id de la institucion
+                    if (((Institucion) object).getCod().equals(cod)) {
                         return object;
                     }
                 }
@@ -2940,7 +2956,7 @@ public class Local implements InterfaceSync {
             }
         }
         if (object instanceof Institucion) {
-            if (getElement(null,((Institucion) object).getId(),object) != null) {
+            if (getElement(((Institucion) object).getCod(),0,object) != null) {
                 return true;
             }
         }
@@ -3044,8 +3060,8 @@ public class Local implements InterfaceSync {
                     + object.getMontoPp()+ ","
                     + object.getMaximoClientes()+ ","
                     + object.getIdDescuento()+ ","
-                    + object.getPorcentajeAdicion()+ ","
-                    + object.getIdInstitucion()+ ","
+                    + object.getPorcentajeAdicion()+ ",'"
+                    + object.getIdInstitucion()+ "',"
                     + object.getEstado() + ",'"
                     + sqlfecha3 + "',"
                     + object.getLastHour() + ")";
@@ -3146,8 +3162,8 @@ public class Local implements InterfaceSync {
                     + object.getDescuento()+ ","
                     + object.getSaldo()+ ",'"
                     + object.getRutCliente()+ "','"
-                    + object.getRutDoctor()+ "',"
-                    + object.getIdInstitucion()+ ",'"
+                    + object.getRutDoctor()+ "','"
+                    + object.getIdInstitucion()+ "','"
                     + object.getIdDespacho()+ "',"
                     + object.getIdUser()+ ","
                     + object.getIdConvenio()+ ","
@@ -3172,8 +3188,8 @@ public class Local implements InterfaceSync {
         if(objectParam instanceof Institucion){
             Institucion object = (Institucion)objectParam;
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO institucion VALUES("
-                            + object.getId()+ ",'"
+            return  "INSERT INTO institucion VALUES('"
+                            + object.getCod()+ "','"
                             + object.getNombre() + "','"
                             + object.getTelefono() + "','"
                             + object.getEmail() + "','"
@@ -3356,8 +3372,8 @@ public class Local implements InterfaceSync {
                         + ", cnv_maximo_clientes = " + object.getMaximoClientes()
                         + ", descuento_des_id = " + object.getIdDescuento()
                         + ", cnv_porc_valor_adicional = " + object.getPorcentajeAdicion()
-                        + ", institucion_ins_id = " + object.getIdInstitucion()
-                        + ", cnv_estado = " + object.getEstado()
+                        + ", institucion_ins_id = '" + object.getIdInstitucion()
+                        + "', cnv_estado = " + object.getEstado()
                         + ", cnv_last_update = '" + sqlfecha3
                         + "', cnv_last_hour = " + object.getLastHour()
                         + " WHERE cnv_id = " + object.getId()
@@ -3465,8 +3481,8 @@ public class Local implements InterfaceSync {
                         + ", fch_saldo = " + object.getSaldo()
                         + ", cliente_cli_rut = '" + object.getRutCliente()
                         + "', doctor_doc_rut = '" + object.getRutDoctor()
-                        + "', institucion_ins_id = " + object.getIdInstitucion()
-                        + ", despacho_dsp_id = '" + object.getIdDespacho()
+                        + "', institucion_ins_id = '" + object.getIdInstitucion()
+                        + "', despacho_dsp_id = '" + object.getIdDespacho()
                         + "', usuario_us_id = " + object.getIdUser()
                         + ", convenio_cnv_id = " + object.getIdConvenio()
                         + ", fch_estado = " + object.getEstado()
@@ -3504,8 +3520,8 @@ public class Local implements InterfaceSync {
                         + "', ins_estado = " + object.getEstado()
                         + ", ins_last_update = '" + sqlfecha
                         + "', ins_last_hour = " + object.getLastHour()
-                        + " WHERE ins_id = " + object.getId()
-                        + " AND ((ins_last_update < '"+sqlfecha+"')OR"
+                        + " WHERE ins_id = '" + object.getCod()
+                        + "' AND ((ins_last_update < '"+sqlfecha+"')OR"
                         + "(ins_last_update = '"+sqlfecha+"' AND ins_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof InternMail){

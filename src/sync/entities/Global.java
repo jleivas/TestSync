@@ -198,7 +198,7 @@ public class Global implements InterfaceSync{
         }
         if(type instanceof Institucion){
             for (Institucion object : GV.TMP_LIST_INSTITUCIONES) {
-                if(object.getId() == id)
+                if((object.getCod().toLowerCase()).equals(cod.toLowerCase()))
                     return object;
             }
         }

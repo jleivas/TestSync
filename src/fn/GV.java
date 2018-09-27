@@ -700,6 +700,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesBD.backUpLocalBd();
     }
     
+    public static void resetBD(){
+        GlobalValuesBD.resetAllDataSource();
+    }
+    
     public static void sincronizarTodo(){
         GlobalValuesBD.sincronizarTodo();
     }

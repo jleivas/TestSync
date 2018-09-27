@@ -130,7 +130,7 @@ public class GlobalValuesBD {
 " CNV_MAXIMO_CLIENTES INTEGER," +
 " DESCUENTO_DES_ID INTEGER," +
 " CNV_PORC_VALOR_ADICIONAL INTEGER,"+
-" INSTITUCION_INS_ID INTEGER," +
+" INSTITUCION_INS_ID VARCHAR(25)," +
 " CNV_ESTADO INTEGER," +
 " CNV_LAST_UPDATE DATE," +
 " CNV_LAST_HOUR INTEGER";
@@ -188,7 +188,7 @@ public class GlobalValuesBD {
 " FCH_SALDO INTEGER," +
 " CLIENTE_CLI_RUT VARCHAR(25)," +
 " DOCTOR_DOC_RUT VARCHAR(25)," +
-" INSTITUCION_INS_ID INTEGER," +
+" INSTITUCION_INS_ID VARCHAR(25)," +
 " DESPACHO_DSP_ID VARCHAR(25)," +
 " USUARIO_US_ID INTEGER," +
 " CONVENIO_CNV_ID INTEGER," +
@@ -203,7 +203,7 @@ public class GlobalValuesBD {
 " HP_ESTADO INTEGER," +
 " HP_LAST_UPDATE DATE," +
 " HP_LAST_HOUR INTEGER";
-    private static String INSTITUCION = "INS_ID INTEGER not null primary key," +
+    private static String INSTITUCION = "INS_ID VARCHAR(25) not null primary key," +
 " INS_NOMBRE VARCHAR(45)," +
 " INS_TELEFONO VARCHAR(25)," +
 " INS_MAIL VARCHAR(45)," +
@@ -849,5 +849,19 @@ public class GlobalValuesBD {
         String idParam = getWhereFromAllFichas(dateTo, dateFrom, idUser, codClient,idConvenio, idFicha);
         idParam = GV.convertFichaIdToFichaList(idParam);
         return load.listar(idParam, new Ficha());
+    }
+    
+    public static void resetAllDataSource(){
+//        if(GV.tipoUserSuperAdmin() && 
+//                OptionPane.getConfirmation("Confirmación crítica", 
+//                "¿Estas seguro que deseas borrar todos los datos?", 2)){
+            GV.loadLastUpdateFromXML();
+//            backUpLocalBd();
+            GV.setLastUpdate(GV.strToDate("01-01-2001"));
+            GlobalValuesBD.dropDB();
+            GlobalValuesBD.initDB();
+            GV.loadLastUpdateFromXML();
+            GlobalValuesBD.sincronizarTodo();
+//        }
     }
 }

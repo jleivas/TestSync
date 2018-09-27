@@ -5,14 +5,14 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncStringId;
 import java.util.Date;
 
 /**
  *
  * @author Lenovo G470
  */
-public class Institucion extends SyncIntId{
+public class Institucion extends SyncStringId{
     
     private String nombre;
     private String telefono;
@@ -25,8 +25,8 @@ public class Institucion extends SyncIntId{
     public Institucion() {
     }
 
-    public Institucion(int id, String nombre, String telefono, String email, String web, String direccion, String comuna, String ciudad, int estado, Date lastUpdate, int lastHour) {
-        setId(id);
+    public Institucion(String rut, String nombre, String telefono, String email, String web, String direccion, String comuna, String ciudad, int estado, Date lastUpdate, int lastHour) {
+        setCod(rut);
         setNombre(nombre);
         setTelefono(telefono);
         setEmail(email);
@@ -96,6 +96,6 @@ public class Institucion extends SyncIntId{
 
     @Override
     public String toString() {
-        return "Institucion{" + "id=" + getId()+ ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + ", comuna=" + comuna + ", ciudad=" + ciudad + ", estado=" + getEstado() + '}';
+        return "Institucion{" + "id=" + getCod()+ ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + ", comuna=" + comuna + ", ciudad=" + ciudad + ", estado=" + getEstado() + '}';
     }
 }

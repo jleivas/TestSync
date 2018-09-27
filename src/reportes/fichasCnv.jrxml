@@ -155,20 +155,7 @@
 				<text><![CDATA[Cuotas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="136" width="84" height="15" forecolor="#043069" uuid="12daad66-6d68-49b2-ad53-cead6daf8d28">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box>
-					<pen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Valor cuota]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="180" y="151" width="84" height="15" forecolor="#043069" uuid="7c00f5d2-87e5-4dee-ab3a-1f249cf2ed3b">
+				<reportElement x="180" y="136" width="84" height="15" forecolor="#043069" uuid="7c00f5d2-87e5-4dee-ab3a-1f249cf2ed3b">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -181,7 +168,7 @@
 				<text><![CDATA[Abonado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="166" width="84" height="15" forecolor="#043069" uuid="2b6be613-db7a-452d-acf3-490de22aec60">
+				<reportElement x="180" y="151" width="84" height="15" forecolor="#043069" uuid="2b6be613-db7a-452d-acf3-490de22aec60">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -202,7 +189,7 @@
 				<text><![CDATA[Próximo vencimiento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="181" width="84" height="15" forecolor="#043069" uuid="d873a15d-f890-4c02-baf2-d6346d6d6460">
+				<reportElement x="180" y="166" width="84" height="15" forecolor="#043069" uuid="d873a15d-f890-4c02-baf2-d6346d6d6460">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -279,28 +266,21 @@
 				<textFieldExpression><![CDATA[$F{cuotas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="136" width="139" height="15" uuid="b3ea8bce-ece3-4e19-a307-563108425a16"/>
-				<box>
-					<pen lineWidth="0.25"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{valorCuota}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="264" y="151" width="139" height="15" uuid="5ef4619d-fc93-4060-80e1-0127de0baa9f"/>
+				<reportElement x="264" y="136" width="139" height="15" uuid="5ef4619d-fc93-4060-80e1-0127de0baa9f"/>
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{totalAbono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="166" width="139" height="15" uuid="334ca5e7-a020-4511-8e48-87aeff5fc51a"/>
+				<reportElement x="264" y="151" width="139" height="15" uuid="334ca5e7-a020-4511-8e48-87aeff5fc51a"/>
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{totalPendiente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="264" y="181" width="139" height="15" uuid="978ecb58-dc3c-4c6d-b009-c1feebfef774"/>
+				<reportElement x="264" y="166" width="139" height="15" uuid="978ecb58-dc3c-4c6d-b009-c1feebfef774"/>
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
@@ -371,7 +351,7 @@
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="0" width="94" height="20" forecolor="#043069" uuid="40cb2e60-dead-4baf-9944-513b92160463">
+				<reportElement x="370" y="0" width="95" height="20" forecolor="#043069" uuid="40cb2e60-dead-4baf-9944-513b92160463">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="50b15bbb-da74-4d82-896a-08673148dc48"/>
 				</reportElement>
 				<box>
@@ -444,7 +424,7 @@
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="370" y="0" width="94" height="20" uuid="fc2acaed-b5ea-49e9-baa7-e55c6bbb0fb1">
+				<reportElement x="370" y="0" width="95" height="20" uuid="fc2acaed-b5ea-49e9-baa7-e55c6bbb0fb1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="50b15bbb-da74-4d82-896a-08673148dc48"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

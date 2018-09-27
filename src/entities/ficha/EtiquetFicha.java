@@ -25,12 +25,12 @@ public class EtiquetFicha extends SyncStringId{
     // referencias
     private String rutCliente;
     private String rutDoctor;
-    private int idInstitucion;
+    private String idInstitucion;
     private String idDespacho;
     private int idUser;
     private int idConvenio;
 
-    public EtiquetFicha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, String horaEntrega, String observacion, int valorTotal, int descuento, int saldo, String rutCliente, String rutDoctor, int idInstitucion, String idDespacho, int idUser, int idConvenio, int estado, Date lastUpdate, int lastHour) {
+    public EtiquetFicha(String cod, Date fecha, Date fechaEntrega, String lugarEntrega, String horaEntrega, String observacion, int valorTotal, int descuento, int saldo, String rutCliente, String rutDoctor, String idInstitucion, String idDespacho, int idUser, int idConvenio, int estado, Date lastUpdate, int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setFechaEntrega(fechaEntrega);
@@ -68,7 +68,7 @@ public class EtiquetFicha extends SyncStringId{
         setRutCliente(rutCliente);
         String rutDoctor = (ficha.getDoctor() != null) ? ficha.getDoctor().getCod():"";
         setRutDoctor(rutDoctor);
-        int idInstitucion = (ficha.getInstitucion() != null) ? ficha.getInstitucion().getId():0;
+        String idInstitucion = (ficha.getInstitucion() != null) ? ficha.getInstitucion().getCod():"";
         setIdInstitucion(idInstitucion);
         String idDespacho = (ficha.getDespacho() != null) ? ficha.getDespacho().getCod():"";
         setIdDespacho(idDespacho);
@@ -121,7 +121,7 @@ public class EtiquetFicha extends SyncStringId{
         return rutDoctor;
     }
 
-    public int getIdInstitucion() {
+    public String getIdInstitucion() {
         return idInstitucion;
     }
 
@@ -177,7 +177,7 @@ public class EtiquetFicha extends SyncStringId{
         this.rutDoctor = getStr(rutDoctor);
     }
 
-    public void setIdInstitucion(int idInstitucion) {
+    public void setIdInstitucion(String idInstitucion) {
         this.idInstitucion = idInstitucion;
     }
 

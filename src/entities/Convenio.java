@@ -29,13 +29,13 @@ public class Convenio extends SyncIntId{
     private int maximoClientes;
     private int idDescuento;
     private int porcentajeAdicion;
-    private int idInstitucion;
+    private String idInstitucion;
     private List<CuotasConvenio> listCuotas = new ArrayList<CuotasConvenio>();
 
     public Convenio() {
     }
 
-    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas,Date fechaCobro, int montoMaximo, int montoPp, int maximoClientes, int idDescuento, int porcentajeAdicion,int idInstitucion,int estado, Date lastUpdate,int lastHour) {
+    public Convenio(int id,String nombre, Date fechaInicio, Date fechaFin, int cuotas,Date fechaCobro, int montoMaximo, int montoPp, int maximoClientes, int idDescuento, int porcentajeAdicion,String idInstitucion,int estado, Date lastUpdate,int lastHour) {
         setId(id);
         setNombre(nombre);
         setFechaInicio(fechaInicio);
@@ -125,8 +125,8 @@ public class Convenio extends SyncIntId{
         this.idDescuento = idDescuento;
     }
 
-    public void setIdInstitucion(int idInstitucion) {
-        this.idInstitucion = idInstitucion;
+    public void setIdInstitucion(String idInstitucion) {
+        this.idInstitucion = getStr(idInstitucion);
     }
 
     public String getNombre() {
@@ -161,7 +161,7 @@ public class Convenio extends SyncIntId{
         return idDescuento;
     }
 
-    public int getIdInstitucion() {
+    public String getIdInstitucion() {
         return idInstitucion;
     }
     

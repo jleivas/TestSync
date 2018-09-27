@@ -873,10 +873,10 @@ public class VConvenios extends javax.swing.JPanel {
         int montoPp = 0;
         int cantClientes = 0;
         int idDescuento  =  0;
-        int idInstitucion = GV.strToNumber(txtInstitucionU.getText());
+        String idInstitucion = getIdInstitucion(txtInstitucionU.getText());
         int porcAdicional = (int)txtPorcentajeAdicionalU.getValue();
-        if(idInstitucion <= 0){
-            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada\n"
+        if(idInstitucion == null){
+            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla\n"
                 + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
             cDF();
             return;
@@ -890,7 +890,7 @@ public class VConvenios extends javax.swing.JPanel {
         stConvenio.setFechaInicio(fechaIni);
         stConvenio.setIdDescuento(idDescuento);
         stConvenio.setPorcentajeAdicion(porcAdicional);
-        if(idInstitucion != stConvenio.getIdInstitucion()){
+        if(!idInstitucion.equals(stConvenio.getIdInstitucion())){
             if(GlobalValuesBD.getFichasByConveny(stConvenio.getId()).size() > 0){
                 if(OptionPane.getConfirmation("¿Estas seguro que deseas modificar este convenio?", 
                         "El convenio ya contiene fichas generadas que supuestamente tienen relación con\n"
@@ -1044,16 +1044,16 @@ public class VConvenios extends javax.swing.JPanel {
         int montoPp = 0;
         int cantClientes = 0;
         int idDescuento  =  0;
-        int idInstitucion = GV.strToNumber(txtInstitucionN.getText());
+        String idInstitucion = getIdInstitucion(txtInstitucionN.getText());
         int porcAdicional = (int)txtPorcentajeAdicionalN.getValue();
-        if(idInstitucion <= 0){
-            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada\n"
+        if(idInstitucion == null){
+            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
                 + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
             cDF();
             return;
         }
 
-        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, 1, idInstitucion, null, 0);
+        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, idInstitucion, 1, null, 0);
         try {
             cWT();
             load.add(convenio);
@@ -1186,7 +1186,7 @@ public class VConvenios extends javax.swing.JPanel {
             for (Object object : listConvenios) {
                 Convenio temp = (Convenio)object;
                 GV.convenioUpdateBDIfValidated(temp);
-                Institucion ins = (Institucion)load.get(null, temp.getIdInstitucion(), new Institucion());
+                Institucion ins = (Institucion)load.get(temp.getIdInstitucion(), 0, new Institucion());
                 String insName = (ins != null)?((Institucion)ins).getNombre():"No asignada";
                 String estado = (temp.getEstado() == 1)?"Activo":"Generado";
                 Object[] fila = new Object[5];
@@ -1223,10 +1223,11 @@ public class VConvenios extends javax.swing.JPanel {
                 txtFechaFinU.setDate(stConvenio.getFechaFin());
                 txtFechaCobroU.setDate(stConvenio.getFechaCobro());
                 txtPorcentajeAdicionalU.setValue((int)stConvenio.getPorcentajeAdicion());
-                if(stConvenio.getIdInstitucion()==0)
+                txtCuotasU.setValue(stConvenio.getCuotas());
+                if(stConvenio.getIdInstitucion().isEmpty())
                     txtInstitucionU.setText("");
                 else
-                    txtInstitucionU.setText("["+stConvenio.getIdInstitucion()+"] "+((Institucion)load.get(null, stConvenio.getIdInstitucion(), new Institucion())).getNombre());
+                    txtInstitucionU.setText("["+stConvenio.getIdInstitucion()+"] "+((Institucion)load.get(stConvenio.getIdInstitucion(), 0, new Institucion())).getNombre());
                 
             }else{
                 OptionPane.showMsg("Seleccione registro","Error al cargar valores,\n"
@@ -1257,10 +1258,10 @@ public class VConvenios extends javax.swing.JPanel {
         for (Object object : load.listar("0", new Institucion())) {
             Institucion temp = (Institucion)object;
             
-            textAutoCompleter1.addItem("["+temp.getId()+"] "+temp.getNombre());
+            textAutoCompleter1.addItem("["+temp.getCod()+"] "+temp.getNombre());
             textAutoCompleter1.setMode(0);
             
-            textAutoCompleter2.addItem("["+temp.getId()+"] "+temp.getNombre());
+            textAutoCompleter2.addItem("["+temp.getCod()+"] "+temp.getNombre());
             textAutoCompleter2.setMode(0);
         }
     }
@@ -1285,5 +1286,13 @@ public class VConvenios extends javax.swing.JPanel {
     private void setBtnVisible(boolean b) {
         btnMostrarCuotas.setVisible(b);
         btnPagarCuotas.setVisible(b);
+    }
+
+    private String getIdInstitucion(String text) {
+        if(text!=null){
+            text = ((text.startsWith("[")) && (text.contains("]")))?text.substring(1, text.indexOf("]")):null;
+            text = (!(GV.getStr(text).isEmpty()))?text:null;
+        }
+        return text;
     }
 }

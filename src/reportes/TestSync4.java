@@ -46,80 +46,55 @@ public class TestSync4 {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        Dao load = new Dao();
-        Ficha ficha1 = new Ficha();
-        Ficha ficha2 = new Ficha();
-        Ficha ficha3 = new Ficha();
-        Ficha ficha4 = new Ficha();
-        Ficha ficha5 = new Ficha();
-        Ficha ficha6 = new Ficha();
-        Ficha ficha7 = new Ficha();
-        try {
-            ficha1 = (Ficha)load.get("1/2", 0, new Ficha());
-            ficha2 = (Ficha)load.get("2/2", 0, new Ficha());
-            ficha3 = (Ficha)load.get("3/2", 0, new Ficha());
-            ficha4 = (Ficha)load.get("4/2", 0, new Ficha());
-            ficha5 = (Ficha)load.get("5/2", 0, new Ficha());
-            ficha6 = (Ficha)load.get("6/2", 0, new Ficha());
-            ficha7 = (Ficha)load.get("7/2", 0, new Ficha());
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        try{
+            Dao load = new Dao();
+            
+            InputStream is = null;
+            
+            FichasConvenioRecursoDatos dt = new FichasConvenioRecursoDatos();
+            Convenio convenio = (Convenio)load.get(null, 3, new Convenio());
+            if(!dt.addConvenio(convenio,"titulo jasper", "subtitulos jasper")){
+                OptionPane.showMsg("No se puede generar reporte", "El sistema no admite convenios activos, anulados ni defectuosos para generar reportes.", 2);
+                return;
+            }
+            
+            try{
+                is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"fichasCnv.jrxml");
+            }catch(FileNotFoundException e){
+                OptionPane.showMsg("No se puede obtener el recurso",
+                        "Ocurrió un error al intentar abrir el formato de impresión\n"
+                                + e.getMessage(), 3);
+            }
+            
+            
+            openView(is,dt);
+            openView(is,dt);
+        }catch(SQLException ex){
             Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        InputStream is = null;
-        JasperPrint jsp = null;
-        FichaConvenioRecursoDatos dt = new FichaConvenioRecursoDatos();
-        Convenio convenio = new Convenio(1, "Convenio test",
-                new Date(), new Date(), 2, GV.strToDate("23-10-2018"), 0, 0, 0, 0, 0, 0, 1, null, 0);
-        dt.addConvenio(convenio,new Institucion(1, "softdirex", "998672930", "softdirex@gmail.xom", "www.softdirex", "direccion", "comuna", "ciuas", 1,null, 0));
-        
-        dt.addTitle("Reporte de fichas por convenio Convenio 3", "fecha de emision "+GV.dateToString(new Date(), "dd.mm.yyyy"));
-        dt.addFicha(ficha1);
-        dt.addFicha(ficha2);
-        dt.addFicha(ficha3);
-        dt.addFicha(ficha4);
-        dt.addFicha(ficha5);
-        dt.addFicha(ficha6);
-        dt.addFicha(ficha7);
-        try{
-            is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"fichasCnv.jrxml");
-        }catch(FileNotFoundException e){
-            OptionPane.showMsg("No se puede obtener el recurso", 
-                    "Ocurrió un error al intentar abrir el formato de impresión\n"
-                            + e.getMessage(), 3);
-        }
-        
-        
-        try{
-            JasperDesign jsd = JRXmlLoader.load(is);
-            JasperReport jsrp = JasperCompileManager.compileReport(jsd);
-            jsp = JasperFillManager.fillReport(jsrp, null,dt);
-            JasperViewer viewer = new JasperViewer(jsp, false); //Se crea la vista del reportes
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
-            viewer.setVisible(true); //Se vizualiza el reporte
-//            generateReport(jsp, true, "src"+File.separator+"reportes"+File.separator+"fichasConvenio.xls");
-        }catch( JRException e){
-            OptionPane.showMsg("No se puede visualizar el recurso", 
-                    "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
-                            + e.getMessage(), 3);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static void generateReport(JasperPrint report, boolean isExcel, String saveTo) throws JRException{
-  JRExporter exporter = null;
-  if (isExcel) {
-    exporter = new JRXlsExporter();
-    exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-    exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-    exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-    //we set the one page per sheet parameter here
-    exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-  } else {
-    exporter = new JRPdfExporter();     
-  }
-  exporter.setParameter(JRExporterParameter.JASPER_PRINT, report);
-  exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, saveTo);
-  exporter.exportReport();
-}
+    public static void openView(InputStream is, FichasConvenioRecursoDatos fcr){
+        try{
+                JasperDesign jsd = JRXmlLoader.load(is);
+                JasperReport jsrp = JasperCompileManager.compileReport(jsd);
+                JasperPrint jsp = JasperFillManager.fillReport(jsrp, null,fcr);
+                JasperViewer viewer = new JasperViewer(jsp, false); //Se crea la vista del reportes
+                viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
+                viewer.setVisible(true); //Se vizualiza el reporte
+//            generateReport(jsp, true, "src"+File.separator+"reportes"+File.separator+"fichasConvenio.xls");
+            }catch( JRException e){
+                OptionPane.showMsg("No se puede visualizar el recurso",
+                        "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
+                                + e.getMessage(), 3);
+            }
+    }
     
     
 }

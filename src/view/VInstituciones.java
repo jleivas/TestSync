@@ -15,6 +15,8 @@ import fn.OptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -88,6 +90,8 @@ public class VInstituciones extends javax.swing.JPanel {
         btnGuardar = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtWebN = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtRut = new javax.swing.JTextField();
         pnl2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -327,6 +331,15 @@ public class VInstituciones extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
+        jLabel9.setText("Rut");
+
+        txtRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl1Layout = new javax.swing.GroupLayout(pnl1);
         pnl1.setLayout(pnl1Layout);
         pnl1Layout.setHorizontalGroup(
@@ -344,8 +357,10 @@ public class VInstituciones extends javax.swing.JPanel {
                         .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNombreN, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(txtTelefonoN))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(txtDireccionN, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCiudadN, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtWebN, javax.swing.GroupLayout.Alignment.LEADING))
@@ -360,8 +375,11 @@ public class VInstituciones extends javax.swing.JPanel {
                         .addComponent(txtComunaN)
                         .addContainerGap())
                     .addGroup(pnl1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 292, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
+                        .addContainerGap())
+                    .addGroup(pnl1Layout.createSequentialGroup()
+                        .addComponent(txtRut, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         pnl1Layout.setVerticalGroup(
@@ -370,7 +388,9 @@ public class VInstituciones extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -723,7 +743,7 @@ public class VInstituciones extends javax.swing.JPanel {
         try{
             cWT();
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+            String id = (tblListar.getValueAt(fila, 0).toString());
             
             abrirInstitucion(id);
             cDF();
@@ -742,11 +762,11 @@ public class VInstituciones extends javax.swing.JPanel {
         try{
             cWT();
             int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Institucion temp = (Institucion)load.get(null,id,new Institucion());
+            String id = (tblListar.getValueAt(fila, 0).toString());
+            Institucion temp = (Institucion)load.get(id,0,new Institucion());
             if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
                 cWT();
-                if(load.delete(null,id, temp)){
+                if(load.delete(id,0, temp)){
                     OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", 1);
                 }else{
                     OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", 2);
@@ -767,10 +787,10 @@ public class VInstituciones extends javax.swing.JPanel {
         try{
             cWT();
             int fila = tblListar.getSelectedRow();
-            int id = (int)tblListar.getValueAt(fila, 0);
+            String id = (String)tblListar.getValueAt(fila, 0);
             if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", 1)){
                 cWT();
-                if(load.restore(null, id, new Institucion())){
+                if(load.restore(id, 0, new Institucion())){
                     OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", 1);
                 }else{
                     OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", 2);
@@ -816,37 +836,61 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        cWT();
-        String nombre=txtNombreN.getText();
-        if(nombre == null || nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        String telefono=txtTelefonoN.getText();
-        String mail=txtEmailN.getText().toLowerCase();
-        if(telefono.isEmpty() && mail.isEmpty()){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
-        String direccion=txtDireccionN.getText();
-        String comuna=txtComunaN.getText();
-        String ciudad=txtCiudadN.getText();
-        String web = txtWebN.getText();
-
-        Institucion institucion= new Institucion(GV.LOCAL_SYNC.getMaxId(new Institucion()), nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
         try {
             cWT();
-            load.add(institucion);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la institucion\n\n"
-                    + ex, 3);
+            String rut = txtRut.getText();
+            String nombre=txtNombreN.getText();
+            if(nombre == null || nombre.isEmpty() || nombre.length()<3){
+                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", 2);
+                cDF();
+                return;
+            }
+            if(rut == null || rut.isEmpty() || rut.length()<1){
+                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un identificador o rut válido.", 2);
+                cDF();
+                return;
+            }
+            if(!GV.validaRut(rut)){
+                if(!OptionPane.getConfirmation("Revise el identificador", "¿Está seguro que el identificador o rut ("+rut+") ingresado es correcto?\n"
+                        + "una vez registrado no se podrá modificar.", 2)){
+                    cDF();
+                    return;
+                }
+            }
+            String telefono=txtTelefonoN.getText();
+            String mail=txtEmailN.getText().toLowerCase();
+            if(telefono.isEmpty() && mail.isEmpty()){
+                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
+                        + "Ingrese un teléfono o correo electrónico.", 2);
+                cDF();
+                return;
+            }
+            String direccion=txtDireccionN.getText();
+            String comuna=txtComunaN.getText();
+            String ciudad=txtCiudadN.getText();
+            String web = txtWebN.getText();
+            
+            if(load.get(rut, 0, new Institucion())==null){
+                Institucion institucion= new Institucion(rut, nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
+                try {
+                    cWT();
+                    load.add(institucion);
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
+                            + "No se pudo insertar la institucion\n\n"
+                            + ex, 3);
+                }
+                cargarDatos("0");
+            }else{
+                OptionPane.showMsg("La entidad ya existe", "No se pudo insertar nuevo registro,\n"
+                        + "Ya existe una entidad con el mismo identificador o rut,\n"
+                        + "modifique la entidad existente, si no aparece en la tabla,\n"
+                        + "debe restaurarla de elementos anulados.", 2);
+            }
+            cDF();
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(VInstituciones.class.getName()).log(Level.SEVERE, null, ex);
         }
-        cargarDatos("0");
-        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -950,6 +994,10 @@ public class VInstituciones extends javax.swing.JPanel {
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnCancelar.getIcon().toString()))));// TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarMouseExited
 
+    private void txtRutKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
@@ -974,6 +1022,7 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -991,6 +1040,7 @@ public class VInstituciones extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailU;
     private javax.swing.JTextField txtNombreN;
     private javax.swing.JTextField txtNombreU;
+    private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtTelefonoN;
     private javax.swing.JTextField txtTelefonoU;
     private javax.swing.JTextField txtWebN;
@@ -1029,7 +1079,7 @@ public class VInstituciones extends javax.swing.JPanel {
             for (Object object : load.listar(listar, new Institucion())) {
                 Institucion temp = (Institucion)object;
                 Object[] fila = new Object[5];
-                fila[0] = temp.getId();
+                fila[0] = temp.getCod();
                 fila[1] = temp.getNombre();
                 fila[2] = temp.getEmail();
                 fila[3] = temp.getTelefono();
@@ -1046,9 +1096,9 @@ public class VInstituciones extends javax.swing.JPanel {
         }
     }
 
-    private void abrirInstitucion(int id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private void abrirInstitucion(String id) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         loadPanels(2);
-        stInstitucion = (Institucion)load.get(null,id,new Institucion());
+        stInstitucion = (Institucion)load.get(id,0,new Institucion());
             if(stInstitucion!=null){
                 txtNombreU.setText(stInstitucion.getNombre());
                 txtCiudadU.setText(stInstitucion.getCiudad());
