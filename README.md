@@ -70,7 +70,10 @@ técnico para la puesta en marcha del sistema.
  - Generar una clase reporte con todos los datos [(PARTE 1)](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
  - Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas
 
- #### Pago de cuotas (CON-006)
+ #### Agregar Rut a empresas (CON-006)(https://github.com/softdirex/TestSync/commit/8abf54941a15ef5202a76e387e4d229794928899)
+ - Crear atributo para almacenar el rut de las empresas, dato importante para generar los reportes
+
+ #### Pago de cuotas (CON-007)
  - Crear un botón para registrar el pago de cuotas en la visualización de los convenios
  - Preguntar cantidad de cuotas pagadas y fecha de pago, confirmar datos y guardar solo en Convenio
  - Seleccionar primeras x cuotas pagadas y cambiar estado de 1 a 2
