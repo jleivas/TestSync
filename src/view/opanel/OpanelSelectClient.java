@@ -144,6 +144,7 @@ public class OpanelSelectClient extends javax.swing.JPanel {
                 ContentAdmin.lblTitle.setText("Fichas por Cliente: "+rut.replaceAll("<", " [Rut: ").replaceAll(">", "]"));
                 rut = rut.substring(rut.indexOf("<")+1);
                 rut = rut.replaceAll(">", "");
+                GV.rutClientSelected(rut);
                 GV.listarFichasByClient(rut);
                 OptionPane.closeOptionPanel();
                 boton.fichas(GV.cboFichasFilter());

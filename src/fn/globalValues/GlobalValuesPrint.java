@@ -372,7 +372,7 @@ public class GlobalValuesPrint {
 
     public static void printConvenio(Convenio cnv) {
         try{
-            
+            GV.cursorWAIT();
             String title = "";
             String subtitle = "";
             Dao load = new Dao();
@@ -385,6 +385,7 @@ public class GlobalValuesPrint {
             Convenio convenio = (Convenio)load.get(null, 3, new Convenio());
             if(!dt.addConvenio(convenio,title, subtitle)){
                 OptionPane.showMsg("No se puede generar reporte", "El sistema no admite convenios activos, anulados ni defectuosos para generar reportes.", 2);
+                GV.cursorDF();
                 return;
             }
             dt2.addConvenio(convenio, title, subtitle);
@@ -400,7 +401,42 @@ public class GlobalValuesPrint {
             
             openView(is,dt);
             openView(is2,dt2);
+            GV.cursorDF();
         }catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex){
+            Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
+            GV.cursorDF();
+        }
+    }
+    
+    public static void printCuotasConvenio(Convenio cnv) {
+        try{
+            GV.cursorWAIT();
+            String title = "";
+            String subtitle = "";
+            Dao load = new Dao();
+            
+            InputStream is = null;
+            
+            CuotasConvenioRecursoDatos dt = new CuotasConvenioRecursoDatos();
+            Convenio convenio = (Convenio)load.get(null, 3, new Convenio());
+            if(!dt.addConvenio(convenio,title, subtitle)){
+                OptionPane.showMsg("No se puede generar reporte", "El sistema no admite convenios activos, anulados ni defectuosos para generar reportes.", 2);
+                GV.cursorDF();
+                return;
+            }
+            try{
+                is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"detalleCuotasCnv.jrxml");
+            }catch(FileNotFoundException e){
+                OptionPane.showMsg("No se puede obtener el recurso",
+                        "Ocurrió un error al intentar abrir el formato de impresión\n"
+                                + e.getMessage(), 3);
+            }
+            
+            
+            openView(is,dt);
+            GV.cursorDF();
+        }catch(SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex){
+            GV.cursorDF();
             Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -413,8 +449,10 @@ public class GlobalValuesPrint {
                 JasperViewer viewer = new JasperViewer(jsp, false); //Se crea la vista del reportes
                 viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Se declara con dispose_on_close para que no se cierre el programa cuando se cierre el reporte
                 viewer.setVisible(true); //Se vizualiza el reporte
+                GV.cursorDF();
 //            generateReport(jsp, true, "src"+File.separator+"reportes"+File.separator+"fichasConvenio.xls");
             }catch( JRException e){
+                GV.cursorDF();
                 OptionPane.showMsg("No se puede visualizar el recurso",
                         "Ocurrió un error al intentar abrir visualización del formato de impresión\n"
                                 + e.getMessage(), 3);

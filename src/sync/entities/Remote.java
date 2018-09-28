@@ -1727,7 +1727,8 @@ public class Remote implements InterfaceSync{
                                 datos2.getString("cc_id"),
                                 datos2.getDate("cc_fecha"), 
                                 datos2.getDate("cc_fecha_pagado"), 
-                                datos2.getInt("cc_monto"), 
+                                datos2.getInt("cc_monto"),
+                                datos2.getInt("tipo_pago_tp_id"),
                                 datos2.getInt("convenio_cnv_id"), 
                                 datos2.getInt("cc_estado"), 
                                 datos2.getDate("cc_last_update"), 
@@ -2122,10 +2123,10 @@ public class Remote implements InterfaceSync{
                 String sql = "SELECT * FROM tipo_pago WHERE tp_nombre='" + idParam + "'";
                 sql = (GV.isNumeric(idParam))? "SELECT * FROM tipo_pago WHERE tp_id=" + idParam:sql;
                 if (idParam.equals("0")) {
-                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=1";
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=1 AND tp_id <> 1";
                 }
                 if (idParam.equals("-1")) {
-                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=0";
+                    sql = "SELECT * FROM tipo_pago WHERE tp_estado=0 AND tp_id <> 1";
                 }
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM tipo_pago";
@@ -2344,6 +2345,27 @@ public class Remote implements InterfaceSync{
                         datos.getDate("cri_last_update"),
                         datos.getInt("cri_last_hour")
                         )
+                    );
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof CuotasConvenio){
+                String sql = "SELECT * FROM cuotas_convenio WHERE cc_last_update >='" + param + "'";
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos2 = consulta.executeQuery();
+                while (datos2.next()){
+                    lista.add(
+                    new CuotasConvenio(
+                            datos2.getString("cc_id"),
+                            datos2.getDate("cc_fecha"), 
+                            datos2.getDate("cc_fecha_pagado"), 
+                            datos2.getInt("cc_monto"),
+                            datos2.getInt("tipo_pago_tp_id"),
+                            datos2.getInt("convenio_cnv_id"), 
+                            datos2.getInt("cc_estado"), 
+                            datos2.getDate("cc_last_update"), 
+                            datos2.getInt("cc_last_hour"))
                     );
                 }
                 RmBd.cerrar();
@@ -3087,6 +3109,7 @@ public class Remote implements InterfaceSync{
                     + fecha + "','"
                     + fechaPagado + "',"
                     + object.getMonto()+ ","
+                    + object.getIdTipoPago()+ ","
                     + object.getIdConvenio()+ ","
                     + object.getEstado() + ",'"
                     + lastUpdate + "',"
@@ -3399,6 +3422,7 @@ public class Remote implements InterfaceSync{
             return  "UPDATE cuotas_convenio set cc_fecha = '" + fecha
                         + "', cc_fecha_pagado = '" + fechaPago
                         + "', cc_monto = " + object.getMonto()
+                        + ", tipo_pago_tp_id = " + object.getIdTipoPago()
                         + ", convenio_cnv_id = " + object.getIdConvenio()
                         + ", cc_estado = " + object.getEstado()
                         + ", cc_last_update = '" + lastUpdate

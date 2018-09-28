@@ -11,6 +11,7 @@ import entities.Doctor;
 import entities.Institucion;
 import entities.TipoPago;
 import entities.ficha.Armazon;
+import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.Boton;
@@ -1666,7 +1667,8 @@ public class VFicha extends javax.swing.JPanel {
     private void btnDespacharMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharMouseClicked
         if(GV.getOpenFicha().getEstado() == GV.estadoFichaDelivered() || 
                 GV.getOpenFicha().getEstado()==GV.estadoFichaPaid() || 
-                GV.getOpenFicha().getEstado() == GV.estadoFichaWarranty()){
+                GV.getOpenFicha().getEstado() == GV.estadoFichaWarranty() ||
+                GV.getOpenFicha().getConvenio().getId() != 0){
             OptionPane.showOptionPanel(new OpanelViewOrOpenDelivery(), OptionPane.titleDeliver());
         }else{
             OptionPane.showMsg("No se puede generar reporte", "Para generar un reporte de despacho debe seleccionar una\n"
@@ -1908,6 +1910,11 @@ public class VFicha extends javax.swing.JPanel {
         txtAbonos.setText(abonos(ficha.getCod()));
         txtSaldo.setText(GV.strToPrice(ficha.getSaldo()));
         txtObs.setText(obs);
+        if(GV.getOpenFicha().getEstado() == GV.estadoFichaPaid() || 
+           GV.getOpenFicha().getEstado() == GV.estadoFichaWarranty() ||
+           GV.getOpenFicha().getConvenio().getId() != 0){
+            btnAbonar.setVisible(false);
+        }
         msgRejectedClear();
     }
 

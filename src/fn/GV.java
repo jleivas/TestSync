@@ -200,6 +200,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesPrint.printConvenio(cnv);
     }
     
+    public static void printCuotasConvenio(Convenio cnv) {
+        GlobalValuesPrint.printCuotasConvenio(cnv);
+    }
+    
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
     }
@@ -211,6 +215,10 @@ public class GV extends GlobalValuesCursor{
     /**************************BEGIN FUNTIONS**********************************/
     public static String strToRut(String rut){
         return GlobalValuesFunctions.formatRut(rut);
+    }
+    
+    public static boolean convenioPagarCuotas(Convenio cnv,int cuotas, Date fechaRegistro,int tipoPago){
+        return GlobalValuesFunctions.convenioPagarCuotas(cnv, cuotas, fechaRegistro,tipoPago);
     }
     
     public static boolean cuotasFechaPagoPendiente(Date fechaPagado) {
@@ -429,6 +437,30 @@ public class GV extends GlobalValuesCursor{
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){
         return GlobalValuesVariables.getSalesReportFicha();
+    }
+    
+    public static void rutClientSelected(String rut) {
+        GlobalValuesVariables.setRutClienteSelected(rut);
+    }
+    
+    public static String rutClientSelected() {
+        return GlobalValuesVariables.getRutClienteSelected();
+    }
+    
+    public static void userIdSelected(String isUser) {
+        GlobalValuesVariables.setIdUserSelected(isUser);
+    }
+    
+    public static String userIdelected() {
+        return GlobalValuesVariables.getIdUserSelected();
+    }
+    
+    public static void convenioIdSelected(String isUser) {
+        GlobalValuesVariables.setIdCovenioSelected(isUser);
+    }
+    
+    public static String convenioIdSelected() {
+        return GlobalValuesVariables.getIdCovenioSelected();
     }
     
     /**

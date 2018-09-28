@@ -85,7 +85,7 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
                 valor = rp.getCliente().getTelefono();
             }
             if("montoTotal".equals(jrf.getName())){
-                valor = rp.getResumen().getMontoTotal();
+                valor = GV.strToPrice(rp.getResumen().getMontoTotal());
             }
             if("cuotas".equals(jrf.getName())){
                 valor = rp.getResumen().getCuotas();
@@ -94,10 +94,10 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
                 valor = 0;
             }
             if("totalAbono".equals(jrf.getName())){
-                valor = rp.getResumen().getTotalAbono();
+                valor = GV.strToPrice(rp.getResumen().getTotalAbono());
             }
             if("totalPendiente".equals(jrf.getName())){
-                valor = rp.getResumen().getTotalPendiente();
+                valor = GV.strToPrice(rp.getResumen().getTotalPendiente());
             }
             if("diasVencimiento".equals(jrf.getName())){
                 valor = rp.getResumen().getDiasVencimiento();
@@ -115,12 +115,12 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
                 valor = ((Ficha)rp.getFichas().get(currentIndex)).getCliente().getTelefono1();
             }
             if("total".equals(jrf.getName())){
-                valor = (((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento());
+                valor = GV.strToPrice((((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento()));
             }if("abono".equals(jrf.getName())){
-                valor = (((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento())-((Ficha)rp.getFichas().get(currentIndex)).getSaldo();
+                valor = GV.strToPrice((((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento())-((Ficha)rp.getFichas().get(currentIndex)).getSaldo());
             }
             if("cuota".equals(jrf.getName())){
-                valor = GV.roundPrice(((Ficha)rp.getFichas().get(currentIndex)).getSaldo()/rp.getConvenio().getCuotas());
+                valor = GV.strToPrice(GV.roundPrice(((Ficha)rp.getFichas().get(currentIndex)).getSaldo()/rp.getConvenio().getCuotas()));
             }
             if("re_name".equals(jrf.getName())){
                 valor = rp.getReceptor().getName();

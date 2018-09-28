@@ -7,13 +7,11 @@ package view.opanel;
 
 import dao.Dao;
 import entities.Inventario;
-import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *

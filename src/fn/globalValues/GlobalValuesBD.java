@@ -144,6 +144,7 @@ public class GlobalValuesBD {
 " CC_FECHA DATE," +
 " CC_FECHA_PAGADO DATE," +
 " CC_MONTO INTEGER," +
+" TIPO_PAGO_TP_ID INTEGER," +
 " CONVENIO_CNV_ID INTEGER,"+
 " CC_ESTADO INTEGER," +
 " CC_LAST_UPDATE DATE," +
@@ -342,6 +343,7 @@ public class GlobalValuesBD {
 " CC_FECHA," +
 " CC_FECHA_PAGADO," +
 " CC_MONTO," +
+" TIPO_PAGO_TP_ID," +
 " CONVENIO_CNV_ID," +            
 " CC_ESTADO," +
 " CC_LAST_UPDATE," +

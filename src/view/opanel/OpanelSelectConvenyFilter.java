@@ -143,6 +143,7 @@ public class OpanelSelectConvenyFilter extends javax.swing.JPanel {
             ContentAdmin.lblTitle.setText("Fichas por Convenio: "+idConvenio.substring(0, idConvenio.indexOf("<")));
             idConvenio = idConvenio.substring(idConvenio.indexOf("<")+1);
             idConvenio = idConvenio.replaceAll(">", "");
+            GV.convenioIdSelected(idConvenio);
             GV.listarFichasByConveny(idConvenio);
             OptionPane.closeOptionPanel();
             try {

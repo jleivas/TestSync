@@ -221,7 +221,7 @@ public class OpanelViewOrOpenDelivery extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelarMousePressed
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        
+        GV.cursorWAIT(this);
             String name = txtNombre.getText();
             String rut = txtRut.getText();
             Date fecha = txtFechaDespacho.getDate();
@@ -232,14 +232,17 @@ public class OpanelViewOrOpenDelivery extends javax.swing.JPanel {
                     GV.getOpenFicha().setDespacho(dsp);
                     GV.getOpenFicha().setEstado(GV.estadoFichaDelivered());
                     load.update(GV.getOpenFicha());
+                    GV.cursorDF(this);
                     OptionPane.showMsg("Despacho generado exitosamente", "Los datos han sido ingresados al sistema", 1);
                     OptionPane.closeOptionPanel();
                 } catch (InstantiationException | IllegalAccessException ex) {
+                    GV.cursorDF(this);
                     Logger.getLogger(OpanelViewOrOpenDelivery.class.getName()).log(Level.SEVERE, null, ex);
                     OptionPane.showMsg("Error inesperado", "No se pudo generar el despacho\n"
                             +ex.getMessage(), 3);
                 }
             }
+            GV.cursorDF(this);
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered

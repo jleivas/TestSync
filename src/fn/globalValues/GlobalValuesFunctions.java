@@ -52,6 +52,7 @@ public class GlobalValuesFunctions {
     private static int POS_NAME = 1;
     private static int POS_DATE = 2;
     private static int TAMANO_COLUMN_ABONOS = 3;//la columna dos corresponde a la descripcion del tipo de pago, se usa en funciones para imprimir
+    private static Dao load = new Dao();
     
     public static String dateToString(Date date,String format){
         return Cmp.dateToString(date, format);
@@ -306,7 +307,6 @@ public class GlobalValuesFunctions {
      * @return 
      */
     public static Object[][] listarAbonos(String codFicha) {
-        Dao load = new Dao();
         
         List<Object> lista = load.listar(GV.convertFichaIdParamToListAbonos(codFicha), new HistorialPago());
         if(lista.size() == 0){return null;}
@@ -512,7 +512,6 @@ public class GlobalValuesFunctions {
     }
 
     public static void createGuaranteeFicha(Ficha ficha) {
-        Dao load = new Dao();
         load.createFicha(ficha, null);
         OptionPane.showMsg("Operación finalizada", "Se ha registrado una nueva garantía", 1);
     }
@@ -571,7 +570,6 @@ public class GlobalValuesFunctions {
     
     public static void updateBDConvenioValidado(Convenio convenio){
         if(convenio.validate()){
-            Dao load = new Dao();
             load.update(convenio);
             List<CuotasConvenio> listCuotas = convenio.getCuotasConvenio();
             if(listCuotas.size()>0){
@@ -602,6 +600,76 @@ public class GlobalValuesFunctions {
         }else{
             OptionPane.showMsg("No se puede generar el reporte", "El convenio debe estar generado,\n"
                     + "el sistema no adminte convenios anulados ni activos.", 2);
+        }
+    }
+    
+    /**
+     * registra en la base de datos la cantidad de cuotas ingresadas por parametros,
+     * se ejecutan validaciones, si guarda los datos, retornará true.
+     * @param cnv
+     * @param cuotas
+     * @param fechaRegistro
+     * @return 
+     */
+    public static boolean convenioPagarCuotas(Convenio cnv,int cuotas,Date fechaRegistro, int tipoPago){
+        if(OptionPane.getConfirmation("Confirmar datos", "Si confirmas los datos, no se podrán revertir.\n"
+                + "¿Estás seguro que los datos son correctos?", 2)){
+            int suma = 0;
+            if(tipoPago == 0){OptionPane.showMsg("Error de datos", "Debes ingresar un tipo de pago válido", 2);return false;}
+            if(cnv == null){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar", 2);return false;}
+            if(cnv.getEstado() < 2){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar", 2);return false;}
+            if(cnv.getEstado() > 2){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar ya que no posee saldos pendientes", 2);return false;}
+            if(!Cmp.localIsNewOrEqual(fechaRegistro, cnv.getFechaCobro())){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar, la fecha ingresada no puede ser inferior a la primera fecha de pago", 2);return false;}
+            if(!GV.fechaActualOPasada(fechaRegistro)){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar, la fecha ingresada debe ser actual o pasada", 2);return false;}
+            if(cuotas > cnv.getCuotas()){OptionPane.showMsg("Error de datos", "El convenio no se puede procesar, la cantidad de cuotas ingresada no es correcta", 2);return false;}
+            
+            int cont = 0;
+            for (CuotasConvenio cc : cnv.getCuotasConvenio()) {
+                if(cc.getEstado() == 1 && suma < cuotas){
+                    cc.setEstado(2);
+                    cc.setFechaPagado(fechaRegistro);
+                    cc.setIdTipoPago(tipoPago);
+                    load.update(cc);
+                    suma++;
+                }
+                cont++;
+                //valido si todas las cuotas están pagadas
+                if(cont == cnv.getCuotas() && cc.getEstado() == 2){
+                    cnv.setEstado(3);
+                    
+                    load.update(cnv);
+                    
+                    fichasPagarTodo(GlobalValuesBD.listarAllFichas(null, null, null, null, ""+cnv.getId(), null),fechaRegistro,1);
+                }
+            }
+            return true;
+        }else
+        {OptionPane.showMsg("Operación cancelada", "El convenio no se ha procesado porque se anuló la operación", 1);return false;}
+    }
+    
+    /**
+     * Marca todas las fichas que recibe por parametros como pagadas
+     * y almacena los cambios en la base de datos
+     * @param lista 
+     */
+    public static void fichasPagarTodo(List<Object> lista,Date fechaPago,int tipoPago){
+        HistorialPago hp = null;
+        for (Object object : lista) {
+            try {
+                Ficha fch = (Ficha)object;
+                hp = new HistorialPago(null, fechaPago, fch.getSaldo(), tipoPago, fch.getCod(), 1, null, 0);
+                fch.setSaldo(0);
+                if(fch.getEstado() == GV.estadoFichaPending()){
+                    fch.setEstado(GV.estadoFichaPaid());
+                }
+                
+                load.add(hp);
+                load.update(fch);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+                OptionPane.showMsg("Error", "Ocurrió un error inesperado al intentar registrar una lista de fichas como pagadas\n"
+                        + ex.getMessage(), 3);
+            }
         }
     }
 }

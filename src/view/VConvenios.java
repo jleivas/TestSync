@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import view.opanel.OpanelPagarCuotasConvenio;
 
 /**
  *
@@ -1077,7 +1078,21 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreNKeyTyped
 
     private void btnPagarCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseClicked
-        // TODO add your handling code here:
+        cWT();
+        if(stConvenio.getEstado() == 2){
+            OptionPane.showOptionPanel(new OpanelPagarCuotasConvenio(stConvenio), OptionPane.titlePayAgreementFees());
+        }else{
+            try {
+                OptionPane.showMsg("No se puede crear registro", "El convenio aún no está activo o se encuentra pagado.", 2);
+                boton.convenios();
+            } catch (SQLException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        cDF();
     }//GEN-LAST:event_btnPagarCuotasMouseClicked
 
     private void btnPagarCuotasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseEntered
@@ -1089,7 +1104,9 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPagarCuotasMouseExited
 
     private void btnMostrarCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarCuotasMouseClicked
-        // TODO add your handling code here:
+        cWT();
+        GV.printCuotasConvenio(stConvenio);
+        cDF();
     }//GEN-LAST:event_btnMostrarCuotasMouseClicked
 
     private void btnMostrarCuotasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarCuotasMouseEntered
@@ -1190,6 +1207,7 @@ public class VConvenios extends javax.swing.JPanel {
                 Institucion ins = (Institucion)load.get(temp.getIdInstitucion(), 0, new Institucion());
                 String insName = (ins != null)?((Institucion)ins).getNombre():"No asignada";
                 String estado = (temp.getEstado() == 1)?"Activo":"Generado";
+                estado=(temp.getEstado()==3)?"Pagado":estado;
                 Object[] fila = new Object[5];
                 fila[0] = temp.getId();
                 fila[1] = temp.getNombre();
@@ -1211,10 +1229,13 @@ public class VConvenios extends javax.swing.JPanel {
         loadPanels(2);
         stConvenio = (Convenio)GV.buscarPorIdEnLista(""+id, listConvenios, new Convenio());
             if(stConvenio!=null){
-                if(stConvenio.getEstado() == 2){
+                if(stConvenio.getEstado() > 1){
                     setBtnVisible(true);
                 }else{
                     setBtnVisible(false);
+                }
+                if(stConvenio.getEstado() == 3){
+                    btnPagarCuotas.setVisible(false);
                 }
                 if(stConvenio.getNombre().isEmpty() || stConvenio.getNombre().equals("null"))
                     txtNombreU.setText("");

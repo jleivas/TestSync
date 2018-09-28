@@ -6,6 +6,7 @@
 package entities;
 
 import entities.abstractclasses.SyncFichaClass;
+import fn.GV;
 import java.util.Date;
 
 /**
@@ -16,20 +17,26 @@ public class CuotasConvenio extends SyncFichaClass{
     private Date fecha;
     private Date fechaPagado;
     private int monto;
+    private int idTipoPago;
     private int idConvenio;
 
     public CuotasConvenio() {
     }
 
-    public CuotasConvenio(String cod,Date fecha, Date fechaPagado, int monto, int idConvenio, int estado, Date lastUpdate,int lastHour) {
+    public CuotasConvenio(String cod,Date fecha, Date fechaPagado, int monto,int idTipoPago, int idConvenio, int estado, Date lastUpdate,int lastHour) {
         setCod(cod);
         setFecha(fecha);
         setFechaPagado(fechaPagado);
         setMonto(monto);
+        setIdTipoPago(idTipoPago);
         setIdConvenio(idConvenio);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
+    }
+
+    public void setIdTipoPago(int idTipoPago) {
+        this.idTipoPago = idTipoPago;
     }
 
     public void setFecha(Date fecha) {
@@ -50,6 +57,10 @@ public class CuotasConvenio extends SyncFichaClass{
 
     public void setIdConvenio(int idConvenio) {
         this.idConvenio = idConvenio;
+    }
+
+    public int getIdTipoPago() {
+        return idTipoPago;
     }
 
     public int getIdConvenio() {
@@ -80,5 +91,15 @@ public class CuotasConvenio extends SyncFichaClass{
         "monto:"+getMonto()+"\n"+
         "idConvenio:"+getIdConvenio()+"\n"+
         "estado:"+getEstado(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public String imprimir(){
+        return  "_________________\n"+
+                "Fecha vencimiento: "+GV.dateToString(getFecha(), "dd.mm.yyyy")+"\n"+
+                "Monto            : "+GV.strToPrice(getMonto())+"\n"+
+                "Estado           : "+((getEstado() == GV.cuotaConvenioPagada())?"Pagada":"Pendidente")+"\n"+
+                "Fecha de pago    : "+((getEstado() == GV.cuotaConvenioPagada())?GV.dateToString(getFechaPagado(), "dd.mm.yyyy"):
+                                        "Sin registro")+"\n"+
+                "_________________";
     }
 }

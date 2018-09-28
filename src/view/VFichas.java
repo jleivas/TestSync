@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
-import view.opanel.OpanelConvenyReceptor;
 import view.opanel.OpanelSelectClient;
 import view.opanel.OpanelSelectConvenyFilter;
 import view.opanel.OpanelSelectDate;
@@ -465,8 +464,10 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReloadFilterMouseExited
 
     private void btnReportSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseClicked
+        cWT();
         reportSales = new SalesReportFicha(GV.getFichas());
         GV.mailSendSalesReport(reportSales);
+        cDF();
     }//GEN-LAST:event_btnReportSalesMouseClicked
 
     private void btnReportSalesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseEntered
@@ -478,7 +479,9 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReportSalesMouseExited
 
     private void btnExportExcelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseClicked
+        cWT();
         GV.printFichas(GV.getFichas());
+        cDF();
     }//GEN-LAST:event_btnExportExcelMouseClicked
 
     private void btnExportExcelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseEntered
@@ -491,6 +494,7 @@ public class VFichas extends javax.swing.JPanel {
 
     private void btnExportConvenioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseClicked
 //        GV.printFichas(GV.getFichas());
+        cWT();
         if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
             Convenio cnv = ((Ficha)GV.getFichas().get(0))
                     .getConvenio();
@@ -504,13 +508,20 @@ public class VFichas extends javax.swing.JPanel {
                     cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
                     validaConvenio(cnv);
                 }else{
+                    cDF();
                     return;
                 }
             }
             GV.convenioGenerateReport(cnv);
+            OptionPane.showMsg("Generación de reporte", "Se generarán los siguientes reportes:\n"
+                    + "1-Reporte de convenio por recetas oftalmológicas.\n"
+                    + "2-Reporte de cuotas.", 1);
+            cDF();
         }else{
+            cDF();
             OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
         }
+        cDF();
     }//GEN-LAST:event_btnExportConvenioMouseClicked
 
     private void btnExportConvenioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseEntered
@@ -568,6 +579,8 @@ public class VFichas extends javax.swing.JPanel {
             if(isFiltering){
                 OptionPane.showOptionPanel(new OpanelSelectDate(), OptionPane.titleDateChooser());
                 isFiltering = false;
+            }else{
+                GV.listarFichasByDate(GV.dateFrom(),GV.dateTo());
             }
             String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
             tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
@@ -578,6 +591,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectClient(), OptionPane.titleClientChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByClient(GV.rutClientSelected());
             }
         }
         if(filter==BY_USER){
@@ -585,6 +600,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectUser(), OptionPane.titleUserChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByUser(GV.userIdelected());
             }
         }
         btnExportConvenio.setVisible(false);
@@ -594,6 +611,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectConvenyFilter(), OptionPane.titleConvenyChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByConveny(GV.convenioIdSelected());
             }
         }
         if(status == 0){

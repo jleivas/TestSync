@@ -6,6 +6,7 @@
 package bd;
 
 import dao.Dao;
+import entities.TipoPago;
 import entities.User;
 import fn.GV;
 import fn.Log;
@@ -40,6 +41,7 @@ public class LcBd{
         Dao load = new Dao();
         try {
             load.add(new User(1, "Sistema", "root", "contacto@softdirex.cl", "softdirex", 7, 1, null, 0));
+            load.add(new TipoPago(1, "Convenio", 1, null, 0));
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(LcBd.class.getName()).log(Level.SEVERE, null, ex);
         }

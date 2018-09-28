@@ -75,6 +75,9 @@ public class GlobalValuesVariables {
     private static String RECEPTOR_DIR = null;
     private static String RECEPTOR_CT1 = null;
     private static String RECEPTOR_CT2 = null;
+    private static String RUT_CLIENT_SELECTED="";
+    private static String ID_USER_SELECTED="";
+    private static String ID_CONVENIO_SELECTED="";
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
@@ -446,5 +449,29 @@ public class GlobalValuesVariables {
     
     public static String getReceptorCT2(){
         return RECEPTOR_CT2;
+    }
+
+    public static void setRutClienteSelected(String rut) {
+        RUT_CLIENT_SELECTED = rut;
+    }
+
+    public static String getRutClienteSelected() {
+        return RUT_CLIENT_SELECTED;
+    }
+    
+    public static void setIdUserSelected(String idUser) {
+        ID_USER_SELECTED = idUser;
+    }
+
+    public static String getIdUserSelected() {
+        return ID_USER_SELECTED;
+    }
+    
+    public static void setIdCovenioSelected(String idConvenio) {
+        ID_CONVENIO_SELECTED = idConvenio;
+    }
+
+    public static String getIdCovenioSelected() {
+        return ID_CONVENIO_SELECTED;
     }
 }
