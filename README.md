@@ -66,9 +66,9 @@ técnico para la puesta en marcha del sistema.
  - Validar convenio
 
  #### Generar reporte (CON-005)
- - Generar reportes solo de convenios finalizados en estado 2 [(PARTE 1)](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
- - Generar una clase reporte con todos los datos [(PARTE 1)](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
- - Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas
+ - [Generar reportes solo de convenios finalizados en estado 2](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
+ - [Generar una clase reporte con todos los datos](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
+ - [Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas](https://github.com/softdirex/TestSync/commit/3d082add22adbe3e7f92cf07c7cb6898ce03c131)
 
  #### [Agregar Rut a empresas (CON-006)](https://github.com/softdirex/TestSync/commit/8abf54941a15ef5202a76e387e4d229794928899)
  - Crear atributo para almacenar el rut de las empresas, dato importante para generar los reportes
