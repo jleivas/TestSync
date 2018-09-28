@@ -101,8 +101,8 @@ public class CuotasConvenioRecursoDatos implements JRDataSource{
                 valor = rp.getConvenio().getCuotasConvenio().get(currentIndex).getMonto();
             }
             if("saldoTemporal".equals(jrf.getName())){
-                valor = saldoTemporal;
                 saldoTemporal = saldoTemporal - (rp.getConvenio().getCuotasConvenio().get(currentIndex).getMonto());
+                valor = saldoTemporal;
             }
             if("fechaCuota".equals(jrf.getName())){
                 valor = GV.dateToString(rp.getConvenio().getCuotasConvenio().get(currentIndex).getFecha(),

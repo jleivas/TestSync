@@ -323,7 +323,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Saldo]]></text>
+				<text><![CDATA[Saldo temporal]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="294" y="0" width="86" height="20" forecolor="#043069" uuid="e69901d8-b96f-4c99-a9ff-c0ae5a1eec9a">
