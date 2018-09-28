@@ -29,6 +29,81 @@ Para instalar:
 técnico para la puesta en marcha del sistema.
 
  # Current Working
+ ## 05.10.2018-15.10.2018
+ ### Licencias
+ *Objetivo*
+ Ajustar los planes de sincronización de la base de datos
+
+ #### Paneles de información (CON-012)
+ 
+ -Botón de ayuda en cada ventana
+ -Panel de selección de planes actualizado remotamente
+ -Link de pago actualizable desde la red
+ 
+ #### Generar licencia gratuita (CON-013)
+ 
+ -No tendrá acceso a bases de datos remota
+ -Impresión de fichas con publicidad de la empresa actualizada remotamente
+ -Sólo podrá generar un reporte mensual de cada tipo
+
+ #### Generar licencia gama económica (CON-014)
+ 
+ -Acceso a base de datos remota
+ -Impresión de fichas sin envío de correos a los clientes
+ -Generación ilimitada de reportes
+ -Sincronización manual con base de datos remota una vez al día
+
+ #### Genenerar licencia gama media (CON-015)
+ 
+ -Acceso a base de datos remota
+ -Impresión de fichas con envío de correos a los clientes
+ -Generación ilimitada de reportes
+ -Sincronización manual con base de datos remota dos veces al día
+
+ #### Genenerar licencia gama alta (CON-016)
+ 
+ -Acceso a base de datos remota
+ -Impresión de fichas con envío de correos a los clientes
+ -Generación ilimitada de reportes
+ -Sincronización automática con base de datos remota tres veces al día
+ -Sincronización manual con base de datos hasta tres veces al día
+
+ #### Genenerar licencia full hora (CON-017)
+ 
+ -Acceso a base de datos remota
+ -Impresión de fichas con envío de correos a los clientes
+ -Generación ilimitada de reportes
+ -Sincronización automática con base de datos remota cada una hora
+ -Sincronización manual con base de datos hasta cuatro veces al día
+
+ #### Genenerar licencia full Data (CON-018)
+ 
+ -Acceso a base de datos remota
+ -Impresión de fichas con envío de correos a los clientes
+ -Generación ilimitada de reportes
+ -Sincronización automática con base de datos remota cada media hora
+ -Sincronización manual con base de datos ilimitada
+ 
+ ## 01.10.2018-04.10.2018
+ ### Sincronización
+ *Objetivo*
+ Mejorar el proceso de sincronización de las bases de datos, reducir el tiempo de espera y reparar errores
+ 
+ #### Abortar proceso en conexión lenta (CON-008)
+
+ - Cerrar proceso si demora más del tiempo estimado en un mismo porcentage
+
+ #### Respaldo automático (CON-009)
+
+ - generar respaldo de datos automáticamente al momento de cerrar y validar coneccion a internet
+
+ #### Importación de base de datos (CON-010)
+
+ - Crear opción en herramientas para importar todos los datos desde los respaldos en excel
+
+ #### Importación de inventario (CON-011)
+
+ - Crear opción para importar inventario desde archivo en excel
 
  ## 25.09.2018-27.09.2018
  ### TestSync US Convenios 2° Etapa
@@ -79,6 +154,7 @@ técnico para la puesta en marcha del sistema.
  - Seleccionar primeras x cuotas pagadas y cambiar estado de 1 a 2
  - Crear botón para visualizar cuotas pagadas con fecha, fecha pagada, monto y saldo pendiente
  - En las fichas con convenio no se pueden agregar abonos, solo abono inicial al crear nueva ficha
+
 
 
 
