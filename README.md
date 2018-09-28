@@ -65,7 +65,7 @@ técnico para la puesta en marcha del sistema.
  - Validar si la fecha de termino ha caducado, de lo contrario se deberá preguntar si desea cerrar el convenio para futuras fichas y de ser afirmativo se modifica la fecha de término en un día menos de la fecha actual y se valida con el método booleano interno. 
  - Validar convenio
 
- #### Generar reporte (CON-005)
+ #### [Generar reporte (CON-005)](https://github.com/softdirex/TestSync/commit/0b1d9caeb650ebbb5320645e4e361e0731aedc6f)
  - [Generar reportes solo de convenios finalizados en estado 2](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
  - [Generar una clase reporte con todos los datos](https://github.com/softdirex/TestSync/commit/a8f88b25dbff5ef1bb5fb7a3d87705f0f3d04bcc)
  - [Generar reporte Jasper a partir de la clase reporte donde se listen las fichas generadas y las cuotas](https://github.com/softdirex/TestSync/commit/3d082add22adbe3e7f92cf07c7cb6898ce03c131)
