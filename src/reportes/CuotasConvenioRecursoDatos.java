@@ -9,6 +9,7 @@ import entities.Convenio;
 import entities.context.ConvenioJasperReport;
 import fn.GV;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesVariables;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -33,6 +34,10 @@ public class CuotasConvenioRecursoDatos implements JRDataSource{
     public void addConvenio(Convenio convenio, String reportTitle, String reportSubtitle){
         try {
             rp = new ConvenioJasperReport(convenio, reportTitle, reportSubtitle);
+            rp.setReceptor(GlobalValuesVariables.getReceptorName(), 
+                    GlobalValuesVariables.getReceptorDir(), 
+                    GlobalValuesVariables.getReceptorCT1(), 
+                    GlobalValuesVariables.getReceptorCT2());
             saldoTemporal = rp.getResumen().getMontoTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(CuotasConvenioRecursoDatos.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,6 +117,18 @@ public class CuotasConvenioRecursoDatos implements JRDataSource{
                 valor = getCuotaStatus(rp.getConvenio().getCuotasConvenio().get(currentIndex).getEstado());
             }if("fechaPago".equals(jrf.getName())){
                 valor = getFechaPago(rp.getConvenio().getCuotasConvenio().get(currentIndex).getFechaPagado());
+            }
+            if("re_name".equals(jrf.getName())){
+                valor = rp.getReceptor().getName();
+            }
+            if("re_dir".equals(jrf.getName())){
+                valor = rp.getReceptor().getDir();
+            }
+            if("re_ct1".equals(jrf.getName())){
+                valor = rp.getReceptor().getCt1();
+            }
+            if("re_ct2".equals(jrf.getName())){
+                valor = rp.getReceptor().getCt2();
             }
         }
         

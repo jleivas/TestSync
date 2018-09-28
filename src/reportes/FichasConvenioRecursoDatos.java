@@ -10,6 +10,7 @@ import entities.context.ConvenioJasperReport;
 import entities.ficha.Ficha;
 import fn.GV;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesVariables;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,10 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
         }
         try {
             rp = new ConvenioJasperReport(convenio, reportTitle, reportSubtitle);
+            rp.setReceptor(GlobalValuesVariables.getReceptorName(), 
+                    GlobalValuesVariables.getReceptorDir(), 
+                    GlobalValuesVariables.getReceptorCT1(), 
+                    GlobalValuesVariables.getReceptorCT2());
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(FichasConvenioRecursoDatos.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error en addConvenio(param1,param2,param3)", "Ha ocurrido un error inesperado\n"
@@ -116,6 +121,18 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
             }
             if("cuota".equals(jrf.getName())){
                 valor = GV.roundPrice(((Ficha)rp.getFichas().get(currentIndex)).getSaldo()/rp.getConvenio().getCuotas());
+            }
+            if("re_name".equals(jrf.getName())){
+                valor = rp.getReceptor().getName();
+            }
+            if("re_dir".equals(jrf.getName())){
+                valor = rp.getReceptor().getDir();
+            }
+            if("re_ct1".equals(jrf.getName())){
+                valor = rp.getReceptor().getCt1();
+            }
+            if("re_ct2".equals(jrf.getName())){
+                valor = rp.getReceptor().getCt2();
             }
         }
         

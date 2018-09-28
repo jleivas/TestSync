@@ -21,7 +21,6 @@ import static fn.GV.getOficinaPhone1;
 import static fn.GV.getOficinaPhone2;
 import static fn.GV.getOficinaWeb;
 import static fn.GV.getStr;
-import static fn.GV.roundPrice;
 import fn.globalValues.GlobalValuesBD;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,6 +42,48 @@ public class ConvenioJasperReport {
     private Institucion cliente = new Institucion();
     private Convenio convenio = new Convenio();
     private java.util.Date nextFechaCobro;
+    
+    public class Receptor{
+        String name;
+        String dir;
+        String ct1;
+        String ct2;
+        
+        public Receptor(){
+        }
+        
+        public String getName(){
+            return name;
+        }
+        
+        public String getDir(){
+            return dir;
+        }
+        
+        public String getCt1(){
+            return ct1;
+        }
+        
+        public String getCt2(){
+            return ct2;
+        }
+        
+        public void setName(String name){
+            this.name = name;
+        }
+        
+        public void setDir(String dir){
+            this.dir = dir;
+        }
+        
+        public void setCt1(String ct1){
+            this.ct1 = ct1;
+        }
+        
+        public void setCt2(String ct2){
+            this.ct2 = ct2;
+        }
+    }
     
     public class Resumen{
         int montoTotal=0;
@@ -98,6 +139,7 @@ public class ConvenioJasperReport {
         
     }
     private Resumen resumen = new Resumen();
+    private Receptor receptor = new Receptor();
     
     /**
      * PRECAUCION: para generar un ConvenioJasperReport se debe hacer sin tener
@@ -167,6 +209,10 @@ public class ConvenioJasperReport {
     public Date getNextFechaCobro() {
         return nextFechaCobro;
     }
+    
+    public Receptor getReceptor(){
+        return this.receptor;
+    }
 
     public void setTitle(String title) {
         this.title = getStr(title);
@@ -223,6 +269,14 @@ public class ConvenioJasperReport {
 
     public void setCompanyContacts(String companyContacts) {
         this.companyContacts = getStr(companyContacts);
+    }
+    
+    public void setReceptor(String name,String dir, String ct1, String ct2){
+        this.receptor = new Receptor();
+        this.receptor.setName(getStr(name));
+        this.receptor.setCt1(getStr(ct1));
+        this.receptor.setCt2(getStr(ct2));
+        this.receptor.setDir(getStr(dir));
     }
 
     public void setNextFechaCobro(Date nextFechaCobro) {

@@ -50,6 +50,10 @@
 	<field name="total" class="java.lang.Integer"/>
 	<field name="abono" class="java.lang.Integer"/>
 	<field name="cuota" class="java.lang.Integer"/>
+	<field name="re_name" class="java.lang.String"/>
+	<field name="re_dir" class="java.lang.String"/>
+	<field name="re_ct1" class="java.lang.String"/>
+	<field name="re_ct2" class="java.lang.String"/>
 	<title>
 		<band height="218" splitType="Stretch">
 			<staticText>
@@ -69,15 +73,7 @@
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="410" y="136" width="120" height="15" uuid="b62092ec-9053-4f27-b387-9b25d2909a68"/>
-				<text><![CDATA[Contacto 1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="410" y="106" width="120" height="15" uuid="edbd74ac-0cbd-44c9-8a8e-ccf745191172"/>
-				<text><![CDATA[Nombre]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="410" y="81" width="120" height="25" uuid="139ebe8d-25b0-411e-986c-270015400874">
+				<reportElement x="429" y="81" width="120" height="25" uuid="139ebe8d-25b0-411e-986c-270015400874">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -85,14 +81,6 @@
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Remitir a]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="410" y="151" width="120" height="15" uuid="dd52166a-1135-4931-adef-51e7972118bc"/>
-				<text><![CDATA[Contacto 2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="410" y="121" width="120" height="15" uuid="2d2f365d-7b12-4a8f-990d-ff528a2660bc"/>
-				<text><![CDATA[Dirección]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="380" y="10" width="85" height="20" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8"/>
@@ -104,7 +92,9 @@
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="465" y="10" width="84" height="20" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -222,12 +212,16 @@
 			</textField>
 			<textField>
 				<reportElement x="465" y="30" width="84" height="20" uuid="823495e0-4487-4f70-93c0-05d626fb8757"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{idConvenio}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="465" y="50" width="84" height="20" uuid="d5ed796f-cc7c-4fe2-8604-d096b3a424cf"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nextFechaCobro}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -255,7 +249,7 @@
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{montoTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -263,6 +257,7 @@
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{cuotas}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -270,6 +265,7 @@
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{totalAbono}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -277,6 +273,7 @@
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{totalPendiente}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -284,7 +281,27 @@
 				<box>
 					<pen lineWidth="0.25"/>
 				</box>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{diasVencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="106" width="120" height="14" uuid="67e88268-38ad-4674-879e-b2c8b05056c6"/>
+				<textFieldExpression><![CDATA[$F{re_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="120" width="120" height="16" uuid="ef28680a-82e0-4664-84c4-60b084587cf2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{re_dir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="136" width="120" height="15" uuid="e0867999-db5e-4f89-8007-9f4a64d0108c"/>
+				<textFieldExpression><![CDATA[$F{re_ct1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="151" width="120" height="15" uuid="8e31ab73-844f-4a0a-ba0c-62c637559441"/>
+				<textFieldExpression><![CDATA[$F{re_ct2}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -418,7 +435,7 @@
 				<reportElement x="270" y="0" width="100" height="20" uuid="773f5fce-8a20-4077-882f-392a18afc031">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cb8b1779-03fb-4179-938e-13064cf595da"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -427,7 +444,7 @@
 				<reportElement x="370" y="0" width="95" height="20" uuid="fc2acaed-b5ea-49e9-baa7-e55c6bbb0fb1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="50b15bbb-da74-4d82-896a-08673148dc48"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{abono}]]></textFieldExpression>
@@ -436,7 +453,7 @@
 				<reportElement x="465" y="0" width="90" height="20" uuid="97e4fe51-a15e-48f3-bd43-1cd8f748f41c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="300a1a9c-06c0-4f9f-94f0-0ddb1ae406df"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuota}]]></textFieldExpression>

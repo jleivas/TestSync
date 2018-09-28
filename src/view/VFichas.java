@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import view.opanel.OpanelConvenyReceptor;
 import view.opanel.OpanelSelectClient;
 import view.opanel.OpanelSelectConvenyFilter;
 import view.opanel.OpanelSelectDate;
@@ -506,7 +507,7 @@ public class VFichas extends javax.swing.JPanel {
                     return;
                 }
             }
-            //aqui se debe generar el reporte
+            GV.convenioGenerateReport(cnv);
         }else{
             OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
         }

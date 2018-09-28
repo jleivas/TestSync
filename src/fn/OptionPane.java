@@ -36,6 +36,7 @@ public class OptionPane {
     private static String CONV_CHOOSER_TITLE = "Seleccione un convenio";
     private static String FICHA_GARANTIA_TITLE = "Ingresa datos de entrega para generar garantía";
     private static String DELIVER_DATA_TITLE = "Datos de despacho";
+    private static String CONVENY_DATA_RECEPTOR = "Ingrese los datos del receptor";
     
     public static void showOptionPanel(javax.swing.JPanel p1, String title){
         GV.opanel().lblTitle.setText(title);
@@ -174,5 +175,9 @@ public class OptionPane {
 
     public static String titleDeliver() {
         return DELIVER_DATA_TITLE;
+    }
+
+    public static String titleConvenyDataReceptor() {
+        return CONVENY_DATA_RECEPTOR;
     }
 }

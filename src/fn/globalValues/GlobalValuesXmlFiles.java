@@ -248,7 +248,7 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    GV.setOficina(element.getElementsByTagName("office").item(0).getTextContent());
+                    GV.setOficinaFromXml(element.getElementsByTagName("office").item(0).getTextContent());
                     GV.setCompanyNameFromXml(element.getElementsByTagName("company").item(0).getTextContent());
                     GV.setInventarioLocalFromXml(element.getElementsByTagName("inventary").item(0).getTextContent());
                     GV.setLastUpdateFromXml(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));

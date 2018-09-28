@@ -196,6 +196,10 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesPrint.printFichas(fichas);
     }
     
+    public static void printConvenio(Convenio cnv) {
+        GlobalValuesPrint.printConvenio(cnv);
+    }
+    
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
     }
@@ -416,6 +420,10 @@ public class GV extends GlobalValuesCursor{
      */
     public static void convenioUpdateBDIfValidated(Convenio convenio){
         GlobalValuesFunctions.updateBDConvenioValidado(convenio);
+    }
+    
+    public static void convenioGenerateReport(Convenio cnv) {
+        GlobalValuesFunctions.convenioGenerateReport(cnv);
     }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
@@ -886,6 +894,10 @@ public class GV extends GlobalValuesCursor{
         if(GlobalValuesEntities.setOficina(nombre)){
             saveXMLProperties();
         }
+    }
+    
+    public static void setOficinaFromXml(String nombre){
+        GlobalValuesEntities.setOficina(nombre);
     }
 
     public static String getLblNombreOficina() {

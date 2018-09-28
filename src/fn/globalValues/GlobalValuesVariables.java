@@ -71,6 +71,10 @@ public class GlobalValuesVariables {
     private static SalesReportFicha SALESREPORT = new SalesReportFicha();
     private static Convenio CONVENIO_SELECTED = null;
     private static String CUOTAS_FECHA_PAGO_PENDIENTE = "01-01-2001";
+    private static String RECEPTOR_NAME = null;
+    private static String RECEPTOR_DIR = null;
+    private static String RECEPTOR_CT1 = null;
+    private static String RECEPTOR_CT2 = null;
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
@@ -419,5 +423,28 @@ public class GlobalValuesVariables {
 
     public static String cuotasFechaPagoPendienteDefault() {
         return CUOTAS_FECHA_PAGO_PENDIENTE;
+    }
+    
+    public static void setRececptor(String name,String dir,String ct1,String ct2){
+        RECEPTOR_CT1 = ct1;
+        RECEPTOR_CT2 = ct2;
+        RECEPTOR_DIR = dir;
+        RECEPTOR_NAME = name;
+    }
+    
+    public static String getReceptorName(){
+        return RECEPTOR_NAME;
+    }
+    
+    public static String getReceptorDir(){
+        return RECEPTOR_DIR;
+    }
+    
+    public static String getReceptorCT1(){
+        return RECEPTOR_CT1;
+    }
+    
+    public static String getReceptorCT2(){
+        return RECEPTOR_CT2;
     }
 }

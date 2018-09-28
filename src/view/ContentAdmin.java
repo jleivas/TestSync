@@ -24,7 +24,6 @@ import javax.swing.RootPaneContainer;
 import view.opanel.OpanelConfig;
 import view.opanel.OpanelInventario;
 import view.opanel.OpanelTools;
-//import view.opanel.OpanelTools;
 import view.opanel.OpanelUserData;
 
 /**

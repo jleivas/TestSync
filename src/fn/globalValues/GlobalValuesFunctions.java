@@ -40,6 +40,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import view.opanel.OpanelConvenyReceptor;
 
 /**
  *
@@ -589,6 +590,10 @@ public class GlobalValuesFunctions {
     
     public static boolean cuotasFechaPagoPendiente(Date fechaPagado) {
         return (GV.dateToString(fechaPagado, "dd-mm-yyyy").equals(GlobalValuesVariables.cuotasFechaPagoPendienteDefault()));
+    }
+
+    public static void convenioGenerateReport(Convenio cnv) {
+        OptionPane.showOptionPanel(new OpanelConvenyReceptor(cnv), OptionPane.titleConvenyDataReceptor());
     }
     
     public void convenioGenerarReporte(Convenio cnv){
