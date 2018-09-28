@@ -7,9 +7,6 @@ package reportes;
 
 import entities.ficha.Ficha;
 import fn.GV;
-import fn.globalValues.GlobalValuesPrint;
-import static fn.globalValues.GlobalValuesPrint.descuentoFormatPrint;
-import static fn.globalValues.GlobalValuesPrint.obtenerAbonos;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;

@@ -7,35 +7,24 @@ package reportes;
 
 import dao.Dao;
 import entities.Convenio;
-import entities.Institucion;
-import entities.ficha.Ficha;
-import fn.GV;
 import fn.OptionPane;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.poi.hssf.util.HSSFColor;
-import reportes.FichaDataSource;
 
 /**
  *
@@ -47,19 +36,25 @@ public class TestSync4 {
      */
     public static void main(String[] args){
         try{
+            
+            String title = "";
+            String subtitle = "";
             Dao load = new Dao();
             
             InputStream is = null;
+            InputStream is2 = null;
             
             FichasConvenioRecursoDatos dt = new FichasConvenioRecursoDatos();
+            CuotasConvenioRecursoDatos dt2 = new CuotasConvenioRecursoDatos();
             Convenio convenio = (Convenio)load.get(null, 3, new Convenio());
-            if(!dt.addConvenio(convenio,"titulo jasper", "subtitulos jasper")){
+            if(!dt.addConvenio(convenio,title, subtitle)){
                 OptionPane.showMsg("No se puede generar reporte", "El sistema no admite convenios activos, anulados ni defectuosos para generar reportes.", 2);
                 return;
             }
-            
+            dt2.addConvenio(convenio, title, subtitle);
             try{
                 is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"fichasCnv.jrxml");
+                is2 = new FileInputStream("src"+File.separator+"reportes"+File.separator+"cuotasCnv.jrxml");
             }catch(FileNotFoundException e){
                 OptionPane.showMsg("No se puede obtener el recurso",
                         "Ocurrió un error al intentar abrir el formato de impresión\n"
@@ -68,7 +63,7 @@ public class TestSync4 {
             
             
             openView(is,dt);
-            openView(is,dt);
+            openView(is2,dt2);
         }catch(SQLException ex){
             Logger.getLogger(TestSync4.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -80,7 +75,7 @@ public class TestSync4 {
         }
     }
     
-    public static void openView(InputStream is, FichasConvenioRecursoDatos fcr){
+    public static void openView(InputStream is, JRDataSource fcr){
         try{
                 JasperDesign jsd = JRXmlLoader.load(is);
                 JasperReport jsrp = JasperCompileManager.compileReport(jsd);

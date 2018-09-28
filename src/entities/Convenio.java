@@ -223,7 +223,7 @@ public class Convenio extends SyncIntId{
                         
                         addCuotaConvenio(
                                 new CuotasConvenio(null, GV.dateSumaResta(getFechaCobro(), i, "MONTHS"),
-                                GV.fechaDefaultCuotasConvenio(), valorCuota, getId(),
+                                GV.cuotasFechaPagoDefault(), valorCuota, getId(),
                                 1, null, 0)
                         );
                     }

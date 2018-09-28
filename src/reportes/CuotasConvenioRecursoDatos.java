@@ -6,16 +6,11 @@
 package reportes;
 
 import entities.Convenio;
-import entities.Institucion;
 import entities.context.ConvenioJasperReport;
-import entities.context.ConvenioJasperReport.Resumen;
-import entities.ficha.Ficha;
 import fn.GV;
 import fn.OptionPane;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -26,19 +21,21 @@ import net.sf.jasperreports.engine.JRField;
  *
  * @author sdx
  */
-public class FichaConvenioRecursoDatos implements JRDataSource{
+public class CuotasConvenioRecursoDatos implements JRDataSource{
     private ConvenioJasperReport rp = null;
     private int currentIndex = -1;
+    private int saldoTemporal = 0;
     @Override
     public boolean next() throws JRException {
-        return ++currentIndex < rp.getFichas().size();
+        return ++currentIndex < rp.getConvenio().getCuotasConvenio().size();
     }
     
     public void addConvenio(Convenio convenio, String reportTitle, String reportSubtitle){
         try {
             rp = new ConvenioJasperReport(convenio, reportTitle, reportSubtitle);
+            saldoTemporal = rp.getResumen().getMontoTotal();
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(FichaConvenioRecursoDatos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CuotasConvenioRecursoDatos.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error en addConvenio(param1,param2,param3)", "Ha ocurrido un error inesperado\n"
                     + "al intentar cargar valores desde la Base de datos local", 3);
             rp = null;
@@ -65,7 +62,7 @@ public class FichaConvenioRecursoDatos implements JRDataSource{
                 valor = rp.getConvenio().getId();
             }
             if("nextFechaCobro".equals(jrf.getName())){
-                valor = GV.dateToString(rp.getNextFechaCobro(), "dd/mm/yyyy");
+                valor = GV.dateToString(rp.getNextFechaCobro(), "dd-mm-yyyy");
             }
             if("instName".equals(jrf.getName())){
                 valor = rp.getCliente().getNombre();
@@ -100,26 +97,39 @@ public class FichaConvenioRecursoDatos implements JRDataSource{
             if("item".equals(jrf.getName())){
                 valor = currentIndex+1;
             }
-            if("rut".equals(jrf.getName())){
-                valor = ((Ficha)rp.getFichas().get(currentIndex)).getCliente().getCod();
+            if("valorCuota".equals(jrf.getName())){
+                valor = rp.getConvenio().getCuotasConvenio().get(currentIndex).getMonto();
             }
-            if("nombre".equals(jrf.getName())){
-                valor = ((Ficha)rp.getFichas().get(currentIndex)).getCliente().getNombre();
+            if("saldoTemporal".equals(jrf.getName())){
+                valor = saldoTemporal;
+                saldoTemporal = saldoTemporal - (rp.getConvenio().getCuotasConvenio().get(currentIndex).getMonto());
             }
-            if("telefono".equals(jrf.getName())){
-                valor = ((Ficha)rp.getFichas().get(currentIndex)).getCliente().getTelefono1();
+            if("fechaCuota".equals(jrf.getName())){
+                valor = GV.dateToString(rp.getConvenio().getCuotasConvenio().get(currentIndex).getFecha(),
+                        "dd-mm-yyyy");
             }
-            if("total".equals(jrf.getName())){
-                valor = (((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento());
-            }if("abono".equals(jrf.getName())){
-                valor = (((Ficha)rp.getFichas().get(currentIndex)).getValorTotal()-((Ficha)rp.getFichas().get(currentIndex)).getDescuento())-((Ficha)rp.getFichas().get(currentIndex)).getSaldo();
-            }
-            if("cuota".equals(jrf.getName())){
-                valor = GV.roundPrice(((Ficha)rp.getFichas().get(currentIndex)).getSaldo()/rp.getConvenio().getCuotas());
+            if("estadoCuota".equals(jrf.getName())){
+                valor = getCuotaStatus(rp.getConvenio().getCuotasConvenio().get(currentIndex).getEstado());
+            }if("fechaPago".equals(jrf.getName())){
+                valor = getFechaPago(rp.getConvenio().getCuotasConvenio().get(currentIndex).getFechaPagado());
             }
         }
         
         return valor;
+    }
+
+    private String getCuotaStatus(int estado) {
+        if(estado == GV.cuotaConvenioPagada()){
+            return "Pagada";
+        }
+        return "Pendiente";
+    }
+
+    private String getFechaPago(Date fechaPagado) {
+        if(GV.cuotasFechaPagoPendiente(fechaPagado)){
+            return "No pagada";
+        }
+        return GV.dateToString(fechaPagado, "dd-mm-yyyy");
     }
     
 }

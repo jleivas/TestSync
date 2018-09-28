@@ -587,6 +587,10 @@ public class GlobalValuesFunctions {
         }
     }
     
+    public static boolean cuotasFechaPagoPendiente(Date fechaPagado) {
+        return (GV.dateToString(fechaPagado, "dd-mm-yyyy").equals(GlobalValuesVariables.cuotasFechaPagoPendienteDefault()));
+    }
+    
     public void convenioGenerarReporte(Convenio cnv){
         if(cnv.getEstado() == 2){
             

@@ -964,10 +964,10 @@ public class Remote implements InterfaceSync{
         try{
             String sql = "";
             if(type instanceof Ficha){
-                sql = "SELECT COUNT(fch_id) as id FROM ficha WHERE fch_id LIKE '%/"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(fch_id) as id FROM ficha WHERE fch_id LIKE '%-"+getIdEquipo()+"'";
             }
             if(type instanceof Armazon){
-                sql = "SELECT COUNT(arm_id) as id FROM armazon WHERE arm_id LIKE '%/"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(arm_id) as id FROM armazon WHERE arm_id LIKE '%-"+getIdEquipo()+"'";
             }
             if(type instanceof Cristal){
                 sql = "SELECT MAX(cri_id) as id FROM cristal";
@@ -975,17 +975,20 @@ public class Remote implements InterfaceSync{
             if(type instanceof Convenio){
                 sql = "SELECT MAX(cnv_id) as id FROM convenio";
             }
+            if(type instanceof CuotasConvenio){
+                sql = "SELECT COUNT(cc_id) as id FROM cuotas_convenio";
+            }
             if(type instanceof Descuento){
                 sql = "SELECT MAX(des_id) as id FROM descuento";
             }
             if(type instanceof Despacho){
-                sql = "SELECT COUNT(dsp_id) as id FROM despacho WHERE dsp_id LIKE '%/"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(dsp_id) as id FROM despacho WHERE dsp_id LIKE '%-"+getIdEquipo()+"'";
             }
             if(type instanceof Equipo){
                 sql = "SELECT MAX(eq_id) as id FROM equipo";
             }
              if(type instanceof HistorialPago){
-                sql = "SELECT COUNT(hp_id) as id FROM historial_pago WHERE hp_id LIKE '%/"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(hp_id) as id FROM historial_pago WHERE hp_id LIKE '%-"+getIdEquipo()+"'";
             }
             if(type instanceof Institucion){
                 sql = "SELECT MAX(ins_id) as id FROM institucion";
@@ -1000,7 +1003,7 @@ public class Remote implements InterfaceSync{
                 sql = "SELECT MAX(of_id) as id FROM oficina";
             }
             if (type instanceof RegistroBaja) {
-                sql = "SELECT COUNT(rb_id) as id FROM registri_baja WHERE rb_id LIKE '%/"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(rb_id) as id FROM registro_baja WHERE rb_id LIKE '%-"+getIdEquipo()+"'";
             }
             if (type instanceof TipoPago) {
                 sql = "SELECT MAX(tp_id) as id FROM tipo_pago";

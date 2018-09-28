@@ -828,8 +828,9 @@ public class VConvenios extends javax.swing.JPanel {
         }
         if(stConvenio.getEstado() == 2){
             try {
-                OptionPane.showMsg("No se puede modificar el registro", "El convenio ya se encuentra generado, no se puede modificar", 2);
                 abrirConvenio(stConvenio.getId());
+                OptionPane.showMsg("No se puede modificar el registro", "El convenio ya se encuentra generado, no se puede modificar", 2);
+                
                 cDF();
                 return;
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {

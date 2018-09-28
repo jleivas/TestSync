@@ -65,7 +65,7 @@ public class FichasConvenioRecursoDatos implements JRDataSource{
                 valor = rp.getConvenio().getId();
             }
             if("nextFechaCobro".equals(jrf.getName())){
-                valor = GV.dateToString(rp.getNextFechaCobro(), "dd/mm/yyyy");
+                valor = GV.dateToString(rp.getNextFechaCobro(), "dd-mm-yyyy");
             }
             if("instName".equals(jrf.getName())){
                 valor = rp.getCliente().getNombre();

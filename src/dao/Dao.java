@@ -439,7 +439,7 @@ public class Dao{
     public String getCurrentCod(Object type){
         Log.setLog(className,Log.getReg());
         if(type instanceof SyncFichaClass){
-            return GV.LOCAL_SYNC.getMaxId(type)+"/"+GV.LOCAL_SYNC.getIdEquipo();
+            return GV.LOCAL_SYNC.getMaxId(type)+"-"+GV.LOCAL_SYNC.getIdEquipo();
         }else{
             OptionPane.showMsg("Instancia de datos errónea", "El tipo de datos ingresado no es válido para obtener el identificador.", 3);
             return null;

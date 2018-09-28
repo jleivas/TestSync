@@ -70,6 +70,7 @@ public class GlobalValuesVariables {
     private static String SQL_LOW_STOCK="lowStock";
     private static SalesReportFicha SALESREPORT = new SalesReportFicha();
     private static Convenio CONVENIO_SELECTED = null;
+    private static String CUOTAS_FECHA_PAGO_PENDIENTE = "01-01-2001";
     //used in filterList()
     private static List<String> FILTER_LIST = new ArrayList<>();
     
@@ -414,5 +415,9 @@ public class GlobalValuesVariables {
 
     public static Convenio getConvenio() {
         return CONVENIO_SELECTED;
+    }
+
+    public static String cuotasFechaPagoPendienteDefault() {
+        return CUOTAS_FECHA_PAGO_PENDIENTE;
     }
 }

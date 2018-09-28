@@ -209,6 +209,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.formatRut(rut);
     }
     
+    public static boolean cuotasFechaPagoPendiente(Date fechaPagado) {
+        return GlobalValuesFunctions.cuotasFechaPagoPendiente(fechaPagado);
+    }
+    
     public static boolean validaRut(String rut) {
         return GlobalValuesFunctions.validaRut(rut);
     }
@@ -417,6 +421,15 @@ public class GV extends GlobalValuesCursor{
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){
         return GlobalValuesVariables.getSalesReportFicha();
+    }
+    
+    /**
+     * Retorna una fecha por defecto, esta fecha indica que no ha sido registrado
+     * un pago de cuotas
+     * @return 01-01-2001
+     */
+    public static Date cuotasFechaPagoDefault() {
+        return GV.strToDate(GlobalValuesVariables.cuotasFechaPagoPendienteDefault());
     }
     
     public static void setSalesReportFicha(SalesReportFicha report){
@@ -1003,15 +1016,6 @@ public class GV extends GlobalValuesCursor{
             return email;
         }
         return "";
-    }
-
-    /**
-     * Retorna una fecha por defecto, esta fecha indica que no ha sido registrado
-     * un pago de cuotas
-     * @return 01-01-2001
-     */
-    public static Date fechaDefaultCuotasConvenio() {
-        return GV.strToDate("01-01-2001");
     }
 
     public static int cuotaConvenioPagada() {
