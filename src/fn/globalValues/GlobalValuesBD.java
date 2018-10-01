@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
 import newpackage.NoGit;
+import view.init.SplashProgress;
 
 /**
  *
@@ -60,6 +61,7 @@ public class GlobalValuesBD {
     public static String BD_PASS_LOCAL = "odm4";
     
     private static boolean SINCRONIZAR = false;
+    private static boolean error = false;
     
     private static List<Object> LISTA_FICHAS = new ArrayList<>();
     
@@ -499,6 +501,7 @@ public class GlobalValuesBD {
     public static void sincronizarTodo(){
         //si la ultima fecha de actualizacion corresponde al dia actual
         //restamos un dia a LastUpdate para validar actualización
+        GV.resetAllPorcentaje();
         if(GV.isCurrentDate(GV.getLastUpdate())){
             GV.setLastUpdate(GV.dateSumaResta(GV.getLastUpdate(), -1, "DAYS"));
         }
@@ -531,11 +534,10 @@ public class GlobalValuesBD {
     }
     
     public static void sincronizar(List<Object> listaObjetos){
-        boolean error = false;
         GV.startSincronizacion();
-        Boton boton = new Boton();
-        boton.barraProgresoVisible();
-        GV.porcentajeCalcular(listaObjetos.size());
+//        Boton boton = new Boton();
+//        boton.barraProgresoVisible();
+        GV.porcentajeCalcular(listaObjetos.size(),"Preparando la sincronización");
         for (Object type : listaObjetos) {
             if(type instanceof Ficha){
                 type = new EtiquetFicha();
@@ -544,23 +546,23 @@ public class GlobalValuesBD {
                 error = true;
                 break;
             }
-            GV.porcentajeCalcular(listaObjetos.size());
+            GV.porcentajeCalcular(listaObjetos.size(), "Sincronizando entidades [Tipo de datos:"+GV.className(type).trim()+"]...");
         }
         GV.resetAllPorcentaje();
         GV.stopSincronizacion();
         if(error){
-            OptionPane.showMsg("Error al sincronizar los datos", "No se pudo sincronizar los datos\n"
-                    + "Compruebe su conexion a internet", 2);
+            OptionPane.showMsg("La sincrconización se ha suspendido", "No se sincronizaron los datos por uno de estos motivos:\n"
+                    + "-Se ha cancelado manualmente\n"
+                    + "-Ocurrió un error de datos en la red, compruebe su conexion a internet", 2);
         }
     }
     
     public static boolean sincronizeObject(Object object){
         if(GV.isOnline()){
             if(!GV.sincronizacionIsStopped()){
-                String className = GV.className(object).trim();
-                GV.setReporte("Sincronizando entidades [Tipo de datos:"+className+"]...");
+                
                 Dao.sincronize(object);
-                GV.setReporte("Base de datos sincronizada...");
+                
                 return true;
             }
         }

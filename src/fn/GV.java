@@ -96,8 +96,8 @@ public class GV extends GlobalValuesCursor{
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
     }
     /*********************BEGIN PORCENTAJE SYNC***************************/
-    public static void porcentajeCalcular(int limit){
-        GlobalValuesSyncReportStatus.calcularPorcentaje(limit);
+    public static void porcentajeCalcular(int limit,String text){
+        GlobalValuesSyncReportStatus.calcularPorcentaje(limit, text);
     }
     
     public static void porcentajeSubCalcular(int subLimit){
@@ -433,6 +433,10 @@ public class GV extends GlobalValuesCursor{
     public static void convenioGenerateReport(Convenio cnv) {
         GlobalValuesFunctions.convenioGenerateReport(cnv);
     }
+    
+    public static String licenciaEstadoStr(){
+        return GlobalValuesFunctions.licenciaEstado();
+    }
     /**************************END FUNTIONS**********************************/
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){
@@ -609,8 +613,8 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesVariables.getVersion();
     }
     
-    public static boolean licence(){
-        return GlobalValuesVariables.getLicence();
+    public static int licenciaTipoPlan(){
+        return GlobalValuesVariables.getLicenciaTipoPlan();
     }
     
     public static String licenceCode(){
@@ -621,8 +625,8 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesVariables.setLicenceCode(licenceCode);
     }
     
-    public static void licence(boolean value){
-        GlobalValuesVariables.setLicence(value);
+    public static void licenciaTipoPlan(int value){
+        GlobalValuesVariables.setLicenciaTipoPlan(value);
     }
     
     public static String expDate(){
@@ -641,8 +645,8 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesVariables.setCurrentEquipo(name);
     }
     
-    public static void setLicence(boolean value) {
-        GlobalValuesVariables.setLicence(value);
+    public static void setLicenciaTipoPlan(int value) {
+        GlobalValuesVariables.setLicenciaTipoPlan(value);
     }
     
     public static String uri(){

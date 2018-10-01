@@ -129,29 +129,29 @@ public class SubProcess {
 //        
 //    }
     
-    public static void sincronizeAll(){
-        int procesos = 14;
-        GV.resetAllPorcentaje();
-        sincronizeObject(new Cliente(), procesos,CLI);
-        sincronizeObject(new Convenio(), procesos,CONV);
-        sincronizeObject(new Cristal(), procesos,CRI);
-        sincronizeObject(new Descuento(), procesos,DES);
-        sincronizeObject(new Doctor(), procesos,DOC);
-        sincronizeObject(new Equipo(), procesos,EQU);
-        sincronizeObject(new Institucion(), procesos,INS);
-        sincronizeObject(new InternMail(), procesos,INM);
-        sincronizeObject(new Inventario(), procesos,INV);
-        sincronizeObject(new Lente(), procesos,LEN);
-        sincronizeObject(new Oficina(), procesos,OFI);
-        sincronizeObject(new RegistroBaja(), procesos,REB);
-        sincronizeObject(new TipoPago(), procesos,TIP);
-        sincronizeObject(new User(), procesos,USR);
-        if(GV.sincronizacionIsStopped()){
-            GV.setLastUpdate(new Date());
-            GV.stopSincronizacion();
-        }
-        GV.resetAllPorcentaje();
-    }
+//    public static void sincronizeAll(){
+//        int procesos = 14;
+//        GV.resetAllPorcentaje();
+//        sincronizeObject(new Cliente(), procesos,CLI);
+//        sincronizeObject(new Convenio(), procesos,CONV);
+//        sincronizeObject(new Cristal(), procesos,CRI);
+//        sincronizeObject(new Descuento(), procesos,DES);
+//        sincronizeObject(new Doctor(), procesos,DOC);
+//        sincronizeObject(new Equipo(), procesos,EQU);
+//        sincronizeObject(new Institucion(), procesos,INS);
+//        sincronizeObject(new InternMail(), procesos,INM);
+//        sincronizeObject(new Inventario(), procesos,INV);
+//        sincronizeObject(new Lente(), procesos,LEN);
+//        sincronizeObject(new Oficina(), procesos,OFI);
+//        sincronizeObject(new RegistroBaja(), procesos,REB);
+//        sincronizeObject(new TipoPago(), procesos,TIP);
+//        sincronizeObject(new User(), procesos,USR);
+//        if(GV.sincronizacionIsStopped()){
+//            GV.setLastUpdate(new Date());
+//            GV.stopSincronizacion();
+//        }
+//        GV.resetAllPorcentaje();
+//    }
     
     public static void sincronizeObject(Object object){
         sincronizeObject(object, 1, "datos");
@@ -159,7 +159,6 @@ public class SubProcess {
     
     private static void sincronizeObject(Object object, int procesos, String item){
         if(GV.sincronizacionIsStopped()){
-            Boton boton = new Boton();
             GV.setReporte("Sincronizando "+item+"...");
             Dao.sincronize(object);
         }
@@ -204,5 +203,12 @@ public class SubProcess {
     
     public static boolean ejecucion(){
         return ejecucion;
+    }
+    
+    public static void SyncAll(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+                GV.sincronizarTodo();
+        });
     }
 }

@@ -45,10 +45,18 @@ public class GlobalValuesVariables {
     
     /* LICENCIA */
     private static String COMPANY_NAME;
-    private static boolean LICENCE = false;
+    private static int TIPO_PLAN = 0;
     private static String LICENCE_CODE = null;
+    private static boolean LICENCE_ACTIVE = false;
     private static String EXP_DATE;
     private static String API_URI;
+    
+    //TIPO DE PLAN
+    private static int TP_FREE=0;
+    private static int TP_2X = 1;
+    private static int TP_4X = 2;
+    private static int TP_6X = 3;
+    private static int TP_FULL_DATA = 4;
     
     /* Update */
     private static int ID_UPDATE=0;
@@ -174,8 +182,8 @@ public class GlobalValuesVariables {
         return getStr(VERSION);
     }
     
-    public static boolean getLicence(){
-        return LICENCE;
+    public static int getLicenciaTipoPlan(){
+        return TIPO_PLAN;
     }
     
     public static String getLicenceCode(){
@@ -234,8 +242,8 @@ public class GlobalValuesVariables {
         EQUIPO = getStr(equipo)+"_"+dateToString(new Date(),"yyyymmdd");
     }
 
-    public static void setLicence(boolean value) {
-        LICENCE = value;
+    public static void setLicenciaTipoPlan(int value) {
+        TIPO_PLAN = value;
     }
     
     public static void setLicenceCode(String licenceCode){
@@ -473,5 +481,33 @@ public class GlobalValuesVariables {
 
     public static String getIdCovenioSelected() {
         return ID_CONVENIO_SELECTED;
+    }
+    
+    public static boolean licenciaActiva(){
+        return LICENCE_ACTIVE;
+    }
+    
+    public static void licencaActiva(boolean value){
+        LICENCE_ACTIVE = value;
+    }
+    
+    public static int licenciaTipoFree(){
+        return TP_FREE;
+    }
+    
+    public static int licenciaTipo2X(){
+        return TP_2X;
+    }
+    
+    public static int licenciaTipo4X(){
+        return TP_4X;
+    }
+        
+    public static int licenciaTipo6X(){
+        return TP_6X;
+    }
+    
+    public static int licenciaTipoFullData(){
+        return TP_FULL_DATA;
     }
 }

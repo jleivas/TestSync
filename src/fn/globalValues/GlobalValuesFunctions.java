@@ -672,4 +672,43 @@ public class GlobalValuesFunctions {
             }
         }
     }
+    
+    public static void licenciaComprobate(){
+        boolean activa = (GV.licenciaTipoPlan() > 0 && 
+                GV.fechaActualOFutura
+            (
+                    GV.strToDate(
+                            GV.expDate()
+                    )
+            )
+        )?true:false;
+        GlobalValuesVariables.licencaActiva(activa);
+    }
+    
+    public static String licenciaEstado(){
+        String status = "Cambiate a premium";
+        if(GV.licenciaTipoPlan() > 0){
+            status = (GV.fechaActualOFutura(GV.strToDate(GV.expDate())))?
+                    "Bajo licencia hasta el "+GV.expDate().replaceAll("-", "."):
+                    "La licencia ha caducado";
+            status = (GV.isCurrentDate(GV.strToDate(GV.expDate())))?"Expirará hoy":status;
+            status = (GV.isCurrentDate(GV.dateSumaResta(GV.strToDate(GV.expDate()), -1, "DAYS")))?"Expirará mañana":status;
+        }
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipoFree()){
+            status = "Licencia gratuita: "+status;
+        }
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipo2X()){
+            status = "Licencia 2x: "+status;
+        }
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipo4X()){
+            status = "Licencia 4x: "+status;
+        }
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipo6X()){
+            status = "Licencia 6x: "+status;
+        }
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipoFullData()){
+            status = "Licencia FullData: "+status;
+        }
+        return status;
+    }
 }

@@ -29,7 +29,6 @@ import view.VMessages;
 import view.VRegistroBajas;
 import view.VTipoPagos;
 import view.VUsuarios;
-import view.opanel.OProgress;
 
 /**
  *
@@ -173,18 +172,6 @@ public class Boton {
                     + "póngase en contacto con su proveedor de software.", JOptionPane.ERROR_MESSAGE);
         }
         principalAdmin.setCursor(Cursor.getDefaultCursor());
-    }
-    
-    public void barraProgresoVisible() {
-        OProgress p1 = new OProgress();
-        try {
-            p1.setLista();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Boton.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        p1.setSize(449, 250);
-        p1.setLocation(locat, locat);
-        p1.setVisible(true);
     }
 
     private void accesDenied() {

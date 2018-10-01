@@ -6,6 +6,7 @@
 package fn.globalValues;
 
 import fn.GV;
+import view.init.SplashProgress;
 
 /**
  *
@@ -19,23 +20,26 @@ public class GlobalValuesSyncReportStatus {
     private static int FIN = 0;
     private static String REPORT;
     private static int ANT =0;
+    private static SplashProgress sp = null;
     
     public static void resetPorc(){
         PORC = 0;
         SUMA_PORC = 0;
+        sp = null;
     }
     
     public static void resetAll(){
         PORC = 0;
         SUMA_PORC = 0;
         LIMIT = 0;
+        sp = null;
     }
     
     public static void setPorc(int value){
         PORC = (PORC + value)/2;
     }
     
-    public static void calcularPorcentaje(int limit){
+    public static void calcularPorcentaje(int limit, String text){
         INI = PORC;
         LIMIT = limit;
         PORC = ((SUMA_PORC * 100)/LIMIT);
@@ -44,6 +48,12 @@ public class GlobalValuesSyncReportStatus {
             PORC = 100;
         }
         FIN = ((SUMA_PORC)*100)/LIMIT;
+        if(sp == null){
+            sp =  new SplashProgress();
+            sp.setVisible(true);
+        }
+        sp.txtPorcentaje.setText(getPorc()+"%");
+        sp.txtDescritption.setText(text);
     }
     
     public static void calcularSubPorcentaje(int subLimite){

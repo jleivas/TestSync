@@ -53,13 +53,7 @@ public class GlobalValuesXmlFiles {
             Element code= document.createElement("code");
             Element date= document.createElement("date");
             //Ingresamos la info. 
-            Text vSt = document.createTextNode("0");
-            if(GV.diasRestatntes(GV.expDate())<0){
-                GV.setLicence(false);
-            }
-            if(GV.licence()){
-                vSt = document.createTextNode("1");
-            }
+            Text vSt = document.createTextNode(""+GV.licenciaTipoPlan());
             Text vCode = document.createTextNode(GV.licenceCode());
             Text vDate = document.createTextNode(GV.expDate()); 
             /**************************NETWORK******************************/
@@ -213,15 +207,15 @@ public class GlobalValuesXmlFiles {
             }
             
             /***********LICENCE************************************************/
-            boolean st = false;
+            int st = 0;
             documento.getDocumentElement().normalize();
             filas = documento.getElementsByTagName("lic");
             for (int temp = 0; temp < filas.getLength(); temp++) {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    st = (Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent()) == 1) ? true:false;
-                    GV.licence(st);
+                    st = Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent());
+                    GV.licenciaTipoPlan(st);
                     GV.setLicenceCode(element.getElementsByTagName("code").item(0).getTextContent());
                     GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
                 }

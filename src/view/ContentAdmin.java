@@ -11,7 +11,7 @@ import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import fn.SubProcess;
-import java.awt.Color;
+import fn.globalValues.GlobalValuesVariables;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -55,13 +55,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         setIconImage(icon);
         
         String licencia = "";
-        if(GV.licence()){
-            licencia = "Producto bajo licencia hasta el "+GV.expDate();
-        }
-        else{
-            licencia = "La licencia de este producto ha caducado";
-            lblLicence.setForeground(Color.RED);
-        }
+        licencia = GV.licenciaEstadoStr();
         
         //****************************
         //cargar user por defecto, eliminar
@@ -76,6 +70,9 @@ public class ContentAdmin extends javax.swing.JFrame {
         lblSync();
         String userName = (GV.user()!=null) ? GV.user().getNombre():"";
         lblUserName.setText(userName);
+        if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipoFree()){
+            btnSyncronize.setVisible(false);
+        }
         this.setTitle("Optidata "+GV.version()+"     "+licencia);
         try {
             boton.crearFicha();
@@ -244,7 +241,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         jpUpBar.add(btnInvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, -1));
 
         btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Uninstalling_Updates_25px.png"))); // NOI18N
-        btnSyncronize.setToolTipText("Buscar");
+        btnSyncronize.setToolTipText("Sincronizar datos");
         btnSyncronize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSyncronizeMouseClicked(evt);
@@ -729,8 +726,7 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConveniosMouseExited
 
     private void btnSyncronizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseExited
-
-        btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
+       btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnSyncronize.getIcon().toString()))));
     }//GEN-LAST:event_btnSyncronizeMouseExited
 
     private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
@@ -738,7 +734,9 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseEntered
 
     private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
-        SubProcess.sincronizeAll();
+        GV.cursorWAIT();
+        GV.sincronizarTodo();
+        GV.cursorDF();
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     /**
