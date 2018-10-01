@@ -46,56 +46,65 @@ técnico para la puesta en marcha del sistema.
  -Impresión de fichas con publicidad de la empresa actualizada remotamente
  -Sólo podrá generar un reporte mensual de cada tipo
 
- #### Generar licencia gama económica (CON-014)
+ #### Genenerar licencia 2x (CON-014)
  
  -Acceso a base de datos remota
  -Impresión de fichas sin envío de correos a los clientes
- -Generación ilimitada de reportes
- -Sincronización manual con base de datos remota una vez al día
-
- #### Genenerar licencia gama media (CON-015)
- 
- -Acceso a base de datos remota
- -Impresión de fichas con envío de correos a los clientes
- -Generación ilimitada de reportes
+ -Generación de reportes limitadas a un día por tipo
  -Sincronización manual con base de datos remota dos veces al día
 
- #### Genenerar licencia gama alta (CON-016)
+ #### Genenerar licencia 4x (CON-015)
  
  -Acceso a base de datos remota
  -Impresión de fichas con envío de correos a los clientes
  -Generación ilimitada de reportes
  -Sincronización automática con base de datos remota tres veces al día
- -Sincronización manual con base de datos hasta tres veces al día
+ -Sincronización manual con base de datos hasta 4 veces al día
 
- #### Genenerar licencia full hora (CON-017)
+ #### Genenerar licencia 6x (CON-016)
  
  -Acceso a base de datos remota
  -Impresión de fichas con envío de correos a los clientes
  -Generación ilimitada de reportes
- -Sincronización automática con base de datos remota cada una hora
- -Sincronización manual con base de datos hasta cuatro veces al día
+ -Sincronización manual con base de datos hasta seis veces al día
 
- #### Genenerar licencia full Data (CON-018)
+ #### Genenerar licencia Full Data (CON-017)
  
  -Acceso a base de datos remota
  -Impresión de fichas con envío de correos a los clientes
  -Generación ilimitada de reportes
- -Sincronización automática con base de datos remota cada media hora
  -Sincronización manual con base de datos ilimitada
+
+ #### Encriptar datos de lectura xml (CON-018)
+ 
+ -encriptar escritura xml
+ -desencriptar lectura xml
+
+ #### crear ventana de configuracion de parametros xml (CON-019)
+ 
+ -Leer, editar y escribir datos xml con acceso restringidos
+
+ #### restringir acceso de usuarios (CON-020)
+ 
+ -Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
+
+ #### Marcar Fichas como entregadas (CON-021)
+ 
+ -Que el sistema permita cambiar el estado a entregadas con despacho sin registro
  
  ## 01.10.2018-04.10.2018
  ### Sincronización
  *Objetivo*
  Mejorar el proceso de sincronización de las bases de datos, reducir el tiempo de espera y reparar errores
  
- #### Abortar proceso en conexión lenta (CON-008)
+ #### [Abortar proceso de sincronización (CON-008)](https://github.com/softdirex/TestSync/commit/a9e9a57539a68daac30e151ad1941f82d3784621)
 
  - Cerrar proceso si demora más del tiempo estimado en un mismo porcentage
 
  #### Respaldo automático (CON-009)
 
  - generar respaldo de datos automáticamente al momento de cerrar y validar coneccion a internet
+ - comprobar licencia cada 30 minutos
 
  #### Importación de base de datos (CON-010)
 
