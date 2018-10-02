@@ -8,8 +8,6 @@ package view.init;
 import com.sun.awt.AWTUtilities;
 import fn.GV;
 import fn.Icons;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingConstants;
@@ -75,7 +73,7 @@ public class SplashProgress extends javax.swing.JFrame implements Runnable{
         getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 250, -1, -1));
 
         txtPorcentaje.setFont(new java.awt.Font("Segoe UI Symbol", 1, 18)); // NOI18N
-        txtPorcentaje.setText("50%");
+        txtPorcentaje.setText("0%");
         getContentPane().add(txtPorcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 200, 510, -1));
 
         txtDescritption.setFont(new java.awt.Font("Segoe UI Symbol", 1, 10)); // NOI18N
@@ -156,15 +154,18 @@ public class SplashProgress extends javax.swing.JFrame implements Runnable{
 
     @Override
     public void run() {
+        this.setVisible(true);
         while(tiempo != null){
             try {
-                while (GV.porcentaje()<100){
-                    System.out.println(GV.porcentaje()+"%");
-                }
-                txtPorcentaje.setText(GV.porcentaje()+"%");
-                txtDescritption.setText("Sincronización finalizada");
                 Thread.sleep(10000);
-//                new Acceso().setVisible(true);
+                while (!GV.sincronizacionIsStopped()){
+                    System.out.println(GV.porcentaje()+"%");
+                    txtPorcentaje.setText(GV.porcentaje()+"%");
+                    txtDescritption.setText("Sincronización en curso, espere a que finalice para seguir trabajado...");
+                }
+                txtPorcentaje.setText("100%");
+                txtDescritption.setText("Sincronización finalizada, cerrando procesos...");
+                Thread.sleep(10000);
                 this.dispose();
                 return;
             } catch (InterruptedException ex) {

@@ -52,8 +52,6 @@ public class GlobalValuesSyncReportStatus {
             sp =  new SplashProgress();
             sp.setVisible(true);
         }
-        sp.txtPorcentaje.setText(getPorc()+"%");
-        sp.txtDescritption.setText(text);
     }
     
     public static void calcularSubPorcentaje(int subLimite){

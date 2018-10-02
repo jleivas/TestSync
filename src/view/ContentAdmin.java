@@ -730,12 +730,17 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseExited
 
     private void btnSyncronizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseEntered
+        if(GV.isOnline()){
+            btnSyncronize.setToolTipText("Sincronizar datos");
+        }else{
+            btnSyncronize.setToolTipText("Red no disponible");
+        }
         btnSyncronize.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIconIfConnected(btnSyncronize.getIcon().toString()))));
     }//GEN-LAST:event_btnSyncronizeMouseEntered
 
     private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
         GV.cursorWAIT();
-        GV.sincronizarTodo();
+        SubProcess.SyncAll();
         GV.cursorDF();
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
