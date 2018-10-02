@@ -6,6 +6,7 @@
 package fn.mail;
 
 import entities.context.SalesReportFicha;
+import entities.ficha.Ficha;
 import fn.GV;
 import fn.OptionPane;
 import java.io.File;
@@ -321,5 +322,21 @@ public class Send {
             return false;
         }
         
+    }
+
+    public void sendFichaMail(Ficha ficha) {
+        if(GV.isOnline()){
+            width = 25;
+            height = 50;
+            color1 =  color_turquesa;
+            String mail = GV.getStr(ficha.getCliente().getEmail());
+            sendMail("Comprobante de receta oftalmológica - "+GV.companyName(),
+                    mail, GV.companyName(), ficha.toHtml(),
+                    "Vendedor: "+GV.user().getNombre(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
+                    "https://www.softdirex.cl/imgOptics/report/user.png", 
+                    "https://www.softdirex.cl/imgOptics/report/company.png");
+            width = 100;
+            height = 140;
+        }
     }
 }

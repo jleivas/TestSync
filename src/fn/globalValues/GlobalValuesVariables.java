@@ -50,6 +50,7 @@ public class GlobalValuesVariables {
     private static boolean LICENCE_ACTIVE = false;
     private static String EXP_DATE;
     private static String API_URI;
+    private static int SYNC_COUNT = 0;
     
     //TIPO DE PLAN
     private static int TP_FREE=0;
@@ -57,6 +58,12 @@ public class GlobalValuesVariables {
     private static int TP_4X = 2;
     private static int TP_6X = 3;
     private static int TP_FULL_DATA = 4;
+    
+    //MAXIMO DE SINCRONIZACIONES SEGUN TIPO DE PLAN
+    public static int TP_FREE_MS =0;
+    public static int TP_2X_MS = 2;
+    public static int TP_4X_MS = 4;
+    public static int TP_6X_MS = 6;
     
     /* Update */
     private static int ID_UPDATE=0;
@@ -79,6 +86,7 @@ public class GlobalValuesVariables {
     private static SalesReportFicha SALESREPORT = new SalesReportFicha();
     private static Convenio CONVENIO_SELECTED = null;
     private static String CUOTAS_FECHA_PAGO_PENDIENTE = "01-01-2001";
+    private static String FECHA_DEFAULT = "01-01-2001";
     private static String RECEPTOR_NAME = null;
     private static String RECEPTOR_DIR = null;
     private static String RECEPTOR_CT1 = null;
@@ -509,5 +517,17 @@ public class GlobalValuesVariables {
     
     public static int licenciaTipoFullData(){
         return TP_FULL_DATA;
+    }
+    
+    public static int getSyncCount(){
+        return SYNC_COUNT;
+    }
+    
+    public static void setSyncCount(int value){
+        SYNC_COUNT = value;
+    }
+    
+    public static String getFechaDefault(){
+        return FECHA_DEFAULT;
     }
 }

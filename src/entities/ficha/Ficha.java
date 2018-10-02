@@ -11,6 +11,8 @@ import entities.Doctor;
 import entities.Institucion;
 import entities.User;
 import entities.abstractclasses.SyncFichaClass;
+import fn.GV;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -219,14 +221,45 @@ public class Ficha extends SyncFichaClass{
                 +'}';
     }
     
-    
-
-   
-    
-    
-    
-       
-    
-    
-    
+    public String toHtml(){
+        DecimalFormat formateador = new DecimalFormat("###,###,###");
+        return  "<p>Comprobante de receta oftalmológica</p>\n" +
+                "<TABLE BORDER CELLPADDING=10 CELLSPACING=0>\n" +
+                "	<TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Folio</strong></TD> <TD style=\"text-align: right;\"><strong>"+getCod()+"</strong></TD><TD style=\"text-align: right;\"><strong>Precios</strong></TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Lente Lejos</strong></TD> <TD style=\"text-align: right;\">"+getLejos().getMarca()+"</TD><TD style=\"text-align: right;\">"+GV.strToPrice(getLejos().getPrecioMarca())+"</TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Cristal Lejos</strong></TD> <TD style=\"text-align: right;\">"+getLejos().getCristal()+"</TD><TD style=\"text-align: right;\">"+GV.strToPrice(getLejos().getPrecioCristal())+"</TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Lente Cerca</strong></TD> <TD style=\"text-align: right;\">"+getCerca().getMarca()+"</TD><TD style=\"text-align: right;\">"+GV.strToPrice(getCerca().getPrecioMarca())+"</TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #D1F4EF;\">\n" +
+                "		<TD><strong>Cristal Cerca</strong></TD> <TD style=\"text-align: right;\">"+getCerca().getCristal()+"</TD><TD style=\"text-align: right;\">"+GV.strToPrice(getCerca().getPrecioCristal())+"</TD>\n" +
+                "    </TR>\n" +
+                "    <TR style=\"background-color: #dddddd;\">\n" +
+                "		<TD></TD> <TD style=\"text-align: right;\"><strong>Descuento</strong></TD><TD style=\"text-align: right;\"><strong>"+GV.strToPrice(getDescuento())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "    <TR style=\"background-color: #dddddd;\">\n" +
+                "		<TD></TD> <TD style=\"text-align: right;\"><strong>Total</strong></TD><TD style=\"text-align: right;\"><strong>"+GV.strToPrice(getValorTotal()-getDescuento())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "    <TR style=\"background-color: #dddddd;\">\n" +
+                "		<TD></TD> <TD style=\"text-align: right;\"><strong>Abonos</strong></TD><TD style=\"text-align: right;\"><strong>"+GV.strToPrice(getValorTotal()-getDescuento()-getSaldo())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "    <TR style=\"background-color: #dddddd;\">\n" +
+                "		<TD></TD> <TD style=\"text-align: right;\"><strong>Saldo</strong></TD><TD style=\"text-align: right;\"><strong>"+GV.strToPrice(getSaldo())+"</strong></TD>\n" +
+                "	</TR>\n" +
+                "</TABLE>"
+                + "<style>\n" +
+                "table {\n" +
+                "    font-family: arial, sans-serif;\n" +
+                "    border-collapse: collapse;\n" +
+                "    width: 100%;\n" +
+                "}\n" +
+                "\n" +
+                "</style>";
+    }
 }

@@ -265,6 +265,71 @@ public class GlobalValuesXmlFiles {
         }
     }
     
+    public static void loadSyncCount(){
+        try{
+            File archivo = new File(GV.directoryFilesPath()+"reg.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document documento = db.parse(archivo);
+            
+            /***********UPT************************************************/
+            documento.getDocumentElement().normalize();
+            NodeList filas = documento.getElementsByTagName("upt");
+            for (int temp = 0; temp < filas.getLength(); temp++) {
+                Node nodo = filas.item(temp);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) nodo;
+                    String fInteger = GV.dsC(element.getElementsByTagName("cont").item(0).getTextContent());
+                    Date vReg = GV.fechaPorDefectoDate();
+                    vReg = GV.strToDate(GV.dsC(element.getElementsByTagName("reg").item(0).getTextContent()));
+                    int value =0;
+                    try{value = Integer.parseInt(fInteger);}catch(Exception e){value = -1;}
+                    value=compobarSyncCount(value,vReg);
+                    GlobalValuesVariables.setSyncCount(value);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Class RegistroGlobal: Error al cargar xml local");
+            GV.setSyncCount(-1);
+            return;
+        }
+    }
+    
+    public static void saveSyncCount(){
+         
+         Document document = null;
+         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+         try{
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation implementation = builder.getDOMImplementation();
+            document = implementation.createDocument(null, "reg", null);
+            /**************************UPT******************************/
+            Element upt = document.createElement("upt"); 
+            Element cont= document.createElement("cont");
+            Element reg= document.createElement("reg");
+            Text vCont = document.createTextNode(GV.enC(""+GlobalValuesVariables.getSyncCount())); 
+            Text vReg = document.createTextNode(GV.enC(GV.dateToString(new Date(), "dd-mm-yyyy"))); 
+            
+            /**************************NETWORK******************************/
+             /**************************REGISTRY******************************/
+            /**************UPT*******************************************/
+            //Asignamos la versión de nuestro XML
+            document.setXmlVersion("1.0"); 
+            //Añadimos al usr al documento
+            document.getDocumentElement().appendChild(upt); 
+            upt.appendChild(cont);
+            upt.appendChild(reg);
+            //Añadimos valor
+            cont.appendChild(vCont); 
+            reg.appendChild(vReg);
+            
+            guardaConFormato(document,GV.directoryFilesPath()+"reg.xml");
+            
+         }catch(Exception e){
+             System.err.println("Class RegistroGlobal: Error");
+         }
+    }
+    
     public static void cargarDatosLicencia(){
         try{
             File archivo = new File(GV.directoryFilesPath()+"local.xml");
@@ -390,5 +455,18 @@ public class GlobalValuesXmlFiles {
         "companyrut: "+GV.getCompanyRut()+"\n"+
         "companyGiro: "+GV.getCompanyGiro()+"\n"+
         "messagefile: "+GV.getMessageFile();
+    }
+
+    /**
+     * Se encarga de reiniciar el contador validando la fecha actual
+     * @param value
+     * @param vReg
+     * @return 
+     */
+    private static int compobarSyncCount(int value, Date vReg) {
+        if(value<0)return -1;
+        if(GV.dateToString(vReg, "dd-mm-yyyy").equals(GV.fechaPorDefectoString()))return -1;
+        if(GV.fechaPasada(vReg))return 0;
+        return value;
     }
 }

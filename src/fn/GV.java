@@ -213,6 +213,26 @@ public class GV extends GlobalValuesCursor{
     }
      /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
+    public static int getSyncCount(){
+        return GlobalValuesFunctions.currentSyncCount();
+    }
+    
+    public static void sendMailFicha(Ficha ficha) {
+        GlobalValuesFunctions.sendMailFicha(ficha);
+    }
+    
+    public static boolean syncEnabled(){
+        return GlobalValuesFunctions.syncEnabled();
+    }
+    
+    public static Date fechaPorDefectoDate(){
+        return GlobalValuesFunctions.getFechaDefault();
+    }
+    
+    public static void setSyncCount(int value){
+        GlobalValuesFunctions.currentSyncCount(value);
+    }
+    
     public static String enC(String arg){
         return GlobalValuesFunctions.enCrypt(arg);
     }
@@ -449,6 +469,10 @@ public class GV extends GlobalValuesCursor{
     /*****************************BEGIN VARIABLES DEL SISTEMA***************************************/
     public static SalesReportFicha getSalesReportFicha(){
         return GlobalValuesVariables.getSalesReportFicha();
+    }
+    
+    public static String fechaPorDefectoString(){
+        return GlobalValuesVariables.getFechaDefault();
     }
     
     public static void rutClientSelected(String rut) {

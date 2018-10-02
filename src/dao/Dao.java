@@ -466,6 +466,7 @@ public class Dao{
                 add(hp);
             }
             SubProcess.activateConnectionOnline();
+            GV.sendMailFicha(ficha);
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }

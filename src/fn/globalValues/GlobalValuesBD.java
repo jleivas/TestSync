@@ -28,7 +28,6 @@ import entities.ficha.Despacho;
 import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
-import fn.Boton;
 import fn.GV;
 import fn.OptionPane;
 import static fn.globalValues.GlobalValuesFunctions.getWhereFromAllFichas;
@@ -43,7 +42,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
 import newpackage.NoGit;
-import view.init.SplashProgress;
 
 /**
  *
@@ -499,14 +497,20 @@ public class GlobalValuesBD {
     }
     
     public static void sincronizarTodo(){
-        //si la ultima fecha de actualizacion corresponde al dia actual
-        //restamos un dia a LastUpdate para validar actualización
-        GV.resetAllPorcentaje();
-        if(GV.isCurrentDate(GV.getLastUpdate())){
-            GV.setLastUpdate(GV.dateSumaResta(GV.getLastUpdate(), -1, "DAYS"));
-        }
-        sincronizar(allEntities());
-        GV.setLastUpdate(new Date());
+        if(GV.syncEnabled()){
+            //si la ultima fecha de actualizacion corresponde al dia actual
+            //restamos un dia a LastUpdate para validar actualización
+            GV.resetAllPorcentaje();
+            if(GV.isCurrentDate(GV.getLastUpdate())){
+                GV.setLastUpdate(GV.dateSumaResta(GV.getLastUpdate(), -1, "DAYS"));
+            }
+            sincronizar(allEntities());
+            GV.setLastUpdate(new Date());
+            GV.setSyncCount(GV.getSyncCount()+1);
+        }else{
+            OptionPane.showMsg("No se puede procesar la solicitud", 
+                    "Se ha agotado el limite de sincronizaciones por día", 2);
+        } 
     }
     
     public static List<Object> allEntities(){

@@ -220,11 +220,16 @@ public class GlobalValuesFunctions {
 
         } catch (ParseException ex) {
 
-        ex.printStackTrace();
+            ex.printStackTrace();
+            fecha = GV.fechaPorDefectoDate();
 
         }
         
         return fecha;
+    }
+    
+    public static Date getFechaDefault(){
+        return GV.strToDate(GlobalValuesVariables.getFechaDefault());
     }
 
     public static boolean isCurrentDate(Date date) {
@@ -599,6 +604,11 @@ public class GlobalValuesFunctions {
     public static void convenioGenerateReport(Convenio cnv) {
         OptionPane.showOptionPanel(new OpanelConvenyReceptor(cnv), OptionPane.titleConvenyDataReceptor());
     }
+
+    public static void sendMailFicha(Ficha ficha) {
+        Send send = new Send();
+        send.sendFichaMail(ficha);
+    }
     
     public void convenioGenerarReporte(Convenio cnv){
         if(cnv.getEstado() == 2){
@@ -766,5 +776,37 @@ public class GlobalValuesFunctions {
         } catch (Exception ex) {
         }
         return base64EncryptedString;
+    }
+    
+    public static int currentSyncCount(){
+        GlobalValuesXmlFiles.loadSyncCount();
+        return GlobalValuesVariables.getSyncCount();
+    }
+    
+    public static boolean syncEnabled(){
+        int tp = GV.licenciaTipoPlan();
+        int count = GV.getSyncCount();
+        if(tp==GlobalValuesVariables.licenciaTipoFullData())return true;
+        if(count<0){
+            OptionPane.showMsg("Registos adulterados", "No es posible continuar porque los archivos del sistema\n"
+                    + " se encuentran corrompidos, esto puede causar daños irreversibles en el sistema", 3);
+            GV.setSyncCount(GlobalValuesVariables.TP_6X_MS*1000);
+            return false;
+        }
+        if(tp==GlobalValuesVariables.licenciaTipo2X()){
+            return (count < GlobalValuesVariables.TP_2X_MS);
+        }
+        if(tp==GlobalValuesVariables.licenciaTipo4X()){
+            return (count < GlobalValuesVariables.TP_4X_MS);
+        }
+        if(tp==GlobalValuesVariables.licenciaTipo6X()){
+            return (count < GlobalValuesVariables.TP_6X_MS);
+        }
+        return false;
+    }
+    
+    public static void currentSyncCount(int value){
+        GlobalValuesVariables.setSyncCount(value);
+        GlobalValuesXmlFiles.saveSyncCount();
     }
 }
