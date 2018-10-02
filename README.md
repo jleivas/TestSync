@@ -75,7 +75,7 @@ técnico para la puesta en marcha del sistema.
  -Generación ilimitada de reportes
  -Sincronización manual con base de datos ilimitada
 
- #### Encriptar datos de lectura xml (CON-018)
+ #### [Encriptar datos de lectura xml (CON-018)](https://github.com/softdirex/TestSync/commit/d42f7d3373629ddbae85d4f1548770574c05ab49)
  
  -encriptar escritura xml
  -desencriptar lectura xml
