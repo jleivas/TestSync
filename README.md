@@ -101,7 +101,7 @@ técnico para la puesta en marcha del sistema.
 
  - Cerrar proceso si demora más del tiempo estimado en un mismo porcentage
 
- #### Respaldo automático (CON-009)
+ #### [Respaldo automático y licencia (CON-009)](https://github.com/softdirex/TestSync/commit/490432f6a77581c615fcc37072fda3f64e814ab7)
 
  - generar respaldo de datos automáticamente al momento de cerrar y validar coneccion a internet
  - comprobar licencia cada 30 minutos
