@@ -642,7 +642,7 @@ public class GlobalValuesBD {
     
     public static void backUpLocalBd(){
         try {
-            if(LcBd.obtener() != null){
+            if(GV.isOnline() && LcBd.obtener() != null){
                 LcBd.cerrar();
                 createExcel(new Armazon());
                 createExcel(new Cliente());

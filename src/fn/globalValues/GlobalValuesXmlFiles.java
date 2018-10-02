@@ -6,11 +6,16 @@
 package fn.globalValues;
 
 import fn.GV;
+import fn.OptionPane;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,6 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 
 /**
  *
@@ -256,5 +262,113 @@ public class GlobalValuesXmlFiles {
             System.out.println("Class RegistroGlobal: Error al cargar xml local");
             return;
         }
+    }
+    
+    public static void cargarDatosLicencia(){
+        try{
+            File archivo = new File(GV.directoryFilesPath()+"local.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document documento = db.parse(archivo);
+            
+            /***********LICENCE************************************************/
+            int st = 0;
+            documento.getDocumentElement().normalize();
+            NodeList filas = documento.getElementsByTagName("lic");
+            for (int temp = 0; temp < filas.getLength(); temp++) {
+                Node nodo = filas.item(temp);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) nodo;
+                    st = Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent());
+                    GV.licenciaTipoPlan(st);
+                    GV.setLicenceCode(element.getElementsByTagName("code").item(0).getTextContent());
+                    GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Class RegistroGlobal: Error al cargar xml local");
+            return;
+        }
+    }
+    
+    public static boolean readXMLOnline() {
+        cargarDatosLicencia();
+        if(GV.licenciaTipoPlan()!=GlobalValuesVariables.licenciaTipoFree()){
+            try{
+                int cont=0;
+                URL url = new URL(GV.uri());
+                //URLConnection conn = url.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                String entrada;
+                String cadena="";
+
+                while ((entrada = br.readLine()) != null){
+                        cadena = cadena + entrada;
+                }
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                //Document documento = db.parse(conn.getInputStream());
+                InputSource archivo = new InputSource();
+                archivo.setCharacterStream(new StringReader(cadena)); 
+
+                Document documento = db.parse(archivo);
+                documento.getDocumentElement().normalize();
+                documento.getDocumentElement().normalize();
+
+                NodeList nodeLista = documento.getElementsByTagName("lic");
+
+                for (int s = 0; s < nodeLista.getLength(); s++) {
+
+                    Node primerNodo = nodeLista.item(s);
+                    String id;
+                    int st;
+
+                    if (primerNodo.getNodeType() == Node.ELEMENT_NODE) {
+
+                        Element primerElemento = (Element) primerNodo;
+
+                        NodeList primerNombreElementoLista =
+                                        primerElemento.getElementsByTagName("id");
+                        Element primerNombreElemento =
+                                        (Element) primerNombreElementoLista.item(0);
+                        NodeList primerNombre = primerNombreElemento.getChildNodes();
+                        id = ((Node) primerNombre.item(0)).getNodeValue().toString();
+                        if(id.equals(GV.licenceCode())){
+                            cont++;
+                            NodeList segundoNombreElementoLista =
+                                        primerElemento.getElementsByTagName("st");
+                            Element segundoNombreElemento =
+                                        (Element) segundoNombreElementoLista.item(0);
+                            NodeList segundoNombre = segundoNombreElemento.getChildNodes();
+
+                            st = Integer.parseInt(((Node) segundoNombre.item(0)).getNodeValue().toString());
+
+                            NodeList tercerNombreElementoLista =
+                                        primerElemento.getElementsByTagName("date");
+                            Element tercerNombreElemento =
+                                            (Element) tercerNombreElementoLista.item(0);
+                            NodeList tercerNombre = tercerNombreElemento.getChildNodes();
+                            GV.licenciaTipoPlan(st);
+                            GV.expDate(((Node) tercerNombre.item(0)).getNodeValue().toString());
+                            crearRegistroLocal();
+                        }
+                    }
+                }
+                if(cont == 0){
+                    OptionPane.showMsg("Error de licencia", "Esta es una copia fraudulenta del software original.",2);
+                    GV.licenciaTipoPlan(0);
+                    GV.setLicenceCode("free");
+                    crearRegistroLocal();
+                }
+                return true;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 }

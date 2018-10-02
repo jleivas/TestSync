@@ -6,20 +6,7 @@
 package fn;
 
 import dao.Dao;
-import entities.Cliente;
-import entities.Convenio;
-import entities.Cristal;
-import entities.Descuento;
-import entities.Doctor;
-import entities.Equipo;
-import entities.Institucion;
-import entities.InternMail;
-import entities.Inventario;
-import entities.Lente;
-import entities.Oficina;
-import entities.RegistroBaja;
-import entities.TipoPago;
-import entities.User;
+import fn.mail.Send;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,6 +43,8 @@ public class SubProcess {
     private static String TIP = "tipo de pagos";
     private static String USR = "usuarios";
     
+    private static int TIME_MIN_COMPROBAR_ONLINE = 30;
+    
     Dao load = new Dao();
     
     /**
@@ -78,20 +67,22 @@ public class SubProcess {
         });
     }
     
-    public static void porcentajeTotal(){
+    public static void licenciaComprobarOnline(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
-                while(ejecucion){
-                    System.out.println(GV.porcentaje()+"%");
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            try {
+                while(true){
+                    Thread.sleep(TIME_MIN_COMPROBAR_ONLINE*60000);
+                    GV.loadXmlOnline();
+                    System.out.println("compobado: "+GV.dateToString(new Date(), "hh:ss"));
                 }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);
+                OptionPane.showMsg("Error al comprobar datos en línea", className+"\n"
+                        + ex.getMessage(), 3);
+            }
         });
     }
-    
     
     public static void lblSyncStatus(JLabel txtTitle) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -153,17 +144,6 @@ public class SubProcess {
 //        GV.resetAllPorcentaje();
 //    }
     
-    public static void sincronizeObject(Object object){
-        sincronizeObject(object, 1, "datos");
-    }
-    
-    private static void sincronizeObject(Object object, int procesos, String item){
-        if(GV.sincronizacionIsStopped()){
-            GV.setReporte("Sincronizando "+item+"...");
-            Dao.sincronize(object);
-        }
-    }
-    
     public static void suspendConnectionOnline(){
         GV.isOnline(false);
         pause = true;
@@ -177,8 +157,8 @@ public class SubProcess {
     public static void report(String title, String message){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
-//            Send mail = new Send();
-//            mail.sendReportMail(title, message);
+            Send mail = new Send();
+            mail.sendReportMail(title, message);
         });
     }
     

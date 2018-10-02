@@ -33,7 +33,7 @@ public class GlobalValuesZipFiles {
             error = true;
             e.printStackTrace();
         }
-        if(!error){
+        if(!error && GV.isOnline()){
             Send backUp = new Send();
             backUp.sendFileMail(GV.directoryFilesPath()+"rsp.zip");
         }

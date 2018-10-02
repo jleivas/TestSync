@@ -11,6 +11,7 @@ import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
 import fn.SubProcess;
+import fn.globalValues.GlobalValuesBD;
 import fn.globalValues.GlobalValuesVariables;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -677,6 +678,7 @@ public class ContentAdmin extends javax.swing.JFrame {
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         SubProcess.stopAll();
+        
         try {
             cerrar();
         } catch (Exception ex) {
@@ -820,6 +822,8 @@ public class ContentAdmin extends javax.swing.JFrame {
 
     private void cerrar() throws SQLException, ClassNotFoundException, InterruptedException{//cerrar con opciones en nueva implementacion
         if(OptionPane.getConfirmation("Cerrar", "¿Desea cerrar la aplicación?", JOptionPane.INFORMATION_MESSAGE)){
+            this.setVisible(false);
+            GlobalValuesBD.backUpLocalBd();
             System.exit(0);
         }
     }
