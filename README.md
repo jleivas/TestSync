@@ -91,6 +91,10 @@ técnico para la puesta en marcha del sistema.
  #### Marcar Fichas como entregadas (CON-021)
  
  -Que el sistema permita cambiar el estado a entregadas con despacho sin registro
+
+ #### Validar copias fraudulentas (CON-022)
+ 
+ -Que el sistema permita reconocer si los arcivos xml fueron copiados de un pc a otro
  
  ## 01.10.2018-04.10.2018
  ### Sincronización
