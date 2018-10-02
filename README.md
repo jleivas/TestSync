@@ -97,7 +97,7 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Mejorar el proceso de sincronización de las bases de datos, reducir el tiempo de espera y reparar errores
  
- #### [Abortar proceso de sincronización (CON-008)](https://github.com/softdirex/TestSync/commit/a9e9a57539a68daac30e151ad1941f82d3784621)
+ #### [Abortar proceso de sincronización (CON-008)](https://github.com/softdirex/TestSync/search?q=con-008&type=Commits)
 
  - Cerrar proceso si demora más del tiempo estimado en un mismo porcentage
 
