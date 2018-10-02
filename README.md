@@ -68,7 +68,7 @@ técnico para la puesta en marcha del sistema.
  -Generación ilimitada de reportes
  -Sincronización manual con base de datos hasta seis veces al día
 
- #### Genenerar licencia Full Data (CON-017)
+ #### [Genenerar licencia Full Data (CON-017)](https://github.com/softdirex/TestSync/commit/459dfbe43baa4e4388ca5eff2e73c009470f6cad)
  
  -Acceso a base de datos remota
  -Impresión de fichas con envío de correos a los clientes
