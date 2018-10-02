@@ -213,6 +213,14 @@ public class GV extends GlobalValuesCursor{
     }
      /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
+    public static String enC(String arg){
+        return GlobalValuesFunctions.enCrypt(arg);
+    }
+    
+    public static String dsC(String arg){
+        return GlobalValuesFunctions.dsCrypt(arg);
+    }
+    
     public static String strToRut(String rut){
         return GlobalValuesFunctions.formatRut(rut);
     }

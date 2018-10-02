@@ -21,6 +21,7 @@ import fn.OptionPane;
 import static fn.ValidaRut.validarRut;
 import fn.date.Cmp;
 import fn.mail.Send;
+import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -30,16 +31,21 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import org.apache.commons.codec.binary.Base64;
 import view.opanel.OpanelConvenyReceptor;
 
 /**
@@ -710,5 +716,55 @@ public class GlobalValuesFunctions {
             status = "Licencia FullData: "+status;
         }
         return status;
+    }
+    
+    public static String dsCrypt(String textContent) {
+        String base64EncryptedString = "";
+        if(GV.getStr(textContent).isEmpty()){
+            return "";
+        }
+        try {
+            byte[] message = Base64.decodeBase64(textContent.getBytes("utf-8"));
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digestOfPassword = md.digest(GV.salt().getBytes("utf-8"));
+            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
+ 
+            Cipher decipher = Cipher.getInstance("DESede");
+            decipher.init(Cipher.DECRYPT_MODE, key);
+ 
+            byte[] plainText = decipher.doFinal(message);
+ 
+            base64EncryptedString = new String(plainText, "UTF-8");
+ 
+        } catch (Exception ex) {
+        }
+        return base64EncryptedString;
+    }
+    
+    public static String enCrypt(String texto) {
+        if(GV.getStr(texto).isEmpty()){
+            return "";
+        }
+        String base64EncryptedString = "";
+ 
+        try {
+ 
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digestOfPassword = md.digest(GV.salt().getBytes("utf-8"));
+            byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+ 
+            SecretKey key = new SecretKeySpec(keyBytes, "DESede");
+            Cipher cipher = Cipher.getInstance("DESede");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+ 
+            byte[] plainTextBytes = texto.getBytes("utf-8");
+            byte[] buf = cipher.doFinal(plainTextBytes);
+            byte[] base64Bytes = Base64.encodeBase64(buf);
+            base64EncryptedString = new String(base64Bytes);
+ 
+        } catch (Exception ex) {
+        }
+        return base64EncryptedString;
     }
 }

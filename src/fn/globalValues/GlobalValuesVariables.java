@@ -40,7 +40,7 @@ public class GlobalValuesVariables {
     private static String MESSAGE_FILE;//texto informativo que se imprimirá en la ficha
     
     /* Seguridad */
-    private static String SALT = "optidataodm4softdirex";
+    private static String SALT = "SAL";
     private static String PASS;
     
     /* LICENCIA */

@@ -59,9 +59,9 @@ public class GlobalValuesXmlFiles {
             Element code= document.createElement("code");
             Element date= document.createElement("date");
             //Ingresamos la info. 
-            Text vSt = document.createTextNode(""+GV.licenciaTipoPlan());
-            Text vCode = document.createTextNode(GV.licenceCode());
-            Text vDate = document.createTextNode(GV.expDate()); 
+            Text vSt = document.createTextNode(GV.enC(""+GV.licenciaTipoPlan()));
+            Text vCode = document.createTextNode(GV.enC(GV.licenceCode()));
+            Text vDate = document.createTextNode(GV.enC(GV.expDate())); 
             /**************************NETWORK******************************/
             Element network = document.createElement("network"); 
             //creamos un nuevo elemento. lic contiene st y date
@@ -69,9 +69,9 @@ public class GlobalValuesXmlFiles {
             Element uri= document.createElement("uri");
             Element port= document.createElement("port");
             //Ingresamos la info. 
-            Text vEquipo = document.createTextNode(GV.equipo());
-            Text vUri = document.createTextNode(GV.uri());
-            Text vPort = document.createTextNode(GV.port());
+            Text vEquipo = document.createTextNode(GV.enC(GV.equipo()));
+            Text vUri = document.createTextNode(GV.enC(GV.uri()));
+            Text vPort = document.createTextNode(GV.enC(GV.port()));
             
              /**************************REGISTRY******************************/
             Element registry = document.createElement("registry"); 
@@ -85,14 +85,14 @@ public class GlobalValuesXmlFiles {
             Element companyGiro = document.createElement("company_giro");
             Element msgFile = document.createElement("message_file");
             //Ingresamos la info. 
-            Text vOffice = document.createTextNode(GV.getNombreOficina());
-            Text vCompany = document.createTextNode(GV.companyName());
-            Text vInventary = document.createTextNode(GV.inventarioName());
-            Text vLastUpdate = document.createTextNode(GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy"));
-            Text vCompanyDesc = document.createTextNode(GV.getCompanyDescription());
-            Text vCompanyRut = document.createTextNode(GV.getCompanyRut());
-            Text vCompanyGiro = document.createTextNode(GV.getCompanyGiro());
-            Text vMsgMessage = document.createTextNode(GV.getMessageFile());
+            Text vOffice = document.createTextNode(GV.enC(GV.getNombreOficina()));
+            Text vCompany = document.createTextNode(GV.enC(GV.companyName()));
+            Text vInventary = document.createTextNode(GV.enC(GV.inventarioName()));
+            Text vLastUpdate = document.createTextNode(GV.enC(GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy")));
+            Text vCompanyDesc = document.createTextNode(GV.enC(GV.getCompanyDescription()));
+            Text vCompanyRut = document.createTextNode(GV.enC(GV.getCompanyRut()));
+            Text vCompanyGiro = document.createTextNode(GV.enC(GV.getCompanyGiro()));
+            Text vMsgMessage = document.createTextNode(GV.enC(GV.getMessageFile()));
             
             /**************USER*******************************************/
             //Asignamos la versión de nuestro XML
@@ -220,10 +220,11 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    st = Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent());
+                    String fInteger = GV.dsC(element.getElementsByTagName("st").item(0).getTextContent());
+                    st = Integer.parseInt((GV.getStr(fInteger).isEmpty())?"0":fInteger);
                     GV.licenciaTipoPlan(st);
-                    GV.setLicenceCode(element.getElementsByTagName("code").item(0).getTextContent());
-                    GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
+                    GV.setLicenceCode(GV.dsC(element.getElementsByTagName("code").item(0).getTextContent()));
+                    GV.expDate(GV.dsC(element.getElementsByTagName("date").item(0).getTextContent()));
                 }
             }
             
@@ -234,9 +235,9 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    GV.setCurrentEquipo(element.getElementsByTagName("equipo").item(0).getTextContent());
-                    GV.setUri(element.getElementsByTagName("uri").item(0).getTextContent());
-                    GV.setPort(element.getElementsByTagName("port").item(0).getTextContent());
+                    GV.setCurrentEquipo(GV.dsC(element.getElementsByTagName("equipo").item(0).getTextContent()));
+                    GV.setUri(GV.dsC(element.getElementsByTagName("uri").item(0).getTextContent()));
+                    GV.setPort(GV.dsC(element.getElementsByTagName("port").item(0).getTextContent()));
                 }
             }
             
@@ -248,14 +249,14 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    GV.setOficinaFromXml(element.getElementsByTagName("office").item(0).getTextContent());
-                    GV.setCompanyNameFromXml(element.getElementsByTagName("company").item(0).getTextContent());
-                    GV.setInventarioLocalFromXml(element.getElementsByTagName("inventary").item(0).getTextContent());
-                    GV.setLastUpdateFromXml(GV.strToDate(element.getElementsByTagName("last_update_bd").item(0).getTextContent()));
-                    GV.setCompanyDescriptionFromXml(element.getElementsByTagName("company_description").item(0).getTextContent());
-                    GV.setCompanyRutFromXml(element.getElementsByTagName("company_rut").item(0).getTextContent());
-                    GV.setCompanyGiroFromXml(element.getElementsByTagName("company_giro").item(0).getTextContent());
-                    GV.setMessageFileFromXml(element.getElementsByTagName("message_file").item(0).getTextContent());
+                    GV.setOficinaFromXml(GV.dsC(element.getElementsByTagName("office").item(0).getTextContent()));
+                    GV.setCompanyNameFromXml(GV.dsC(element.getElementsByTagName("company").item(0).getTextContent()));
+                    GV.setInventarioLocalFromXml(GV.dsC(element.getElementsByTagName("inventary").item(0).getTextContent()));
+                    GV.setLastUpdateFromXml(GV.strToDate(GV.dsC(element.getElementsByTagName("last_update_bd").item(0).getTextContent())));
+                    GV.setCompanyDescriptionFromXml(GV.dsC(element.getElementsByTagName("company_description").item(0).getTextContent()));
+                    GV.setCompanyRutFromXml(GV.dsC(element.getElementsByTagName("company_rut").item(0).getTextContent()));
+                    GV.setCompanyGiroFromXml(GV.dsC(element.getElementsByTagName("company_giro").item(0).getTextContent()));
+                    GV.setMessageFileFromXml(GV.dsC(element.getElementsByTagName("message_file").item(0).getTextContent()));
                 }
             }
         } catch (Exception e) {
@@ -279,10 +280,10 @@ public class GlobalValuesXmlFiles {
                 Node nodo = filas.item(temp);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nodo;
-                    st = Integer.parseInt(element.getElementsByTagName("st").item(0).getTextContent());
+                    st = Integer.parseInt(GV.dsC(element.getElementsByTagName("st").item(0).getTextContent()));
                     GV.licenciaTipoPlan(st);
-                    GV.setLicenceCode(element.getElementsByTagName("code").item(0).getTextContent());
-                    GV.expDate(element.getElementsByTagName("date").item(0).getTextContent());
+                    GV.setLicenceCode(GV.dsC(element.getElementsByTagName("code").item(0).getTextContent()));
+                    GV.expDate(GV.dsC(element.getElementsByTagName("date").item(0).getTextContent()));
                 }
             }
             
@@ -370,5 +371,24 @@ public class GlobalValuesXmlFiles {
             }
         }
         return false;
+    }
+    
+    public static String imprimirDatosLeidos(){
+        return "\n"+
+        "Username: "+GV.username()+"\n"+
+        "tp: "+GV.licenciaTipoPlan()+"\n"+
+        "code: "+GV.licenceCode()+"\n"+
+        "expdate: "+GV.expDate()+"\n"+
+        "equipo: "+GV.equipo()+"\n"+
+        "uri: "+GV.uri()+"\n"+
+        "port: "+GV.port()+"\n"+
+        "officename: "+GV.getNombreOficina()+"\n"+
+        "companyname: "+GV.companyName()+"\n"+
+        "inventary: "+GV.inventarioName()+"\n"+
+        "lastupdate: "+GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy")+"\n"+
+        "companydescription: "+GV.getCompanyDescription()+"\n"+
+        "companyrut: "+GV.getCompanyRut()+"\n"+
+        "companyGiro: "+GV.getCompanyGiro()+"\n"+
+        "messagefile: "+GV.getMessageFile();
     }
 }
