@@ -5,9 +5,7 @@
  */
 package view.opanel;
 
-import entities.User;
 import fn.Boton;
-import fn.Crypt;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
@@ -15,7 +13,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import view.ContentAdmin;
 
 /**
  *

@@ -11,6 +11,7 @@ import entities.Convenio;
 import entities.CuotasConvenio;
 import entities.Descuento;
 import entities.TipoPago;
+import entities.User;
 import entities.abstractclasses.SyncIntId;
 import entities.abstractclasses.SyncStringId;
 import entities.context.SalesReportFicha;
@@ -608,6 +609,27 @@ public class GlobalValuesFunctions {
     public static void sendMailFicha(Ficha ficha) {
         Send send = new Send();
         send.sendFichaMail(ficha);
+    }
+
+    public static User validar(String username, String pass) {
+        User user = null;
+        try {
+            user = (User)load.get(username, 0, new User());
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al cargar usuario", "Ocurrió un error inesperado al validar usuario:\n"
+                    + ex.getMessage(), 3);
+        }
+        if(user!=null){
+            if(GV.dsC(user.getPass()).equals(pass)){
+                return user;
+            }else{
+                OptionPane.showMsg("Acceso denegado", "Clave de acceso inválida", 2);
+            }
+        }else{
+            OptionPane.showMsg("Acceso denegado", "El usuario no existe", 2);
+        }
+        return null;
     }
     
     public void convenioGenerarReporte(Convenio cnv){

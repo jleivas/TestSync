@@ -6,7 +6,6 @@
 package view.opanel;
 
 import entities.User;
-import fn.Crypt;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
@@ -266,7 +265,7 @@ public class OpanelUserData extends javax.swing.JPanel {
             GV.cursorWAIT(this);
             if(temp.length() > 4){
                 if(temp.equals(txtPass2.getText().trim()))
-                    pass = Crypt.en(txtPass1.getText().trim());
+                    pass = GV.enC(txtPass1.getText().trim());
                 else{
                     OptionPane.showMsg("Clave incorrecta", "Ambas claves ingresadas deben ser iguales\n"
                             + "\nLa clave debe ser:\n"

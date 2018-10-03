@@ -45,7 +45,6 @@ public class ContentAdmin extends javax.swing.JFrame {
      */
     public ContentAdmin() throws SQLException, ClassNotFoundException{
         initComponents();
-        GV.initValues();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 //        this.lblUserName.setText(GV.USER.getNombre());
         this.lblName.setText(GV.projectName()+" "+GV.version());
@@ -58,15 +57,6 @@ public class ContentAdmin extends javax.swing.JFrame {
         String licencia = "";
         licencia = GV.licenciaEstadoStr();
         
-        //****************************
-        //cargar user por defecto, eliminar
-        dao.Dao load = new dao.Dao();
-        try {
-            GV.setUser((User)load.get("root", 0, new User()));
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //******************************
         lblLicence.setText(licencia);
         lblSync();
         String userName = (GV.user()!=null) ? GV.user().getNombre():"";
@@ -74,7 +64,7 @@ public class ContentAdmin extends javax.swing.JFrame {
         if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipoFree()){
             btnSyncronize.setVisible(false);
         }
-        this.setTitle("Optidata "+GV.version()+"     "+licencia);
+        this.setTitle(GV.projectName()+" "+GV.version()+"     "+licencia);
         try {
             boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -600,14 +590,6 @@ public class ContentAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnListarFichasMouseClicked
 
-    private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked
-//        try {
-//            boton.misFichas();
-//        } catch (SQLException | ClassNotFoundException ex) {
-//            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }//GEN-LAST:event_btnVentasMouseClicked
-
     private void btnClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClientesMouseClicked
         try {
             boton.clientes();
@@ -641,14 +623,6 @@ public class ContentAdmin extends javax.swing.JFrame {
     private void btnListarFichasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnListarFichasMouseExited
         btnListarFichas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnListarFichas.getIcon().toString()))));
     }//GEN-LAST:event_btnListarFichasMouseExited
-
-    private void btnVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseEntered
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnVentas.getIcon().toString()))));
-    }//GEN-LAST:event_btnVentasMouseEntered
-
-    private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnVentas.getIcon().toString()))));
-    }//GEN-LAST:event_btnVentasMouseExited
 
     private void btnClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClientesMouseEntered
         
@@ -746,6 +720,22 @@ public class ContentAdmin extends javax.swing.JFrame {
         GV.cursorDF();
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
+    private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
+        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnVentas.getIcon().toString()))));
+    }//GEN-LAST:event_btnVentasMouseExited
+
+    private void btnVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseEntered
+        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnVentas.getIcon().toString()))));
+    }//GEN-LAST:event_btnVentasMouseEntered
+
+    private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked
+        //        try {
+            //            boton.misFichas();
+            //        } catch (SQLException | ClassNotFoundException ex) {
+            //            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            //        }
+    }//GEN-LAST:event_btnVentasMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -823,7 +813,9 @@ public class ContentAdmin extends javax.swing.JFrame {
     private void cerrar() throws SQLException, ClassNotFoundException, InterruptedException{//cerrar con opciones en nueva implementacion
         if(OptionPane.getConfirmation("Cerrar", "¿Desea cerrar la aplicación?", JOptionPane.INFORMATION_MESSAGE)){
             this.setVisible(false);
-            GlobalValuesBD.backUpLocalBd();
+            if(OptionPane.getConfirmation("Respaldar información", "¿Deseas respaldar los datos?", JOptionPane.INFORMATION_MESSAGE))
+                GlobalValuesBD.backUpLocalBd();
+              
             System.exit(0);
         }
     }

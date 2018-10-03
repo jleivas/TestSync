@@ -217,6 +217,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.currentSyncCount();
     }
     
+    public static User validar(String username, String pass) {
+        return GlobalValuesFunctions.validar(username,pass);
+    }
+    
     public static void sendMailFicha(Ficha ficha) {
         GlobalValuesFunctions.sendMailFicha(ficha);
     }

@@ -8,7 +8,6 @@ package view;
 import dao.Dao;
 import entities.User;
 import fn.Boton;
-import fn.Crypt;
 import fn.GV;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -699,7 +698,7 @@ public class VUsuarios extends javax.swing.JPanel {
         String username=txtNewUsername.getText();
         String email=txtNewEmail.getText();
         int tipo = cboTipo1.getSelectedIndex();
-        String pass=Crypt.en(txtNewPass.getText());
+        String pass=GV.enC(txtNewPass.getText());
         if(nombre.length() < 3 || username.length() < 3){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
                     + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
@@ -746,7 +745,7 @@ public class VUsuarios extends javax.swing.JPanel {
         cWT();
         staticUser.setEmail(txtUpdateEmail.getText());
         staticUser.setNombre((txtUpdateName.getText()));
-        staticUser.setPass(Crypt.en(txtUpdatePass.getText()));
+        staticUser.setPass(GV.enC(txtUpdatePass.getText()));
         int tipo = cboTipo2.getSelectedIndex();
         if(tipo == 1 && !GV.tipoUserSuperAdmin()){
             OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
