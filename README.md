@@ -46,6 +46,12 @@ técnico para la puesta en marcha del sistema.
  -Impresión de fichas con publicidad de la empresa actualizada remotamente
  -Sólo podrá generar un reporte mensual de cada tipo
 
+ #### Generar licencia básica (CON-023)
+ 
+ -No tendrá acceso a bases de datos remota
+ -Impresión de fichas sin publicidad
+ -Generación de reportes ilimitados
+
  #### Genenerar licencia 2x (CON-014)
  
  -Acceso a base de datos remota
@@ -84,7 +90,7 @@ técnico para la puesta en marcha del sistema.
  
  -Leer, editar y escribir datos xml con acceso restringidos
 
- #### restringir acceso de usuarios (CON-020)
+ #### [Restringir acceso de usuarios (CON-020)](https://github.com/softdirex/TestSync/commit/bf137db82fec515f9e14e1ceaa901cb9614560cc)
  
  -Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
 
