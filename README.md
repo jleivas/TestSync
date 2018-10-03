@@ -98,8 +98,9 @@ técnico para la puesta en marcha del sistema.
  
  -Que el sistema permita cambiar el estado a entregadas con despacho sin registro
 
- #### Validar copias fraudulentas (CON-022)
+ #### Validar xml (CON-022)
  
+ -validar xml al inicio del sistema e ingreasar nombre de equipo en primera instancia
  -Que el sistema permita reconocer si los arcivos xml fueron copiados de un pc a otro
  
  ## 01.10.2018-04.10.2018
