@@ -36,72 +36,73 @@ técnico para la puesta en marcha del sistema.
 
  #### Paneles de información (CON-012)
  
- -Botón de ayuda en cada ventana
- -Panel de selección de planes actualizado remotamente
- -Link de pago actualizable desde la red
+ - Botón de ayuda en cada ventana
+ - Panel de selección de planes actualizado remotamente
+ - Link de pago actualizable desde la red
  
  #### Generar licencia gratuita (CON-013)
  
- -No tendrá acceso a bases de datos remota
- -Impresión de fichas con publicidad de la empresa actualizada remotamente
- -Sólo podrá generar un reporte mensual de cada tipo
+ - No tendrá acceso a bases de datos remota
+ - Impresión de fichas con publicidad de la empresa actualizada remotamente
+ - Sólo podrá generar un reporte mensual de cada tipo
 
  #### Generar licencia básica (CON-023)
  
- -No tendrá acceso a bases de datos remota
- -Impresión de fichas sin publicidad
- -Generación de reportes ilimitados
+ - No tendrá acceso a bases de datos remota
+ - Impresión de fichas sin publicidad
+ - Generación de reportes ilimitados
 
  #### Genenerar licencia 2x (CON-014)
  
- -Acceso a base de datos remota
- -Impresión de fichas sin envío de correos a los clientes
- -Generación de reportes limitadas a un día por tipo
- -Sincronización manual con base de datos remota dos veces al día
+ - Acceso a base de datos remota
+ - Impresión de fichas sin envío de correos a los clientes
+ - Generación de reportes limitadas a un día por tipo
+ - Sincronización manual con base de datos remota dos veces al día
 
  #### Genenerar licencia 4x (CON-015)
  
- -Acceso a base de datos remota
- -Impresión de fichas con envío de correos a los clientes
- -Generación ilimitada de reportes
- -Sincronización automática con base de datos remota tres veces al día
- -Sincronización manual con base de datos hasta 4 veces al día
+ - Acceso a base de datos remota
+ - Impresión de fichas con envío de correos a los clientes
+ - Generación ilimitada de reportes
+ - Sincronización automática con base de datos remota tres veces al día
+ - Sincronización manual con base de datos hasta 4 veces al día
 
  #### Genenerar licencia 6x (CON-016)
  
- -Acceso a base de datos remota
- -Impresión de fichas con envío de correos a los clientes
- -Generación ilimitada de reportes
- -Sincronización manual con base de datos hasta seis veces al día
+ - Acceso a base de datos remota
+ - Impresión de fichas con envío de correos a los clientes
+ - Generación ilimitada de reportes
+ - Sincronización manual con base de datos hasta seis veces al día
 
  #### [Genenerar licencia Full Data (CON-017)](https://github.com/softdirex/TestSync/commit/459dfbe43baa4e4388ca5eff2e73c009470f6cad)
  
- -Acceso a base de datos remota
- -Impresión de fichas con envío de correos a los clientes
- -Generación ilimitada de reportes
- -Sincronización manual con base de datos ilimitada
+ - Acceso a base de datos remota
+ - Impresión de fichas con envío de correos a los clientes
+ - Generación ilimitada de reportes
+ - Sincronización manual con base de datos ilimitada
 
  #### [Encriptar datos de lectura xml (CON-018)](https://github.com/softdirex/TestSync/commit/d42f7d3373629ddbae85d4f1548770574c05ab49)
  
- -encriptar escritura xml
- -desencriptar lectura xml
+ - Encriptar escritura xml
+ - Desencriptar lectura xml
 
  #### crear ventana de configuracion de parametros xml (CON-019)
  
- -Leer, editar y escribir datos xml con acceso restringidos
+ - Leer, editar y escribir datos xml con acceso restringidos
 
  #### [Restringir acceso de usuarios (CON-020)](https://github.com/softdirex/TestSync/commit/bf137db82fec515f9e14e1ceaa901cb9614560cc)
  
- -Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
+ - Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
 
  #### Marcar Fichas como entregadas (CON-021)
  
- -Que el sistema permita cambiar el estado a entregadas con despacho sin registro
+ - Que el sistema permita cambiar el estado a entregadas con despacho sin registro
 
- #### Validar xml (CON-022)
+ #### [Validar xml (CON-022)](https://github.com/softdirex/TestSync/commit/abd1b3a8a0a25446cf4763179b55152dfbac11d9)
  
- -validar xml al inicio del sistema e ingreasar nombre de equipo en primera instancia
- -Que el sistema permita reconocer si los arcivos xml fueron copiados de un pc a otro
+ - Validar xml al inicio del sistema e ingreasar nombre de equipo en primera instancia
+
+ - Que el sistema permita reconocer si los arcivos xml fueron copiados de un pc a otro
  
  ## 01.10.2018-04.10.2018
  ### Sincronización
