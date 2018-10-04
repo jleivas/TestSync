@@ -358,6 +358,57 @@ public class GlobalValuesXmlFiles {
         }
     }
     
+    public static String getLicenciaOnline(String licencia,String stUrl) {
+            try{
+                URL url = new URL(stUrl);
+                //URLConnection conn = url.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                String entrada;
+                String cadena="";
+
+                while ((entrada = br.readLine()) != null){
+                        cadena = cadena + entrada;
+                }
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                InputSource archivo = new InputSource();
+                archivo.setCharacterStream(new StringReader(cadena)); 
+
+                Document documento = db.parse(archivo);
+                documento.getDocumentElement().normalize();
+                documento.getDocumentElement().normalize();
+
+                NodeList nodeLista = documento.getElementsByTagName("lic");
+
+                for (int s = 0; s < nodeLista.getLength(); s++) {
+
+                    Node primerNodo = nodeLista.item(s);
+                    String id;
+                    if (primerNodo.getNodeType() == Node.ELEMENT_NODE) {
+
+                        Element primerElemento = (Element) primerNodo;
+
+                        NodeList primerNombreElementoLista =
+                                        primerElemento.getElementsByTagName("id");
+                        Element primerNombreElemento =
+                                        (Element) primerNombreElementoLista.item(0);
+                        NodeList primerNombre = primerNombreElemento.getChildNodes();
+                        id = ((Node) primerNombre.item(0)).getNodeValue().toString();
+                        if(id.equals(licencia)){
+                            return licencia;
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e) {
+                return null;
+            }
+        
+    }
+    
     public static boolean readXMLOnline() {
         cargarDatosLicencia();
         if(GV.licenciaTipoPlan()!=GlobalValuesVariables.licenciaTipoFree()){

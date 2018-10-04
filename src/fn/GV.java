@@ -217,6 +217,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.currentSyncCount();
     }
     
+    public static boolean licenciaComprobarOnline(String arg,String url) {
+        return GlobalValuesFunctions.licenciaComprobateOnline(arg,url);
+    }
+    
     public static User validar(String username, String pass) {
         return GlobalValuesFunctions.validar(username,pass);
     }
@@ -451,6 +455,14 @@ public class GV extends GlobalValuesCursor{
      */
     public static boolean fechaActualOPasada(Date date){
         return GlobalValuesFunctions.fechaActualOPasada(date);
+    }
+    
+    public static void licenciaRegistroPaso2() {
+        OptionPane.showMsg("crear paso 2", "falta registro de datos de empresa para generar correctamente los xml", 2);
+    }
+    
+    public static void licenciaRegistrar(){
+        GlobalValuesFunctions.showRegistroLicencia();
     }
     
     /**

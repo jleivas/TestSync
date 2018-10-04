@@ -48,6 +48,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import org.apache.commons.codec.binary.Base64;
 import view.opanel.OpanelConvenyReceptor;
+import view.opanel.OpanelSetLicencia;
 
 /**
  *
@@ -632,6 +633,23 @@ public class GlobalValuesFunctions {
         return null;
     }
     
+    public static void showRegistroLicencia(){
+        OptionPane.showOptionPanel(new OpanelSetLicencia(), OptionPane.titleRegistrarLicencia());
+    }
+
+    public static boolean licenciaComprobateOnline(String arg, String urlEncrypt) {
+        if(GV.getStr(arg).isEmpty()){licMsg("Debe ingresar una licencia válida.",2);return false;}
+        if(GV.getStr(urlEncrypt).isEmpty()){licMsg("Debe ingresar una código de verificación válido.",2);return false;}
+        if(!GV.isOnline()){licMsg("No tienes conexión, debes conectarte a internet primero.", 2);return false;}
+        String licencia = GlobalValuesXmlFiles.getLicenciaOnline(arg,GV.dsC(urlEncrypt));
+        if(licencia == null){licMsg("Los datos ingresados son erróneos, consulte con su proveedor.", 2);return false;}
+        return true;
+    }
+
+    private static void licMsg(String msg,int status) {
+        OptionPane.showMsg("Error de licencia", msg, status);
+    }
+    
     public void convenioGenerarReporte(Convenio cnv){
         if(cnv.getEstado() == 2){
             
@@ -710,6 +728,7 @@ public class GlobalValuesFunctions {
             }
         }
     }
+    
     
     public static void licenciaComprobate(){
         boolean activa = (GV.licenciaTipoPlan() > 0 && 

@@ -247,7 +247,7 @@ public class GlobalValuesVariables {
     }
     
     public static void setEquipo(String equipo){
-        EQUIPO = getStr(equipo)+"_"+dateToString(new Date(),"yyyymmdd");
+        EQUIPO = getStr(equipo)+"_"+dateToString(new Date(),"yyyymmddss");
     }
 
     public static void setLicenciaTipoPlan(int value) {
