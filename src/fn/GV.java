@@ -217,8 +217,8 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.currentSyncCount();
     }
     
-    public static boolean licenciaComprobarOnline(String arg,String url) {
-        return GlobalValuesFunctions.licenciaComprobateOnline(arg,url);
+    public static boolean licenciaComprobarOnline(String arg) {
+        return GlobalValuesFunctions.licenciaComprobateOnline(arg);
     }
     
     public static User validar(String username, String pass) {
@@ -458,7 +458,7 @@ public class GV extends GlobalValuesCursor{
     }
     
     public static void licenciaRegistroPaso2() {
-        OptionPane.showMsg("crear paso 2", "falta registro de datos de empresa para generar correctamente los xml", 2);
+        GlobalValuesFunctions.showRegistroLicenciaPaso2();
     }
     
     public static void licenciaRegistrar(){

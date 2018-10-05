@@ -636,13 +636,19 @@ public class GlobalValuesFunctions {
     public static void showRegistroLicencia(){
         OptionPane.showOptionPanel(new OpanelSetLicencia(), OptionPane.titleRegistrarLicencia());
     }
+    
+    public static void showRegistroLicenciaPaso2() {
+        OptionPane.showMsg("crear paso 2", "falta registro de datos de empresa para generar correctamente los xml", 2);
+    }
 
-    public static boolean licenciaComprobateOnline(String arg, String urlEncrypt) {
-        if(GV.getStr(arg).isEmpty()){licMsg("Debe ingresar una licencia válida.",2);return false;}
-        if(GV.getStr(urlEncrypt).isEmpty()){licMsg("Debe ingresar una código de verificación válido.",2);return false;}
+    public static boolean licenciaComprobateOnline(String arg) {
+        if(!KeyValid(arg)){licMsg("Debe ingresar una licencia válida.",2);return false;}
         if(!GV.isOnline()){licMsg("No tienes conexión, debes conectarte a internet primero.", 2);return false;}
-        String licencia = GlobalValuesXmlFiles.getLicenciaOnline(arg,GV.dsC(urlEncrypt));
+        String licencia = GlobalValuesXmlFiles.getLicenciaOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg)));
         if(licencia == null){licMsg("Los datos ingresados son erróneos, consulte con su proveedor.", 2);return false;}
+        GV.username("admin");
+        GV.licenciaTipoPlan(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
+        GV.setLicenceCode(licencia);
         return true;
     }
 
@@ -849,5 +855,37 @@ public class GlobalValuesFunctions {
     public static void currentSyncCount(int value){
         GlobalValuesVariables.setSyncCount(value);
         GlobalValuesXmlFiles.saveSyncCount();
+    }
+    
+    private static boolean KeyValid(String key){
+        String unKey = keyResolve(key);
+        String[] parts = unKey.split("=");
+        int cont = 0;
+        for (String part : parts) {
+            cont++;
+            if(GV.getStr(part).isEmpty())
+                return false;
+        }
+        return (cont == 3)?true:false;
+    }
+    
+    private static String keyGenerate(String url,String licencia, String pass){
+        return GV.enC(url+"="+licencia+"="+pass);
+    }
+    
+    private static String keyResolve(String key){
+        return GV.dsC(key);
+    }
+    
+    private static String keyGetUrl(String unKey){
+        return unKey.substring(0,unKey.indexOf("="));
+    }
+    
+    private static String keyGetLicencia(String unKey){
+        return unKey.substring(unKey.indexOf("=")+1,unKey.lastIndexOf("="));
+    }
+    
+    private static String keyGetPass(String unKey){
+        return unKey.substring(unKey.lastIndexOf("=")+1);
     }
 }
