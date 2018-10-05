@@ -98,7 +98,7 @@ técnico para la puesta en marcha del sistema.
  
  - Que el sistema permita cambiar el estado a entregadas con despacho sin registro
 
- #### [Validar xml (CON-022)](https://github.com/softdirex/TestSync/search?q=CON-022&type=Commits)
+ #### [Validar xml (CON-022)](https://github.com/softdirex/TestSync/search?q=con-022&type=Commits)
  
  - Validar xml al inicio del sistema e ingreasar nombre de equipo en primera instancia
  - Que el sistema permita reconocer si los arcivos xml fueron copiados de un pc a otro
