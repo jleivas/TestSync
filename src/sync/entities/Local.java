@@ -1877,6 +1877,9 @@ public class Local implements InterfaceSync {
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM equipo";
                 }
+                if(idParam.contains("_")){
+                    sql = "SELECT * FROM equipo WHERE eq_nombre LIKE'" + idParam.substring(0, idParam.indexOf("_")) + "%'";
+                }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();

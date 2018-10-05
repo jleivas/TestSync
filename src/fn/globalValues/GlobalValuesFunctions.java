@@ -10,6 +10,7 @@ import dao.Dao;
 import entities.Convenio;
 import entities.CuotasConvenio;
 import entities.Descuento;
+import entities.Equipo;
 import entities.TipoPago;
 import entities.User;
 import entities.abstractclasses.SyncIntId;
@@ -653,6 +654,12 @@ public class GlobalValuesFunctions {
         if(!GV.isOnline()){licMsg("No tienes conexión, debes conectarte a internet primero.", 2);return false;}
         String licencia = GlobalValuesXmlFiles.getLicenciaOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg)));
         if(licencia == null){licMsg("Los datos ingresados son erróneos, consulte con su proveedor.", 2);return false;}
+        try {
+            if(load.get(licencia, 0, new Equipo())!=null){licMsg("Los datos ingresados son erróneos, Licencia duplicada.", 3);return false;}
+                
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
         GV.username("admin");
         GV.licenciaTipoPlan(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
         GV.setLicenceCode(licencia);
