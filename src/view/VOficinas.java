@@ -1072,7 +1072,7 @@ public class VOficinas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelMouseExited
 
     private void btnSaveCompanyNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseClicked
-        OptionPane.showOptionPanel(new OpanelCompanyData(), OptionPane.titleCompanyData());
+        OptionPane.showOptionPanel(new OpanelCompanyData(0), OptionPane.titleCompanyData());
     }//GEN-LAST:event_btnSaveCompanyNameMouseClicked
 
     private void btnSaveCompanyNameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveCompanyNameMouseEntered

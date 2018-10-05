@@ -33,6 +33,9 @@ public class OptionPane {
     private static String TOOL_TITLE = "Opciones de herramienta";
     private static String USER_DATA_TITLE = "Modificar mis datos";
     private static String COMPANY_DATA_TITLE = "Modificar datos de la empresa";
+    private static String REGISTRAR_OFICINA = "Modificar datos de la oficina";
+    private static String COMPANY_DATA_TITLE_CREATE = "Ingrese los datos de la empresa";
+    private static String REGISTRAR_OFICINA_CREATE = "Ingrese los datos de la oficina";
     private static String CONV_CHOOSER_TITLE = "Seleccione un convenio";
     private static String FICHA_GARANTIA_TITLE = "Ingresa datos de entrega para generar garantía";
     private static String DELIVER_DATA_TITLE = "Datos de despacho";
@@ -135,6 +138,10 @@ public class OptionPane {
         return COMPANY_DATA_TITLE;
     }
     
+    public static String titleCompanyDataCreate(){
+        return COMPANY_DATA_TITLE_CREATE;
+    }
+    
     public static String titleInventary(){
         return INVENTARY_TITLE;
     }
@@ -189,5 +196,13 @@ public class OptionPane {
 
     public static String titleRegistrarLicencia() {
         return REGISTRAR_LICENCIA;
+    }
+
+    public static String titleOfficeData() {
+        return REGISTRAR_OFICINA;
+    }
+    
+    public static String titleOfficeDataCreate() {
+        return REGISTRAR_OFICINA_CREATE;
     }
 }

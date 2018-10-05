@@ -180,10 +180,10 @@ public class Send {
             width = 25;
             height = 50;
             color1 =  color_turquesa;
-            
-            sendMail("Reporte de error en equipo: "+GV.equipo()+", Optica: "+GV.companyName(),
+            String userName = (GV.user() != null)?GV.user().getUsername():"No iniciado";
+            sendMail("Reporte desde equipo: "+GV.equipo()+", Optica: "+GV.companyName(),
                     GV.mailReport(), title, content,
-                    "Usuario: "+GV.user().getUsername(), GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
+                    "Usuario: "+userName, GV.companyName(), "https://www.softdirex.cl/imgOptics/report/logo.png", 
                     "https://www.softdirex.cl/imgOptics/report/user.png", 
                     "https://www.softdirex.cl/imgOptics/report/company.png");
             width = 100;

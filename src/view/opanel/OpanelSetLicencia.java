@@ -12,6 +12,7 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesBD;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +121,12 @@ public class OpanelSetLicencia extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
-        
+        if(OptionPane.getConfirmation("Cancelar todo", "¿Desea cancelar todo y volver a intentar mas tarde?", 1)){
+            GlobalValuesBD.dropDB();
+            System.exit(0);
+        }else{
+            return;
+        }
     }//GEN-LAST:event_btnCancelMouseClicked
 
     private void btnCancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseEntered
@@ -138,10 +144,8 @@ public class OpanelSetLicencia extends javax.swing.JPanel {
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         if(GV.isOnline()){
             if(GV.licenciaComprobarOnline(txtLicencia.getText())){
-                
-                GV.licenciaRegistroPaso2();
-                
                 OptionPane.closeOptionPanel();
+                GV.licenciaRegistroPaso2();
             }
         }else{
             OptionPane.showMsg("No se puede comprobar", "Conéctese a internet para comprobar la licencia", 2);

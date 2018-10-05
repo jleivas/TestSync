@@ -50,6 +50,7 @@ import javax.swing.JTextField;
 import sync.entities.Global;
 import sync.entities.Local;
 import sync.entities.Remote;
+import view.init.Acceso;
 import view.opanel.MPanel;
 import view.opanel.OPanel;
 import view.opanel.OpanelSelectAdminToSendMail;
@@ -82,18 +83,31 @@ public class GV extends GlobalValuesCursor{
     public static ArrayList<RegistroBaja> TMP_LIST_REGISTROS_BAJAS = new ArrayList<RegistroBaja>();
     public static ArrayList<TipoPago> TMP_LIST_TIPOS_PAGO = new ArrayList<TipoPago>();
     
+    public static void startSystem(){
+        initDB();
+        boolean error = false;
+        try{GlobalValuesXmlFiles.checkXmlFiles();}catch(Exception e){error = true;licenciaRegistrar();}
+        if(!error){
+            initValues();
+        }
+    }
     
     public static void initValues(){
         Log.setLog(className,Log.getReg());
-        try {
-            LcBd.obtener();
-            LcBd.cerrar();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            initDB();
-        }
         SubProcess.isOnline();
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
         SubProcess.licenciaComprobarOnline();
+        Acceso init = new Acceso();
+        init.setVisible(true);
+    }
+    
+    public static void validaDBLocal(){
+        try {
+            LcBd.obtener();
+            LcBd.cerrar();
+        } catch (Exception ex) {
+            initDB();
+        }
     }
     /*********************BEGIN PORCENTAJE SYNC***************************/
     public static void porcentajeCalcular(int limit,String text){
@@ -459,6 +473,14 @@ public class GV extends GlobalValuesCursor{
     
     public static void licenciaRegistroPaso2() {
         GlobalValuesFunctions.showRegistroLicenciaPaso2();
+    }
+    
+    public static void licenciaRegistroPaso3() {
+        GlobalValuesFunctions.showRegistroLicenciaPaso3();
+    }
+    
+    public static void licenciaRegistroPasoFinished(){
+        GlobalValuesFunctions.licenciaRegistroPasoFinished();
     }
     
     public static void licenciaRegistrar(){

@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -31,6 +32,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -192,6 +194,13 @@ public class GlobalValuesXmlFiles {
     } catch(Exception ex) {
         ex.printStackTrace();
     }
+    }
+    
+    public static void checkXmlFiles() throws ParserConfigurationException, SAXException, IOException{
+        File archivo = new File(GV.directoryFilesPath()+"local.xml");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document documento = db.parse(archivo);
     }
     
     public static void cargarRegistroLocal(){
@@ -488,25 +497,6 @@ public class GlobalValuesXmlFiles {
         }
         return false;
     }
-    
-    public static String imprimirDatosLeidos(){
-        return "\n"+
-        "Username: "+GV.username()+"\n"+
-        "tp: "+GV.licenciaTipoPlan()+"\n"+
-        "code: "+GV.licenceCode()+"\n"+
-        "expdate: "+GV.expDate()+"\n"+
-        "equipo: "+GV.equipo()+"\n"+
-        "uri: "+GV.uri()+"\n"+
-        "port: "+GV.port()+"\n"+
-        "officename: "+GV.getNombreOficina()+"\n"+
-        "companyname: "+GV.companyName()+"\n"+
-        "inventary: "+GV.inventarioName()+"\n"+
-        "lastupdate: "+GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy")+"\n"+
-        "companydescription: "+GV.getCompanyDescription()+"\n"+
-        "companyrut: "+GV.getCompanyRut()+"\n"+
-        "companyGiro: "+GV.getCompanyGiro()+"\n"+
-        "messagefile: "+GV.getMessageFile();
-    }
 
     /**
      * Se encarga de reiniciar el contador validando la fecha actual
@@ -576,5 +566,82 @@ public class GlobalValuesXmlFiles {
             catch (Exception e) {
                 return 0;
             }
+    }
+    
+    static String getExpDateOnline(String licencia, String stUrl) {
+        try{
+                URL url = new URL(stUrl);
+                //URLConnection conn = url.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                String entrada;
+                String cadena="";
+
+                while ((entrada = br.readLine()) != null){
+                        cadena = cadena + entrada;
+                }
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                InputSource archivo = new InputSource();
+                archivo.setCharacterStream(new StringReader(cadena)); 
+
+                Document documento = db.parse(archivo);
+                documento.getDocumentElement().normalize();
+                documento.getDocumentElement().normalize();
+
+                NodeList nodeLista = documento.getElementsByTagName("lic");
+
+                for (int s = 0; s < nodeLista.getLength(); s++) {
+
+                    Node primerNodo = nodeLista.item(s);
+                    String id;
+
+                    if (primerNodo.getNodeType() == Node.ELEMENT_NODE) {
+
+                        Element primerElemento = (Element) primerNodo;
+
+                        NodeList primerNombreElementoLista =
+                                        primerElemento.getElementsByTagName("id");
+                        Element primerNombreElemento =
+                                        (Element) primerNombreElementoLista.item(0);
+                        NodeList primerNombre = primerNombreElemento.getChildNodes();
+                        id = ((Node) primerNombre.item(0)).getNodeValue().toString();
+                        if(id.equals(licencia)){
+                            NodeList segundoNombreElementoLista =
+                                        primerElemento.getElementsByTagName("date");
+                            Element segundoNombreElemento =
+                                        (Element) segundoNombreElementoLista.item(0);
+                            NodeList segundoNombre = segundoNombreElemento.getChildNodes();
+
+                            return ((Node) segundoNombre.item(0)).getNodeValue().toString();
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e) {
+                return null;
+            }
+    }
+    
+    public static String imprimirDatosLeidos(){
+        return "\n"+
+        "Username: "+GV.username()+"\n"+
+        "tp: "+GV.licenciaTipoPlan()+"\n"+
+        "code: "+GV.licenceCode()+"\n"+
+        "expdate: "+GV.expDate()+"\n"+
+        "equipo: "+GV.equipo()+"\n"+
+        "uri: "+GV.uri()+"\n"+
+        "port: "+GV.port()+"\n"+
+        "lastupdate: "+GV.dateToString(GV.LAST_UPDATE, "dd-mm-yyyy")+"\n"+
+        
+        "companyname: "+GV.companyName()+"\n"+
+        "companyrut: "+GV.getCompanyRut()+"\n"+
+        "companydescription: "+GV.getCompanyDescription()+"\n"+
+        "companyGiro: "+GV.getCompanyGiro()+"\n"+
+        "officename: "+GV.getNombreOficina()+"\n"+
+        "inventary: "+GV.inventarioName()+"\n"+
+        "messagefile: "+GV.getMessageFile();
     }
 }

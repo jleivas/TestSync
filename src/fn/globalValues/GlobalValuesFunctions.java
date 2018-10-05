@@ -47,7 +47,10 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import org.apache.commons.codec.binary.Base64;
+import view.init.Acceso;
+import view.opanel.OpanelCompanyData;
 import view.opanel.OpanelConvenyReceptor;
+import view.opanel.OpanelOfficeData;
 import view.opanel.OpanelSetLicencia;
 
 /**
@@ -638,7 +641,11 @@ public class GlobalValuesFunctions {
     }
     
     public static void showRegistroLicenciaPaso2() {
-        OptionPane.showMsg("crear paso 2", "falta registro de datos de empresa para generar correctamente los xml", 2);
+        OptionPane.showOptionPanel(new OpanelCompanyData(1), OptionPane.titleCompanyDataCreate());
+    }
+    
+    public static void showRegistroLicenciaPaso3() {
+        OptionPane.showOptionPanel(new OpanelOfficeData(1), OptionPane.titleOfficeDataCreate());
     }
 
     public static boolean licenciaComprobateOnline(String arg) {
@@ -649,11 +656,22 @@ public class GlobalValuesFunctions {
         GV.username("admin");
         GV.licenciaTipoPlan(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
         GV.setLicenceCode(licencia);
+        GV.expDate(GlobalValuesXmlFiles.getExpDateOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
+        GV.setCurrentEquipo(licencia+"_"+GV.dateToString(new Date(), "yyyymmddhhmmss"));
+        GV.setUri(keyGetUrl(keyResolve(arg)));
+        GV.setPort(keyGetPass(keyResolve(arg)));
+        GV.setLastUpdateFromXml(GV.strToDate(GlobalValuesVariables.getFechaDefault()));
+        
         return true;
     }
 
     private static void licMsg(String msg,int status) {
         OptionPane.showMsg("Error de licencia", msg, status);
+    }
+
+    public static void licenciaRegistroPasoFinished() {
+        GlobalValuesXmlFiles.crearRegistroLocal();
+        GV.initValues();
     }
     
     public void convenioGenerarReporte(Convenio cnv){
@@ -869,7 +887,7 @@ public class GlobalValuesFunctions {
         return (cont == 3)?true:false;
     }
     
-    private static String keyGenerate(String url,String licencia, String pass){
+    public static String keyGenerate(String url,String licencia, String pass){
         return GV.enC(url+"="+licencia+"="+pass);
     }
     

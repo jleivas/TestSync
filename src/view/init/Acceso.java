@@ -31,7 +31,6 @@ public class Acceso extends javax.swing.JFrame {
     
     public Acceso() {
         initComponents();
-        GV.initValues();
         if(GV.fechaPasada(GV.strToDate(GV.expDate()))){
             OptionPane.showMsg("La licencia ha caducado", "Es necesaria la renovación de la Licencia", 3);
         }

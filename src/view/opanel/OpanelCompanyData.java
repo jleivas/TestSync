@@ -9,6 +9,7 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesBD;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,12 +20,17 @@ import javax.swing.JOptionPane;
  * @author sdx
  */
 public class OpanelCompanyData extends javax.swing.JPanel {
+    
+    private static int OPTION = 0;
     /**
      * Creates new form OpanelSelectDate
      */
-    public OpanelCompanyData() {
+    public OpanelCompanyData(int option) {
         initComponents();
-        loadData();
+        OPTION = option;
+        if(OPTION == 0){
+            loadData();
+        }
     }
 
     /**
@@ -213,7 +219,17 @@ public class OpanelCompanyData extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
-        OptionPane.closeOptionPanel();
+         
+        if(OPTION == 0){
+            OptionPane.closeOptionPanel();
+        }else{
+            if(OptionPane.getConfirmation("Cancelar todo", "¿Desea cancelar todo y volver a intentar mas tarde?", 1)){
+                GlobalValuesBD.dropDB();
+                System.exit(0);
+            }else{
+                return;
+            }
+        }
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
@@ -229,32 +245,10 @@ public class OpanelCompanyData extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelarMousePressed
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        
-        try {
-            String name = txtNombre.getText();
-            String rut = txtRut.getText();
-            String descripcion = txtDescripcion.getText();
-            String giro = txtGiro.getText();
-            
-            if(OptionPane.getConfirmation("Actualizar datos", "¿Estas seguro que los datos ingresados son correctos?", JOptionPane.INFORMATION_MESSAGE)){
-                GV.cursorWAIT(this);
-                GV.setCompanyName(GV.getStr(name));
-                GV.setCompanyRut(GV.getStr(rut));
-                GV.setCompanyDescription(GV.getStr(descripcion));
-                GV.setCompanyGiro(GV.getStr(giro));
-                OptionPane.showMsg("Datos almacenados", "Los nuevos datos ingresados han sido almacenados cone exito", 1);
-                Boton boton = new Boton();
-                boton.oficinas();
-                GV.cursorDF(this);
-                OptionPane.closeOptionPanel();
-            }else{
-                OptionPane.closeOptionPanel();
-                return;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(OpanelCompanyData.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(OpanelCompanyData.class.getName()).log(Level.SEVERE, null, ex);
+        if(OPTION == 0){
+            saveFromGUI();
+        }else{
+            saveFromInit();
         }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
@@ -306,7 +300,12 @@ public class OpanelCompanyData extends javax.swing.JPanel {
     }//GEN-LAST:event_txtGiroActionPerformed
 
     private void txtGiroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGiroKeyTyped
-        txtRut.setText(GV.strToRut(txtRut.getText()));// TODO add your handling code here:
+        int largo = 45;
+        txtRut.setText(GV.strToRut(txtRut.getText()));
+        if(txtGiro.getText().length() >= largo){
+            evt.consume();
+            OptionPane.showMsg("Error de ingreso de datos", "El giro solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_txtGiroKeyTyped
 
     private void txtRutFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRutFocusLost
@@ -336,5 +335,58 @@ public class OpanelCompanyData extends javax.swing.JPanel {
             txtNombre.setText(GV.companyName());
             txtRut.setText(GV.getCompanyRut());
             txtGiro.setText(GV.getCompanyGiro());
+    }
+
+    private void saveFromGUI() {
+        try {
+            String name = txtNombre.getText();
+            String rut = txtRut.getText();
+            String descripcion = txtDescripcion.getText();
+            String giro = txtGiro.getText();
+            
+            if(OptionPane.getConfirmation("Actualizar datos", "¿Estas seguro que los datos ingresados son correctos?", JOptionPane.INFORMATION_MESSAGE)){
+                GV.cursorWAIT(this);
+                GV.setCompanyName(GV.getStr(name));
+                GV.setCompanyRut(GV.getStr(rut));
+                GV.setCompanyDescription(GV.getStr(descripcion));
+                GV.setCompanyGiro(GV.getStr(giro));
+                OptionPane.showMsg("Datos almacenados", "Los nuevos datos ingresados han sido almacenados con exito", 1);
+                Boton boton = new Boton();
+                boton.oficinas();
+                GV.cursorDF(this);
+                OptionPane.closeOptionPanel();
+            }else{
+                OptionPane.closeOptionPanel();
+                return;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OpanelCompanyData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void saveFromInit() {
+        
+            String name = GV.getToName(txtNombre.getText());
+            String rut = GV.getStr(txtRut.getText());
+            String descripcion = GV.getStr(txtDescripcion.getText());
+            String giro = GV.getStr(txtGiro.getText());
+            
+            if(name.isEmpty() || rut.isEmpty() || descripcion.isEmpty() || giro.isEmpty()){
+                OptionPane.showMsg("Faltan datos", "Para continuar debe completar todos los campos", 2);
+                return;
+            }
+            
+            if(OptionPane.getConfirmation("Registrar datos de mi empresa", "¿Estas seguro que los datos ingresados son correctos?", JOptionPane.INFORMATION_MESSAGE)){
+                GV.cursorWAIT(this);
+                GV.setCompanyNameFromXml(name);
+                GV.setCompanyRutFromXml(rut);
+                GV.setCompanyDescriptionFromXml(descripcion);
+                GV.setCompanyGiroFromXml(giro);
+                GV.cursorDF(this);
+                OptionPane.closeOptionPanel();
+                GV.licenciaRegistroPaso3();
+            }else{
+                return;
+            }
     }
 }

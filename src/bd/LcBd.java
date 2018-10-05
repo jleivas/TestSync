@@ -41,7 +41,7 @@ public class LcBd{
         Dao load = new Dao();
         try {
             load.add(new User(1, "Sistema", "root", "contacto@softdirex.cl", GV.enC("softdirex"), 7, 1, null, 0));
-            load.add(new User(2, "Admin", "admin", "", GV.enC("admin"), 7, 1, null, 0));
+            load.add(new User(2, "Admin", "admin", "", GV.enC("admin"), 1, 1, null, 0));
             load.add(new TipoPago(1, "Convenio", 1, null, 0));
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(LcBd.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,7 +153,7 @@ public class LcBd{
             conn = DriverManager.getConnection("jdbc:derby:"+GV.getLocalBdUrl()+GV.getLocalBdName()+";create=true");
             if (conn!=null){
                String creartabla="create table "+tableName+columns;//(tableName.toLowerCase().equals("lente"))?"drop table lente":
-                System.out.println(creartabla);
+               
 //               String desc="disconnect;";
                try {
                     PreparedStatement pstm = conn.prepareStatement(creartabla);
@@ -165,8 +165,7 @@ public class LcBd{
 //                    pstm2.close();
                     cerrar();
                 } catch (SQLException ex) {
-                    System.out.println("\"Error al crear tabla "+tableName+", "+ex.getLocalizedMessage());
-//                    OptionPane.showMsg("Error al crear tabla "+tableName, ex.getLocalizedMessage(),3);
+//                    System.out.println("\"Error al crear tabla "+tableName+", "+ex.getLocalizedMessage());
                 }
             }
         }catch(SQLException | ClassNotFoundException | ExceptionInInitializerError e){
