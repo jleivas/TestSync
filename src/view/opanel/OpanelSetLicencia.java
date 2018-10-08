@@ -143,10 +143,7 @@ public class OpanelSetLicencia extends javax.swing.JPanel {
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         if(GV.isOnline()){
-            if(GV.licenciaComprobarOnline(txtLicencia.getText())){
-                OptionPane.closeOptionPanel();
-                GV.licenciaRegistroPaso2();
-            }
+            GV.licenciaComprobarOnline(txtLicencia.getText());
         }else{
             OptionPane.showMsg("No se puede comprobar", "Conéctese a internet para comprobar la licencia", 2);
         }

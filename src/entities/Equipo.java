@@ -27,6 +27,7 @@ public class Equipo extends SyncIntId{
         setBd(bd);
         setBdUser(bdUser);
         setBdPass(bdPass);
+        setBdUrl(bdUrl);
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);

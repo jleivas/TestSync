@@ -49,7 +49,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import org.apache.commons.codec.binary.Base64;
-import view.init.Acceso;
 import view.opanel.OpanelCompanyData;
 import view.opanel.OpanelConvenyReceptor;
 import view.opanel.OpanelOfficeData;
@@ -663,11 +662,14 @@ public class GlobalValuesFunctions {
             Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        validaToken(GV.licenciaTipoPlan(),licencia,arg);
+        validaToken(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))),licencia,arg);
+        
         return true;
     }
     
     private static void setLicenciaAsignarValoresPaso1(String licencia,String arg){
+        GV.setSyncCount(0);
+        
         GV.username("admin");
         GV.licenciaTipoPlan(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
         
@@ -677,6 +679,8 @@ public class GlobalValuesFunctions {
         GV.setUri(keyGetUrl(keyResolve(arg)));
         GV.setPort(keyGetPass(keyResolve(arg)));
         GV.setLastUpdateFromXml(GV.strToDate(GlobalValuesVariables.getFechaDefault()));
+        OptionPane.closeOptionPanel();
+        GV.licenciaRegistroPaso2();
     }
 
     private static void licMsg(String msg,int status) {
@@ -940,7 +944,7 @@ public class GlobalValuesFunctions {
         return unKey.substring(0,unKey.indexOf("="));
     }
     
-    private static String tokenGetBd(String unKey){
+    public static String tokenGetBd(String unKey){
         return unKey.substring(0,unKey.indexOf("="));
     }
     
@@ -948,7 +952,7 @@ public class GlobalValuesFunctions {
         return unKey.substring(unKey.indexOf("=")+1,unKey.lastIndexOf("="));
     }
     
-    private static String tokenGetBdUser(String unKey){
+    public static String tokenGetBdUser(String unKey){
         return unKey.substring(unKey.indexOf("=")+1,unKey.lastIndexOf("="));
     }
     
@@ -956,11 +960,11 @@ public class GlobalValuesFunctions {
         return unKey.substring(unKey.lastIndexOf("=")+1);
     }
     
-    private static String tokenGetBdPass(String unKey){
+    public static String tokenGetBdPass(String unKey){
         return unKey.substring(unKey.lastIndexOf("=")+1,unKey.lastIndexOf("<"));
     }
     
-    private static String tokenGetBdUrl(String unKey){
+    public static String tokenGetBdUrl(String unKey){
         return unKey.substring(unKey.lastIndexOf("<")+1);
     }
     
