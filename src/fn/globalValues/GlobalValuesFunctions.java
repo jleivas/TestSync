@@ -16,6 +16,7 @@ import entities.User;
 import entities.abstractclasses.SyncIntId;
 import entities.abstractclasses.SyncStringId;
 import entities.context.SalesReportFicha;
+import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
@@ -912,5 +913,29 @@ public class GlobalValuesFunctions {
     
     private static String keyGetPass(String unKey){
         return unKey.substring(unKey.lastIndexOf("=")+1);
+    }
+    
+    public static void fichasToDelivery(List<Object> fichas){
+        if(GV.tipoUserSuperAdmin()){
+            if(OptionPane.getConfirmation("Confirmar modificación", "¿Estás seguro que deseas despachar todos los registros filtrados?", 2)){
+                for (Object ficha : fichas) {
+                    if(((Ficha)ficha).getEstado() != GV.estadoFichaDeleted() && 
+                       ((Ficha)ficha).getEstado() != GV.estadoFichaDelivered()){
+                        try {
+                            ((Ficha)ficha).setEstado(GV.estadoFichaDelivered());
+                            ((Ficha)ficha).setObservacion(((Ficha)ficha).getObservacion()+"\n"
+                                    + "==Despacho generado por defecto en el sistema=Autor: "+GV.user().getNombre()+"==");
+                            Despacho d = new Despacho(null, ((Ficha)ficha).getCliente().getCod(),
+                                    ((Ficha)ficha).getCliente().getNombre(), ((Ficha)ficha).getFechaEntrega(),
+                                    ((Ficha)ficha).getCod(), 1, null, 0);
+                            load.update(ficha);
+                            load.add(d);
+                        } catch (InstantiationException | IllegalAccessException ex) {
+                            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

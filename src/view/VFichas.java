@@ -94,6 +94,7 @@ public class VFichas extends javax.swing.JPanel {
         btnReportSales = new javax.swing.JLabel();
         btnExportExcel = new javax.swing.JLabel();
         btnExportConvenio = new javax.swing.JLabel();
+        btnDespacharTodo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -245,6 +246,20 @@ public class VFichas extends javax.swing.JPanel {
             }
         });
 
+        btnDespacharTodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Move_Stock_50px.png"))); // NOI18N
+        btnDespacharTodo.setToolTipText("Marcar todas como despachadas");
+        btnDespacharTodo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDespacharTodoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDespacharTodoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDespacharTodoMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -260,7 +275,9 @@ public class VFichas extends javax.swing.JPanel {
                         .addComponent(btnRestaurar)
                         .addGap(18, 18, 18)
                         .addComponent(btnReportSales)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnDespacharTodo)
+                        .addGap(18, 18, 18)
                         .addComponent(btnExportExcel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnExportConvenio)
@@ -298,18 +315,23 @@ public class VFichas extends javax.swing.JPanel {
                             .addComponent(btnReloadFilter, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEliminar)
-                            .addComponent(btnAbrir)
-                            .addComponent(btnRestaurar)
-                            .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnReportSales)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnEliminar)
+                                    .addComponent(btnAbrir)
+                                    .addComponent(btnRestaurar)
+                                    .addComponent(cboMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnReportSales)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnDespacharTodo)
+                                    .addComponent(btnExportExcel)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnExportExcel)
-                            .addComponent(btnExportConvenio))))
+                        .addComponent(btnExportConvenio)))
                 .addGap(36, 36, 36))
         );
 
@@ -532,9 +554,22 @@ public class VFichas extends javax.swing.JPanel {
         btnExportConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnExportConvenio.getIcon().toString()))));
     }//GEN-LAST:event_btnExportConvenioMouseExited
 
+    private void btnDespacharTodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseClicked
+        GV.fichasToDelivery(GV.getFichas());
+    }//GEN-LAST:event_btnDespacharTodoMouseClicked
+
+    private void btnDespacharTodoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseEntered
+        btnDespacharTodo.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnDespacharTodo.getIcon().toString()))));
+    }//GEN-LAST:event_btnDespacharTodoMouseEntered
+
+    private void btnDespacharTodoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseExited
+        btnDespacharTodo.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnDespacharTodo.getIcon().toString()))));
+    }//GEN-LAST:event_btnDespacharTodoMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAbrir;
+    private javax.swing.JLabel btnDespacharTodo;
     private javax.swing.JLabel btnEliminar;
     private javax.swing.JLabel btnExportConvenio;
     private javax.swing.JLabel btnExportExcel;

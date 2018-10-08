@@ -69,7 +69,9 @@
                           <Component id="btnRestaurar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnReportSales" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="btnDespacharTodo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnExportExcel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnExportConvenio" min="-2" max="-2" attributes="0"/>
@@ -116,21 +118,29 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane1" pref="392" max="32767" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="btnEliminar" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnAbrir" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnRestaurar" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="cboMostrar" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnReportSales" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="btnEliminar" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnAbrir" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnRestaurar" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cboMostrar" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnReportSales" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="btnDespacharTodo" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnExportExcel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="btnExportExcel" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnExportConvenio" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnExportConvenio" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -363,6 +373,19 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExportConvenioMouseClicked"/>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExportConvenioMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnExportConvenioMouseExited"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="btnDespacharTodo">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/icons8_Move_Stock_50px.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Marcar todas como despachadas"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDespacharTodoMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDespacharTodoMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDespacharTodoMouseExited"/>
           </Events>
         </Component>
       </SubComponents>

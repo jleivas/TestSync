@@ -231,6 +231,9 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.currentSyncCount();
     }
     
+    public static void fichasToDelivery(List<Object> fichas){
+        GlobalValuesFunctions.fichasToDelivery(fichas);
+    }
     public static boolean licenciaComprobarOnline(String arg) {
         return GlobalValuesFunctions.licenciaComprobateOnline(arg);
     }
