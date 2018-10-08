@@ -137,35 +137,59 @@ public class OpanelInventario extends javax.swing.JPanel {
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1://inventarios
-                    GV.cursorWAIT(this);
-                    boton.inventarios();
-                    OptionPane.closeOptionPanel();
+                    if(GV.tipoUserAdmin()){
+                        GV.cursorWAIT(this);
+                        boton.inventarios();
+                        OptionPane.closeOptionPanel();
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                     break;
                 case 2://armazones
-                    GV.cursorWAIT(this);
-                    boton.lentes();
-                    OptionPane.closeOptionPanel();
+                    if(GV.tipoUserIventario()){
+                        GV.cursorWAIT(this);
+                        boton.lentes();
+                        OptionPane.closeOptionPanel();
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                     break;
                 case 3://cristales
-                    GV.cursorWAIT(this);
-                    boton.cristales();
-                    OptionPane.closeOptionPanel();
+                    if(GV.tipoUserIventario()){
+                        GV.cursorWAIT(this);
+                        boton.cristales();
+                        OptionPane.closeOptionPanel();
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                     break;
                 case 4://exportar inventario
-                    GV.cursorWAIT(this);
-                    OptionPane.closeOptionPanel();
-                    OptionPane.showOptionPanel(new OpanelInventaryChooser(), OptionPane.titleInventaryChooser());
+                    if(GV.tipoUserIventario()){
+                        GV.cursorWAIT(this);
+                        OptionPane.closeOptionPanel();
+                        OptionPane.showOptionPanel(new OpanelInventaryChooser(), OptionPane.titleInventaryChooser());
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                     break;
                 case 5://generar orden de compras
-                    GV.cursorWAIT(this);
-                    OptionPane.closeOptionPanel();
-                    GV.cursorDF(this);
-                    GV.excelLowStockBuyOrder();
+                    if(GV.tipoUserIventario()){
+                        GV.cursorWAIT(this);
+                        OptionPane.closeOptionPanel();
+                        GV.cursorDF(this);
+                        GV.excelLowStockBuyOrder();
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                 case 6://registro de bajas
-                    GV.cursorWAIT(this);
-                    boton.registroBajas();
-                    GV.cursorDF(this);
-                    OptionPane.closeOptionPanel();
+                    if(GV.tipoUserIventario()){
+                        GV.cursorWAIT(this);
+                        boton.registroBajas();
+                        GV.cursorDF(this);
+                        OptionPane.closeOptionPanel();
+                    }else{
+                        GV.mensajeAccessDenied();
+                    }
                     break;
                 default:
                     OptionPane.closeOptionPanel();

@@ -675,59 +675,67 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            Convenio temp = (Convenio)load.get(null, id, new Convenio());
-            if(temp.getEstado() == 2){
-                OptionPane.showMsg("No se puede anular", "Este convenio ya fué generado, por lo tanto es imposible eliminar", 2);
-                cDF();
-                return;
-            }
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el convenio "+temp.getNombre()+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.delete(null,id, temp)){
-                    OptionPane.showMsg("Eliminar Convenio", "El convenio ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar Convenio", "No se pudo eliminar el convenio", 2);
+                int fila = tblListar.getSelectedRow();
+                int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+                Convenio temp = (Convenio)load.get(null, id, new Convenio());
+                if(temp.getEstado() == 2){
+                    OptionPane.showMsg("No se puede anular", "Este convenio ya fué generado, por lo tanto es imposible eliminar", 2);
+                    cDF();
+                    return;
                 }
+                if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el convenio "+temp.getNombre()+"?", 2)){
+                    cWT();
+                    if(load.delete(null,id, temp)){
+                        OptionPane.showMsg("Eliminar Convenio", "El convenio ha sido eliminado", 1);
+                    }else{
+                        OptionPane.showMsg("Eliminar Convenio", "No se pudo eliminar el convenio", 2);
+                    }
+                }
+                cargarDatos("0");
+
+            }catch(Exception e){
+                cDF();
+                OptionPane.showMsg("Seleccione Convenio","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-            cargarDatos("0");
-            
-        }catch(Exception e){
             cDF();
-            OptionPane.showMsg("Seleccione Convenio","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+        }else{
+            GV.mensajeAccessDenied();
         }
-        cDF();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
-            if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", 1)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.restore(null, id, new Convenio())){
-                    OptionPane.showMsg("Restaurar convenio", "El convenio ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar convenio", "No se pudo restaurar el convenio", 2);
+                int fila = tblListar.getSelectedRow();
+                int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+                if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", 1)){
+                    cWT();
+                    if(load.restore(null, id, new Convenio())){
+                        OptionPane.showMsg("Restaurar convenio", "El convenio ha sido restaurado", 1);
+                    }else{
+                        OptionPane.showMsg("Restaurar convenio", "No se pudo restaurar el convenio", 2);
+                    }
+                    cargarDatos("-1");
                 }
-                cargarDatos("-1");
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Convenio","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Convenio","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
-        cDF();
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
     private void btnAbrirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseEntered
@@ -820,103 +828,107 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModificarMouseEntered
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        cWT();
-        
-        if(stConvenio == null){
-            OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", 3);
-            cDF();
-            return;
-        }
-        if(stConvenio.getEstado() == 2){
-            try {
-                abrirConvenio(stConvenio.getId());
-                OptionPane.showMsg("No se puede modificar el registro", "El convenio ya se encuentra generado, no se puede modificar", 2);
-                
+        if(GV.tipoUserAdmin()){
+            cWT();
+
+            if(stConvenio == null){
+                OptionPane.showMsg("No se pudo cargar el registro", "Error al cargar convenio, no se puede modificar", 3);
                 cDF();
                 return;
-            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            }
+            if(stConvenio.getEstado() == 2){
+                try {
+                    abrirConvenio(stConvenio.getId());
+                    OptionPane.showMsg("No se puede modificar el registro", "El convenio ya se encuentra generado, no se puede modificar", 2);
+
+                    cDF();
+                    return;
+                } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            String nombre = (txtNombreU.getText());
+            if(nombre.isEmpty() || nombre.length()<3){
+                OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", 2);
+                cDF();
+                return;
+            }
+            Date fechaIni = txtFechaIniU.getDate();
+            Date fechaFin = txtFechaFinU.getDate();
+            Date fechaCobro = txtFechaCobroU.getDate();
+            if(localIsNewOrEqual(fechaIni, fechaFin)){
+                if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
+                    OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+                    cDF();
+                    return;
+                }
+            }
+            if(GV.fechaPasada(fechaFin)){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser igual o superior a la fecha actual.", 2);
+                cDF();
+                return;
+            }
+            if(localIsNewOrEqual(fechaFin, fechaCobro)){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
+                cDF();
+                return;
+            }
+            try {
+                txtPorcentajeAdicionalU.commitEdit();
+                txtCuotasU.commitEdit();
+            } catch (ParseException ex) {
                 Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        String nombre = (txtNombreU.getText());
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        Date fechaIni = txtFechaIniU.getDate();
-        Date fechaFin = txtFechaFinU.getDate();
-        Date fechaCobro = txtFechaCobroU.getDate();
-        if(localIsNewOrEqual(fechaIni, fechaFin)){
-            if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+            int cuotas = (int)txtCuotasU.getValue();
+            int montoMax = 0;
+            int montoPp = 0;
+            int cantClientes = 0;
+            int idDescuento  =  0;
+            String idInstitucion = getIdInstitucion(txtInstitucionU.getText());
+            int porcAdicional = (int)txtPorcentajeAdicionalU.getValue();
+            if(idInstitucion == null){
+                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla\n"
+                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
                 cDF();
                 return;
             }
-        }
-        if(GV.fechaPasada(fechaFin)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser igual o superior a la fecha actual.", 2);
-            cDF();
-            return;
-        }
-        if(localIsNewOrEqual(fechaFin, fechaCobro)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
-            cDF();
-            return;
-        }
-        try {
-            txtPorcentajeAdicionalU.commitEdit();
-            txtCuotasU.commitEdit();
-        } catch (ParseException ex) {
-            Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int cuotas = (int)txtCuotasU.getValue();
-        int montoMax = 0;
-        int montoPp = 0;
-        int cantClientes = 0;
-        int idDescuento  =  0;
-        String idInstitucion = getIdInstitucion(txtInstitucionU.getText());
-        int porcAdicional = (int)txtPorcentajeAdicionalU.getValue();
-        if(idInstitucion == null){
-            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla\n"
-                + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
-            cDF();
-            return;
-        }
 
-        stConvenio.setNombre(nombre);
-        stConvenio.setCuotas(cuotas);
-        stConvenio.setFechaCobro(fechaCobro);
-        stConvenio.setEstado(1);
-        stConvenio.setFechaFin(fechaFin);
-        stConvenio.setFechaInicio(fechaIni);
-        stConvenio.setIdDescuento(idDescuento);
-        stConvenio.setPorcentajeAdicion(porcAdicional);
-        if(!idInstitucion.equals(stConvenio.getIdInstitucion())){
-            if(GlobalValuesBD.getFichasByConveny(stConvenio.getId()).size() > 0){
-                if(OptionPane.getConfirmation("¿Estas seguro que deseas modificar este convenio?", 
-                        "El convenio ya contiene fichas generadas que supuestamente tienen relación con\n"
-                                + "la empresa que estás modificando, si confirmas esta acción\n"
-                                + "todas las fichas generadas pasarán a pertenecer a un convenio con\n"
-                                + " esta nueva institución. ¿Estas seguro?", 2)){
+            stConvenio.setNombre(nombre);
+            stConvenio.setCuotas(cuotas);
+            stConvenio.setFechaCobro(fechaCobro);
+            stConvenio.setEstado(1);
+            stConvenio.setFechaFin(fechaFin);
+            stConvenio.setFechaInicio(fechaIni);
+            stConvenio.setIdDescuento(idDescuento);
+            stConvenio.setPorcentajeAdicion(porcAdicional);
+            if(!idInstitucion.equals(stConvenio.getIdInstitucion())){
+                if(GlobalValuesBD.getFichasByConveny(stConvenio.getId()).size() > 0){
+                    if(OptionPane.getConfirmation("¿Estas seguro que deseas modificar este convenio?", 
+                            "El convenio ya contiene fichas generadas que supuestamente tienen relación con\n"
+                                    + "la empresa que estás modificando, si confirmas esta acción\n"
+                                    + "todas las fichas generadas pasarán a pertenecer a un convenio con\n"
+                                    + " esta nueva institución. ¿Estas seguro?", 2)){
+                        stConvenio.setIdInstitucion(idInstitucion);
+
+                    }
+                }else{
                     stConvenio.setIdInstitucion(idInstitucion);
-                    
                 }
-            }else{
-                stConvenio.setIdInstitucion(idInstitucion);
             }
-        }
-        stConvenio.setMaximoClientes(cantClientes);
-        stConvenio.setMontoMaximo(montoMax);
-        stConvenio.setMontoPp(montoPp);
+            stConvenio.setMaximoClientes(cantClientes);
+            stConvenio.setMontoMaximo(montoMax);
+            stConvenio.setMontoPp(montoPp);
 
-        if(load.update(stConvenio)){
-            OptionPane.showMsg("Modificar convenio", "Operación realizada con exito",  1);
+            if(load.update(stConvenio)){
+                OptionPane.showMsg("Modificar convenio", "Operación realizada con exito",  1);
+            }else{
+                OptionPane.showMsg("Modificar convenio", "No se pudo efectuar la operación", 2);
+            }
+            cargarDatos("0");
+            cDF();
         }else{
-            OptionPane.showMsg("Modificar convenio", "No se pudo efectuar la operación", 2);
+            GV.mensajeAccessDenied();
         }
-        cargarDatos("0");
-        cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void txtNombreUKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUKeyTyped
@@ -1001,72 +1013,75 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseEntered
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-
-        cWT();
-        String nombre = (txtNombreN.getText());
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Agregar convenio", "El convenio debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        Date fechaIni = txtFechaIniN.getDate();
-        Date fechaFin = txtFechaTerN.getDate();
-        Date fechaCobro = txtFechaCobroN.getDate();
-        
-        if(localIsNewOrEqual(fechaIni, fechaFin)){
-            if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+        if(GV.tipoUserAdmin()){
+            cWT();
+            String nombre = (txtNombreN.getText());
+            if(nombre.isEmpty() || nombre.length()<3){
+                OptionPane.showMsg("Agregar convenio", "El convenio debe tener un nombre válido.", 2);
                 cDF();
                 return;
             }
-        }
-        if(localIsNewOrEqual(fechaFin, fechaCobro)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
-            cDF();
-            return;
-        }
-        if(!GV.fechaActualOFutura(fechaIni)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de inicio debe ser igual o superior a la fecha actual.", 2);
-            cDF();
-            return;
-        }
-        if(GV.fechaActualOPasada(fechaCobro)){
-            OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser superior a la fecha actual.", 2);
-            cDF();
-            return;
-        }
-        try {
-            txtPorcentajeAdicionalN.commitEdit();
-            txtCuotasN.commitEdit();
-        } catch (ParseException ex) {
-            Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int cuotas = (int)txtCuotasN.getValue();
-        int montoMax = 0;
-        int montoPp = 0;
-        int cantClientes = 0;
-        int idDescuento  =  0;
-        String idInstitucion = getIdInstitucion(txtInstitucionN.getText());
-        int porcAdicional = (int)txtPorcentajeAdicionalN.getValue();
-        if(idInstitucion == null){
-            OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
-                + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
-            cDF();
-            return;
-        }
+            Date fechaIni = txtFechaIniN.getDate();
+            Date fechaFin = txtFechaTerN.getDate();
+            Date fechaCobro = txtFechaCobroN.getDate();
 
-        Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, idInstitucion, 1, null, 0);
-        try {
-            cWT();
-            load.add(convenio);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                + "No se pudo insertar el convenio\n\n"
-                + ex, 3);
+            if(localIsNewOrEqual(fechaIni, fechaFin)){
+                if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
+                    OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+                    cDF();
+                    return;
+                }
+            }
+            if(localIsNewOrEqual(fechaFin, fechaCobro)){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
+                cDF();
+                return;
+            }
+            if(!GV.fechaActualOFutura(fechaIni)){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de inicio debe ser igual o superior a la fecha actual.", 2);
+                cDF();
+                return;
+            }
+            if(GV.fechaActualOPasada(fechaCobro)){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser superior a la fecha actual.", 2);
+                cDF();
+                return;
+            }
+            try {
+                txtPorcentajeAdicionalN.commitEdit();
+                txtCuotasN.commitEdit();
+            } catch (ParseException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int cuotas = (int)txtCuotasN.getValue();
+            int montoMax = 0;
+            int montoPp = 0;
+            int cantClientes = 0;
+            int idDescuento  =  0;
+            String idInstitucion = getIdInstitucion(txtInstitucionN.getText());
+            int porcAdicional = (int)txtPorcentajeAdicionalN.getValue();
+            if(idInstitucion == null){
+                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
+                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
+                cDF();
+                return;
+            }
+
+            Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, idInstitucion, 1, null, 0);
+            try {
+                cWT();
+                load.add(convenio);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
+                    + "No se pudo insertar el convenio\n\n"
+                    + ex, 3);
+                cDF();
+            }
+            cargarDatos("0");
             cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
-        cargarDatos("0");
-        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void txtNombreNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNKeyTyped
@@ -1078,21 +1093,25 @@ public class VConvenios extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreNKeyTyped
 
     private void btnPagarCuotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseClicked
-        cWT();
-        if(stConvenio.getEstado() == 2){
-            OptionPane.showOptionPanel(new OpanelPagarCuotasConvenio(stConvenio), OptionPane.titlePayAgreementFees());
-        }else{
-            try {
-                OptionPane.showMsg("No se puede crear registro", "El convenio aún no está activo o se encuentra pagado.", 2);
-                boton.convenios();
-            } catch (SQLException ex) {
-                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+        if(GV.tipoUserAdmin()){
+            cWT();
+            if(stConvenio.getEstado() == 2){
+                OptionPane.showOptionPanel(new OpanelPagarCuotasConvenio(stConvenio), OptionPane.titlePayAgreementFees());
+            }else{
+                try {
+                    OptionPane.showMsg("No se puede crear registro", "El convenio aún no está activo o se encuentra pagado.", 2);
+                    boton.convenios();
+                } catch (SQLException ex) {
+                    Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
+            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
-        
-        cDF();
     }//GEN-LAST:event_btnPagarCuotasMouseClicked
 
     private void btnPagarCuotasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarCuotasMouseEntered

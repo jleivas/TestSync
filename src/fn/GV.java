@@ -1046,14 +1046,26 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesEntities.getOficinaPhone2();
     }
     
+    /**
+     * Retorna true si es Jefe administrativo o Sistema
+     * @return 
+     */
     public static boolean tipoUserSuperAdmin(){
         return GlobalValuesEntities.tipoUserSuperAdmin();
     }
     
+    /**
+     * Retorna true si es Jefe administrativo, Administrador o Sistema
+     * @return 
+     */
     public static boolean tipoUserAdmin(){
         return GlobalValuesEntities.tipoUserAdmin();
     }
     
+    /**
+     * Retorna true si es Jefe administrativo, Administrador, inventario o Sistema
+     * @return 
+     */
     public static boolean tipoUserIventario(){
         return GlobalValuesEntities.tipoUserIventario();
     }
@@ -1150,5 +1162,9 @@ public class GV extends GlobalValuesCursor{
 
     public static int cuotaConvenioPagada() {
         return 2;
+    }
+
+    public static void mensajeAccessDenied() {
+        OptionPane.showMsg("Acceso denegado", "No tienes permisos suficientes para realizar esta operación", 2);
     }
 }

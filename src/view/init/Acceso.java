@@ -10,6 +10,7 @@ import fn.Boton;
 import fn.GV;
 import fn.Icons;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesXmlFiles;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -200,6 +201,7 @@ public class Acceso extends javax.swing.JFrame {
                     this.setVisible(false);
                     GV.username(usu.getUsername());
                     GV.setUser(usu);
+                    GlobalValuesXmlFiles.crearRegistroLocal();
                     ContentAdmin principalAdmin = new ContentAdmin();
                     principalAdmin.setVisible(true);
                     this.dispose();

@@ -554,60 +554,64 @@ public class VDoctores extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        if(!GV.tipoUserAdmin()){
-            rejectedOperation();
-            return;
-        }
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            Doctor temp = (Doctor)load.get(rut,0,new Doctor());
-            if(OptionPane.getConfirmation("Eliminar Doctor", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.delete(rut,0, temp))
-                {
-                    OptionPane.showMsg("Eliminar Doctor", "El registro ha sido eliminado", 1);
+                int fila = tblListar.getSelectedRow();
+                String rut = tblListar.getValueAt(fila, 0).toString();
+                Doctor temp = (Doctor)load.get(rut,0,new Doctor());
+                if(OptionPane.getConfirmation("Eliminar Doctor", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+                    cWT();
+                    if(load.delete(rut,0, temp))
+                    {
+                        OptionPane.showMsg("Eliminar Doctor", "El registro ha sido eliminado", 1);
+                    }
+                    else
+                    {
+                        OptionPane.showMsg("Eliminar Doctor", "No se pudo eliminar el registro", 2);
+                    }
+                    cargarDatos("0");
                 }
-                else
-                {
-                    OptionPane.showMsg("Eliminar Doctor", "No se pudo eliminar el registro", 2);
-                }
-                cargarDatos("0");
+
+
+                cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+                cDF();
             }
-            
-            
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
-            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Confirmación de Doctor", "¿Esta seguro que desea restaurar este registro?", 1)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.restore(rut, 0, new Doctor())){
-                    OptionPane.showMsg("Restaurar Doctor", "El registro ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Doctor", "No se pudo restaurar el registro", 2);
+                int fila = tblListar.getSelectedRow();
+                String rut = tblListar.getValueAt(fila, 0).toString();
+                if(OptionPane.getConfirmation("Confirmación de Doctor", "¿Esta seguro que desea restaurar este registro?", 1)){
+                    cWT();
+                    if(load.restore(rut, 0, new Doctor())){
+                        OptionPane.showMsg("Restaurar Doctor", "El registro ha sido restaurado", 1);
+                    }else{
+                        OptionPane.showMsg("Restaurar Doctor", "No se pudo restaurar el registro", 2);
+                    }
+                    cargarDatos("-1");
                 }
-                cargarDatos("-1");
+                cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
+                        + "es posible que no hay seleccionado un registro\n"
+                        + "o el valor seleccionado no tiene un identificador válido.",2);
+                cDF();
             }
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
-                    + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",2);
-            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 

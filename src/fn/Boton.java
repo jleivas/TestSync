@@ -53,12 +53,8 @@ public class Boton {
     }
     
     public void clientes() throws SQLException, ClassNotFoundException{
-        if(GV.tipoUserAdmin()){
             GV.cursorWAIT();
             openView(new VClientes());
-        }else{
-            accesDenied();
-        }
     }
     
     public void convenios() throws SQLException, ClassNotFoundException {

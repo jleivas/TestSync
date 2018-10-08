@@ -494,7 +494,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMessageMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked
-        OptionPane.showOptionPanel(new OpanelConfig(), "Configuración");
+        if(GV.tipoUserAdmin()){
+            OptionPane.showOptionPanel(new OpanelConfig(), "Configuración");
+        }else{
+            GV.mensajeAccessDenied();
+        }
     }//GEN-LAST:event_btnConfigMouseClicked
 
     private void btnInventMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInventMouseClicked
@@ -502,7 +506,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInventMouseClicked
 
     private void btnToolsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseClicked
-        OptionPane.showOptionPanel(new OpanelTools(), OptionPane.titleTool());
+        if(GV.tipoUserAdmin()){
+            OptionPane.showOptionPanel(new OpanelTools(), OptionPane.titleTool());
+        }else{
+            GV.mensajeAccessDenied();
+        }
     }//GEN-LAST:event_btnToolsMouseClicked
 
     private void btnToolsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolsMouseEntered

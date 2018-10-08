@@ -702,14 +702,11 @@ public class VClientes extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(pnl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -872,49 +869,57 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            Cliente temp = (Cliente)load.get(rut,0,new Cliente());
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar al cliente "+temp.getNombre()+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.delete(rut,0, temp))
-                    OptionPane.showMsg("Eliminar Cliente", "El cliente ha sido eliminado", 1);
-                else
-                    OptionPane.showMsg("Eliminar Cliente", "No se pudo eliminar el cliente", 2);
+                int fila = tblListar.getSelectedRow();
+                String rut = tblListar.getValueAt(fila, 0).toString();
+                Cliente temp = (Cliente)load.get(rut,0,new Cliente());
+                if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar al cliente "+temp.getNombre()+"?", 2)){
+                    cWT();
+                    if(load.delete(rut,0, temp))
+                        OptionPane.showMsg("Eliminar Cliente", "El cliente ha sido eliminado", 1);
+                    else
+                        OptionPane.showMsg("Eliminar Cliente", "No se pudo eliminar el cliente", 2);
+                    cDF();
+                }
+                cargarDatos("0");
+
                 cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-            cargarDatos("0");
-            
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String rut = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Confirmación de cliente", "¿Esta seguro que desea restaurar este cliente?", 1)){
-                if(load.restore(rut, 0, new Cliente())){
-                    OptionPane.showMsg("Restaurar cliente", "El cliente ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar cliente", "No se pudo restaurar el cliente", 2);
+        if(GV.tipoUserAdmin()){
+            try{
+                cWT();
+                int fila = tblListar.getSelectedRow();
+                String rut = tblListar.getValueAt(fila, 0).toString();
+                if(OptionPane.getConfirmation("Confirmación de cliente", "¿Esta seguro que desea restaurar este cliente?", 1)){
+                    if(load.restore(rut, 0, new Cliente())){
+                        OptionPane.showMsg("Restaurar cliente", "El cliente ha sido restaurado", 1);
+                    }else{
+                        OptionPane.showMsg("Restaurar cliente", "No se pudo restaurar el cliente", 2);
+                    }
+                    cargarDatos("-1");
                 }
-                cargarDatos("-1");
+                cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
+                        + "es posible que no hay seleccionado un registro\n"
+                        + "o el valor seleccionado no tiene un identificador válido.",2);
             }
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Cliente","Error al cargar valores,\n"
-                    + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",2);
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 

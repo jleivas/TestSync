@@ -101,6 +101,10 @@ public class GlobalValuesEntities {
         return 0;
     }
     
+    /**
+     * Retorna true si es Jefe administrativo o Sistema
+     * @return 
+     */
     public static boolean tipoUserSuperAdmin(){
         int tipoUsuario = getTipoUsuario();
         if(tipoUsuario == 1 || tipoUsuario == 7){
@@ -109,6 +113,10 @@ public class GlobalValuesEntities {
         return false;
     }
     
+    /**
+     * Retorna true si es Jefe administrativo, Administrador o Sistema
+     * @return 
+     */
     public static boolean tipoUserAdmin(){
         int tipoUsuario = getTipoUsuario();
         if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 7){
@@ -117,6 +125,10 @@ public class GlobalValuesEntities {
         return false;
     }
     
+    /**
+     * Retorna true si es Jefe administrativo, Administrador, inventario o Sistema
+     * @return 
+     */
     public static boolean tipoUserIventario(){
         int tipoUsuario = getTipoUsuario();
         if(tipoUsuario == 1 || tipoUsuario == 2 || tipoUsuario == 4 || tipoUsuario == 7){

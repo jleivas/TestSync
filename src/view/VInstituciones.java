@@ -755,54 +755,58 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        if(!GV.tipoUserAdmin()){
-            rejectedOperation();
-            return;
-        }
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String id = (tblListar.getValueAt(fila, 0).toString());
-            Institucion temp = (Institucion)load.get(id,0,new Institucion());
-            if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.delete(id,0, temp)){
-                    OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", 2);
+                int fila = tblListar.getSelectedRow();
+                String id = (tblListar.getValueAt(fila, 0).toString());
+                Institucion temp = (Institucion)load.get(id,0,new Institucion());
+                if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+                    cWT();
+                    if(load.delete(id,0, temp)){
+                        OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", 1);
+                    }else{
+                        OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", 2);
+                    }
                 }
+                cargarDatos("0");
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-            cargarDatos("0");
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
-        cDF();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String id = (String)tblListar.getValueAt(fila, 0);
-            if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", 1)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.restore(id, 0, new Institucion())){
-                    OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", 2);
+                int fila = tblListar.getSelectedRow();
+                String id = (String)tblListar.getValueAt(fila, 0);
+                if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", 1)){
+                    cWT();
+                    if(load.restore(id, 0, new Institucion())){
+                        OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", 1);
+                    }else{
+                        OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", 2);
+                    }
+                    cargarDatos("-1");
                 }
-                cargarDatos("-1");
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
+                        + "es posible que no hay seleccionado un registro\n"
+                        + "o el valor seleccionado no tiene un identificador válido.",2);
             }
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Institucion","Error al cargar valores,\n"
-                    + "es posible que no hay seleccionado un registro\n"
-                    + "o el valor seleccionado no tiene un identificador válido.",2);
+            cDF();
+        }else{
+            GV.mensajeAccessDenied();
         }
-        cDF();
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
     private void btnAbrirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAbrirMouseEntered

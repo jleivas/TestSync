@@ -369,52 +369,60 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAbrirMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String folio = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el folio "+folio+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.delete(folio,0, new Ficha()))
-                    OptionPane.showMsg("Anular Ficha", "La ficha ha sido anulada", 1);
-                else
-                    OptionPane.showMsg("Anular Ficha", "No se pudo anular la ficha", 2);
+                int fila = tblListar.getSelectedRow();
+                String folio = tblListar.getValueAt(fila, 0).toString();
+                if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el folio "+folio+"?", 2)){
+                    cWT();
+                    if(load.delete(folio,0, new Ficha()))
+                        OptionPane.showMsg("Anular Ficha", "La ficha ha sido anulada", 1);
+                    else
+                        OptionPane.showMsg("Anular Ficha", "No se pudo anular la ficha", 2);
+                    cDF();
+                }
+                load();
+
                 cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-            load();
-            
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnRestaurarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRestaurarMouseClicked
-        try{
-            cWT();
-            int fila = tblListar.getSelectedRow();
-            String folio = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Restaurar registro", "¿Esta seguro que desea restaurar el folio "+folio+"?", 2)){
+        if(GV.tipoUserAdmin()){
+            try{
                 cWT();
-                if(load.restore(folio,0, new Ficha()))
-                    OptionPane.showMsg("Restaurar Ficha", "La ficha ha sido restaurada", 1);
-                else
-                    OptionPane.showMsg("Restaurar Ficha", "No se pudo restaurar la ficha", 2);
+                int fila = tblListar.getSelectedRow();
+                String folio = tblListar.getValueAt(fila, 0).toString();
+                if(OptionPane.getConfirmation("Restaurar registro", "¿Esta seguro que desea restaurar el folio "+folio+"?", 2)){
+                    cWT();
+                    if(load.restore(folio,0, new Ficha()))
+                        OptionPane.showMsg("Restaurar Ficha", "La ficha ha sido restaurada", 1);
+                    else
+                        OptionPane.showMsg("Restaurar Ficha", "No se pudo restaurar la ficha", 2);
+                    cDF();
+                }
+                load();
+
                 cDF();
+            }catch(Exception e){
+                OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
+                        + "es posible que no se haya seleccionado un registro:\n"
+                        + "Debe hacer clic sobre un elemento de la tabla,\n"
+                        + "Luego presione el botón \"Ver\".\n"
+                        + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
             }
-            load();
-            
-            cDF();
-        }catch(Exception e){
-            OptionPane.showMsg("Seleccione Ficha","Error al cargar valores,\n"
-                    + "es posible que no se haya seleccionado un registro:\n"
-                    + "Debe hacer clic sobre un elemento de la tabla,\n"
-                    + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
+        }else{
+            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnRestaurarMouseClicked
 
@@ -515,35 +523,38 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnExportExcelMouseExited
 
     private void btnExportConvenioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseClicked
-//        GV.printFichas(GV.getFichas());
-        cWT();
-        if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
-            Convenio cnv = ((Ficha)GV.getFichas().get(0))
-                    .getConvenio();
-            validaConvenio(cnv);
-            if(cnv.getEstado() == 1){
-                if(OptionPane.getConfirmation("Generar reporte de convenio", "La fecha de cierre aún no ha caducado.\n"
-                        + "Si generas este reporte ahora, el convenio se cerrará para futuras recetas y tendrás que crear otro convenio.\n"
-                        + "¿Estas seguro de cerrar el convenio para futuras nuevas recetas?", 2)){
-                    cnv.setFechaInicio((GV.fechaActualOFutura(cnv.getFechaInicio()))?
-                            GV.dateSumaResta(new Date(), -1, "DAYS"):cnv.getFechaInicio());
-                    cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
-                    validaConvenio(cnv);
-                }else{
-                    cDF();
-                    return;
+        if(GV.tipoUserAdmin()){
+            cWT();
+            if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
+                Convenio cnv = ((Ficha)GV.getFichas().get(0))
+                        .getConvenio();
+                validaConvenio(cnv);
+                if(cnv.getEstado() == 1){
+                    if(OptionPane.getConfirmation("Generar reporte de convenio", "La fecha de cierre aún no ha caducado.\n"
+                            + "Si generas este reporte ahora, el convenio se cerrará para futuras recetas y tendrás que crear otro convenio.\n"
+                            + "¿Estas seguro de cerrar el convenio para futuras nuevas recetas?", 2)){
+                        cnv.setFechaInicio((GV.fechaActualOFutura(cnv.getFechaInicio()))?
+                                GV.dateSumaResta(new Date(), -1, "DAYS"):cnv.getFechaInicio());
+                        cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
+                        validaConvenio(cnv);
+                    }else{
+                        cDF();
+                        return;
+                    }
                 }
+                GV.convenioGenerateReport(cnv);
+                OptionPane.showMsg("Generación de reporte", "Se generarán los siguientes reportes:\n"
+                        + "1-Reporte de convenio por recetas oftalmológicas.\n"
+                        + "2-Reporte de cuotas.", 1);
+                cDF();
+            }else{
+                cDF();
+                OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
             }
-            GV.convenioGenerateReport(cnv);
-            OptionPane.showMsg("Generación de reporte", "Se generarán los siguientes reportes:\n"
-                    + "1-Reporte de convenio por recetas oftalmológicas.\n"
-                    + "2-Reporte de cuotas.", 1);
             cDF();
         }else{
-            cDF();
-            OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
+            GV.mensajeAccessDenied();
         }
-        cDF();
     }//GEN-LAST:event_btnExportConvenioMouseClicked
 
     private void btnExportConvenioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseEntered
@@ -555,7 +566,11 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnExportConvenioMouseExited
 
     private void btnDespacharTodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseClicked
-        GV.fichasToDelivery(GV.getFichas());
+        if(GV.tipoUserAdmin()){
+            GV.fichasToDelivery(GV.getFichas());
+        }else{
+            GV.mensajeAccessDenied();
+        }
     }//GEN-LAST:event_btnDespacharTodoMouseClicked
 
     private void btnDespacharTodoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseEntered
