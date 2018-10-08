@@ -175,6 +175,10 @@ public class GlobalValuesBD {
     private static String EQUIPO = "EQ_ID INTEGER not null primary key," +
 " EQ_NOMBRE VARCHAR(45)," +
 " EQ_LICENCIA VARCHAR(45)," +
+" EQ_BD VARCHAR(100)," +
+" EQ_BD_USER VARCHAR(100)," +
+" EQ_BD_PASS VARCHAR(100)," +
+" EQ_BD_URL VARCHAR(100)," +
 " EQ_ESTADO INTEGER," +
 " EQ_LAST_UPDATE DATE," +
 " EQ_LAST_HOUR INTEGER";
@@ -374,6 +378,10 @@ public class GlobalValuesBD {
     private static String COL_EQUIPO = "EQ_ID," +
 " EQ_NOMBRE," +
 " EQ_LICENCIA," +
+" EQ_BD," +
+" EQ_BD_USER," +
+" EQ_BD_PASS," +
+" EQ_BD_PASS," +
 " EQ_ESTADO," +
 " EQ_LAST_UPDATE," +
 " EQ_LAST_HOUR";

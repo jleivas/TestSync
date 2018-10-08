@@ -54,13 +54,14 @@ public class GlobalValuesVariables {
     
     //TIPO DE PLAN
     private static int TP_FREE=0;
-    private static int TP_2X = 1;
-    private static int TP_4X = 2;
-    private static int TP_6X = 3;
-    private static int TP_FULL_DATA = 4;
+    private static int TP_LOCAL = 1;
+    private static int TP_2X = 2;
+    private static int TP_4X = 3;
+    private static int TP_6X = 4;
+    private static int TP_FULL_DATA = 5;
+    
     
     //MAXIMO DE SINCRONIZACIONES SEGUN TIPO DE PLAN
-    public static int TP_FREE_MS =0;
     public static int TP_2X_MS = 2;
     public static int TP_4X_MS = 4;
     public static int TP_6X_MS = 6;
@@ -234,11 +235,23 @@ public class GlobalValuesVariables {
         try {
             LcBd.cerrar();
             EQUIPO = getToName(equipo);
+            
             if(LICENCE_CODE != null){
                 Dao load = new Dao();
-                Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
-                if(load.get(EQUIPO, 0, eqData) == null){
-                    load.add(eqData);
+                Equipo e = (Equipo)load.get(EQUIPO, 0, new Equipo());
+                if(e == null){
+                    e = new Equipo(0, EQUIPO, LICENCE_CODE,
+                        GlobalValuesBD.BD_NAME_REMOTE,
+                        GlobalValuesBD.BD_USER_REMOTE,
+                        GlobalValuesBD.BD_PASS_REMOTE,
+                        GlobalValuesBD.BD_URL_REMOTE,
+                        1, null, 0);
+                    load.add(e);
+                }else{
+                    GlobalValuesBD.BD_NAME_REMOTE = e.getBd();
+                    GlobalValuesBD.BD_USER_REMOTE = e.getBdUser();
+                    GlobalValuesBD.BD_PASS_REMOTE = e.getBdPass();
+                    GlobalValuesBD.BD_URL_REMOTE  = e.getBdUrl();
                 }
             }
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
@@ -255,18 +268,7 @@ public class GlobalValuesVariables {
     }
     
     public static void setLicenceCode(String licenceCode){
-        try {
-            LICENCE_CODE = getStr(licenceCode);
-            if(EQUIPO != null){
-                Dao load = new Dao();
-                Equipo eqData = new Equipo(0, EQUIPO, LICENCE_CODE, 1, null, 0);
-                if(load.get(EQUIPO, 0, eqData) == null){
-                    load.add(eqData);
-                }
-            }
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       LICENCE_CODE = getStr(licenceCode);
     }
     
     public static String apiUriLicence(){
@@ -529,5 +531,9 @@ public class GlobalValuesVariables {
     
     public static String getFechaDefault(){
         return FECHA_DEFAULT;
+    }
+
+    static int licenciaTipoLocal() {
+        return TP_LOCAL;
     }
 }

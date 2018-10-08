@@ -1888,6 +1888,10 @@ public class Local implements InterfaceSync {
                         datos.getInt("eq_id"),
                         datos.getString("eq_nombre"),
                         datos.getString("eq_licencia"),
+                        datos.getString("eq_bd"),
+                        datos.getString("eq_bd_user"),
+                        datos.getString("eq_bd_pass"),
+                        datos.getString("eq_bd_url"),
                         datos.getInt("eq_estado"),
                         datos.getDate("eq_last_update"),
                         datos.getInt("eq_last_hour")
@@ -2450,6 +2454,10 @@ public class Local implements InterfaceSync {
                         datos.getInt("eq_id"),
                         datos.getString("eq_nombre"),
                         datos.getString("eq_licencia"),
+                        datos.getString("eq_bd"),
+                        datos.getString("eq_bd_user"),
+                        datos.getString("eq_bd_pass"),
+                        datos.getString("eq_bd_url"),
                         datos.getInt("eq_estado"),
                         datos.getDate("eq_last_update"),
                         datos.getInt("eq_last_hour")
@@ -3175,7 +3183,11 @@ public class Local implements InterfaceSync {
             return  "INSERT INTO equipo VALUES("
                             + object.getId()+ ",'"
                             + object.getNombre() + "','"
-                            + object.getLicencia()+ "',"
+                            + object.getLicencia()+ "','"
+                            + object.getBd()+ "','"
+                            + object.getBdUser()+ "','"
+                            + object.getBdPass()+ "','"
+                            + object.getBdUrl()+ "',"
                             + object.getEstado() + ",'"
                             + sqlfecha + "',"
                             + object.getLastHour() + ")";
@@ -3493,6 +3505,10 @@ public class Local implements InterfaceSync {
             java.sql.Date sqlfecha = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
             return  "UPDATE equipo set eq_nombre = '" + object.getNombre()
                         + "', eq_licencia = '" + object.getLicencia()
+                        + "', eq_bd = '" + object.getBd()
+                        + "', eq_bd_user = '" + object.getBdUser()
+                        + "', eq_bd_pass = '" + object.getBdPass()
+                        + "', eq_bd_url = '" + object.getBdUrl()
                         + "', eq_estado = " + object.getEstado()
                         + ", eq_last_update = '" + sqlfecha
                         + "', eq_last_hour = " + object.getLastHour()

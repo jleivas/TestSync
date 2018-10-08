@@ -234,8 +234,13 @@ public class GV extends GlobalValuesCursor{
     public static void fichasToDelivery(List<Object> fichas){
         GlobalValuesFunctions.fichasToDelivery(fichas);
     }
+    
     public static boolean licenciaComprobarOnline(String arg) {
         return GlobalValuesFunctions.licenciaComprobateOnline(arg);
+    }
+    
+    public static void asignarToken(String arg,String key) {
+        GlobalValuesFunctions.asignarToken(arg,key);
     }
     
     public static User validar(String username, String pass) {

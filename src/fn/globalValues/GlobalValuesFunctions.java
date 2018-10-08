@@ -54,6 +54,7 @@ import view.opanel.OpanelCompanyData;
 import view.opanel.OpanelConvenyReceptor;
 import view.opanel.OpanelOfficeData;
 import view.opanel.OpanelSetLicencia;
+import view.opanel.OpanelSetToken;
 
 /**
  *
@@ -661,16 +662,21 @@ public class GlobalValuesFunctions {
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        validaToken(GV.licenciaTipoPlan(),licencia,arg);
+        return true;
+    }
+    
+    private static void setLicenciaAsignarValoresPaso1(String licencia,String arg){
         GV.username("admin");
         GV.licenciaTipoPlan(GlobalValuesXmlFiles.getTipoPlanOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
+        
         GV.setLicenceCode(licencia);
         GV.expDate(GlobalValuesXmlFiles.getExpDateOnline(keyGetLicencia(keyResolve(arg)),keyGetUrl(keyResolve(arg))));
         GV.setCurrentEquipo(licencia+"_"+GV.dateToString(new Date(), "yyyymmddhhmmss"));
         GV.setUri(keyGetUrl(keyResolve(arg)));
         GV.setPort(keyGetPass(keyResolve(arg)));
         GV.setLastUpdateFromXml(GV.strToDate(GlobalValuesVariables.getFechaDefault()));
-        
-        return true;
     }
 
     private static void licMsg(String msg,int status) {
@@ -680,6 +686,29 @@ public class GlobalValuesFunctions {
     public static void licenciaRegistroPasoFinished() {
         GlobalValuesXmlFiles.crearRegistroLocal();
         GV.initValues();
+    }
+
+    private static void validaToken(int tipoPlan,String licencia,String key) {
+        if(tipoPlan != GlobalValuesVariables.licenciaTipoFree() && 
+           tipoPlan != GlobalValuesVariables.licenciaTipoLocal()){
+            OptionPane.showOptionPanel(new OpanelSetToken(key), OptionPane.titleRegistrarLicencia());
+        }else{
+            setLicenciaAsignarValoresPaso1(licencia, key);
+        }
+    }
+    
+    public static void asignarToken(String token,String key){
+        if(GV.getStr(token).isEmpty())return;
+        String licencia = keyGetLicencia(keyResolve(key));
+        String bd = tokenGetBd(keyResolve(token));
+        String bdUser = tokenGetBdUser(keyResolve(token));
+        String bdPass = tokenGetBdPass(keyResolve(token));
+        String bdUrl = tokenGetBdUrl(keyResolve(token));
+        GlobalValuesBD.BD_NAME_REMOTE = bd;
+        GlobalValuesBD.BD_USER_REMOTE = bdUser;
+        GlobalValuesBD.BD_PASS_REMOTE = bdPass;
+        GlobalValuesBD.BD_URL_REMOTE = bdUrl;
+        setLicenciaAsignarValoresPaso1(licencia, key);
     }
     
     public void convenioGenerarReporte(Convenio cnv){
@@ -899,6 +928,10 @@ public class GlobalValuesFunctions {
         return GV.enC(url+"="+licencia+"="+pass);
     }
     
+    public static String tokenGenerate(String bd,String bdUser, String bdPass, String bdUrl){
+        return GV.enC(bd+"="+bdUser+"="+bdPass+"<"+bdUrl);
+    }
+    
     private static String keyResolve(String key){
         return GV.dsC(key);
     }
@@ -907,12 +940,28 @@ public class GlobalValuesFunctions {
         return unKey.substring(0,unKey.indexOf("="));
     }
     
+    private static String tokenGetBd(String unKey){
+        return unKey.substring(0,unKey.indexOf("="));
+    }
+    
     private static String keyGetLicencia(String unKey){
+        return unKey.substring(unKey.indexOf("=")+1,unKey.lastIndexOf("="));
+    }
+    
+    private static String tokenGetBdUser(String unKey){
         return unKey.substring(unKey.indexOf("=")+1,unKey.lastIndexOf("="));
     }
     
     private static String keyGetPass(String unKey){
         return unKey.substring(unKey.lastIndexOf("=")+1);
+    }
+    
+    private static String tokenGetBdPass(String unKey){
+        return unKey.substring(unKey.lastIndexOf("=")+1,unKey.lastIndexOf("<"));
+    }
+    
+    private static String tokenGetBdUrl(String unKey){
+        return unKey.substring(unKey.lastIndexOf("<")+1);
     }
     
     public static void fichasToDelivery(List<Object> fichas){
