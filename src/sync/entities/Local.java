@@ -1878,7 +1878,7 @@ public class Local implements InterfaceSync {
                     sql = "SELECT * FROM equipo";
                 }
                 if(idParam.contains("_")){
-                    sql = "SELECT * FROM equipo WHERE eq_nombre LIKE'" + idParam.substring(0, idParam.indexOf("_")) + "%'";
+                    sql = "SELECT * FROM equipo WHERE eq_nombre LIKE '" + idParam.substring(0, idParam.indexOf("_")) + "%'";
                 }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
@@ -2788,9 +2788,17 @@ public class Local implements InterfaceSync {
             }
             if(type instanceof Equipo){
                 if(cod != null){
-                    for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
-                        if (((Equipo) object).getNombre().equals(cod)) {
-                            return object;
+                    if(cod.contains("_") && !cod.startsWith("_") && cod.length() > 2){
+                        for (Object object : listar(cod, type)) {
+                            if (((Equipo) object).getNombre().contains(cod.substring(0, cod.indexOf("_")))) {
+                                return object;
+                            }
+                        }
+                    }else{
+                        for (Object object : listar(cod, type)) {
+                            if (((Equipo) object).getNombre().contains(cod)) {
+                                return object;
+                            }
                         }
                     }
                 }else{
