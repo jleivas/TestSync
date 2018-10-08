@@ -94,7 +94,7 @@ técnico para la puesta en marcha del sistema.
  
  - Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
 
- #### Marcar Fichas como entregadas (CON-021)
+ #### [Marcar Fichas como entregadas (CON-021)](https://github.com/softdirex/TestSync/search?q=con-021&unscoped_q=con-021&type=Commits)
  
  - Que el sistema permita cambiar el estado a entregadas con despacho sin registro
 
