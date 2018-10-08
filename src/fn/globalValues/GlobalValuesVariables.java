@@ -241,17 +241,17 @@ public class GlobalValuesVariables {
                 Equipo e = (Equipo)load.get(EQUIPO, 0, new Equipo());
                 if(e == null){
                     e = new Equipo(0, EQUIPO, LICENCE_CODE,
-                        GlobalValuesBD.BD_NAME_REMOTE,
-                        GlobalValuesBD.BD_USER_REMOTE,
-                        GlobalValuesBD.BD_PASS_REMOTE,
-                        GlobalValuesBD.BD_URL_REMOTE,
+                        GV.enC(GlobalValuesBD.BD_NAME_REMOTE),
+                        GV.enC(GlobalValuesBD.BD_USER_REMOTE),
+                        GV.enC(GlobalValuesBD.BD_PASS_REMOTE),
+                        GV.enC(GlobalValuesBD.BD_URL_REMOTE),
                         1, null, 0);
                     load.add(e);
                 }else{
-                    GlobalValuesBD.BD_NAME_REMOTE = e.getBd();
-                    GlobalValuesBD.BD_USER_REMOTE = e.getBdUser();
-                    GlobalValuesBD.BD_PASS_REMOTE = e.getBdPass();
-                    GlobalValuesBD.BD_URL_REMOTE  = e.getBdUrl();
+                    GlobalValuesBD.BD_NAME_REMOTE = GV.dsC(e.getBd());
+                    GlobalValuesBD.BD_USER_REMOTE = GV.dsC(e.getBdUser());
+                    GlobalValuesBD.BD_PASS_REMOTE = GV.dsC(e.getBdPass());
+                    GlobalValuesBD.BD_URL_REMOTE  = GV.dsC(e.getBdUrl());
                 }
             }
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
