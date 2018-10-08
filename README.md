@@ -90,7 +90,7 @@ técnico para la puesta en marcha del sistema.
  
  - Leer, editar y escribir datos xml con acceso restringidos
 
- #### [Restringir acceso de usuarios (CON-020)](https://github.com/softdirex/TestSync/commit/bf137db82fec515f9e14e1ceaa901cb9614560cc)
+ #### [Restringir acceso de usuarios (CON-020)](https://github.com/softdirex/TestSync/search?q=con-020&type=Commits)
  
  - Restringir acceso de usuarios por tipo y rango a cada funcionalidad del sistema
 
