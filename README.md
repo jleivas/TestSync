@@ -43,33 +43,39 @@ técnico para la puesta en marcha del sistema.
  #### Generar licencia gratuita (CON-013)
  
  - No tendrá acceso a bases de datos remota
+ - No podrá enviar mensajes internos
+ - Sin funciones de envío de correos
  - Impresión de fichas con publicidad de la empresa actualizada remotamente
  - Sólo podrá generar un reporte mensual de cada tipo
 
  #### Generar licencia básica (CON-023)
  
  - No tendrá acceso a bases de datos remota
+ - No podrá enviar mensajes internos
+ - Con funciones de envío de correos
  - Impresión de fichas sin publicidad
  - Generación de reportes ilimitados
 
- #### Genenerar licencia 2x (CON-014)
+ #### [Genenerar licencia 2x (CON-014)](https://github.com/softdirex/TestSync/search?q=con-014&type=Commits)
  
  - Acceso a base de datos remota
- - Impresión de fichas sin envío de correos a los clientes
- - Generación de reportes limitadas a un día por tipo
+ - No podrá enviar mensajes internos
+ - Sin funciones de envío de correos
+ - Generación de reportes ilimitados
  - Sincronización manual con base de datos remota dos veces al día
 
  #### Genenerar licencia 4x (CON-015)
  
  - Acceso a base de datos remota
- - Impresión de fichas con envío de correos a los clientes
+ - Podrá enviar mensajes internos
+ - Impresión de fichas sin envío de correos a los clientes
  - Generación ilimitada de reportes
- - Sincronización automática con base de datos remota tres veces al día
  - Sincronización manual con base de datos hasta 4 veces al día
 
  #### Genenerar licencia 6x (CON-016)
  
  - Acceso a base de datos remota
+ - Podrá enviar mensajes internos
  - Impresión de fichas con envío de correos a los clientes
  - Generación ilimitada de reportes
  - Sincronización manual con base de datos hasta seis veces al día
@@ -77,6 +83,7 @@ técnico para la puesta en marcha del sistema.
  #### [Genenerar licencia Full Data (CON-017)](https://github.com/softdirex/TestSync/commit/459dfbe43baa4e4388ca5eff2e73c009470f6cad)
  
  - Acceso a base de datos remota
+ - Podrá enviar mensajes internos
  - Impresión de fichas con envío de correos a los clientes
  - Generación ilimitada de reportes
  - Sincronización manual con base de datos ilimitada
