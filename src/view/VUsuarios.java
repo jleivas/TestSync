@@ -717,12 +717,14 @@ public class VUsuarios extends javax.swing.JPanel {
         User temp = null;
         try {
             cWT();
-            temp = (User)load.get(username, 0, staticUser);
+            temp = (User)load.get(username, 0, new User());
             if(temp != null){
                 OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.", JOptionPane.WARNING_MESSAGE);
             }else{
                 cWT();
                 load.add(user);
+                OptionPane.showMsg("Agregar usuario", "El usuario ha sido registrado exitosamente.\n"
+                        + "La clave de acceso es: "+GV.dsC(user.getPass()), 1);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
