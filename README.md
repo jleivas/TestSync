@@ -65,7 +65,7 @@ técnico para la puesta en marcha del sistema.
  #### [Ajuste de reportes (CON-024)](https://github.com/softdirex/TestSync/search?q=CON-024&type=Commits)
  
  - Borrar datos internos de la solicitud de lente a laboratorio
- - Crear reporte de ventas por fecha, cliente y/o vendedor
+ - Crear reporte de ventas por fecha y agruparlar por vendedor
 
  #### Paneles de información (CON-012)
  
