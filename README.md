@@ -62,7 +62,7 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Ajustar los planes de sincronización de la base de datos
 
- #### Ajuste de reportes (CON-024)
+ #### [Ajuste de reportes (CON-024)](https://github.com/softdirex/TestSync/search?q=CON-024&type=Commits)
  
  - Borrar datos internos de la solicitud de lente a laboratorio
  - Crear reporte de ventas por fecha, cliente y/o vendedor
