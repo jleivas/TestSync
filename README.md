@@ -38,6 +38,11 @@ técnico para la puesta en marcha del sistema.
  
  - Desabilitar cuando ya se está ejecutando una sincronización
 
+ #### CRUD usuarios (ISS-002)
+ 
+ - Mostrar mensaje de aviso de cambio de contraseña a usuario modificado
+ - Mostrar mensaje de aviso de confirmación de usuario creado
+
 
  # Current Working
  ## 05.10.2018-15.10.2018
@@ -56,7 +61,7 @@ técnico para la puesta en marcha del sistema.
  - Panel de selección de planes actualizado remotamente
  - Link de pago actualizable desde la red
  
- #### Generar licencia gratuita (CON-013)
+ #### Generar licencia gratuita VERSION LOCAL (CON-013)
  
  - No tendrá acceso a bases de datos remota
  - No podrá enviar mensajes internos
@@ -64,7 +69,7 @@ técnico para la puesta en marcha del sistema.
  - Impresión de fichas con publicidad de la empresa actualizada remotamente
  - Sólo podrá generar un reporte mensual de cada tipo
 
- #### Generar licencia básica (CON-023)
+ #### Generar licencia básica VERSION LOCAL (CON-023)
  
  - No tendrá acceso a bases de datos remota
  - No podrá enviar mensajes internos
