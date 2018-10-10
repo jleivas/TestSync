@@ -43,6 +43,10 @@ técnico para la puesta en marcha del sistema.
  - Mostrar mensaje de aviso de cambio de contraseña a usuario modificado
  - Mostrar mensaje de aviso de confirmación de usuario creado
 
+ #### Respaldo automático de datos (ISS-003)
+ 
+ - Respaldar los datos automáticamente al iniciar en versiones locales
+
 
  # Current Working
  ## 05.10.2018-15.10.2018
@@ -67,7 +71,8 @@ técnico para la puesta en marcha del sistema.
  - No podrá enviar mensajes internos
  - Sin funciones de envío de correos
  - Impresión de fichas con publicidad de la empresa actualizada remotamente
- - Sólo podrá generar un reporte mensual de cada tipo
+ - Sólo podrá ver reportes pero no exportarlos (no libs)
+ - Respaldar los datos automáticamente al iniciar (Sin pregunar al cerrar)
 
  #### Generar licencia básica VERSION LOCAL (CON-023)
  
@@ -75,7 +80,8 @@ técnico para la puesta en marcha del sistema.
  - No podrá enviar mensajes internos
  - Con funciones de envío de correos
  - Impresión de fichas sin publicidad
- - Generación de reportes ilimitados
+ - Generación de reportes y exportación (con libs)
+ - Respaldar los datos automáticamente al cerrar (Inicio mas rápido)
 
  #### [Genenerar licencia 2x (CON-014)](https://github.com/softdirex/TestSync/search?q=con-014&type=Commits)
  
