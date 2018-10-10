@@ -727,9 +727,14 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseEntered
 
     private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
-        GV.cursorWAIT();
-        SubProcess.SyncAll();
-        GV.cursorDF();
+        if(GV.sincronizacionIsStopped()){
+            GV.cursorWAIT();
+            SubProcess.SyncAll();
+            GV.cursorDF();
+        }else{
+            OptionPane.showMsg("Imposible efectuar operación", "Ya se encuentra una sincronización en curso", 2);
+        }
+            
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
