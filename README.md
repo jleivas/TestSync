@@ -38,7 +38,7 @@ técnico para la puesta en marcha del sistema.
  
  - Desabilitar cuando ya se está ejecutando una sincronización
 
- #### CRUD usuarios (ISS-002)
+ #### [CRUD usuarios (ISS-002)](https://github.com/softdirex/TestSync/search?q=ISS-002&type=Commits)
  
  - Mostrar mensaje de aviso de cambio de contraseña a usuario modificado
  - Mostrar mensaje de aviso de confirmación de usuario creado
