@@ -5,7 +5,6 @@
  */
 package view;
 
-import entities.User;
 import fn.Boton;
 import fn.GV;
 import fn.Icons;
@@ -18,6 +17,8 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -55,17 +56,15 @@ public class ContentAdmin extends javax.swing.JFrame {
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png"));
         setIconImage(icon);
         
-        String licencia = "";
-        licencia = GV.licenciaEstadoStr();
-        
-        lblLicence.setText(licencia);
+        setLblLicencia();
         lblSync();
         String userName = (GV.user()!=null) ? GV.user().getNombre():"";
         lblUserName.setText(userName);
         if(GV.licenciaTipoPlan()==GlobalValuesVariables.licenciaTipoFree()){
             btnSyncronize.setVisible(false);
         }
-        this.setTitle(GV.projectName()+" "+GV.version()+"     "+licencia);
+        setLblLicencia();
+        
         try {
             boton.crearFicha();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -839,5 +838,19 @@ public class ContentAdmin extends javax.swing.JFrame {
      */
     private void lblSync() {
         SubProcess.lblSyncStatus(lblLicence);
+    }
+
+    private void setLblLicencia() {
+        lblLicence.setText(GV.licenciaEstadoStr());
+        this.setTitle(GV.projectName()+" "+GV.version()+"     "+GV.licenciaEstadoStr());
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
+                while(true){
+                    String licencia = "";
+                    licencia = GV.licenciaEstadoStr();
+                    lblLicence.setText(licencia);
+                    this.setTitle(GV.projectName()+" "+GV.version()+"     "+licencia);
+                }
+        });
     }
 }
