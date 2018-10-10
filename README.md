@@ -28,11 +28,27 @@ Para instalar:
 - No requiere de otro software adicional, la instalación será más sencilla y no será necesario tener un mayor conocimiento 
 técnico para la puesta en marcha del sistema.
 
+ # System Issues
+ ## Registro de errores del sistema para su corrección
+ ### Reporte de errores
+ *Objetivo*
+ Refactorizar códigos con error de implementación
+
+ #### Botón de sincronización manual (ISS-001)
+ 
+ - Desabilitar cuando ya se está ejecutando una sincronización
+
+
  # Current Working
  ## 05.10.2018-15.10.2018
  ### Licencias
  *Objetivo*
  Ajustar los planes de sincronización de la base de datos
+
+ #### Ajuste de reportes (CON-024)
+ 
+ - Borrar datos internos de la solicitud de lente a laboratorio
+ - Crear reporte de ventas por fecha, cliente y/o vendedor
 
  #### Paneles de información (CON-012)
  
@@ -64,15 +80,15 @@ técnico para la puesta en marcha del sistema.
  - Generación de reportes ilimitados
  - Sincronización manual con base de datos remota dos veces al día
 
- #### Genenerar licencia 4x (CON-015)
+ #### Genenerar licencia 4x (CON-015) OK
  
  - Acceso a base de datos remota
  - Podrá enviar mensajes internos
- - Impresión de fichas sin envío de correos a los clientes
+ - Impresión de fichas con envío de correos a los clientes
  - Generación ilimitada de reportes
  - Sincronización manual con base de datos hasta 4 veces al día
 
- #### Genenerar licencia 6x (CON-016)
+ #### Genenerar licencia 6x (CON-016) OK
  
  - Acceso a base de datos remota
  - Podrá enviar mensajes internos
