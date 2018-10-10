@@ -34,7 +34,7 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
- #### Botón de sincronización manual (ISS-001)
+ #### [Botón de sincronización manual (ISS-001)](https://github.com/softdirex/TestSync/search?q=ISS-001&type=Commits)
  
  - Desabilitar cuando ya se está ejecutando una sincronización
 
