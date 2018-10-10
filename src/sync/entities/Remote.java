@@ -1644,7 +1644,7 @@ public class Remote implements InterfaceSync{
                 + "(SELECT cliente.cli_estado from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_estado, "
                 + "(SELECT cliente.cli_last_update from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_update, "
                 + "(SELECT cliente.cli_last_hour from cliente where cliente.cli_rut=ficha.cliente_cli_rut) as cli_last_hour "
-                + "from ficha where fch_estado="+GV.estadoFichaPending()+" AND fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"'";
+                + "from ficha where fch_saldo > 0 AND fch_fecha_entrega < '"+GV.dateToString(new Date(), "yyyy-mm-dd")+"'";
                 }
                 if(idParam.equals("retirar")){
                     sql=" SELECT fch_id, "
