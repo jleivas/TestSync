@@ -714,6 +714,16 @@ public class GlobalValuesFunctions {
         GlobalValuesBD.BD_URL_REMOTE = bdUrl;
         setLicenciaAsignarValoresPaso1(licencia, key);
     }
+
+    public static boolean licenciaIsEnableToSendMails() {
+        return (GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree() && 
+                GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipo2X());
+    }
+
+    public static boolean licenciaIsEnableToSendInternMessages() {
+        return (GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipo2X() && 
+                GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree());
+    }
     
     public void convenioGenerarReporte(Convenio cnv){
         if(cnv.getEstado() == 2){

@@ -1167,4 +1167,8 @@ public class GV extends GlobalValuesCursor{
     public static void mensajeAccessDenied() {
         OptionPane.showMsg("Acceso denegado", "No tienes permisos suficientes para realizar esta operación", 2);
     }
+
+    public static void mensajeLicenceAccessDenied() {
+        OptionPane.showMsg("Cambie su licencia", "La versión de su licencia no tiene esta opción disponible", 2);
+    }
 }

@@ -9,6 +9,7 @@ import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
 import fn.GV;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesFunctions;
 import java.io.File;
 import java.security.GeneralSecurityException;
 import java.util.Date;
@@ -43,6 +44,7 @@ public class Send {
     private String color_celeste = "#70bbd9";
     private String color1 = "#70bbd9";
     private String color2 = "#ee4c50";
+    
     private void sendMail(String subject, String mailTo, String title,String content,String subcontent1,String subcontent2,String urlImg,String urlSubImg1, String urlSubImg2){
         // SMTP server information
         if(color2.equals(color_turquesa)){
@@ -209,7 +211,7 @@ public class Send {
     }
     
     public void sendReportSalesMail(SalesReportFicha salesReport,String mail, String title){
-        if(GV.isOnline()){
+        if(GV.isOnline() && GlobalValuesFunctions.licenciaIsEnableToSendMails()){
             width = 25;
             height = 50;
             color1 =  color_turquesa;
@@ -325,7 +327,7 @@ public class Send {
     }
 
     public void sendFichaMail(Ficha ficha) {
-        if(GV.isOnline()){
+        if(GV.isOnline() && GlobalValuesFunctions.licenciaIsEnableToSendMails()){
             width = 25;
             height = 50;
             color1 =  color_turquesa;

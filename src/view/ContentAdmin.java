@@ -12,6 +12,7 @@ import fn.Icons;
 import fn.OptionPane;
 import fn.SubProcess;
 import fn.globalValues.GlobalValuesBD;
+import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesVariables;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -490,7 +491,11 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSizeWindowMouseClicked
 
     private void btnMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMessageMouseClicked
-        boton.mensajes();
+        if(GlobalValuesFunctions.licenciaIsEnableToSendInternMessages()){
+           boton.mensajes(); 
+        }else{
+            GV.mensajeLicenceAccessDenied();
+        }
     }//GEN-LAST:event_btnMessageMouseClicked
 
     private void btnConfigMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfigMouseClicked

@@ -14,6 +14,7 @@ import fn.GV;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
+import fn.globalValues.GlobalValuesFunctions;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -494,10 +495,14 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReloadFilterMouseExited
 
     private void btnReportSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseClicked
-        cWT();
-        reportSales = new SalesReportFicha(GV.getFichas());
-        GV.mailSendSalesReport(reportSales);
-        cDF();
+        if(GlobalValuesFunctions.licenciaIsEnableToSendMails()){
+            cWT();
+            reportSales = new SalesReportFicha(GV.getFichas());
+            GV.mailSendSalesReport(reportSales);
+            cDF();
+        }else{
+            GV.mensajeLicenceAccessDenied();
+        }
     }//GEN-LAST:event_btnReportSalesMouseClicked
 
     private void btnReportSalesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseEntered
