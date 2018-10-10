@@ -47,6 +47,14 @@ técnico para la puesta en marcha del sistema.
  
  - Respaldar los datos automáticamente al iniciar en versiones locales
 
+ #### Exportar correos de clientes morosos (ISS-004)
+ 
+ - El sistema no comprueba si quedan saldos pendientes para exportar
+
+ #### Error al iniciar sistema cuando no tiene acceso a la base de datos remota (ISS-005)
+ 
+ - El sistema no puede depender de internet para ejecutarse
+
 
  # Current Working
  ## 05.10.2018-15.10.2018
