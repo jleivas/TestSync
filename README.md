@@ -47,7 +47,7 @@ técnico para la puesta en marcha del sistema.
  
  - Respaldar los datos automáticamente al iniciar en versiones locales
 
- #### Exportar correos de clientes morosos (ISS-004)
+ #### [Exportar correos de clientes morosos (ISS-004)](https://github.com/softdirex/TestSync/search?q=ISS-004&type=Commits)
  
  - El sistema no comprueba si quedan saldos pendientes para exportar
 
