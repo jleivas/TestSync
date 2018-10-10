@@ -43,7 +43,7 @@ public class SubProcess {
     private static String TIP = "tipo de pagos";
     private static String USR = "usuarios";
     
-    private static int TIME_MIN_COMPROBAR_ONLINE = 30;
+    private static int TIME_MIN_COMPROBAR_ONLINE = 5;
     
     Dao load = new Dao();
     
@@ -68,6 +68,7 @@ public class SubProcess {
     }
     
     public static void licenciaComprobarOnline(){
+        GV.loadXmlOnline();
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             try {
