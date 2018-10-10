@@ -9,7 +9,6 @@ import dao.Dao;
 import entities.User;
 import fn.Boton;
 import fn.GV;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
@@ -547,7 +546,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtNewName.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNewNameKeyTyped
 
@@ -555,7 +554,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtNewUsername.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El username solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El username solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNewUsernameKeyTyped
 
@@ -563,7 +562,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtNewEmail.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtNewEmailKeyTyped
 
@@ -571,7 +570,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtUpdateName.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El nombre solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtUpdateNameKeyTyped
 
@@ -579,7 +578,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtUpdateUsername.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El username solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El username solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtUpdateUsernameKeyTyped
 
@@ -587,7 +586,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int largo = 45;
         if(txtUpdateEmail.getText().length() >= largo){
             evt.consume();
-            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Error de ingreso de datos", "El email solo debe contener hasta 45 caracteres", 2);
         }
     }//GEN-LAST:event_txtUpdateEmailKeyTyped
 
@@ -600,7 +599,7 @@ public class VUsuarios extends javax.swing.JPanel {
             abrirUsuario(username);
             cDF();
         }catch(Exception e){
-            OptionPane.showMsg("Seleccione usuario", "Debe seleccionar un usuario", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Seleccione usuario", "Debe seleccionar un usuario", 2);
         }
         cDF();
     }//GEN-LAST:event_btnAbrirMouseClicked
@@ -621,12 +620,12 @@ public class VUsuarios extends javax.swing.JPanel {
                 cDF();
                 return;
             }
-            if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE)){
+            if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", 2)){
                 cWT();
                 if(load.delete(username, 0, temp)){
-                    OptionPane.showMsg("Eliminar usuario", "El usuario ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
+                    OptionPane.showMsg("Eliminar usuario", "El usuario ha sido eliminado", 1);
                 }else{
-                    OptionPane.showMsg("Eliminar usuario", "No se pudo eliminar el usuario", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Eliminar usuario", "No se pudo eliminar el usuario", 2);
                 }
                 cargarDatos("0");
             }
@@ -636,7 +635,7 @@ public class VUsuarios extends javax.swing.JPanel {
                     + "es posible que no se haya seleccionado un registro:\n"
                     + "Debe hacer clic sobre un elemento de la tabla,\n"
                     + "Luego presione el botón \"Ver\".\n"
-                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",JOptionPane.WARNING_MESSAGE);
+                    + "Otro posible error: el valor seleccionado no tiene un identificador válido.",2);
         }
         cDF();
     }//GEN-LAST:event_btnEliminarMouseClicked
@@ -646,18 +645,18 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String username = tblListar.getValueAt(fila, 0).toString();
-            if(OptionPane.getConfirmation("Confirmación de usuario", "¿Esta seguro que desea restaurar este usuario?", JOptionPane.INFORMATION_MESSAGE)){
+            if(OptionPane.getConfirmation("Confirmación de usuario", "¿Esta seguro que desea restaurar este usuario?", 1)){
                 cWT();
                 if(load.restore(username, 0, new User())){
-                    OptionPane.showMsg("Restaurar usuario", "El usuario ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
+                    OptionPane.showMsg("Restaurar usuario", "El usuario ha sido restaurado", 1);
                 }else{
-                    OptionPane.showMsg("Restaurar usuario", "No se pudo restaurar el usuario", JOptionPane.WARNING_MESSAGE);
+                    OptionPane.showMsg("Restaurar usuario", "No se pudo restaurar el usuario", 2);
                 }
                 
             }
             cargarDatos("-1");
         }catch(Exception e){
-            OptionPane.showMsg("Seleccionar usuario", "Debe seleccionar un usuario", JOptionPane.WARNING_MESSAGE);
+            OptionPane.showMsg("Seleccionar usuario", "Debe seleccionar un usuario", 2);
         }
         cDF();
     }//GEN-LAST:event_btnRestaurarMouseClicked
@@ -701,14 +700,14 @@ public class VUsuarios extends javax.swing.JPanel {
         String pass=GV.enC(txtNewPass.getText());
         if(nombre.length() < 3 || username.length() < 3){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
-                    + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
             cDF();
             return;
         }
         
         if(!GV.tipoUserSuperAdmin()&& tipo == 1){
             OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
+                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", 2);
             cDF();
             return;
         }
@@ -719,7 +718,7 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             temp = (User)load.get(username, 0, new User());
             if(temp != null){
-                OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.", 2);
             }else{
                 cWT();
                 load.add(user);
@@ -751,7 +750,7 @@ public class VUsuarios extends javax.swing.JPanel {
         int tipo = cboTipo2.getSelectedIndex();
         if(tipo == 1 && !GV.tipoUserSuperAdmin()){
             OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nno tienes permisos suficientes para crear el tipo de usuario \"Jefatura\".", JOptionPane.WARNING_MESSAGE);
+                    + "\nno tienes permisos suficientes para crear el tipo de usuario \"Jefatura\".", 2);
             cDF();
             return;
         }
@@ -759,7 +758,7 @@ public class VUsuarios extends javax.swing.JPanel {
         staticUser.setUsername(txtUpdateUsername.getText());
         if(staticUser.getNombre().length() < 3 || staticUser.getUsername().length() < 3){
             OptionPane.showMsg("Modificar usuario", "Debe ingresar un nombre o username válido,"
-                    + "\nlos registros deben tener como mínimo 3 carácteres.", JOptionPane.WARNING_MESSAGE);
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
             cDF();
             return;
         }
@@ -768,9 +767,12 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             temp = (User)load.get(staticUser.getUsername(), 0, staticUser);
             if(temp != null && temp.getId()!=staticUser.getId()){
-                OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", 2);
             }else{
                 load.update(staticUser);
+                OptionPane.showMsg("Modificar usuario", "El usuario ha sido modificado exitosamente,\n"
+                        + "La clave de acceso a sido reseteada\n"
+                        + "Nueva contraseña: "+GV.dsC(staticUser.getPass()), 1);
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
@@ -951,7 +953,7 @@ public class VUsuarios extends javax.swing.JPanel {
             }
             
         }catch(Exception e){
-            OptionPane.showMsg("Error de registros", "Error, ["+e.getMessage()+"]", JOptionPane.ERROR_MESSAGE);
+            OptionPane.showMsg("Error de registros", "Error, ["+e.getMessage()+"]", 3);
         }
     }
 
@@ -971,7 +973,7 @@ public class VUsuarios extends javax.swing.JPanel {
                 cboTipo2.setSelectedIndex(staticUser.getTipo());
                 
             }else{
-                OptionPane.showMsg("Seleccione Cliente","Error al cargar el cliente", JOptionPane.WARNING_MESSAGE);
+                OptionPane.showMsg("Seleccione Cliente","Error al cargar el cliente", 2);
                 loadPanels(1);
             }
     }
@@ -1005,7 +1007,7 @@ public class VUsuarios extends javax.swing.JPanel {
             }
             tblListar.updateUI();
             if(tblListar.getRowCount() == 0){
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados, pruebe con otros valores de búsqueda.");
+                OptionPane.showMsg("Error de búsqueda", "No se encontraron resultados, pruebe con otros valores de búsqueda.",2);
                 if(i == 1){
                     cargarDatos("");
                 }else{
@@ -1014,7 +1016,7 @@ public class VUsuarios extends javax.swing.JPanel {
             }
             
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error, ["+e.getMessage()+"]");
+            OptionPane.showMsg("Error al buscar usuarios", "Error Inesperado:\n ["+e.getMessage()+"]",3);
         }
     }
 
