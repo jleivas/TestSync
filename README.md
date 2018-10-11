@@ -33,10 +33,25 @@ técnico para la puesta en marcha del sistema.
  ### Reporte de errores
  *Objetivo*
  Refactorizar códigos con error de implementación
+ #### [El sistema es lento al inicio(ISS-015)]()
+ 
+ - El sistema demora mucho al cargar despues de logearse
+
+ #### [Eliminar caracteres especiales de los mensajes(ISS-014)](https://github.com/softdirex/TestSync/search?q=ISS-014&type=Commits)
+ 
+ - El sistema no logra enviar mensajes con comillas
+
+ #### [Yo como usuario deseo modificar mis datos(ISS-013)](https://github.com/softdirex/TestSync/search?q=ISS-013&type=Commits)
+ 
+ - El sistema no logra modificar los datos
+
+ #### [Error al cargar tabla vacía de mensajes(ISS-012)]()
+ 
+ - Aparece un mensaje de error en vez de indicar que no se encuentran mensajes disponibles
 
  #### [Error de visualización al cargar tabla de fichas vacía(ISS-011)](https://github.com/softdirex/TestSync/search?q=ISS-011&type=Commits)
  
- - el panel de notificaciones aparece detrás del panel principal
+ - El panel de notificaciones aparece detrás del panel principal
 
  #### [Ventana de sincronización se actualiza despues de 10 segundos (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
  
