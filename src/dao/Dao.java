@@ -90,7 +90,12 @@ public class Dao{
                 }
             }else{
                 try {
-                    return sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                    if(object instanceof InternMail){
+                        return (sync.Sync.addLocalSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object) &&
+                                sync.Sync.addRemoteSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object));
+                    }else{
+                        return sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                    }
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }

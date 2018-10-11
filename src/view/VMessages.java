@@ -612,9 +612,13 @@ public class VMessages extends javax.swing.JPanel {
                     cWT();
                     stMail = new InternMail(0, GV.user(), stDestino, asunto, content, new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
                     
-                    load.sendMessage(stMail);
+                    if(load.sendMessage(stMail)){
+                        OptionPane.showMsg("Operación realizada con exito", "El mensaje ha sido enviado", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        OptionPane.showMsg("Error de envio", "El mensaje no se ha podido enviar", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     
-                    OptionPane.showMsg("Operación realizada con exito", "El mensaje ha sido enviado", JOptionPane.INFORMATION_MESSAGE);
+                    
                     cDF();
                 }else{
                     OptionPane.showMsg("No se puede enviar el mensaje", "Debe ingresar un usuario válido", JOptionPane.WARNING_MESSAGE);

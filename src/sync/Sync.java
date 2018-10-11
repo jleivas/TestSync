@@ -32,6 +32,7 @@ public class Sync {
     public static boolean addRemoteSync(InterfaceSync localData, InterfaceSync remoteData, Object object) throws SQLException, ClassNotFoundException{        
         if(GV.isOnline()){
             remoteData.add(object);
+            return true;
         }
         return false;
     }
