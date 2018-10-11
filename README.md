@@ -33,7 +33,7 @@ técnico para la puesta en marcha del sistema.
  ### Reporte de errores
  *Objetivo*
  Refactorizar códigos con error de implementación
- #### [El sistema es lento al inicio(ISS-015)]()
+ #### El sistema es lento al inicio(ISS-015)
  
  - El sistema demora mucho al cargar despues de logearse
 
@@ -45,7 +45,7 @@ técnico para la puesta en marcha del sistema.
  
  - El sistema no logra modificar los datos
 
- #### [Error al cargar tabla vacía de mensajes(ISS-012)]()
+ #### [Error al cargar tabla vacía de mensajes(ISS-012)](https://github.com/softdirex/TestSync/search?q=ISS-012&type=Commits)
  
  - Aparece un mensaje de error en vez de indicar que no se encuentran mensajes disponibles
 
