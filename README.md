@@ -38,7 +38,7 @@ técnico para la puesta en marcha del sistema.
  
  - Agregar columna vendedores en tabla de fichas
 
- #### Error al filtrar fichas por vendedor (ISS-006)
+ #### [Error al filtrar fichas por vendedor (ISS-006)](https://github.com/softdirex/TestSync/search?q=ISS-006&type=Commits)
  
  - El sistema arroja un error sql (Encountered "ORDER" at line 1, column 10820.) en (Local.java:1159).
 
