@@ -46,9 +46,9 @@ técnico para la puesta en marcha del sistema.
  
  - Sincronizar datos cuando no existen uduarios por defecto creados en la basse de datos local
 
- #### El sistema no reconoce equipos duplicados (ISS-010)
+ #### [El sistema no reconoce equipos duplicados (ISS-010)](https://github.com/softdirex/TestSync/search?q=ISS-010&type=Commits)
  
- - Validar existencia de equipos duplicados para evitar perdida ireversible de la información
+ - Validar existencia de equipos duplicados para evitar perdida irreversible de la información
 
  #### [Modificar tabla fichas (ISS-007)](https://github.com/softdirex/TestSync/search?q=ISS-007&unscoped_q=ISS-007)
  
