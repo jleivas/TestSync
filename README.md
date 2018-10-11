@@ -34,7 +34,7 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
- #### Error de visualización al cargar tabla de fichas vacía(ISS-011)
+ #### [Error de visualización al cargar tabla de fichas vacía(ISS-011)](https://github.com/softdirex/TestSync/search?q=ISS-011&type=Commits)
  
  - el panel de notificaciones aparece detrás del panel principal
 
