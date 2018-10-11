@@ -61,6 +61,7 @@ public class VFichas extends javax.swing.JPanel {
         modelo.addColumn("Nombre cliente");
         modelo.addColumn("Estado");
         modelo.addColumn("Total");
+        modelo.addColumn("Vendedor");
         tblListar.setModel(modelo);
         cboFilterOptions.setSelectedIndex(filter);
         btnExportConvenio.setVisible(false);
@@ -113,13 +114,13 @@ public class VFichas extends javax.swing.JPanel {
 
         tblListar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Fecha", "Rut cliente", "Nombre cliente", "Estado", "Total"
+                "Folio", "Fecha", "Rut cliente", "Nombre cliente", "Estado", "Total", "Vendedor"
             }
         ));
         jScrollPane1.setViewportView(tblListar);
@@ -717,13 +718,14 @@ public class VFichas extends javax.swing.JPanel {
             for (Object object : GV.getFichas()) {
                 Ficha temp = (Ficha)object;
                 if(status == -1 && temp.getEstado() > GV.estadoFichaDeleted()){
-                    Object[] fila = new Object[6];
+                    Object[] fila = new Object[7];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getCod();
                     fila[3] = temp.getCliente().getNombre();
                     fila[4] = GV.estadoFicha(temp.getEstado());
                     fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDeleted() && temp.getEstado() < GV.estadoFichaDeleted()){
