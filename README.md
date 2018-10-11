@@ -42,7 +42,7 @@ técnico para la puesta en marcha del sistema.
  
  - Sincronizar datos cuando no existen uduarios por defecto creados en la basse de datos local
 
- #### El sistema no reconoce equipos duplicados (ISS-007)
+ #### El sistema no reconoce equipos duplicados (ISS-010)
  
  - Validar existencia de equipos duplicados para evitar perdida ireversible de la información
 
