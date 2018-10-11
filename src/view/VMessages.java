@@ -594,8 +594,8 @@ public class VMessages extends javax.swing.JPanel {
         txtUserDestino.setEditable(true);
         if(txtUserDestino.getForeground() == Color.black){
             String userName = getUserName(txtUserDestino.getText());
-            String asunto = txtAsunto.getText();
-            String content = txtMessageContent.getText();
+            String asunto = txtAsunto.getText().replaceAll("\"", "");
+            String content = txtMessageContent.getText().replaceAll("\"", "");
             try {
                 stDestino = null;
                 stDestino = (User)load.get(userName, 0, new User());
@@ -610,12 +610,21 @@ public class VMessages extends javax.swing.JPanel {
                 cDF();
                 if(stDestino != null){
                     cWT();
-                    stMail = new InternMail(0, GV.user(), stDestino, asunto, content, new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
-                    
-                    if(load.sendMessage(stMail)){
-                        OptionPane.showMsg("Operación realizada con exito", "El mensaje ha sido enviado", JOptionPane.INFORMATION_MESSAGE);
+                    stMail = new InternMail(0, GV.user(), stDestino, asunto.replaceAll("[-+^:‘´]",""), content.replaceAll("[-+^:‘´]",""), new Date(), Cmp.DateToStrHour(new Date()),1,null,0);
+                    String resumen = (stMail.getContenido().length() > 1000)?(stMail.getContenido().substring(0,1000)+"..."):stMail.getContenido();
+                    if(OptionPane.getConfirmation("El mensaje se verá así", "ASUNTO: "+stMail.getAsunto()+"\n\n"
+                            + "MENSAJE: "+resumen+"\n\n"
+                                    + "Los caracteres especiales serán eliminados\n"
+                                    + "Presione SI para confirmar y enviar.\n"
+                                    + "Presione NO para volver a editar.", 1)){
+                        if(load.sendMessage(stMail)){
+                            OptionPane.showMsg("Operación realizada con exito", "El mensaje ha sido enviado", JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                            OptionPane.showMsg("Error de envio", "El mensaje no se ha podido enviar", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }else{
-                        OptionPane.showMsg("Error de envio", "El mensaje no se ha podido enviar", JOptionPane.INFORMATION_MESSAGE);
+                        cDF();
+                        return;
                     }
                     
                     
