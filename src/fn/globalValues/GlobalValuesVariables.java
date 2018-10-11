@@ -505,6 +505,10 @@ public class GlobalValuesVariables {
         return TP_FREE;
     }
     
+    public static int licenciaTipoLocal(){
+        return TP_LOCAL;
+    }
+    
     public static int licenciaTipo2X(){
         return TP_2X;
     }
@@ -531,9 +535,5 @@ public class GlobalValuesVariables {
     
     public static String getFechaDefault(){
         return FECHA_DEFAULT;
-    }
-
-    static int licenciaTipoLocal() {
-        return TP_LOCAL;
     }
 }
