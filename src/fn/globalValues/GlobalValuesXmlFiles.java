@@ -644,4 +644,21 @@ public class GlobalValuesXmlFiles {
         "inventary: "+GV.inventarioName()+"\n"+
         "messagefile: "+GV.getMessageFile();
     }
+
+    public static void deleteXmlFiles() {
+        
+        File fichero = new File(GV.directoryFilesPath()+"local.xml");
+
+        if (fichero.delete())
+            System.out.println("El fichero local.xml ha sido borrado satisfactoriamente");
+        else
+            System.out.println("El fichero local.xml no pudó ser borrado");
+        
+        fichero = new File(GV.directoryFilesPath()+"reg.xml");
+
+        if (fichero.delete())
+            System.out.println("El fichero reg.xml ha sido borrado satisfactoriamente");
+        else
+            System.out.println("El fichero reg.xml no pudó ser borrado");
+    }
 }

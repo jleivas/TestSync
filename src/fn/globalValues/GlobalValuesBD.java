@@ -528,9 +528,12 @@ public class GlobalValuesBD {
         entities.add(new User());
         entities.add(new EtiquetFicha());
         entities.add(new HistorialPago());
+        entities.add(new Inventario());
         entities.add(new Armazon());
         entities.add(new Cliente());
         entities.add(new Convenio());
+        entities.add(new Lente());
+        entities.add(new Oficina());
         entities.add(new Cristal());
         entities.add(new CuotasConvenio());
         entities.add(new Descuento());
@@ -539,9 +542,7 @@ public class GlobalValuesBD {
         entities.add(new Equipo());
         entities.add(new Institucion());
         entities.add(new InternMail());
-        entities.add(new Inventario());
-        entities.add(new Lente());
-        entities.add(new Oficina());
+        
         return entities;
     }
     

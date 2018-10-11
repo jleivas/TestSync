@@ -14,6 +14,7 @@ import fn.GV;
 import static fn.GV.dateToString;
 import static fn.GV.getStr;
 import static fn.GV.getToName;
+import fn.OptionPane;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -239,7 +240,22 @@ public class GlobalValuesVariables {
             if(LICENCE_CODE != null){
                 Dao load = new Dao();
                 Equipo e = (Equipo)load.get(EQUIPO, 0, new Equipo());
-                if(e == null){
+                //Si ya existe un equipo con la misma licencia se cierra el programa
+                if(e == null || !e.getNombre().equals(EQUIPO)){
+                    if(e != null){
+                        if(e.getEstado() != 0){
+                            OptionPane.showMsg("Licencia duplicada", "Esta licencia ya se encuentra asociada y vigente.\n"
+                                    + "Solicite una nueva licencia para este equipo.\n"
+                                    + "Conflicto con equipo: "+e.getNombre(), 3);
+                            GlobalValuesXmlFiles.deleteXmlFiles();
+                            try {
+                                Thread.sleep(10000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(GlobalValuesVariables.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            System.exit(0);
+                        }
+                    }
                     e = new Equipo(0, EQUIPO, LICENCE_CODE,
                         GV.enC(GlobalValuesBD.BD_NAME_REMOTE),
                         GV.enC(GlobalValuesBD.BD_USER_REMOTE),
