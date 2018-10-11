@@ -59,7 +59,7 @@ técnico para la puesta en marcha del sistema.
  
  - El sistema no comprueba si quedan saldos pendientes para exportar
 
- #### Error al iniciar sistema cuando no tiene acceso a la base de datos remota (ISS-005)
+ #### [Error al iniciar sistema cuando no tiene acceso a la base de datos remota (ISS-005)](https://github.com/softdirex/TestSync/search?q=ISS-005&type=Commits)
  
  - El sistema no puede depender de internet para ejecutarse
 
