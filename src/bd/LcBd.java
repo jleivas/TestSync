@@ -35,14 +35,19 @@ public class LcBd{
         if(T.length == C.length){
             for(int i=0;i<T.length;i++){
                 System.out.println(T[i]+"=>"+C[i]);
-                createTable(T[i], C[i]);
+                if(!createTable(T[i], C[i])){
+                    System.out.println("La base de datos ya existe");
+                    return conn;
+                }
             }
         }
         Dao load = new Dao();
         try {
+            boolean existe = false;
             load.add(new User(1, "Sistema", "root", "contacto@softdirex.cl", GV.enC("softdirex"), 7, 1, null, 0));
             load.add(new User(2, "Admin", "admin", "", GV.enC("admin"), 1, 1, null, 0));
             load.add(new TipoPago(1, "Convenio", 1, null, 0));
+            
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(LcBd.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -141,7 +146,7 @@ public class LcBd{
         }
     }
     
-    private static void createTable(String tableName, String columns){
+    private static boolean createTable(String tableName, String columns){
         try{
             //obtenemos el driver de para mysql
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -165,12 +170,14 @@ public class LcBd{
 //                    pstm2.close();
                     cerrar();
                 } catch (SQLException ex) {
+                    return false;
 //                    System.out.println("\"Error al crear tabla "+tableName+", "+ex.getLocalizedMessage());
                 }
             }
         }catch(SQLException | ClassNotFoundException | ExceptionInInitializerError e){
          OptionPane.showMsg("Error al crear tabla "+tableName,e.getMessage() ,  3);
         }
+        return true;
     }
     
     public static Object [][] select(String table, String fields, String where){
