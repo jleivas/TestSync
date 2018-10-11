@@ -22,7 +22,7 @@ public class OPanel extends javax.swing.JFrame {
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/icon.png"));
         setIconImage(icon);
         this.setLocationRelativeTo(null);
-        this.setAlwaysOnTop(true);
+//        this.setAlwaysOnTop(true);
     }
 
     /**
