@@ -34,6 +34,14 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### Modificar tabla fichas (ISS-007)
+ 
+ - Agregar columna vendedores en tabla de fichas
+
+ #### Error al filtrar fichas por vendedor (ISS-006)
+ 
+ - El sistema arroja un error sql (Encountered "ORDER" at line 1, column 10820.) en (Local.java:1159).
+
  #### [Botón de sincronización manual (ISS-001)](https://github.com/softdirex/TestSync/search?q=ISS-001&type=Commits)
  
  - Desabilitar cuando ya se está ejecutando una sincronización
