@@ -143,6 +143,7 @@ public class OpanelSelectUser extends javax.swing.JPanel {
             ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+idUser.substring(0, idUser.indexOf("<")));
             idUser = idUser.substring(idUser.indexOf("<")+1);
             idUser = idUser.replaceAll(">", "");
+            GV.userIdSelected(idUser);
             GV.listarFichasByUser(idUser);
             OptionPane.closeOptionPanel();
             try {

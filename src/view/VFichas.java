@@ -687,7 +687,7 @@ public class VFichas extends javax.swing.JPanel {
                 isFiltering = false;
                 openDialog = false;
             }else{
-                GV.listarFichasByUser(GV.userIdelected());
+                GV.listarFichasByUser(GV.userIdSelected());
             }
         }
         btnExportConvenio.setVisible(false);

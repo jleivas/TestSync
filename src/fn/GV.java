@@ -535,7 +535,7 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesVariables.setIdUserSelected(isUser);
     }
     
-    public static String userIdelected() {
+    public static String userIdSelected() {
         return GlobalValuesVariables.getIdUserSelected();
     }
     
