@@ -111,26 +111,7 @@ public class GV extends GlobalValuesCursor{
             Dao load = new Dao();
             try {
                 if(load.get("root", 0, new User())==null){
-                    if(OptionPane.getConfirmation("Sincronización inicial", "Todos los datos deben ser sincronizados para que el sistema "
-                            + "funcione correctamente,\n el tiempo de espera puede ser largo dependiendo de los registros "
-                            + "almacenados\n en la base de datos remota.\n"
-                            + "Asegúrese de que su conexión a internet sea rápida para evitar posibles problemas de registro\n"
-                            + "de lo contrario inicie el sistema mas tarde."
-                            + "\n ¿Desea sincronizar los datos ahora?", 2)){
-                        GV.setSyncCount(0);
-                        sincronizarTodo();
-                    }else{
-                        OptionPane.showMsg("Operación cancelada", "El sistema no puede iniciar sin la sincronización,\n"
-                                + "vuelva a intentarlo mas tarde.", 2);
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.exit(0);
-                    }
-                        
-                    
+                    GlobalValuesFunctions.sincronizeOrClose();
                 }
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);

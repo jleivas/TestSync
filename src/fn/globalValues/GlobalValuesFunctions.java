@@ -20,6 +20,7 @@ import entities.ficha.Despacho;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
 import fn.GV;
+import static fn.GV.sincronizarTodo;
 import fn.OptionPane;
 import static fn.ValidaRut.validarRut;
 import fn.date.Cmp;
@@ -723,6 +724,30 @@ public class GlobalValuesFunctions {
     public static boolean licenciaIsEnableToSendInternMessages() {
         return (GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipo2X() && 
                 GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree());
+    }
+
+    /**
+     * Obliga al usuario a sincronizar datos para evitar perdida importante de información
+     */
+    public static void sincronizeOrClose() {
+        if(OptionPane.getConfirmation("Sincronización inicial", "Todos los datos deben ser sincronizados para que el sistema "
+                + "funcione correctamente,\n el tiempo de espera puede ser largo dependiendo de los registros "
+                + "almacenados\n en la base de datos remota.\n"
+                + "Asegúrese de que su conexión a internet sea rápida para evitar posibles problemas de registro\n"
+                + "de lo contrario inicie el sistema mas tarde."
+                + "\n ¿Desea sincronizar los datos ahora?", 2)){
+            GV.setSyncCount(0);
+            sincronizarTodo();
+        }else{
+            OptionPane.showMsg("Operación cancelada", "El sistema no puede iniciar sin la sincronización,\n"
+                    + "vuelva a intentarlo mas tarde.", 2);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.exit(0);
+        }
     }
     
     public void convenioGenerarReporte(Convenio cnv){
