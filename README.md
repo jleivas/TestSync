@@ -34,6 +34,18 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [Ventana de sincronización se actualiza despues de 10 segundos (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
+ 
+ - Actualizar ventana de sincronización para mostrar porcentaje de progreso actualizado al inicio
+
+ #### [No se agregan usuarios por defecto cuando ya existe una base de datos remota creada (ISS-008)](https://github.com/softdirex/TestSync/search?q=ISS-008&unscoped_q=ISS-008&type=Commits)
+ 
+ - Sincronizar datos cuando no existen uduarios por defecto creados en la basse de datos local
+
+ #### El sistema no reconoce equipos duplicados (ISS-007)
+ 
+ - Validar existencia de equipos duplicados para evitar perdida ireversible de la información
+
  #### Modificar tabla fichas (ISS-007)
  
  - Agregar columna vendedores en tabla de fichas
