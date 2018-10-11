@@ -121,7 +121,6 @@ public class ContentAdmin extends javax.swing.JFrame {
         btnCrearFicha = new javax.swing.JLabel();
         btnDoctores = new javax.swing.JLabel();
         btnListarFichas = new javax.swing.JLabel();
-        btnVentas = new javax.swing.JLabel();
         btnClientes = new javax.swing.JLabel();
         btnInstituciones = new javax.swing.JLabel();
         btnConvenios = new javax.swing.JLabel();
@@ -351,20 +350,6 @@ public class ContentAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cash_Counter_50px.png"))); // NOI18N
-        btnVentas.setToolTipText("Ventas");
-        btnVentas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnVentasMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnVentasMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnVentasMouseExited(evt);
-            }
-        });
-
         btnClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Reception_50px.png"))); // NOI18N
         btnClientes.setToolTipText("Clientes");
         btnClientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -415,7 +400,6 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addGroup(jpLeftBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCrearFicha)
                     .addComponent(btnListarFichas)
-                    .addComponent(btnVentas)
                     .addComponent(btnClientes)
                     .addComponent(btnDoctores)
                     .addComponent(btnInstituciones)
@@ -430,8 +414,6 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(btnListarFichas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnVentas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClientes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDoctores)
@@ -439,7 +421,7 @@ public class ContentAdmin extends javax.swing.JFrame {
                 .addComponent(btnInstituciones)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConvenios)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(287, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -737,22 +719,6 @@ public class ContentAdmin extends javax.swing.JFrame {
             
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
-    private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnVentas.getIcon().toString()))));
-    }//GEN-LAST:event_btnVentasMouseExited
-
-    private void btnVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseEntered
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getEnteredIcon(btnVentas.getIcon().toString()))));
-    }//GEN-LAST:event_btnVentasMouseEntered
-
-    private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked
-        //        try {
-            //            boton.misFichas();
-            //        } catch (SQLException | ClassNotFoundException ex) {
-            //            Logger.getLogger(ContentAdmin.class.getName()).log(Level.SEVERE, null, ex);
-            //        }
-    }//GEN-LAST:event_btnVentasMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -811,7 +777,6 @@ public class ContentAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnSyncronize;
     private javax.swing.JLabel btnTools;
     private javax.swing.JLabel btnUser;
-    private javax.swing.JLabel btnVentas;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jpLeftBar;
     private javax.swing.JPanel jpSuperior;

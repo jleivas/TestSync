@@ -39,6 +39,7 @@ import reportes.CuotasConvenioRecursoDatos;
 import reportes.FichaDataSource;
 import reportes.FichaRecursoDatos;
 import reportes.FichasConvenioRecursoDatos;
+import reportes.SalesFichaRecursoDatos;
 import reportes.TestSync4;
 import static reportes.TestSync4.openView;
 import view.ContentAdmin;
@@ -368,6 +369,23 @@ public class GlobalValuesPrint {
 
     private static String strDetalleDescuento(int descuento) {
         return (descuento!=0)? " (Ahorro "+GV.strToPrice(descuento)+")":"";
+    }
+    
+    public static void printSalesReport(List<Object> fichas,String title){
+        GV.cursorWAIT();
+        InputStream is = null;
+            SalesFichaRecursoDatos dt = new SalesFichaRecursoDatos();
+            dt.createReport(fichas, title, GV.companyName(), GV.getOficinaWeb(), 
+                            GV.getOficinaAddress()+" - "+GV.getOficinaCity(),
+                            GV.getOficinaMail());
+            try{
+                is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"reporteVentas.jrxml");
+            }catch(FileNotFoundException e){
+                OptionPane.showMsg("No se puede obtener el recurso",
+                        "Ocurrió un error al intentar abrir el formato de impresión\n"
+                                + e.getMessage(), 3);
+            }
+            openView(is,dt);
     }
 
     public static void printConvenio(Convenio cnv) {

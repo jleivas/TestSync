@@ -353,7 +353,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnCrearFicha" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnListarFichas" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnVentas" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnClientes" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnDoctores" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnInstituciones" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -371,8 +370,6 @@
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="btnListarFichas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnVentas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnClientes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnDoctores" min="-2" max="-2" attributes="0"/>
@@ -380,7 +377,7 @@
                       <Component id="btnInstituciones" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnConvenios" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="231" max="32767" attributes="0"/>
+                      <EmptySpace pref="287" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -424,19 +421,6 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnListarFichasMouseClicked"/>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnListarFichasMouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnListarFichasMouseExited"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="btnVentas">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icons/icons8_Cash_Counter_50px.png"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" value="Ventas"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVentasMouseClicked"/>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVentasMouseEntered"/>
-                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVentasMouseExited"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="btnClientes">

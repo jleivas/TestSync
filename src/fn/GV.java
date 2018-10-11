@@ -34,7 +34,6 @@ import fn.globalValues.GlobalValuesSyncReportStatus;
 import fn.globalValues.GlobalValuesUI;
 import fn.globalValues.GlobalValuesXmlFiles;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -218,6 +217,9 @@ public class GV extends GlobalValuesCursor{
         GlobalValuesPrint.printCuotasConvenio(cnv);
     }
     
+    public static void printSalesReport(List<Object> fichas,String title){
+        GlobalValuesPrint.printSalesReport(fichas, title);
+    }
     public static void printFicha(){
         GlobalValuesPrint.print(getFicha());
     }

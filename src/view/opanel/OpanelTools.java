@@ -144,15 +144,6 @@ public class OpanelTools extends javax.swing.JPanel {
                         GV.mensajeAccessDenied();
                     }   
                     break;
-                case 2://reporte de ventas
-                    if(GV.tipoUserAdmin()){
-                        GV.cursorWAIT(this);
-                        boton.salesReport();
-                        OptionPane.closeOptionPanel();
-                    }else{
-                        GV.mensajeAccessDenied();
-                    }    
-                    break;
                 default:
                     OptionPane.closeOptionPanel();
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
@@ -184,6 +175,5 @@ public class OpanelTools extends javax.swing.JPanel {
         cboOption.removeAllItems();
         cboOption.addItem("Seleccione");
         cboOption.addItem("Exportar correos");
-        cboOption.addItem("Reporte de ventas");
     }
 }
