@@ -157,7 +157,7 @@ public class SplashProgress extends javax.swing.JFrame implements Runnable{
         this.setVisible(true);
         while(tiempo != null){
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
                 while (!GV.sincronizacionIsStopped()){
                     System.out.println(GV.porcentaje()+"%");
                     txtPorcentaje.setText(GV.porcentaje()+"%");
