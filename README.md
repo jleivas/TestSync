@@ -34,6 +34,10 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### Error de visualización al cargar tabla de fichas vacía(ISS-011)
+ 
+ - el panel de notificaciones aparece detrás del panel principal
+
  #### [Ventana de sincronización se actualiza despues de 10 segundos (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
  
  - Actualizar ventana de sincronización para mostrar porcentaje de progreso actualizado al inicio
@@ -46,7 +50,7 @@ técnico para la puesta en marcha del sistema.
  
  - Validar existencia de equipos duplicados para evitar perdida ireversible de la información
 
- #### Modificar tabla fichas (ISS-007)
+ #### [Modificar tabla fichas (ISS-007)](https://github.com/softdirex/TestSync/search?q=ISS-007&unscoped_q=ISS-007)
  
  - Agregar columna vendedores en tabla de fichas
 
