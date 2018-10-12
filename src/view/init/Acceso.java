@@ -13,6 +13,8 @@ import fn.OptionPane;
 import fn.globalValues.GlobalValuesXmlFiles;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,6 +116,11 @@ public class Acceso extends javax.swing.JFrame {
                 txtPassActionPerformed(evt);
             }
         });
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
         getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 142, -1));
 
         txtUser.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
@@ -155,6 +162,13 @@ public class Acceso extends javax.swing.JFrame {
         btnEnter.setIcon(new javax.swing.ImageIcon(getClass().getResource(Icons.getExitedIcon(btnEnter.getIcon().toString()))));
     }//GEN-LAST:event_btnEnterMouseExited
 
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            System.out.println("has presionado enter");
+            entrar();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -190,7 +204,7 @@ public class Acceso extends javax.swing.JFrame {
             }
         });
     }
-
+            
     private void entrar(){
         String user = txtUser.getText();
         String pass = txtPass.getText();
