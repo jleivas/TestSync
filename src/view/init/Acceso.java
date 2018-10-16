@@ -14,7 +14,6 @@ import fn.globalValues.GlobalValuesXmlFiles;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,9 +33,6 @@ public class Acceso extends javax.swing.JFrame {
     
     public Acceso() {
         initComponents();
-        if(GV.fechaPasada(GV.strToDate(GV.expDate()))){
-            OptionPane.showMsg("La licencia ha caducado", "Es necesaria la renovación de la Licencia", 3);
-        }
         txtUser.setText(GV.username());
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;

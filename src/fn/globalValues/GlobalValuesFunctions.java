@@ -751,6 +751,75 @@ public class GlobalValuesFunctions {
         }
     }
     
+    public static void licenciaComprobarValidez(){
+        int expDias = fechaDiferencia(GV.strToDate(GV.expDate())); 
+        if(expDias <= 5){
+            if(expDias > 1){
+                OptionPane.showMsg("Renueve su licencia", "Su licencia expirará dentro de "+expDias+" días", 2);
+            }
+            if(expDias == 1){
+                OptionPane.showMsg("Renueve su licencia", "Su licencia expirará mañana", 2);
+            }
+            if(expDias == 0){
+                OptionPane.showMsg("Renueve su licencia", "Su licencia expirará hoy", 2);
+            }
+            if(expDias < 0){
+                OptionPane.showMsg("Renueve su licencia", "Su licencia ha caducado", 2);
+            }
+        }
+    }
+    
+    public static boolean licenciaExpirada(){
+        return GV.fechaPasada(GV.strToDate(GV.expDate()));
+    }
+
+    public static int fechaDiferencia(Date date) {
+        try {
+            if(date == null) return 0;
+            String stFecha = dateToString(date, "dd/mm/yyyy");
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            cal.setTime(sdf.parse(stFecha));
+            int dias = 0;
+            if(cal.compareTo(Calendar.getInstance())>=0){
+                Date fecha=cal.getTime();
+                DateFormat dd = new SimpleDateFormat("dd/MM/yyyy");       
+                boolean activo = false;
+                Calendar calendar; Date aux;
+                do{
+                    calendar = Calendar.getInstance();           
+                    calendar.add(Calendar.DAY_OF_YEAR, dias);
+                    aux = calendar.getTime();
+                    if(dd.format(aux).equals(dd.format(fecha)))
+                        activo = true;
+                    else
+                        dias++;
+                }while(activo != true);
+            }else{
+                Date fecha=cal.getTime();
+                DateFormat dd = new SimpleDateFormat("dd/MM/yyyy");       
+                boolean activo = false;
+                Calendar calendar; Date aux;
+                do{
+                    calendar = Calendar.getInstance();           
+                    calendar.add(Calendar.DAY_OF_YEAR, dias);
+                    aux = calendar.getTime();
+                    if(dd.format(aux).equals(dd.format(fecha)))
+                        activo = true;
+                    else
+                        dias--;
+                }while(activo != true);
+            }
+            
+            return dias; 
+        } catch (ParseException ex) {
+            Logger.getLogger(GlobalValuesFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al calcular dias", "Ocurrió un error inesperado...", 3);
+        }
+        return 0;
+    }
+    
+    
     public void convenioGenerarReporte(Convenio cnv){
         if(cnv.getEstado() == 2){
             

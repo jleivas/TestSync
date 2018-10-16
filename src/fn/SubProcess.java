@@ -6,6 +6,8 @@
 package fn;
 
 import dao.Dao;
+import static fn.GV.fechaDiferencia;
+import static fn.globalValues.GlobalValuesFunctions.licenciaComprobarValidez;
 import fn.mail.Send;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -69,13 +71,16 @@ public class SubProcess {
     
     public static void licenciaComprobarOnline(){
         GV.loadXmlOnline();
+        licenciaComprobarValidez();
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.submit(() -> {
             try {
                 while(true){
                     Thread.sleep(TIME_MIN_COMPROBAR_ONLINE*60000);
                     GV.loadXmlOnline();
-                    System.out.println("compobado: "+GV.dateToString(new Date(), "hh:ss"));
+                    if(fechaDiferencia(GV.strToDate(GV.expDate())) < 1){
+                        licenciaComprobarValidez();
+                    }
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(SubProcess.class.getName()).log(Level.SEVERE, null, ex);

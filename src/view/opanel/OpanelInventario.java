@@ -164,23 +164,11 @@ public class OpanelInventario extends javax.swing.JPanel {
                     }
                     break;
                 case 4://exportar inventario
-                    if(GV.tipoUserIventario()){
-                        GV.cursorWAIT(this);
-                        OptionPane.closeOptionPanel();
-                        OptionPane.showOptionPanel(new OpanelInventaryChooser(), OptionPane.titleInventaryChooser());
-                    }else{
-                        GV.mensajeAccessDenied();
-                    }
+                    exportarInventario();
                     break;
                 case 5://generar orden de compras
-                    if(GV.tipoUserIventario()){
-                        GV.cursorWAIT(this);
-                        OptionPane.closeOptionPanel();
-                        GV.cursorDF(this);
-                        GV.excelLowStockBuyOrder();
-                    }else{
-                        GV.mensajeAccessDenied();
-                    }
+                    generarOrdenCompra();
+                    break;
                 case 6://registro de bajas
                     if(GV.tipoUserIventario()){
                         GV.cursorWAIT(this);
@@ -231,5 +219,34 @@ public class OpanelInventario extends javax.swing.JPanel {
         cboOption.addItem("Exportar inventario");
         cboOption.addItem("Generar orden de compra");
         cboOption.addItem("Registro de bajas");
+    }
+
+    private void exportarInventario() {
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
+        }else{
+            if(GV.tipoUserIventario()){
+                GV.cursorWAIT(this);
+                OptionPane.closeOptionPanel();
+                OptionPane.showOptionPanel(new OpanelInventaryChooser(), OptionPane.titleInventaryChooser());
+            }else{
+                GV.mensajeAccessDenied();
+            }
+        }
+    }
+
+    private void generarOrdenCompra() {
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
+        }else{
+            if(GV.tipoUserIventario()){
+                GV.cursorWAIT(this);
+                OptionPane.closeOptionPanel();
+                GV.cursorDF(this);
+                GV.excelLowStockBuyOrder();
+            }else{
+                GV.mensajeAccessDenied();
+            }
+        }
     }
 }

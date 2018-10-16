@@ -136,13 +136,7 @@ public class OpanelTools extends javax.swing.JPanel {
                     OptionPane.showMsg("Debe seleccionar una opción", "No ha seleccionado una opción válida en el combo-box", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 1://Exportar correos
-                    if(GV.tipoUserAdmin()){
-                        GV.cursorWAIT(this);
-                        OptionPane.closeOptionPanel();
-                        OptionPane.showOptionPanel(new OpanelMailExport(), OptionPane.titleMailExport());
-                    }else{
-                        GV.mensajeAccessDenied();
-                    }   
+                    exportarCorreos();
                     break;
                 default:
                     OptionPane.closeOptionPanel();
@@ -175,5 +169,19 @@ public class OpanelTools extends javax.swing.JPanel {
         cboOption.removeAllItems();
         cboOption.addItem("Seleccione");
         cboOption.addItem("Exportar correos");
+    }
+
+    private void exportarCorreos() {
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
+        }else{
+            if(GV.tipoUserAdmin()){
+                GV.cursorWAIT(this);
+                OptionPane.closeOptionPanel();
+                OptionPane.showOptionPanel(new OpanelMailExport(), OptionPane.titleMailExport());
+            }else{
+                GV.mensajeAccessDenied();
+            }
+        }
     }
 }

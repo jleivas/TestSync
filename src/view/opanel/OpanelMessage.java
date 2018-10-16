@@ -89,6 +89,11 @@ public class OpanelMessage extends javax.swing.JPanel {
                 btnAceptarMousePressed(evt);
             }
         });
+        btnAceptar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAceptarKeyPressed(evt);
+            }
+        });
 
         lblTitle.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         lblTitle.setText("Titulo del mensaje");
@@ -171,6 +176,10 @@ public class OpanelMessage extends javax.swing.JPanel {
     private void btnAceptarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarMousePressed
+
+    private void btnAceptarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAceptarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAceptarKeyPressed
 
     public static void updateMsg(String title, String msg, int currentStatus){
         //comprobar si el msgStatus tiene un valor por defecto para actualizar

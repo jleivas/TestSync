@@ -472,10 +472,14 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSizeWindowMouseClicked
 
     private void btnMessageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMessageMouseClicked
-        if(GlobalValuesFunctions.licenciaIsEnableToSendInternMessages()){
-           boton.mensajes(); 
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
         }else{
-            GV.mensajeLicenceAccessDenied();
+            if(GlobalValuesFunctions.licenciaIsEnableToSendInternMessages()){
+               boton.mensajes(); 
+            }else{
+                GV.mensajeLicenceAccessDenied();
+            }
         }
     }//GEN-LAST:event_btnMessageMouseClicked
 
@@ -709,14 +713,17 @@ public class ContentAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSyncronizeMouseEntered
 
     private void btnSyncronizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSyncronizeMouseClicked
-        if(GV.sincronizacionIsStopped()){
-            GV.cursorWAIT();
-            SubProcess.SyncAll();
-            GV.cursorDF();
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
         }else{
-            OptionPane.showMsg("Imposible efectuar operación", "Ya se encuentra una sincronización en curso", 2);
-        }
-            
+            if(GV.sincronizacionIsStopped()){
+                GV.cursorWAIT();
+                SubProcess.SyncAll();
+                GV.cursorDF();
+            }else{
+                OptionPane.showMsg("Imposible efectuar operación", "Ya se encuentra una sincronización en curso", 2);
+            }
+        }  
     }//GEN-LAST:event_btnSyncronizeMouseClicked
 
     /**

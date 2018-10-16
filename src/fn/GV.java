@@ -27,6 +27,7 @@ import fn.globalValues.GlobalValuesDirectories;
 import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesVariables;
 import fn.globalValues.GlobalValuesEntities;
+import static fn.globalValues.GlobalValuesFunctions.licenciaComprobarValidez;
 import fn.globalValues.GlobalValuesMailProperties;
 import fn.globalValues.GlobalValuesNetwork;
 import fn.globalValues.GlobalValuesPrint;
@@ -98,7 +99,6 @@ public class GV extends GlobalValuesCursor{
         SubProcess.isOnline();
         loadLastUpdateFromXML();//cargar LAST_UPDATE de fichero xml al iniciar programa
         SubProcess.licenciaComprobarOnline();
-        
         validaBD();
         Acceso init = new Acceso();
         init.setVisible(true);
@@ -250,6 +250,14 @@ public class GV extends GlobalValuesCursor{
     /**************************BEGIN FUNTIONS**********************************/
     public static int getSyncCount(){
         return GlobalValuesFunctions.currentSyncCount();
+    }
+    
+    public static boolean licenciaExpirada(){
+        return GlobalValuesFunctions.licenciaExpirada();
+    }
+    
+    public static int fechaDiferencia(Date date) {
+        return GlobalValuesFunctions.fechaDiferencia(date);
     }
     
     public static void fichasToDelivery(List<Object> fichas){
@@ -1191,5 +1199,9 @@ public class GV extends GlobalValuesCursor{
 
     public static void mensajeLicenceAccessDenied() {
         OptionPane.showMsg("Cambie su licencia", "La versión de su licencia no tiene esta opción disponible", 2);
+    }
+    
+    public static void mensajeLicenceExpired() {
+        OptionPane.showMsg("Renueve su licencia", "La versión de su licencia se encuentra expirada", 2);
     }
 }

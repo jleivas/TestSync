@@ -511,10 +511,14 @@ public class VFichas extends javax.swing.JPanel {
 
     private void btnReportSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseClicked
         if(GlobalValuesFunctions.licenciaIsEnableToSendMails()){
-            cWT();
-            reportSales = new SalesReportFicha(GV.getFichas());
-            GV.mailSendSalesReport(reportSales);
-            cDF();
+            if(!GV.licenciaExpirada()){
+                cWT();
+                reportSales = new SalesReportFicha(GV.getFichas());
+                GV.mailSendSalesReport(reportSales);
+                cDF();
+            }else{
+                GV.mensajeLicenceExpired();
+            }
         }else{
             GV.mensajeLicenceAccessDenied();
         }
@@ -529,9 +533,13 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReportSalesMouseExited
 
     private void btnExportExcelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseClicked
-        cWT();
-        GV.printFichas(GV.getFichas());
-        cDF();
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
+        }else{
+            cWT();
+            GV.printFichas(GV.getFichas());
+            cDF();
+        }
     }//GEN-LAST:event_btnExportExcelMouseClicked
 
     private void btnExportExcelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportExcelMouseEntered
@@ -543,37 +551,41 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnExportExcelMouseExited
 
     private void btnExportConvenioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportConvenioMouseClicked
-        if(GV.tipoUserAdmin()){
-            cWT();
-            if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
-                Convenio cnv = ((Ficha)GV.getFichas().get(0))
-                        .getConvenio();
-                validaConvenio(cnv);
-                if(cnv.getEstado() == 1){
-                    if(OptionPane.getConfirmation("Generar reporte de convenio", "La fecha de cierre aún no ha caducado.\n"
-                            + "Si generas este reporte ahora, el convenio se cerrará para futuras recetas y tendrás que crear otro convenio.\n"
-                            + "¿Estas seguro de cerrar el convenio para futuras nuevas recetas?", 2)){
-                        cnv.setFechaInicio((GV.fechaActualOFutura(cnv.getFechaInicio()))?
-                                GV.dateSumaResta(new Date(), -1, "DAYS"):cnv.getFechaInicio());
-                        cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
-                        validaConvenio(cnv);
-                    }else{
-                        cDF();
-                        return;
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
+        }else{
+            if(GV.tipoUserAdmin()){
+                cWT();
+                if(cboFilterOptions.getSelectedIndex() == BY_CONVENY && GV.getFichas().size() > 0){
+                    Convenio cnv = ((Ficha)GV.getFichas().get(0))
+                            .getConvenio();
+                    validaConvenio(cnv);
+                    if(cnv.getEstado() == 1){
+                        if(OptionPane.getConfirmation("Generar reporte de convenio", "La fecha de cierre aún no ha caducado.\n"
+                                + "Si generas este reporte ahora, el convenio se cerrará para futuras recetas y tendrás que crear otro convenio.\n"
+                                + "¿Estas seguro de cerrar el convenio para futuras nuevas recetas?", 2)){
+                            cnv.setFechaInicio((GV.fechaActualOFutura(cnv.getFechaInicio()))?
+                                    GV.dateSumaResta(new Date(), -1, "DAYS"):cnv.getFechaInicio());
+                            cnv.setFechaFin(GV.dateSumaResta(new Date(), -1, "DAYS"));
+                            validaConvenio(cnv);
+                        }else{
+                            cDF();
+                            return;
+                        }
                     }
+                    GV.convenioGenerateReport(cnv);
+                    OptionPane.showMsg("Generación de reporte", "Se generarán los siguientes reportes:\n"
+                            + "1-Reporte de convenio por recetas oftalmológicas.\n"
+                            + "2-Reporte de cuotas.", 1);
+                    cDF();
+                }else{
+                    cDF();
+                    OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
                 }
-                GV.convenioGenerateReport(cnv);
-                OptionPane.showMsg("Generación de reporte", "Se generarán los siguientes reportes:\n"
-                        + "1-Reporte de convenio por recetas oftalmológicas.\n"
-                        + "2-Reporte de cuotas.", 1);
                 cDF();
             }else{
-                cDF();
-                OptionPane.showMsg("Orden cancelada", "Para generar un reporte, debes filtrar por un convenio con recetas registradas", 2);
+                GV.mensajeAccessDenied();
             }
-            cDF();
-        }else{
-            GV.mensajeAccessDenied();
         }
     }//GEN-LAST:event_btnExportConvenioMouseClicked
 
@@ -602,10 +614,14 @@ public class VFichas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDespacharTodoMouseExited
 
     private void btnSalesReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalesReportMouseClicked
-        if(GV.tipoUserAdmin()){
-            GV.printSalesReport(GV.getFichas(), ContentAdmin.lblTitle.getText());
+        if(GV.licenciaExpirada()){
+            GV.mensajeLicenceExpired();
         }else{
-            GV.mensajeAccessDenied();
+            if(GV.tipoUserAdmin()){
+                GV.printSalesReport(GV.getFichas(), ContentAdmin.lblTitle.getText());
+            }else{
+                GV.mensajeAccessDenied();
+            }
         }
     }//GEN-LAST:event_btnSalesReportMouseClicked
 
