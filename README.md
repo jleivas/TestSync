@@ -34,6 +34,10 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [Validaciones de licencia(ISS-017)](https://github.com/softdirex/TestSync/search?q=ISS-017&type=Commits)
+ 
+ - Validar accesos con licencia activa.
+
  #### [Presionar enter para entrar(ISS-016)](https://github.com/softdirex/TestSync/search?q=ISS-016&type=Commits)
  
  - Logearse al presionar enter.
