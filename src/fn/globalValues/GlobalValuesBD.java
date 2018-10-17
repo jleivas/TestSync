@@ -42,6 +42,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
 import newpackage.NoGit;
+import sync.entities.Migrar;
+import sync.entities.Remote;
 
 /**
  *
@@ -57,6 +59,9 @@ public class GlobalValuesBD {
     public static String BD_NAME_LOCAL = "Derby.DB";//"odm4"
     public static String BD_USER_LOCAL = "odm4";
     public static String BD_PASS_LOCAL = "odm4";
+    
+    private static Migrar mig = new Migrar();
+    private static Remote rem = new Remote();
     
     private static boolean SINCRONIZAR = false;
     private static boolean error = false;
@@ -87,7 +92,7 @@ public class GlobalValuesBD {
     
     private static String ARMAZON = "ARM_ID VARCHAR(25) not null primary key," +
 " ARM_TIPO INTEGER," +
-" ARM_MARCA VARCHAR(45)," +
+" ARM_MARCA VARCHAR(100)," +
 " ARM_PRECIO_MARCA INTEGER," +
 " ARM_CRISTAL VARCHAR(45)," +
 " ARM_PRECIO_CRISTAL INTEGER," +
@@ -229,7 +234,7 @@ public class GlobalValuesBD {
 " INV_ESTADO INTEGER," +
 " INV_LAST_UPDATE DATE," +
 " INV_LAST_HOUR INTEGER";
-    private static String LENTE = "LEN_ID VARCHAR(25) not null primary key," +
+    private static String LENTE = "LEN_ID VARCHAR(100) not null primary key," +
 " LEN_COLOR VARCHAR(25)," +
 " LEN_TIPO VARCHAR(45)," +
 " LEN_MARCA VARCHAR(45)," +
@@ -268,7 +273,7 @@ public class GlobalValuesBD {
 " OF_LAST_HOUR INTEGER";
     private static String REGISTRO_BAJAS = "RB_ID VARCHAR(25) not null primary key," +
 " RB_FECHA DATE," +
-" LENTE_LEN_ID VARCHAR(25)," +
+" LENTE_LEN_ID VARCHAR(100)," +
 " RB_CANTIDAD INTEGER," +
 " RB_OBS LONG VARCHAR," +
 " RB_ESTADO INTEGER," +
@@ -711,7 +716,7 @@ public class GlobalValuesBD {
         return null;
     }
     
-    private static String nameObjeto(Object type){
+    public static String nameObjeto(Object type){
         String[] T = tableNamesDB();
         String[] D = tableDataDB();
         int index = getIndex(type);
@@ -880,5 +885,458 @@ public class GlobalValuesBD {
             GV.loadLastUpdateFromXML();
             GlobalValuesBD.sincronizarTodo();
 //        }
+    }
+    
+    public static void migrarAllOldData(){
+        //todas las fichas tendran id con guion uno, no se deberá utilizar mas
+        migrarArmazones();
+        migrarClientes();
+        migrarCristales();
+        migrarDescuentos();
+        migrarDespachos();
+        migrarDoctores();
+        migrarFichas();
+        migrarHistorialPago();
+        migrarInstitucion();
+        migrarLentes();
+        migrarRegistroBajas();
+        migrarUsers();
+    }
+    
+    private static void migrarUsers() {
+        List<Object> lista = mig.listar("-2", new User());
+        List<Object> lista2 = new ArrayList<>();
+        for (Object object : lista) {
+            User user = (User)object;
+                if(user.getTipo()== 2){
+                    user.setTipo(4);
+                }
+                if(user.getTipo() == 1){
+                    user.setTipo(2);
+                }
+                user.setId(user.getId()+2);
+                lista2.add(user);
+        }
+        String [][] stList = (String[][]) transformList(lista2, new User());
+        createExcel(stList, new User());
+    }
+    
+    private static void migrarClientes() {
+        List<Object> lista = mig.listar("-2", new Cliente());
+        List<Object> lista2 = new ArrayList<>();
+        int cont = 0;
+        for (Object object : lista) {
+            Cliente cli = (Cliente)object;
+            cli.setComuna(cli.getComuna().replaceAll("ñ", "n"));
+            cli.setCiudad(cli.getCiudad().replaceAll("ñ", "n"));
+            cli.setDireccion(cli.getDireccion().replaceAll("ñ", "n"));
+            if(cli.getCiudad().equals("Chañarañ")){
+                cli.setCiudad("Chanaral");
+            }
+            cli.setNombre(cli.getNombre().replaceAll("ñ", "n"));
+            lista2.add(cli);
+            cont++;
+        }
+        String [][] stList = (String[][]) transformList(lista2, new Cliente());
+        createExcel(stList, new Cliente());
+    }
+    
+    private static void migrarCristales() {
+        int maxId = rem.getMaxId(new Cristal());
+        List<Object> lista = mig.listar("-2", new Cristal());
+        List<Object> lista2 = new ArrayList<>();
+        int cont = 0;
+        for (Object object : lista) {
+            Cristal cri = (Cristal)object;
+            if(cri.getId() != 18){
+                cri.setId(maxId);
+                lista2.add(cri);
+                maxId++;
+            }
+            cont++;
+        }
+        String [][] stList = (String[][]) transformList(lista2, new Cristal());
+        createExcel(stList, new Cristal());
+    }
+    
+    private static void migrarDescuentos() {
+        int maxId = rem.getMaxId(new Descuento());
+        List<Object> lista = mig.listar("-2", new Descuento());
+        List<Object> lista2 = new ArrayList<>();
+        for (Object object : lista) {
+            Descuento des = (Descuento)object;
+                des.setId(maxId);
+                lista2.add(des);
+                maxId++;
+        }
+        String [][] stList = (String[][]) transformList(lista2, new Descuento());
+        createExcel(stList, new Descuento());
+    }
+    
+    private static void migrarArmazones() {
+        List<Object> lista = mig.listar("-2", new Armazon());
+        for (Object object : lista) {
+            Armazon ar = (Armazon)object;
+            ar.setPrecioCristal(mig.getPrecioCristal(ar.getCristal()));
+            ar.setPrecioMarca(mig.getPrecioMarca(ar.getMarca()));
+        }
+        String [][] stList = (String[][]) transformList(lista, new Armazon());
+        createExcel(stList, new Armazon());
+    }
+    
+
+    private static void migrarDespachos() {
+        List<Object> lista = mig.listar("-2", new Despacho());
+        List<Object> lista2 = new ArrayList<>();
+        for (Object object : lista) {
+            Despacho temp = (Despacho)object;
+            temp.setNombre(temp.getNombre().replaceAll("ñ", "n").replaceAll("Ñ", "N"));
+            lista2.add(temp);
+        }
+        String [][] stList = (String[][]) transformList(lista2, new Despacho());
+        createExcel(stList, new Despacho());
+    }
+
+    private static void migrarDoctores() {
+        List<Object> lista = mig.listar("-2", new Doctor());
+        for (Object object : lista) {
+            Doctor doc = (Doctor)object;
+        }
+        String [][] stList = (String[][]) transformList(lista, new Doctor());
+        createExcel(stList, new Doctor());
+    }
+
+    private static void migrarHistorialPago() {
+        List<Object> lista = mig.listar("-2", new HistorialPago());
+        for (Object object : lista) {
+            HistorialPago temp = (HistorialPago)object;
+            if(temp.getIdTipoPago() == 0){
+                temp.setIdTipoPago(2);
+            }else{
+                temp.setIdTipoPago(temp.getIdTipoPago()+1);
+            }
+        }
+        String [][] stList = (String[][]) transformList(lista, new HistorialPago());
+        createExcel(stList, new HistorialPago());
+    }
+
+    private static void migrarInstitucion() {
+        List<Object> lista = mig.listar("-2", new Institucion());
+        String [][] stList = (String[][]) transformList(lista, new Institucion());
+        createExcel(stList, new Institucion());
+    }
+
+    private static void migrarLentes() {
+        List<Object> lista = mig.listar("-2", new Lente());
+//        for (Object object : lista) {
+//            Lente temp = (Lente)object;
+//            temp.setCod(temp.getCod()+"-"+temp.getMarca()+"-"+temp.getColor());
+//        }
+        String [][] stList = (String[][]) transformList(lista, new Lente());
+        createExcel(stList, new Lente());
+    }
+
+    private static void migrarRegistroBajas() {
+        List<Object> lista = mig.listar("-2", new RegistroBaja());
+        String [][] stList = (String[][]) transformList(lista, new RegistroBaja());
+        createExcel(stList, new RegistroBaja());
+    }
+
+    private static void migrarFichas() {
+        List<Object> lista = mig.listar("-2", new EtiquetFicha());
+        for (Object object : lista) {
+            EtiquetFicha temp = (EtiquetFicha)object;
+            if(temp.getIdDespacho().equals("0")){
+                temp.setIdDespacho("");
+            }else{
+                temp.setIdDespacho(temp.getIdDespacho()+"-1");
+            }
+            if(temp.getRutDoctor().equals("null"))
+                temp.setRutDoctor("");
+            if(temp.getIdInstitucion().equals("0"))
+                temp.setIdInstitucion("");
+            temp.setLugarEntrega(temp.getLugarEntrega().replaceAll("Ñ", "N").replaceAll("ñ", "n"));
+            temp.setObservacion(temp.getObservacion().replaceAll("Ñ", "N").replaceAll("ñ", "n"));
+            temp.setDescuento(mig.getPrecioDescuento(temp.getDescuento(), temp.getValorTotal()));
+        }
+        String [][] stList = (String[][]) transformList(lista, new EtiquetFicha());
+        createExcel(stList, new Ficha());
+    }
+    
+    private static boolean createExcel(Object[][] res, Object type){
+        if(res == null || res.length < 1){
+            return false;
+        }
+        if(res.length > 0){
+            try {
+                GlobalValuesSaveXls.generarExcelRespaldo((String [][])res, GlobalValuesBD.nameObjeto(type));
+            } catch (WriteException ex) {
+                Logger.getLogger(GlobalValuesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    public static Object[][] transformList(List<Object> lista, Object type){
+        if(type instanceof EtiquetFicha){
+            int columnas = 18;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                EtiquetFicha temp = (EtiquetFicha)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=getSqlDate(temp.getFecha());
+                stList[i][2]=getSqlDate(temp.getFechaEntrega());
+                stList[i][3]=""+temp.getLugarEntrega();
+                stList[i][4]=""+temp.getHoraEntrega();
+                stList[i][5]=""+temp.getObservacion().replaceAll("\n", "").replaceAll("\"", "");
+                stList[i][6]=""+temp.getValorTotal();
+                stList[i][7]=""+temp.getDescuento();
+                stList[i][8]=""+temp.getSaldo();
+                stList[i][9]=""+temp.getRutCliente();
+                stList[i][10]=""+temp.getRutDoctor();
+                stList[i][11]=""+temp.getIdInstitucion();
+                stList[i][12]=""+temp.getIdDespacho();
+                stList[i][13]=""+temp.getIdUser();
+                stList[i][14]=""+temp.getIdConvenio();
+                stList[i][15]=""+temp.getEstado();
+                stList[i][16]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][17]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Armazon){
+            int columnas = 21;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Armazon temp = (Armazon)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getTipo();
+                stList[i][2]=""+temp.getMarca();
+                stList[i][3]=""+temp.getPrecioMarca();
+                stList[i][4]=""+temp.getCristal();
+                stList[i][5]=""+temp.getPrecioCristal();
+                stList[i][6]=""+temp.getAdd();
+                stList[i][7]=""+temp.getOdA();
+                stList[i][8]=""+temp.getOdEsf();
+                stList[i][9]=""+temp.getOdCil();
+                stList[i][10]=""+temp.getOiA();
+                stList[i][11]=""+temp.getOiEsf();
+                stList[i][12]=""+temp.getOiCil();
+                stList[i][13]=""+temp.getDp();
+                stList[i][14]=""+temp.getEndurecido();
+                stList[i][15]=""+temp.getCapa();
+                stList[i][16]=""+temp.getPlusMax();
+                stList[i][17]=""+temp.getIdFicha();
+                stList[i][18]=""+temp.getEstado();
+                stList[i][19]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][20]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof User){
+            int columnas = 9;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                User temp = (User)object;
+                stList[i][0]=""+temp.getId();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getUsername();
+                stList[i][3]=""+temp.getEmail();
+                stList[i][4]=""+temp.getPass();
+                stList[i][5]=""+temp.getTipo();
+                stList[i][6]=""+temp.getEstado();
+                stList[i][7]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][8]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Cliente){
+            int columnas = 13;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Cliente temp = (Cliente)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getTelefono1();
+                stList[i][3]=""+temp.getTelefono2();
+                stList[i][4]=""+temp.getEmail();
+                stList[i][5]=""+temp.getDireccion();
+                stList[i][6]=""+temp.getComuna();
+                stList[i][7]=""+temp.getCiudad();
+                stList[i][8]=""+temp.getSexo();
+                stList[i][9]=""+getSqlDate(temp.getNacimiento());
+                stList[i][10]=""+temp.getEstado();
+                stList[i][11]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][12]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Cristal){
+            int columnas = 6;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Cristal temp = (Cristal)object;
+                stList[i][0]=""+temp.getId();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getPrecio();
+                stList[i][3]=""+temp.getEstado();
+                stList[i][4]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][5]=""+temp.getLastHour();   
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Descuento){
+            int columnas = 8;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Descuento temp = (Descuento)object;
+                stList[i][0]=""+temp.getId();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getDescripcion();
+                stList[i][3]=""+temp.getPorcetange();
+                stList[i][4]=""+temp.getMonto();
+                stList[i][5]=""+temp.getEstado();
+                stList[i][6]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][7]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Despacho){
+            int columnas = 8;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Despacho temp = (Despacho)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getRut();
+                stList[i][2]=GV.getStToName(temp.getNombre());
+                stList[i][3]=getSqlDate(temp.getFecha());
+                stList[i][4]=""+temp.getIdFicha();
+                stList[i][5]=""+temp.getEstado();
+                stList[i][6]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][7]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Doctor){
+            int columnas = 7;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Doctor temp = (Doctor)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getTelefono();
+                stList[i][3]=""+temp.getEmail();
+                stList[i][4]=""+temp.getEstado();
+                stList[i][5]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][6]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof HistorialPago){
+            int columnas = 8;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                HistorialPago temp = (HistorialPago)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=getSqlDate(temp.getFecha());
+                stList[i][2]=""+temp.getAbono();
+                stList[i][3]=""+temp.getIdTipoPago();
+                stList[i][4]=""+temp.getIdFicha();
+                stList[i][5]=""+temp.getEstado();
+                stList[i][6]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][7]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Institucion){
+            int columnas = 11;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Institucion temp = (Institucion)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getNombre();
+                stList[i][2]=""+temp.getTelefono();
+                stList[i][3]=""+temp.getEmail();
+                stList[i][4]=""+temp.getWeb();
+                stList[i][5]=""+temp.getDireccion();
+                stList[i][6]=""+temp.getComuna();
+                stList[i][7]=""+temp.getCiudad();
+                stList[i][8]=""+temp.getEstado();
+                stList[i][9]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][10]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof Lente){
+            int columnas = 16;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                Lente temp = (Lente)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=""+temp.getColor();
+                stList[i][2]=""+temp.getTipo();
+                stList[i][3]=""+temp.getMarca();
+                stList[i][4]=""+temp.getMaterial();
+                stList[i][5]=""+temp.getFlex();
+                stList[i][6]=""+temp.getClasificacion();
+                stList[i][7]=""+temp.getDescripcion();
+                stList[i][8]=""+temp.getPrecioRef();
+                stList[i][9]=""+temp.getPrecioAct();
+                stList[i][10]=""+temp.getStock();
+                stList[i][11]=""+temp.getStockMin();
+                stList[i][12]=""+temp.getInventario();
+                stList[i][13]=""+temp.getEstado();
+                stList[i][14]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][15]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        if(type instanceof RegistroBaja){
+            int columnas = 8;
+            String[][] stList = new String[lista.size()][columnas];
+            int i=0;
+            for (Object object : lista) {
+                RegistroBaja temp = (RegistroBaja)object;
+                stList[i][0]=""+temp.getCod();
+                stList[i][1]=getSqlDate(temp.getFecha());
+                stList[i][2]=""+temp.getIdLente();
+                stList[i][3]=""+temp.getCantidad();
+                stList[i][4]=""+temp.getObs();
+                stList[i][5]=""+temp.getEstado();
+                stList[i][6]=""+getSqlDate(temp.getLastUpdate());
+                stList[i][7]=""+temp.getLastHour();
+                i++;
+            }
+            return stList;
+        }
+        return null;
+            
+    }
+    
+    private static String getSqlDate(Date date){
+        return GV.dateToString(date, "yyyy-mm-dd");
     }
 }
