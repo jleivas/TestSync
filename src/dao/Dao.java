@@ -7,6 +7,7 @@ package dao;
 
 import entities.InternMail;
 import entities.Lente;
+import entities.User;
 import entities.abstractclasses.SyncStringId;
 import entities.abstractclasses.SyncClass;
 import entities.abstractclasses.SyncFichaClass;
@@ -78,7 +79,14 @@ public class Dao{
         }
         if(GV.isOnline()){
             if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
-                ((SyncIntId)object).setId(GV.REMOTE_SYNC.getMaxId(object));
+                if(object instanceof User){
+                    if(((User)object).getId() != 1 || ((User)object).getId() != 2){
+                        ((SyncIntId)object).setId(GV.REMOTE_SYNC.getMaxId(object));
+                    }
+                }else{
+                    ((SyncIntId)object).setId(GV.REMOTE_SYNC.getMaxId(object));
+                }
+                
             if(GV.REMOTE_SYNC.exist(object)){
                 if(object instanceof SyncIntId){
                     if(!GV.isCurrentDate(((SyncIntId)object).getLastUpdate())){
