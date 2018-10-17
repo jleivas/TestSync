@@ -683,6 +683,8 @@ public class VFichas extends javax.swing.JPanel {
             if(isFiltering){
                 OptionPane.showOptionPanel(new OpanelSelectDate(), OptionPane.titleDateChooser());
                 isFiltering = false;
+            }else{
+                GV.listarFichasByDate(GV.dateFrom(),GV.dateTo());
             }
             String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
             tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
@@ -693,6 +695,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectClient(), OptionPane.titleClientChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByClient(GV.rutClientSelected());
             }
         }
         if(filter==BY_USER){
@@ -700,6 +704,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectUser(), OptionPane.titleUserChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByUser(GV.userIdSelected());
             }
         }
         btnExportConvenio.setVisible(false);
@@ -709,6 +715,8 @@ public class VFichas extends javax.swing.JPanel {
                 OptionPane.showOptionPanel(new OpanelSelectConvenyFilter(), OptionPane.titleConvenyChooser());
                 isFiltering = false;
                 openDialog = false;
+            }else{
+                GV.listarFichasByConveny(GV.convenioIdSelected());
             }
         }
         if(status == 0){
