@@ -156,6 +156,7 @@ public class OpanelSelectDate extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSyncronize19MouseClicked
 
     private void btnCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseClicked
+        
         OptionPane.closeOptionPanel();
     }//GEN-LAST:event_btnCancelMouseClicked
 
@@ -173,6 +174,7 @@ public class OpanelSelectDate extends javax.swing.JPanel {
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         try {
+            GV.cursorWAIT(this);
             if(txtFecha1.getDate() == null){
                 if(txtFecha2.getDate() == null){
                     GV.setDateFrom(new Date());
@@ -191,6 +193,7 @@ public class OpanelSelectDate extends javax.swing.JPanel {
                 }
             }
             GV.listarFichasByDate(GV.dateFrom(),GV.dateTo());
+            GV.cursorDF(this);
             OptionPane.closeOptionPanel();
             boton.fichas(GV.cboFichasFilter());
         } catch (SQLException | ClassNotFoundException ex) {

@@ -139,6 +139,7 @@ public class OpanelSelectUser extends javax.swing.JPanel {
 
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         String idUser = txtNombreUsuario.getText();
+        GV.cursorWAIT(this);
         if(idUser.contains("<")){
             ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+idUser.substring(0, idUser.indexOf("<")));
             idUser = idUser.substring(idUser.indexOf("<")+1);
@@ -152,7 +153,8 @@ public class OpanelSelectUser extends javax.swing.JPanel {
                 Logger.getLogger(OpanelSelectUser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            OptionPane.showMsg("El cliente no existe", "Debe seleccionar un cliente de la lista desplegable", 2);
+            GV.cursorDF(this);
+            OptionPane.showMsg("El vendedor no existe", "Debe seleccionar un vendedor de la lista desplegable", 2);
         }
     }//GEN-LAST:event_btnLoadMouseClicked
 

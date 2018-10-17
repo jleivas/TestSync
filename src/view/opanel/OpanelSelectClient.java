@@ -145,7 +145,9 @@ public class OpanelSelectClient extends javax.swing.JPanel {
                 rut = rut.substring(rut.indexOf("<")+1);
                 rut = rut.replaceAll(">", "");
                 GV.rutClientSelected(rut);
+                GV.cursorWAIT(this);
                 GV.listarFichasByClient(rut);
+                GV.cursorDF(this);
                 OptionPane.closeOptionPanel();
                 boton.fichas(GV.cboFichasFilter());
             } catch (SQLException | ClassNotFoundException ex) {
