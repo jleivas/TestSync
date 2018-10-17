@@ -80,6 +80,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(stInventario == null){
+            stInventario = new Inventario();
+        }
         loadStaticObjectList();
         convenioObtenerSeleccionado();
         
