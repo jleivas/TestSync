@@ -43,7 +43,7 @@ public class OpanelSetToken extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
-        jLabel1.setText("Ingrese su token");
+        jLabel1.setText("Ingrese el token recibido");
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_Cancel_50px.png"))); // NOI18N
         btnCancel.setToolTipText("No tengo");
@@ -96,7 +96,7 @@ public class OpanelSetToken extends javax.swing.JPanel {
                             .addComponent(txtToken, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(0, 287, Short.MAX_VALUE)))))
+                                .addGap(0, 229, Short.MAX_VALUE)))))
                 .addGap(87, 87, 87))
         );
         layout.setVerticalGroup(

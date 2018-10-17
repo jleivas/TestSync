@@ -42,6 +42,7 @@ public class OptionPane {
     private static String CONVENY_DATA_RECEPTOR = "Ingrese los datos del receptor";
     private static String PAY_AGREEENT_FEES = "Registro de cuotas pagadas";
     private static String REGISTRAR_LICENCIA = "Ingrese su licencia";
+    private static String REGISTRAR_TOKEN = "Ingrese un token";
     
     public static void showOptionPanel(javax.swing.JPanel p1, String title){
         GV.opanel().lblTitle.setText(title);
@@ -204,5 +205,9 @@ public class OptionPane {
     
     public static String titleOfficeDataCreate() {
         return REGISTRAR_OFICINA_CREATE;
+    }
+
+    public static String titleRegistrarToken() {
+        return REGISTRAR_TOKEN;
     }
 }
