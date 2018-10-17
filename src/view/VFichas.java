@@ -618,7 +618,9 @@ public class VFichas extends javax.swing.JPanel {
             GV.mensajeLicenceExpired();
         }else{
             if(GV.tipoUserAdmin()){
+                cWT();
                 GV.printSalesReport(GV.getFichas(), ContentAdmin.lblTitle.getText());
+                cDF();
             }else{
                 GV.mensajeAccessDenied();
             }
