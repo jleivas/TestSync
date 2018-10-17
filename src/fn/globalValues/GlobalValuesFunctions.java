@@ -629,6 +629,10 @@ public class GlobalValuesFunctions {
                     + ex.getMessage(), 3);
         }
         if(user!=null){
+            if(user.getEstado() == 0){
+                OptionPane.showMsg("Acceso denegado", "El usuario se encuentra anulado", 2);
+                return null;
+            }
             if(GV.dsC(user.getPass()).equals(pass)){
                 return user;
             }else{
