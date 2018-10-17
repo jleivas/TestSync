@@ -34,10 +34,13 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+  #### [Error en mensajes visibles (ISS-021)](https://github.com/softdirex/TestSync/search?q=ISS-021&type=Commits)
+ 
+ - Se modifica titulo de ventana para ingresar token
+
  #### [Modificacion de inventario (ISS-020)](https://github.com/softdirex/TestSync/search?q=ISS-020&type=Commits)
  
- - Crear un inventario por defecto al iniciar base de datos, no se puede modificar ni agregar productos [PENDIENTE]
- - Si el sistema no encuentra un inventario por modificacion externa se cae [PENDIENTE]
+ - Si el sistema no encuentra un inventario por modificacion externa se cae
 
  #### [Cursor en espera (ISS-019)](https://github.com/softdirex/TestSync/search?q=ISS-019&type=Commits)
  
@@ -79,7 +82,7 @@ técnico para la puesta en marcha del sistema.
  #### [Error en ventana de sincronizacion (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
  
  - Actualizar ventana de sincronización para mostrar porcentaje de progreso actualizado al inicio
- - Ventana no se actualiza en la primera sincrnizacion del sistema, reiniciar para ver sin problemas [PENDIENTE]
+ - Ventana no se actualiza en la primera sincronizacion del sistema, reiniciar para ver sin problemas
 
  #### [No se agregan usuarios por defecto cuando ya existe una base de datos remota creada (ISS-008)](https://github.com/softdirex/TestSync/search?q=ISS-008&unscoped_q=ISS-008&type=Commits)
  
