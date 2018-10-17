@@ -34,6 +34,15 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [Cursor en espera (ISS-019)](https://github.com/softdirex/TestSync/search?q=ISS-019&type=Commits)
+ 
+ - No aparece el cursor en espera cuando el sistema está trabajando
+
+ #### [Error al generar reporte de ventas(ISS-018)](https://github.com/softdirex/TestSync/search?q=ISS-018&type=Commits)
+ 
+ - Arreglos de string fuera del rango.
+ - Validacion de resumen con datos nulos
+
  #### [Validaciones de licencia(ISS-017)](https://github.com/softdirex/TestSync/search?q=ISS-017&type=Commits)
  
  - Validar accesos con licencia activa.
@@ -68,7 +77,7 @@ técnico para la puesta en marcha del sistema.
 
  #### [No se agregan usuarios por defecto cuando ya existe una base de datos remota creada (ISS-008)](https://github.com/softdirex/TestSync/search?q=ISS-008&unscoped_q=ISS-008&type=Commits)
  
- - Sincronizar datos cuando no existen uduarios por defecto creados en la basse de datos local
+ - Sincronizar datos cuando no existen usuarios por defecto creados en la basse de datos local
 
  #### [El sistema no reconoce equipos duplicados (ISS-010)](https://github.com/softdirex/TestSync/search?q=ISS-010&type=Commits)
  
@@ -102,6 +111,7 @@ técnico para la puesta en marcha del sistema.
  #### [Error al iniciar sistema cuando no tiene acceso a la base de datos remota (ISS-005)](https://github.com/softdirex/TestSync/search?q=ISS-005&type=Commits)
  
  - El sistema no puede depender de internet para ejecutarse
+ - El sistema debe crear usuarios por defecto sin actualizar su id inicial
 
 
  # Current Working
@@ -207,9 +217,10 @@ técnico para la puesta en marcha del sistema.
  - generar respaldo de datos automáticamente al momento de cerrar y validar coneccion a internet
  - comprobar licencia cada 5 minutos
 
- #### Importación de base de datos (CON-010)
+ #### [Importación de base de datos (CON-010)](https://github.com/softdirex/TestSync/search?q=CON-010&type=Commits)
 
  - Crear opción en herramientas para importar todos los datos desde los respaldos en excel
+ - Generar archivos Excel para migrar datos antiguos
 
  #### Importación de inventario (CON-011)
 
