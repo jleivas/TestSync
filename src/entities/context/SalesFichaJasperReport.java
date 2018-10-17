@@ -209,15 +209,17 @@ public class SalesFichaJasperReport {
         vendedor.setTotalVentas(ficha.getValorTotal()-ficha.getDescuento());
         
         String[][] abonos = (String[][])GlobalValuesFunctions.listarAbonos(ficha.getCod());
-        for (int i = 0; i < abonos.length; i++) {
-            DetalleVentas detalle = new DetalleVentas();
-            detalle.setDetalle(abonos[i][1]);
-            int montoAbono = GV.strToNumber(abonos[i][0]);
-            setMontoTotalAbonado(getMontoTotalAbonado() + montoAbono);
-            detalle.setMonto(montoAbono);
-            vendedor.addDetalle(detalle);
-            generateResumenTotal(detalle.getDetalle(),montoAbono);
-            FILAS++;
+        if(abonos != null){
+            for (int i = 0; i < abonos.length; i++) {
+                DetalleVentas detalle = new DetalleVentas();
+                detalle.setDetalle(abonos[i][1]);
+                int montoAbono = GV.strToNumber(abonos[i][0]);
+                setMontoTotalAbonado(getMontoTotalAbonado() + montoAbono);
+                detalle.setMonto(montoAbono);
+                vendedor.addDetalle(detalle);
+                generateResumenTotal(detalle.getDetalle(),montoAbono);
+                FILAS++;
+            }
         }
         vendedores.add(vendedor);
     }
