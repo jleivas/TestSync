@@ -259,7 +259,8 @@ public class Dao{
                     Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe.", 2);
+                OptionPane.showMsg("No se puede eliminar registro", "El registro no existe o fué modificado\n"
+                        + "sincronice los datos para solucionar este error.", 2);
             }
         }else{
             temp =  GV.LOCAL_SYNC.getElement(cod,id,type);

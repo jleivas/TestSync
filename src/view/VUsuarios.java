@@ -726,28 +726,32 @@ public class VUsuarios extends javax.swing.JPanel {
             return;
         }
         staticUser.setTipo(tipo);
-        staticUser.setUsername(txtUpdateUsername.getText());
-        if(staticUser.getNombre().length() < 3 || staticUser.getUsername().length() < 3){
+        String newUsername = txtUpdateUsername.getText();
+        
+        if(staticUser.getNombre().length() < 3 || newUsername.length() < 3){
             OptionPane.showMsg("Modificar usuario", "Debe ingresar un nombre o username válido,"
                     + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
             cDF();
             return;
         }
-        User temp;
-        try {
-            cWT();
-            temp = (User)load.get(staticUser.getUsername(), 0, staticUser);
-            if(temp != null && temp.getId()!=staticUser.getId()){
-                OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", 2);
+        
+        if(!staticUser.getUsername().equals(newUsername)){
+            if(GV.usernameYaExiste(newUsername)){
+                if(GV.licenciaLocal()){
+                    OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", 2);
+                }else{
+                    OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.\n\n"
+                            + "Si no aparece en la tabla debes sincronizar los datos", 2);
+                }
             }else{
-                load.update(staticUser);
-                OptionPane.showMsg("Modificar usuario", "El usuario ha sido modificado exitosamente,\n"
-                        + "La clave de acceso a sido reseteada\n"
-                        + "Nueva contraseña: "+GV.dsC(staticUser.getPass()), 1);
+                staticUser.setUsername(newUsername);
             }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
+        cWT();
+        load.update(staticUser);
+        OptionPane.showMsg("Modificar usuario", "El usuario ha sido modificado exitosamente,\n"
+                + "La clave de acceso a sido reseteada\n"
+                + "Nueva contraseña: "+GV.dsC(staticUser.getPass()), 1);  
         cargarDatos("0");
         cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
