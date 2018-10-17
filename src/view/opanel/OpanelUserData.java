@@ -404,7 +404,7 @@ public class OpanelUserData extends javax.swing.JPanel {
         cboTipo.addItem("Jefatura");
         cboTipo.addItem("Administrativo");
         cboTipo.addItem("Ventas");
-        cboTipo.addItem("Sin asignar");
+        cboTipo.addItem("Inventario");
         cboTipo.addItem("Sin asignar");
         cboTipo.addItem("Sin asignar");
         cboTipo.addItem("Sistema");
