@@ -110,6 +110,7 @@ técnico para la puesta en marcha del sistema.
  - Mostrar mensaje de aviso de confirmación de usuario creado
  - No aparece el tipo de usuario al cargar mis datos
  - El sistema permite la entrada a usuarios anulados
+ - El sistema debe validar online si existen usernames nuevos
 
  #### Respaldo automático de datos (ISS-003)
  
