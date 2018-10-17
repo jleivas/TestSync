@@ -34,9 +34,20 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+  #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
+ 
+ - Al marcar todas las fichas como entregadas no se actualiza la tabla [PENDIENTE]
+ - No generar reportes cuando la tabla esta vacia
+ - No se pueden eliminar las fichas
+ - No se pueden eliminar las fichas antiguas, sin embargo el mensaje dice que si se elimino
+ - Al filtrar por cliente y cambiar de ventana se pierde el titulo
+ - Al filtrar por usuario y cambiar de ventana se pierde el titulo
+ - Tabla no muestra todos los datos al filtrar por estado
+
   #### [Error en mensajes visibles (ISS-021)](https://github.com/softdirex/TestSync/search?q=ISS-021&type=Commits)
  
  - Se modifica titulo de ventana para ingresar token
+ - Cambiar títulos de emails con acento
 
  #### [Modificacion de inventario (ISS-020)](https://github.com/softdirex/TestSync/search?q=ISS-020&type=Commits)
  
