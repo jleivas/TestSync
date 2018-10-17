@@ -34,6 +34,11 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [Modificacion de inventario (ISS-020)](https://github.com/softdirex/TestSync/search?q=ISS-020&type=Commits)
+ 
+ - Crear un inventario por defecto al iniciar base de datos, no se puede modificar ni agregar productos [PENDIENTE]
+ - Si el sistema no encuentra un inventario por modificacion externa se cae [PENDIENTE]
+
  #### [Cursor en espera (ISS-019)](https://github.com/softdirex/TestSync/search?q=ISS-019&type=Commits)
  
  - No aparece el cursor en espera cuando el sistema está trabajando
