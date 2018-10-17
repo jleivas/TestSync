@@ -695,13 +695,14 @@ public class GlobalValuesFunctions {
 
     public static void licenciaRegistroPasoFinished() {
         GlobalValuesXmlFiles.crearRegistroLocal();
-        GV.initValues();
+        
+        System.exit(0);
     }
 
     private static void validaToken(int tipoPlan,String licencia,String key) {
         if(tipoPlan != GlobalValuesVariables.licenciaTipoFree() && 
            tipoPlan != GlobalValuesVariables.licenciaTipoLocal()){
-            OptionPane.showOptionPanel(new OpanelSetToken(key), OptionPane.titleRegistrarLicencia());
+            OptionPane.showOptionPanel(new OpanelSetToken(key), OptionPane.titleRegistrarToken());
         }else{
             setLicenciaAsignarValoresPaso1(licencia, key);
         }

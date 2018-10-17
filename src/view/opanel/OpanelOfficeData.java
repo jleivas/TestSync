@@ -394,24 +394,30 @@ public class OpanelOfficeData extends javax.swing.JPanel {
             OptionPane.showMsg("Faltan campos obligatorios", msgReject, 2);
             return;
         }
-        String officeName = "Local "+ciudad;
-        String inventarioName = "Inventario "+officeName;
-        Oficina of = new Oficina(0, officeName, direccion, ciudad, telefono, "", mail, web, 1, null, 0);
-        Dao load = new Dao();
-        SubProcess.report("Nuevo registro", "Reporte de nueva instalación de "+GV.projectName()+" "+GV.version()+"\n"
-                + GlobalValuesXmlFiles.imprimirDatosLeidos());
-        try {
-            load.add(of);
-            Inventario inv = new Inventario(0, inventarioName, "Inventario principal para la administracíon de insumos del local", 1, null, 0);
-            load.add(inv);
-            GV.setOficinaFromXml(officeName);
-            GV.setInventarioLocalFromXml(inventarioName);
-            OptionPane.closeOptionPanel();
-            GV.licenciaRegistroPasoFinished();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(OpanelOfficeData.class.getName()).log(Level.SEVERE, null, ex);
-            OptionPane.showMsg("Error al inicio", "No se pudo conectar con la base de datos\n"
-                    + ex.getMessage(), 3);
+        if(OptionPane.getConfirmation("Confirmar y cerrar", "Para finalizar correctamente la operación el sistema se cerrará.\n"
+                + "Si confirma los datos, deberá volver a iniciar el programa.\n"
+                + "¿Estas seguro que los datos son correctos?", 1)){
+            String officeName = "Local "+ciudad;
+            String inventarioName = "Inventario "+officeName;
+            Oficina of = new Oficina(0, officeName, direccion, ciudad, telefono, "", mail, web, 1, null, 0);
+            Dao load = new Dao();
+            SubProcess.report("Nuevo registro", "Reporte de nueva instalación de "+GV.projectName()+" "+GV.version()+"\n"
+                    + GlobalValuesXmlFiles.imprimirDatosLeidos());
+            try {
+                load.add(of);
+                Inventario inv = new Inventario(0, inventarioName, "Inventario principal para la administracíon de insumos del local", 1, null, 0);
+                load.add(inv);
+                GV.setOficinaFromXml(officeName);
+                GV.setInventarioLocalFromXml(inventarioName);
+                OptionPane.closeOptionPanel();
+                GV.licenciaRegistroPasoFinished();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(OpanelOfficeData.class.getName()).log(Level.SEVERE, null, ex);
+                OptionPane.showMsg("Error al inicio", "No se pudo conectar con la base de datos\n"
+                        + ex.getMessage(), 3);
+            }
+        }else{
+            return;
         }
     }
 }
