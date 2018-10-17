@@ -6,7 +6,9 @@
 package view;
 
 import dao.Dao;
+import entities.Cliente;
 import entities.Convenio;
+import entities.User;
 import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
 import fn.Boton;
@@ -19,6 +21,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import view.opanel.OpanelSelectClient;
@@ -697,6 +701,12 @@ public class VFichas extends javax.swing.JPanel {
                 openDialog = false;
             }else{
                 GV.listarFichasByClient(GV.rutClientSelected());
+                try {
+                    Cliente cli = (Cliente)load.get(GV.rutClientSelected(), 0, new Cliente());
+                    ContentAdmin.lblTitle.setText("Fichas por Cliente: "+cli.getNombre()+" [Rut: "+cli.getCod()+"]");
+                } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         if(filter==BY_USER){
@@ -706,6 +716,12 @@ public class VFichas extends javax.swing.JPanel {
                 openDialog = false;
             }else{
                 GV.listarFichasByUser(GV.userIdSelected());
+                try {
+                    User us = (User)load.get(null, GV.strToNumber(GV.userIdSelected()), new User());
+                    ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+us.getNombre());
+                } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         btnExportConvenio.setVisible(false);
@@ -717,6 +733,13 @@ public class VFichas extends javax.swing.JPanel {
                 openDialog = false;
             }else{
                 GV.listarFichasByConveny(GV.convenioIdSelected());
+                try {
+                    Convenio cnv = (Convenio)load.get(null, GV.strToNumber(GV.convenioIdSelected()), new Convenio());
+                    ContentAdmin.lblTitle.setText("Fichas por Convenio: "+cnv.getNombre());
+                } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                    Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         }
         if(status == 0){

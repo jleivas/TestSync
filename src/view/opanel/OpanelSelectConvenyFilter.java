@@ -140,7 +140,7 @@ public class OpanelSelectConvenyFilter extends javax.swing.JPanel {
     private void btnLoadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadMouseClicked
         String idConvenio = txtNombreConvenio.getText();
         if(idConvenio.contains("<")){
-            ContentAdmin.lblTitle.setText("Fichas por Convenio: "+idConvenio.substring(0, idConvenio.indexOf("<")));
+            
             idConvenio = idConvenio.substring(idConvenio.indexOf("<")+1);
             idConvenio = idConvenio.replaceAll(">", "");
             GV.convenioIdSelected(idConvenio);

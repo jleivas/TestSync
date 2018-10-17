@@ -141,7 +141,6 @@ public class OpanelSelectUser extends javax.swing.JPanel {
         String idUser = txtNombreUsuario.getText();
         GV.cursorWAIT(this);
         if(idUser.contains("<")){
-            ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+idUser.substring(0, idUser.indexOf("<")));
             idUser = idUser.substring(idUser.indexOf("<")+1);
             idUser = idUser.replaceAll(">", "");
             GV.userIdSelected(idUser);
