@@ -515,10 +515,14 @@ public class VFichas extends javax.swing.JPanel {
     private void btnReportSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportSalesMouseClicked
         if(GlobalValuesFunctions.licenciaIsEnableToSendMails()){
             if(!GV.licenciaExpirada()){
-                cWT();
-                reportSales = new SalesReportFicha(GV.getFichas());
-                GV.mailSendSalesReport(reportSales);
-                cDF();
+                if(GV.getFichas().size() > 0){
+                    cWT();
+                    reportSales = new SalesReportFicha(GV.getFichas());
+                    GV.mailSendSalesReport(reportSales);
+                    cDF();
+                }else{
+                    mensajeOperacionCanceladaPorTablaVacia();
+                }
             }else{
                 GV.mensajeLicenceExpired();
             }
@@ -539,9 +543,13 @@ public class VFichas extends javax.swing.JPanel {
         if(GV.licenciaExpirada()){
             GV.mensajeLicenceExpired();
         }else{
-            cWT();
-            GV.printFichas(GV.getFichas());
-            cDF();
+            if(GV.getFichas().size()>0){
+                cWT();
+                GV.printFichas(GV.getFichas());
+                cDF();
+            }else{
+                mensajeOperacionCanceladaPorTablaVacia();
+            } 
         }
     }//GEN-LAST:event_btnExportExcelMouseClicked
 
@@ -602,7 +610,11 @@ public class VFichas extends javax.swing.JPanel {
 
     private void btnDespacharTodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseClicked
         if(GV.tipoUserAdmin()){
-            GV.fichasToDelivery(GV.getFichas());
+            if(GV.getFichas().size() > 0){
+                GV.fichasToDelivery(GV.getFichas());
+            }else{
+                mensajeOperacionCanceladaPorTablaVacia();
+            }
         }else{
             GV.mensajeAccessDenied();
         }
@@ -621,9 +633,13 @@ public class VFichas extends javax.swing.JPanel {
             GV.mensajeLicenceExpired();
         }else{
             if(GV.tipoUserAdmin()){
-                cWT();
-                GV.printSalesReport(GV.getFichas(), ContentAdmin.lblTitle.getText());
-                cDF();
+                if(GV.getFichas().size()>0){
+                    cWT();
+                    GV.printSalesReport(GV.getFichas(), ContentAdmin.lblTitle.getText());
+                    cDF();
+                }else{
+                    mensajeOperacionCanceladaPorTablaVacia();
+                }
             }else{
                 GV.mensajeAccessDenied();
             }
@@ -842,5 +858,9 @@ public class VFichas extends javax.swing.JPanel {
 
     private void validaConvenio(Convenio cnv) {
         GV.convenioUpdateBDIfValidated(cnv);
+    }
+
+    private void mensajeOperacionCanceladaPorTablaVacia() {
+        OptionPane.showMsg("No hay datos disponibles", "La operación no se puede realizar porque no existen datos en la tabla", 2);
     }
 }
