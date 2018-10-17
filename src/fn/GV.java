@@ -27,7 +27,6 @@ import fn.globalValues.GlobalValuesDirectories;
 import fn.globalValues.GlobalValuesFunctions;
 import fn.globalValues.GlobalValuesVariables;
 import fn.globalValues.GlobalValuesEntities;
-import static fn.globalValues.GlobalValuesFunctions.licenciaComprobarValidez;
 import fn.globalValues.GlobalValuesMailProperties;
 import fn.globalValues.GlobalValuesNetwork;
 import fn.globalValues.GlobalValuesPrint;
@@ -248,6 +247,10 @@ public class GV extends GlobalValuesCursor{
     }
      /**************************END PRINT************************************/
     /**************************BEGIN FUNTIONS**********************************/
+    public static boolean usernameYaExiste(String username) {
+        return GlobalValuesFunctions.usernameYaExiste(username);
+    }
+    
     public static int getSyncCount(){
         return GlobalValuesFunctions.currentSyncCount();
     }
@@ -1203,5 +1206,10 @@ public class GV extends GlobalValuesCursor{
     
     public static void mensajeLicenceExpired() {
         OptionPane.showMsg("Renueve su licencia", "La versión de su licencia se encuentra expirada", 2);
+    }
+
+    public static boolean licenciaLocal() {
+        return (licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoFree() ||
+                licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoLocal());
     }
 }

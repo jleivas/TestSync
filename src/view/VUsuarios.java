@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import fn.Icons;
 import fn.OptionPane;
 import fn.date.Cmp;
+import fn.globalValues.GlobalValuesVariables;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -692,46 +693,16 @@ public class VUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        cWT();
-        String nombre=txtNewName.getText();
-        String username=txtNewUsername.getText();
-        String email=txtNewEmail.getText();
-        int tipo = cboTipo1.getSelectedIndex();
-        String pass=GV.enC(txtNewPass.getText());
-        if(nombre.length() < 3 || username.length() < 3){
-            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
-                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
-            cDF();
-            return;
-        }
-        
-        if(!GV.tipoUserSuperAdmin()&& tipo == 1){
-            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", 2);
-            cDF();
-            return;
-        }
-            
-        User user = new User(0,nombre, username, email, pass, tipo, 1, null, 0);
-        User temp = null;
-        try {
-            cWT();
-            temp = (User)load.get(username, 0, new User());
-            if(temp != null){
-                OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.", 2);
+        if(GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree() && 
+           GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoLocal()){
+            if(GV.isOnline()){
+                guardarUsuario();
             }else{
-                cWT();
-                load.add(user);
-                OptionPane.showMsg("Agregar usuario", "El usuario ha sido registrado exitosamente.\n"
-                        + "La clave de acceso es: "+GV.dsC(user.getPass()), 1);
+                OptionPane.showMsg("No se puede agregar nuevo usuario", "Intente denuevo mas tarde cuando tenga acceso a internet", 2);
             }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar el usuario\n\n"
-                    + ex, 3);
-        } 
-        cargarDatos("0");
-        cDF();
+        }else{
+            guardarUsuario();
+        }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -1049,5 +1020,53 @@ public class VUsuarios extends javax.swing.JPanel {
             pnl1.setVisible(true);
             pnl2.setVisible(false);
         }
+    }
+
+    private void guardarUsuario() {
+        cWT();
+        String nombre=txtNewName.getText();
+        String username=txtNewUsername.getText();
+        String email=txtNewEmail.getText();
+        int tipo = cboTipo1.getSelectedIndex();
+        String pass=GV.enC(txtNewPass.getText());
+        if(nombre.length() < 3 || username.length() < 3){
+            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
+            cDF();
+            return;
+        }
+        
+        if(!GV.tipoUserSuperAdmin()&& tipo == 1){
+            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
+                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", 2);
+            cDF();
+            return;
+        }
+            
+        User user = new User(0,nombre, username, email, pass, tipo, 1, null, 0);
+        try {
+            cWT();
+            if(GV.usernameYaExiste(username)){
+                if(GV.licenciaLocal()){
+                    OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado", 2);
+                }else{
+                    OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.\n"
+                        + "Si no aparece en la tabla debes sincronizar los datos.", 2);
+                }
+                cDF();
+                return;
+            }else{
+                cWT();
+                load.add(user);
+                OptionPane.showMsg("Agregar usuario", "El usuario ha sido registrado exitosamente.\n"
+                        + "La clave de acceso es: "+GV.dsC(user.getPass()), 1);
+            }
+        } catch (InstantiationException | IllegalAccessException ex) {
+            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
+                    + "No se pudo insertar el usuario\n\n"
+                    + ex, 3);
+        } 
+        cargarDatos("0");
+        cDF();
     }
 }

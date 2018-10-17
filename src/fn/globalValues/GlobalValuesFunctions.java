@@ -823,6 +823,10 @@ public class GlobalValuesFunctions {
         }
         return 0;
     }
+
+    public static boolean usernameYaExiste(String username) {
+        return load.usernameYaExiste(username);
+    }
     
     
     public void convenioGenerarReporte(Convenio cnv){

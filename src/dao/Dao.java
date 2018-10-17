@@ -22,6 +22,7 @@ import fn.Log;
 import fn.OptionPane;
 import fn.SubProcess;
 import fn.date.Cmp;
+import fn.globalValues.GlobalValuesVariables;
 import fn.mail.Send;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -484,6 +485,15 @@ public class Dao{
             GV.sendMailFicha(ficha);
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean usernameYaExiste(String username) {
+        if(GV.licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoFree() ||
+           GV.licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoLocal()){
+            return (GV.LOCAL_SYNC.getElement(username, 0, new User())!=null);
+        }else{
+            return (GV.REMOTE_SYNC.getElement(username, 0, new User())!=null);
         }
     }
 }
