@@ -80,7 +80,9 @@ public class Dao{
         if(GV.isOnline()){
             if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
                 if(object instanceof User){
-                    if(((User)object).getId() != 1 || ((User)object).getId() != 2){
+                    if(((User)object).getId() == 1 || ((User)object).getId() == 2){
+                        ((SyncIntId)object).setId(((SyncIntId)object).getId());
+                    }else{
                         ((SyncIntId)object).setId(GV.REMOTE_SYNC.getMaxId(object));
                     }
                 }else{
