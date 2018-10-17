@@ -223,7 +223,7 @@ public class Ficha extends SyncFichaClass{
     
     public String toHtml(){
         DecimalFormat formateador = new DecimalFormat("###,###,###");
-        return  "<p>Comprobante de receta oftalmológica</p>\n" +
+        return  "<p>Resumen de la receta</p>\n" +
                 "<TABLE BORDER CELLPADDING=10 CELLSPACING=0>\n" +
                 "	<TR style=\"background-color: #D1F4EF;\">\n" +
                 "		<TD><strong>Folio</strong></TD> <TD style=\"text-align: right;\"><strong>"+getCod()+"</strong></TD><TD style=\"text-align: right;\"><strong>Precios</strong></TD>\n" +
