@@ -76,9 +76,10 @@ técnico para la puesta en marcha del sistema.
  
  - El panel de notificaciones aparece detrás del panel principal
 
- #### [Ventana de sincronización se actualiza despues de 10 segundos (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
+ #### [Error en ventana de sincronizacion (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
  
  - Actualizar ventana de sincronización para mostrar porcentaje de progreso actualizado al inicio
+ - Ventana no se actualiza en la primera sincrnizacion del sistema, reiniciar para ver sin problemas [PENDIENTE]
 
  #### [No se agregan usuarios por defecto cuando ya existe una base de datos remota creada (ISS-008)](https://github.com/softdirex/TestSync/search?q=ISS-008&unscoped_q=ISS-008&type=Commits)
  
