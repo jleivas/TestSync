@@ -102,8 +102,10 @@ public class SalesFichaRecursoDatos  implements JRDataSource{
                 i++;
             }
         }
+        int j = 0;
         for (i = i; i < sf.getFilas(); i++) {
-            resumen[i] = sf.getResumenAbonos()[i-(sf.getResumenAbonos().length)];
+            resumen[i] = sf.getResumenAbonos()[j];
+            j++;
         }
     }
 }
