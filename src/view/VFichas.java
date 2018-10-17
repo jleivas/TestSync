@@ -40,6 +40,7 @@ public class VFichas extends javax.swing.JPanel {
     private static int BY_CLIENT=2;
     private static int BY_USER=3;
     private static int BY_CONVENY=4;
+    private static int COLUMNAS_TABLA = 7;
     TableRowSorter trs;
     DefaultTableModel modelo = new DefaultTableModel() {
            @Override
@@ -726,7 +727,7 @@ public class VFichas extends javax.swing.JPanel {
             for (Object object : GV.getFichas()) {
                 Ficha temp = (Ficha)object;
                 if(status == -1 && temp.getEstado() > GV.estadoFichaDeleted()){
-                    Object[] fila = new Object[7];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getCod();
@@ -737,48 +738,58 @@ public class VFichas extends javax.swing.JPanel {
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDeleted() && temp.getEstado() < GV.estadoFichaDeleted()){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaDelivered()&& temp.getEstado() == GV.estadoFichaDelivered()){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaPaid()&& (temp.getEstado() == GV.estadoFichaPaid() || temp.getEstado() == GV.estadoFichaDelivered())){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaPending()&& temp.getEstado() == GV.estadoFichaPending()){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
                 if(status == GV.estadoFichaWarranty()&& temp.getEstado() == GV.estadoFichaWarranty()){
-                    Object[] fila = new Object[5];
+                    Object[] fila = new Object[COLUMNAS_TABLA];
                     fila[0] = temp.getCod();
                     fila[1] = GV.dateToString(temp.getFecha(), "dd/mm/yyyy");
                     fila[2] = temp.getCliente().getNombre();
                     fila[3] = GV.estadoFicha(temp.getEstado());
                     fila[4] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[5] = GV.strToPrice((temp.getValorTotal()-temp.getDescuento()));
+                    fila[6] = temp.getUser().getNombre();
                     modelo.addRow(fila);
                 }
             }
