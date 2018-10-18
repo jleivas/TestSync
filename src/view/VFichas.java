@@ -611,7 +611,14 @@ public class VFichas extends javax.swing.JPanel {
     private void btnDespacharTodoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDespacharTodoMouseClicked
         if(GV.tipoUserAdmin()){
             if(GV.getFichas().size() > 0){
-                GV.fichasToDelivery(GV.getFichas());
+                try {
+                    cWT();
+                    GV.fichasToDelivery(GV.getFichas());
+                    cDF();
+                    boton.fichas(GV.cboFichasFilter());
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else{
                 mensajeOperacionCanceladaPorTablaVacia();
             }
