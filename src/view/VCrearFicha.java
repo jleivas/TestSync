@@ -82,6 +82,9 @@ public class VCrearFicha extends javax.swing.JPanel {
         }
         if(stInventario == null){
             stInventario = new Inventario();
+            OptionPane.showMsg("Debe seleccionar un inventario local", "El inventario asignado a este equipo no existe\n"
+                    + "o fué modificado, asigne un inventario local a este equipo para\n"
+                    + "solucionar este problema", 2);
         }
         loadStaticObjectList();
         convenioObtenerSeleccionado();
