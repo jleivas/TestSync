@@ -35,8 +35,8 @@ técnico para la puesta en marcha del sistema.
  Refactorizar códigos con error de implementación
 
   #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
- 
- - Al marcar todas las fichas como entregadas no se actualiza la tabla [PENDIENTE]
+
+ - Al marcar todas las fichas como entregadas no se actualiza la tabla
  - No generar reportes cuando la tabla esta vacia
  - No se pueden eliminar las fichas
  - No se pueden eliminar las fichas antiguas, sin embargo el mensaje dice que si se elimino
