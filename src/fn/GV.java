@@ -72,18 +72,6 @@ public class GV extends GlobalValuesCursor{
     
     public static Date LAST_UPDATE;
     
-    //LISTAS TEMPORALES
-    public static ArrayList<User> TMP_LIST_USERS = new ArrayList<User>();
-    public static ArrayList<Cristal> TMP_LIST_CRISTAL = new ArrayList<Cristal>();
-    public static ArrayList<Descuento> TMP_LIST_DESCUENTO = new ArrayList<Descuento>();
-    public static ArrayList<Cliente> TMP_LIST_CLIENTES = new ArrayList<Cliente>();
-    public static ArrayList<Doctor> TMP_LIST_DOCTORES = new ArrayList<Doctor>();
-    public static ArrayList<Institucion> TMP_LIST_INSTITUCIONES = new ArrayList<Institucion>();
-    public static ArrayList<Lente> TMP_LIST_LENTES = new ArrayList<Lente>();
-    public static ArrayList<Oficina> TMP_LIST_OFICINAS = new ArrayList<Oficina>();
-    public static ArrayList<RegistroBaja> TMP_LIST_REGISTROS_BAJAS = new ArrayList<RegistroBaja>();
-    public static ArrayList<TipoPago> TMP_LIST_TIPOS_PAGO = new ArrayList<TipoPago>();
-    
     public static void startSystem(){
         initDB();
         boolean error = false;
@@ -873,15 +861,6 @@ public class GV extends GlobalValuesCursor{
     
     public static void sincronizarTodo(){
         GlobalValuesBD.sincronizarTodo();
-    }
-    
-    /**
-     * usar funcion sincronizarGetEntitiesList, agregar los tipos de entidades 
-     * y enviar como parametro
-     * @param entitiesList 
-     */
-    public static void sincronizarEntitiesList(List<Object> entitiesList){
-        GlobalValuesBD.sincronizar(entitiesList);
     }
     
     public static void stopSincronizacion(){

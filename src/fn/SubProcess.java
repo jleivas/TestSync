@@ -9,7 +9,6 @@ import dao.Dao;
 import static fn.GV.fechaDiferencia;
 import static fn.globalValues.GlobalValuesFunctions.licenciaComprobarValidez;
 import fn.mail.Send;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -30,20 +29,6 @@ public class SubProcess {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static String defaultText = "";
     
-    private static String CLI = "clientes";
-    private static String CONV = "convenios";
-    private static String CRI = "cristales";
-    private static String DES = "descuentos";
-    private static String DOC = "doctores";
-    private static String EQU = "equipos";
-    private static String INS = "instituciones";
-    private static String INM = "mensajes";
-    private static String INV = "inventarios";
-    private static String LEN = "lentes";
-    private static String OFI = "locales";
-    private static String REB = "registro de bajas";
-    private static String TIP = "tipo de pagos";
-    private static String USR = "usuarios";
     
     private static int TIME_MIN_COMPROBAR_ONLINE = 5;
     
@@ -116,39 +101,6 @@ public class SubProcess {
     public static void stopAll(){
         ejecucion = false;
     }
-
-//    public static void sincronizeAll() {
-//        if(GV.isOnline()){
-//            sincronize(new Inventario());
-//            System.out.println("Sincronizar todos los Dao en Subprocesos");
-//        }
-//        System.out.println("Luego añadir todos los registros en las listas estaticas.");
-//        
-//    }
-    
-//    public static void sincronizeAll(){
-//        int procesos = 14;
-//        GV.resetAllPorcentaje();
-//        sincronizeObject(new Cliente(), procesos,CLI);
-//        sincronizeObject(new Convenio(), procesos,CONV);
-//        sincronizeObject(new Cristal(), procesos,CRI);
-//        sincronizeObject(new Descuento(), procesos,DES);
-//        sincronizeObject(new Doctor(), procesos,DOC);
-//        sincronizeObject(new Equipo(), procesos,EQU);
-//        sincronizeObject(new Institucion(), procesos,INS);
-//        sincronizeObject(new InternMail(), procesos,INM);
-//        sincronizeObject(new Inventario(), procesos,INV);
-//        sincronizeObject(new Lente(), procesos,LEN);
-//        sincronizeObject(new Oficina(), procesos,OFI);
-//        sincronizeObject(new RegistroBaja(), procesos,REB);
-//        sincronizeObject(new TipoPago(), procesos,TIP);
-//        sincronizeObject(new User(), procesos,USR);
-//        if(GV.sincronizacionIsStopped()){
-//            GV.setLastUpdate(new Date());
-//            GV.stopSincronizacion();
-//        }
-//        GV.resetAllPorcentaje();
-//    }
     
     public static void suspendConnectionOnline(){
         GV.isOnline(false);
