@@ -2395,7 +2395,6 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void calcularSaldo() {
-        cargarValores();
         int total =  GV.roundPrice(GV.strToNumber(txtTotal.getText()));
         int abono = (int)txtAbono.getValue();
         int descuento = obtenerDescuento();
@@ -2517,7 +2516,6 @@ public class VCrearFicha extends javax.swing.JPanel {
     }
 
     private void calcularTotal() {
-        cargarValores();
         int cristales = 0;
         if(stCristalLejos != null){
             cristales = cristales+stCristalLejos.getPrecio();
@@ -2656,75 +2654,6 @@ public class VCrearFicha extends javax.swing.JPanel {
     private boolean validaFicha(){
         return !lblMessageStatus.isVisible();
     }
-
-//    private void comprobarDatosFicha(){
-//        calcularTotal();
-//        if(txtFecha.getDate() == null || !lugarEntregaValido()){
-//            msgRejected("Debe ingresar una fecha y lugar de entrega");
-//        }else{
-//            GV.getFicha().setFecha(new Date());
-//            GV.getFicha().setFechaEntrega(txtFecha.getDate());
-//            GV.getFicha().setLugarEntrega(txtEntrega.getText());
-//            GV.getFicha().setUser(GV.user());
-//            GV.getFicha().setObservacion(txtObs.getText());
-//            if(!hourIsValid()){
-//                msgRejected("Debe ingresar una hora de entrega válida");
-//            }else{
-//                if(!validaEspecialista()){
-//                    msgRejected("El especialista no se encuentra registrado en el sistema.");
-//                }else{
-//                    if(!rutValido()){
-//                        msgRejected("Debe ingresar un rut válido o marcar como registro extrangero");
-//                    }else{
-//                        if(!institucionValida()){
-//                            msgRejected("Debe ingresar una institución registrada en el sistema.");
-//                        }else{
-//                            if(!clientValid()){
-//                                msgRejected("Faltan datos obligatorios del cliente (Rut o Dni, nombre, teléfonos o email válidos y fecha de nacimiento).");
-//                            }else{
-//                                if(!mailValido()){
-//                                    msgRejected("Debe ingresar un email válido");
-//                                }else{
-//                                    if(!nacimientoValido()){
-//                                        msgRejected("Debe ingresar una fecha de nacimiento válida.");
-//                                    }else{
-//                                        if(!valorTotalValido()){
-//                                            msgRejected("Debe ingresar receta de lente.");
-//                                        }else{
-//                                            if(someGlassAndOneInStock()){
-//                                                msgRejected("Debe seleccionar un lente diferente, no hay stock disponible.");
-//                                            }else{
-//                                                if(!TipoPagoValido()){
-//                                                    msgRejected("Debe ingresar un tipo de pago válido.");
-//                                                }else{
-//                                                    asigAllDatas();
-//                                                    if(GV.getFicha().getSaldo()<0){
-//                                                        if(GV.strToNumber(txtDescuento.getText())>GV.strToNumber(txtTotal.getText())){
-//                                                            msgRejected("El descuento seleccionado no es válido, su monto es mayor al valor total.");
-//                                                        }else{
-//                                                            txtAbono.setValue(0);
-//                                                            msgRejected("Debe ingresar un abono válido (menor o igual al saldo).");
-//                                                        }
-//                                                    }else{
-//                                                        if(sinCristal()){
-//                                                            msgWarning("Falta ingresar un cristal...");
-//                                                        }else{
-//                                                            /*muestra el nombre del convenio si es que existe alguno seleccionado*/
-//                                                            msgWarning(strCnvName.replaceFirst("-", ""));
-//                                                        }
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     private void comprobarDatosFicha(){
         calcularTotal();
@@ -2799,8 +2728,8 @@ public class VCrearFicha extends javax.swing.JPanel {
         if(!GV.getStr(txtRutCliente.getText()).isEmpty() || 
                 txtRutCliente.getForeground() == negro){
             if(!nombre.isEmpty() && nombre.length() > 3){
-                if((!tel1.isEmpty() && tel1.length() >  8) ||
-                        (!tel2.isEmpty() && tel2.length() > 8) ||
+                if((!tel1.isEmpty() && tel1.length() >=  8) ||
+                        (!tel2.isEmpty() && tel2.length() >= 8) ||
                         !mail.isEmpty()){
                     String institucionNombre = GV.getStr(txtInstitucion.getText());
                     if(!GV.getStr(institucionNombre).isEmpty()){
@@ -3268,17 +3197,6 @@ public class VCrearFicha extends javax.swing.JPanel {
             GV.setConvenio(null);
             OptionPane.showMsg("Error inesperado", "Ocurrió un problema al cargar el convenio seleccionado", 3);
         }
-    }
-
-    private void cargarValores() {
-//        try {
-//            stCristalCerca = (Cristal)load.get(txtCristalCerca.getText(), 0, new Cristal());
-//            stCristalLejos = (Cristal)load.get(txtCristalLejos.getText(), 0, new Cristal());
-//            stLenteCerca = (Lente)GV.buscarPorIdEnLista(txtArmazonCerca.getText(), listLentes, new Lente());
-//            stLenteLejos = (Lente)GV.buscarPorIdEnLista(txtArmazonLejos.getText(), listLentes, new Lente());
-//        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-//            Logger.getLogger(VCrearFicha.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     private void validaSaldo() {
