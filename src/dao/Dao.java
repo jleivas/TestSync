@@ -6,6 +6,7 @@
 package dao;
 
 import entities.InternMail;
+import entities.Inventario;
 import entities.Lente;
 import entities.User;
 import entities.abstractclasses.SyncStringId;
@@ -150,20 +151,10 @@ public class Dao{
             if(temp != null){
                 newStock = temp.getStock() - cantidad;
                 if(newStock >= 0){
+                    /**
+                     * Se inserta un registro temporal con las cantidades a reducir
+                     */
                     if(LocalInventario.insert(idLente,cantidad)){
-                        if(GV.isOnline()){
-                            sincronize(new Lente());
-                            temp = (Lente)GV.REMOTE_SYNC.getElement(idLente, 0, new Lente());
-                            temp.setStock(temp.getStock()-LocalInventario.stockDescontado(idLente));
-                            if(temp.getStock() < 0){
-                                temp.setStock(0);
-                            }
-                            if(LocalInventario.deleteAllRegistry(idLente)){
-                                update(temp);
-                            }else{
-                                return false;
-                            }
-                        }
                         return true;
                     }
                 }else{
@@ -306,23 +297,34 @@ public class Dao{
      */
     public Object get(String cod,int id, Object type) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Log.setLog(className,Log.getReg());
+        if(type instanceof Lente){
+            Inventario inv = (Inventario)get(GV.inventarioName(), 0, new Inventario());
+            if(inv != null){
+                GV.setInventarioSeleccionado(inv.getId());
+            }
+            Object lente =  LocalInventario.getLente(cod);
+            GV.setInventarioSeleccionado(0);
+            return lente;
+        }
         return GV.LOCAL_SYNC.getElement(cod,id,type);
     }
 
     public static void sincronize(Object type) {
         Log.setLog(className,Log.getReg());
+        boolean esLente = (type instanceof Lente);
         if(GV.isCurrentDate(GV.LAST_UPDATE)){//validar plan de licencia
             return;//solo hace una actualizacion por día.
         }
         try {
             if(GV.isOnline()){
                 if(type instanceof Ficha){
-                    sincronizeFicha();
-                    return;
+                    type = new EtiquetFicha();
                 }
+                
                 ArrayList<Object> lista1= GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,type);
                 int size1 = lista1.size();
                 ArrayList<Object> lista2= GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,type);
+                
                 int size2 = lista2.size();
                 if(size1 > 0){
                     for (Object object : lista1) {
@@ -330,12 +332,30 @@ public class Dao{
                         sync.Sync.addLocalSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
                     }
                 }
-                 if(size2 > 0){
+                if(size2 > 0){
                      for (Object object : lista2) {
-                         GV.porcentajeSubCalcular(size1+size2);
+                        System.out.println(""+object.getClass().getName());
+                        if(esLente){
+                            System.out.println("es lente");
+                        }
+                        GV.porcentajeSubCalcular(size1+size2);
                         sync.Sync.addRemoteSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
                     }
-                 }
+                }
+                if(esLente){
+                    /**
+                     * actualizar stock
+                     */
+                    //se obtiene una lista recien descargada procesada con los stocks actualizados
+                    lista2 = LocalInventario.listarLentesForSync();
+                    int tam1 = lista2.size();
+                    for (Object object : lista2) {
+                        GV.porcentajeSubCalcular(tam1);
+                        sync.Sync.addRemoteSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                        sync.Sync.addLocalSync(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+                    }
+                    LocalInventario.deleteAllRegistry("-2");
+                }
             } 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
@@ -435,18 +455,6 @@ public class Dao{
 //        }
 //    }
 
-    private static void sincronizeFicha() throws SQLException, ClassNotFoundException {
-        sincronize(new EtiquetFicha());
-        sincronize(new Armazon());
-        sincronize(new Despacho());
-        sincronize(new HistorialPago());
-        for (Object object : GV.REMOTE_SYNC.listar(GV.LAST_UPDATE,new Ficha())) {
-            sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Ficha)object);
-        }
-        for (Object object : GV.LOCAL_SYNC.listar(GV.LAST_UPDATE,new Ficha())) {
-            sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, (Ficha)object);
-        }
-    }
 
     /**
      * Retorna el id actual de las entidades Armazon, Despacho, Ficha, HistorialPago y RegistroBaja
@@ -473,11 +481,15 @@ public class Dao{
             add(ficha.getDespacho());
             add(ficha.getDoctor());
             add(ficha);
-            if(ficha.getCerca() != null || !GV.getFicha().getCerca().getMarca().isEmpty()){
-                decreaseStock(ficha.getCerca().getMarca(), 1);
+            if(ficha.getCerca() != null){
+                if(!GV.getFicha().getCerca().getMarca().isEmpty()){
+                    decreaseStock(ficha.getCerca().getMarca(), 1);
+                }
             }
-            if(ficha.getLejos() != null || !GV.getFicha().getLejos().getMarca().isEmpty()){
-                decreaseStock(ficha.getLejos().getMarca(), 1);
+            if(ficha.getLejos() != null){
+                if(!GV.getFicha().getLejos().getMarca().isEmpty()){
+                    decreaseStock(ficha.getLejos().getMarca(), 1);
+                }
             }
             if(hp != null){
                 add(hp);

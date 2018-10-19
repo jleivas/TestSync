@@ -9,14 +9,19 @@ import bd.LcBd;
 import entities.Lente;
 import entities.context.InternStockDetail;
 import fn.GV;
+import static fn.GV.dateToString;
+import static fn.GV.strToNumber;
 import fn.Log;
 import fn.OptionPane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,24 +31,44 @@ public class LocalInventario {
     private static String className="LocalInventario";
     private static List<InternStockDetail> stockTemporalRebajado = new ArrayList<>();
     
-    public static boolean insert(String idLente, int cantidad) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
-        int id = getMaxId();
-        PreparedStatement insert = LcBd.obtener().prepareStatement(
-                "INSERT INTO intern_stock VALUES("
-                    + id + ",'"
-                    + idLente + "',"
-                    + cantidad + ","
-                    + 1 + ")"
-        );
-        if (insert.executeUpdate() != 0) {
-            LcBd.cerrar();
-            return true;
+    public static boolean insert(String idLente, int cantidad){
+        try {
+            int id = getMaxId();
+            PreparedStatement insert = LcBd.obtener().prepareStatement(
+                    "INSERT INTO intern_stock VALUES("
+                            + id + ",'"
+                            + idLente + "',"
+                            + cantidad + ","
+                            + 1 + ")"
+            );
+            if (insert.executeUpdate() != 0) {
+                LcBd.cerrar();
+                return true;
+            }
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(LocalInventario.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error de excepcion", className + "\n"
+                    + ex.getMessage(),3);
         }
         return false;
     }
     
+    public static Lente getLente(String id){
+        try {
+            for (Object object : listarLentes(id)) {
+                if(((Lente)object).getCod().equals(id)){
+                    return (Lente)object;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(LocalInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public static ArrayList<Object> listarLentes(String idParam) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
         ArrayList<Object> lista = new ArrayList<>();
+        boolean sincronizar = (idParam.equals(getSqlSync()));
         updateStockTemporal();
         String sql = "SELECT * FROM lente WHERE len_id ='" + idParam + "' AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         if (idParam.equals("0") || idParam.equals(GV.sqlLowStock())) {
@@ -58,15 +83,21 @@ public class LocalInventario {
         if (idParam.equals("st")) {
             sql = "SELECT * FROM lente WHERE (len_estado=1 AND len_stock > 0) AND inventario_inv_id = "+GV.getInventarioSeleccionado();
         }
+        if (sincronizar) {
+            sql = "SELECT * FROM lente";
+        }
 
         PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
         ResultSet datos = consulta.executeQuery();
-        String idLente = "";
-        int stock = 0;
         while (datos.next()) {
-            idLente = datos.getString("len_id");
-            stock = datos.getInt("len_stock")-getLocalStock(idLente);
-            if(idParam.equals(GV.sqlLowStock()) && stock <=datos.getInt("len_stock_min")){
+            String idLente = datos.getString("len_id");
+            int currentStock = datos.getInt("len_stock");
+            int stock = currentStock-getLocalStock(idLente);
+            Date lastUpdate = datos.getDate("len_last_update");
+            int lastHour = datos.getInt("len_last_hour");
+            if(currentStock != stock && sincronizar){
+                lastUpdate = new Date();
+                lastHour = strToNumber(dateToString(lastUpdate, "hhmmss"));
                 lista.add(new Lente(
                     idLente,
                     datos.getString("len_color"),
@@ -82,31 +113,32 @@ public class LocalInventario {
                     datos.getInt("len_stock_min"),
                     datos.getInt("inventario_inv_id"),
                     datos.getInt("len_estado"),
-                    datos.getDate("len_last_update"),
-                    datos.getInt("len_last_hour")
-                    )
-                );
-            }else{
-                lista.add(new Lente(
-                    idLente,
-                    datos.getString("len_color"),
-                    datos.getString("len_tipo"),
-                    datos.getString("len_marca"),
-                    datos.getString("len_material"),
-                    datos.getInt("len_flex"),
-                    datos.getInt("len_clasificacion"),
-                    datos.getString("len_descripcion"),
-                    datos.getInt("len_precio_ref"),
-                    datos.getInt("len_precio_act"),
-                    stock,
-                    datos.getInt("len_stock_min"),
-                    datos.getInt("inventario_inv_id"),
-                    datos.getInt("len_estado"),
-                    datos.getDate("len_last_update"),
-                    datos.getInt("len_last_hour")
+                    lastUpdate,
+                    lastHour
                     )
                 );
             }
+            if(!sincronizar){
+                lista.add(new Lente(
+                    idLente,
+                    datos.getString("len_color"),
+                    datos.getString("len_tipo"),
+                    datos.getString("len_marca"),
+                    datos.getString("len_material"),
+                    datos.getInt("len_flex"),
+                    datos.getInt("len_clasificacion"),
+                    datos.getString("len_descripcion"),
+                    datos.getInt("len_precio_ref"),
+                    datos.getInt("len_precio_act"),
+                    stock,
+                    datos.getInt("len_stock_min"),
+                    datos.getInt("inventario_inv_id"),
+                    datos.getInt("len_estado"),
+                    lastUpdate,
+                    lastHour
+                    )
+                );
+            }   
         }
         LcBd.cerrar();
         return lista;
@@ -114,7 +146,11 @@ public class LocalInventario {
     
     public static boolean deleteAllRegistry(String idLente) {
         try{
-            PreparedStatement insert = LcBd.obtener().prepareStatement("UPDATE intern_stock set estado = 0 WHERE id_lente = '" + idLente+"' AND estado = 1");
+            String sql = "UPDATE intern_stock set estado = 0 WHERE id_lente = '" + idLente+"' AND estado = 1";
+            if(idLente.equals("-2")){
+                sql = "UPDATE intern_stock set estado = 0 WHERE estado = 1";
+            }
+            PreparedStatement insert = LcBd.obtener().prepareStatement(sql);
             insert.executeUpdate();
             LcBd.cerrar();
         }catch( ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex){
@@ -142,6 +178,8 @@ public class LocalInventario {
     
     /**
      * retorna la cantidad total de registros de stock que no han sido eliminados
+     * No se actualiza la lista estática porue este método sólo se llama desde listar lentes
+     * para evitar problemas de conexion con la base de datos
      * @param idLente
      * @return 
      */
@@ -185,5 +223,21 @@ public class LocalInventario {
             return new ArrayList<InternStockDetail>();
         }
         return listaStock;
+    }
+    
+    public static ArrayList<Object> listarLentesForSync(){
+        try {
+            return listarLentes(getSqlSync());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            Logger.getLogger(LocalInventario.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error inesperado", className+"\n"
+                    + "Ocurrió un error al listar lentes para sincronizar\n"
+                    + ex.getMessage(), 3);
+        }
+        return new ArrayList<>();
+    }
+
+    private static String getSqlSync() {
+        return "sincronizar";
     }
 }

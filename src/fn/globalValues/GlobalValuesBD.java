@@ -225,7 +225,7 @@ public class GlobalValuesBD {
 " INS_LAST_UPDATE DATE," +
 " INS_LAST_HOUR INTEGER";
     private static String INTERN_STOCK = "ID INTEGER not null primary key," +
-" ID_LENTE VARCHAR(25) not null," +
+" ID_LENTE VARCHAR(100) not null," +
 " STOCK INTEGER," +
 " ESTADO INTEGER";
     private static String INVENTARIO = "INV_ID INTEGER not null primary key," +
