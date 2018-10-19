@@ -36,9 +36,10 @@ técnico para la puesta en marcha del sistema.
 
   #### [CRUD Lentes (ISS-023)](https://github.com/softdirex/TestSync/search?q=ISS-023&type=Commits)
 
+ - Probar si al reducir stock manualmente se aplican los cambios [PENDIENTE]
  - Error al reducir stock, valores distintos en bd remota, tabla y registro abierto
  - Probar si los cambios solicionan el error de los stock [PENDIENTE]
- - Al abrir lente el panel aparece mal dimensionado [PENDIENTE]
+ - Al abrir lente el panel aparece mal dimensionado
 
   #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
 
