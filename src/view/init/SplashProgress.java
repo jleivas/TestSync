@@ -159,7 +159,6 @@ public class SplashProgress extends javax.swing.JFrame implements Runnable{
             try {
                 Thread.sleep(1000);
                 while (!GV.sincronizacionIsStopped()){
-                    System.out.println(GV.porcentaje()+"%");
                     txtPorcentaje.setText(GV.porcentaje()+"%");
                     txtDescritption.setText("Sincronización en curso, espere a que finalice para seguir trabajado...");
                 }
