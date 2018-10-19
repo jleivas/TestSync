@@ -184,7 +184,10 @@ public class Lente extends SyncStringId{
                 " - color: "+this.color+
                 " - tipo: "+this.tipo+
                 " - marca:"+this.marca+
+                " - Stock:"+getStock()+
+                " - Stock minimo:"+getStockMin()+
+                " - Estado:"+getEstado()+
                 " - lastUpdate:"+getLastUpdate()+
-                " - Estado:"+getEstado();
+                " - LastHour:"+getLastHour();
     }
 }
