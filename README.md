@@ -34,6 +34,11 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+  #### [CRUD Lentes (ISS-023)](https://github.com/softdirex/TestSync/search?q=ISS-023&type=Commits)
+
+ - Error al reducir stock, valores distintos en bd remota, tabla y registro abierto [EN PROCESO]
+ - Al abrir lente el panel aparece mal dimensionado [PENDIENTE]
+
   #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
 
  - Al marcar todas las fichas como entregadas no se actualiza la tabla
