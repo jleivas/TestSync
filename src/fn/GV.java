@@ -8,16 +8,9 @@ package fn;
 import bd.LcBd;
 import com.toedter.calendar.JDateChooser;
 import dao.Dao;
-import entities.Cliente;
 import entities.Convenio;
-import entities.Cristal;
 import entities.Descuento;
-import entities.Doctor;
-import entities.Institucion;
-import entities.Lente;
 import entities.Oficina;
-import entities.RegistroBaja;
-import entities.TipoPago;
 import entities.User;
 import entities.context.SalesReportFicha;
 import entities.ficha.Ficha;
@@ -37,7 +30,6 @@ import fn.globalValues.GlobalValuesXmlFiles;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -48,7 +40,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import sync.entities.Global;
 import sync.entities.Local;
 import sync.entities.Remote;
 import view.init.Acceso;
@@ -66,7 +57,6 @@ public class GV extends GlobalValuesCursor{
     
     
     /*  Sincronizacion */
-    public static Global GLOBAL_SYNC = new Global();
     public static Local LOCAL_SYNC = new Local();
     public static Remote REMOTE_SYNC = new Remote();
     

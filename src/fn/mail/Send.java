@@ -232,7 +232,8 @@ public class Send {
             String subject, String message) throws AddressException,
             MessagingException,
             GeneralSecurityException {
- 
+        if(GV.getStr(toAddress).isEmpty())
+            return;
         // sets SMTP server properties
         Properties p = new Properties();
             p.put("mail.smtp.host", "smtp.gmail.com");
