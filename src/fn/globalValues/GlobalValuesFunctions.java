@@ -25,7 +25,6 @@ import fn.OptionPane;
 import static fn.ValidaRut.validarRut;
 import fn.date.Cmp;
 import fn.mail.Send;
-import java.io.File;
 import java.security.MessageDigest;
 import java.sql.SQLException;
 import java.text.DateFormat;
