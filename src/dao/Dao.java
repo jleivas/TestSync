@@ -55,6 +55,43 @@ public class Dao{
         }
         return add(msg);
     }
+    
+    public boolean addOnInit(Object object) throws InstantiationException, IllegalAccessException {
+        Log.setLog(className,Log.getReg());
+        if(object == null){
+            return false;//ultima modificacion sin verificar en todos los casos de uso
+        }
+        if(object instanceof SyncClass){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+        }
+        if(object instanceof SyncFichaClass){
+            if(!(object instanceof Ficha)){
+                ((SyncFichaClass) object).setCod(getCurrentCod(object));
+            }
+        }
+        if(object instanceof SyncIntId)//se pueden agregar solo si tienen conexion a internet
+            ((SyncIntId)object).setId(GV.LOCAL_SYNC.getMaxId(object));
+
+        if(GV.LOCAL_SYNC.exist(object)){
+            if(object instanceof SyncIntId){
+                if(!GV.isCurrentDate(((SyncIntId)object).getLastUpdate())){
+                    OptionPane.showMsg("No se puede crear nuevo registro", "El nombre ya se encuentra utilizado,\n"
+                        + "Para poder ingresar un nuevo registro debes cambiar el nombre.", 2);
+                }
+            }else{
+                return update(object);
+            }
+        }else{
+            try {
+                return sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return false;
+    }
    /**
     * Agrega registros a la base de datos, si ya existen los actualiza, útil para sincronización de bases de datos.
     * 

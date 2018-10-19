@@ -44,9 +44,9 @@ public class LcBd{
         Dao load = new Dao();
         try {
             boolean existe = false;
-            load.add(new User(1, "Sistema", "root", "contacto@softdirex.cl", GV.enC("softdirex"), 7, 1, null, 0));
-            load.add(new User(2, "Admin", "admin", "", GV.enC("admin"), 1, 1, null, 0));
-            load.add(new TipoPago(1, "Convenio", 1, null, 0));
+            load.addOnInit(new User(1, "Sistema", "root", "contacto@softdirex.cl", GV.enC("softdirex"), 7, 1, null, 0));
+            load.addOnInit(new User(2, "Admin", "admin", "", GV.enC("admin"), 1, 1, null, 0));
+            load.addOnInit(new TipoPago(1, "Convenio", 1, null, 0));
             
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(LcBd.class.getName()).log(Level.SEVERE, null, ex);
