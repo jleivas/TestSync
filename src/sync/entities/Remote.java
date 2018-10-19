@@ -3415,8 +3415,8 @@ public class Remote implements InterfaceSync{
                         + "', hp_estado = "+object.getEstado()
                         + ", hp_last_update = '" + sqlfecha2
                         + "', hp_last_hour = " + object.getLastHour()
-                        + " WHERE hp_id = " + object.getCod()
-                        + " AND ((hp_last_update < '"+sqlfecha2+"')OR"
+                        + " WHERE hp_id = '" + object.getCod()
+                        + "' AND ((hp_last_update < '"+sqlfecha2+"')OR"
                         + "(hp_last_update = '"+sqlfecha2+"' AND hp_last_hour < "+object.getLastHour()+"))";
         }
         if(objectParam instanceof Institucion){
@@ -3697,5 +3697,489 @@ public class Remote implements InterfaceSync{
                         + "(SELECT convenio.cnv_last_update from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_last_update,"
                         + "(SELECT convenio.cnv_last_hour from convenio WHERE convenio.cnv_id=convenio_cnv_id) as cnv_last_hour"
                         + " from ficha f ";
+    }
+    
+    public String getSqlSync(Date paramDate, Object type) {
+        Log.setLog(className, Log.getReg());
+        java.sql.Date param = new java.sql.Date(paramDate.getTime());
+        String lista = "";
+        try {
+            if(type instanceof Ficha || type instanceof EtiquetFicha){
+                String sql = "SELECT * FROM ficha WHERE fch_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("fch_last_update").getTime());
+                    java.sql.Date sqlfecha2 = new java.sql.Date(datos.getDate("fch_fecha").getTime());
+                    java.sql.Date sqlfecha3 = new java.sql.Date(datos.getDate("fch_fecha_entrega").getTime());
+                    lista = lista + "UPDATE ficha set fch_fecha = '" + sqlfecha2
+                        + "', fch_fecha_entrega = '" + sqlfecha3
+                        + "', fch_lugar_entrega = '" + datos.getString("fch_lugar_entrega")
+                        + "', fch_hora_entrega = '" + datos.getString("fch_hora_entrega")
+                        + "', fch_obs = '" + datos.getString("fch_obs")
+                        + "', fch_valor_total = " + datos.getInt("fch_valor_total")
+                        + ", fch_descuento = " + datos.getInt("fch_descuento")
+                        + ", fch_saldo = " + datos.getInt("fch_saldo")
+                        + ", cliente_cli_rut = '" + datos.getString("cliente_cli_rut")
+                        + "', doctor_doc_rut = '" + datos.getString("doctor_doc_rut")
+                        + "', institucion_ins_id = '" + datos.getString("institucion_ins_id")
+                        + "', despacho_dsp_id = '" + datos.getString("despacho_dsp_id")
+                        + "', usuario_us_id = " + datos.getInt("usuario_us_id")
+                        + ", convenio_cnv_id = " + datos.getInt("convenio_cnv_id")
+                        + ", fch_estado = " + datos.getInt("fch_estado")
+                        + ", fch_last_update = '" + sqlfecha
+                        + "', fch_last_hour = " + datos.getInt("fch_last_hour")
+                        + " WHERE fch_id = '" + datos.getString("fch_id")
+                        + "' AND ((fch_last_update < '"+sqlfecha+"')OR"
+                        + "(fch_last_update = '"+sqlfecha+"' AND fch_last_hour < "+datos.getInt("fch_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Armazon){
+                String sql = "SELECT * FROM armazon WHERE arm_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("arm_last_update").getTime());
+                    lista = lista + "UPDATE armazon set arm_tipo = " + datos.getInt("arm_tipo")
+                        + ", arm_marca = '" + datos.getString("arm_marca")
+                        + "', arm_precio_marca = " + datos.getInt("arm_precio_marca")
+                        + ", arm_cristal = '" + datos.getString("arm_cristal")
+                        + "', arm_precio_cristal = " + datos.getInt("arm_precio_cristal")
+                        + ", arm_add = '" + datos.getString("arm_add")
+                        + "', arm_od_a = '" + datos.getString("arm_od_a")
+                        + "', arm_od_esf = '" + datos.getString("arm_od_esf")
+                        + "', arm_od_cil = '" + datos.getString("arm_od_cil")
+                        + "', arm_oi_a = '" + datos.getString("arm_oi_a")
+                        + "', arm_oi_esf = '" + datos.getString("arm_oi_esf")
+                        + "', arm_oi_cil = '" + datos.getString("arm_oi_cil")
+                        + "', arm_dp = " + datos.getInt("arm_dp")
+                        + ", arm_endurecido = " + datos.getInt("arm_endurecido")
+                        + ", arm_capa = " + datos.getInt("arm_capa")
+                        + ", arm_plus_max = " + datos.getInt("arm_plus_max")
+                        + ", ficha_fch_id = '" + datos.getString("ficha_fch_id")
+                        + "', arm_estado = " + datos.getInt("arm_estado")
+                        + ", arm_last_update = '" + sqlfecha
+                        + "', arm_last_hour = " + datos.getInt("arm_last_hour")
+                        + " WHERE arm_id = '" + datos.getString("arm_id")
+                        + "' AND ((arm_last_update < '"+sqlfecha+"')OR"
+                        + "(arm_last_update = '"+sqlfecha+"' AND arm_last_hour < "+datos.getInt("arm_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cliente){
+                String sql = "SELECT * FROM cliente WHERE cli_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("cli_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos.getDate("cli_nacimiento").getTime());
+                    lista = lista + "UPDATE cliente set cli_nombre = '" + datos.getString("cli_nombre")
+                        + "', cli_telefono1 = '" + datos.getString("cli_telefono1")
+                        + "', cli_telefono2 = '" + datos.getString("cli_telefono2")
+                        + "', cli_email = '" + datos.getString("cli_email")
+                        + "', cli_direccion = '" + datos.getString("cli_direccion")
+                        + "', cli_comuna = '" + datos.getString("cli_comuna")
+                        + "', cli_ciudad = '" + datos.getString("cli_ciudad")
+                        + "', cli_sexo = " + datos.getInt("cli_sexo")
+                        + ", cli_nacimiento = '" + sqlfecha1
+                        + "', cli_estado = " + datos.getInt("cli_estado")
+                        + ", cli_last_update = '" + sqlfecha
+                        + "', cli_last_hour = " + datos.getInt("cli_last_hour")
+                        + " WHERE cli_rut = '" + datos.getString("cli_rut")
+                        + "' AND ((cli_last_update < '"+sqlfecha+"')OR"
+                        + "(cli_last_update = '"+sqlfecha+"' AND cli_last_hour < "+datos.getInt("cli_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Convenio){
+                String sql = "SELECT * FROM convenio WHERE cnv_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("cnv_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos.getDate("cnv_fecha_inicio").getTime());
+                    java.sql.Date sqlfecha2 = new java.sql.Date(datos.getDate("cnv_fecha_fin").getTime());
+                    java.sql.Date sqlfecha3 = new java.sql.Date(datos.getDate("cnv_fecha_cobro").getTime());
+                    lista = lista + "UPDATE convenio set cnv_nombre = '" + datos.getString("cnv_nombre")
+                        + "', cnv_fecha_inicio = '" + sqlfecha1
+                        + "', cnv_fecha_fin = '" + sqlfecha2
+                        + "', cnv_cuotas = " + datos.getInt("cnv_cuotas")
+                        + ", cnv_fecha_cobro = '" + sqlfecha3
+                        + "', cnv_monto_maximo = " + datos.getInt("cnv_monto_maximo")
+                        + ", cnv_monto_pp = " + datos.getInt("cnv_monto_pp")
+                        + ", cnv_maximo_clientes = " + datos.getInt("cnv_maximo_clientes")
+                        + ", descuento_des_id = " + datos.getInt("descuento_des_id")
+                        + ", cnv_porc_valor_adicional = " + datos.getInt("cnv_porc_valor_adicional")
+                        + ", institucion_ins_id = '" + datos.getString("institucion_ins_id")
+                        + "', cnv_estado = " + datos.getInt("cnv_estado")
+                        + ", cnv_last_update = '" + sqlfecha
+                        + "', cnv_last_hour = " + datos.getInt("cnv_last_hour")
+                        + " WHERE cnv_id = " + datos.getInt("cnv_id")
+                        + " AND ((cnv_last_update < '"+sqlfecha3+"')OR"
+                        + "(cnv_last_update = '"+sqlfecha3+"' AND cnv_last_hour < "+datos.getInt("cnv_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Cristal){
+                String sql = "SELECT * FROM cristal WHERE cri_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("cri_last_update").getTime());
+                    lista = lista + "UPDATE cristal set cri_nombre = '" + datos.getString("cri_nombre")
+                        + "', cri_precio = " + datos.getInt("cri_precio")
+                        + ", cri_estado = " + datos.getInt("cri_estado")
+                        + ", cri_last_update = '" + sqlfecha
+                        + "', cri_last_hour = " + datos.getInt("cri_last_hour")
+                        + " WHERE cri_id = " + datos.getInt("cri_id")
+                        + " AND ((cri_last_update < '"+sqlfecha+"')OR"
+                        + "(cri_last_update = '"+sqlfecha+"' AND cri_last_hour < "+datos.getInt("cri_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof CuotasConvenio){
+                String sql = "SELECT * FROM cuotas_convenio WHERE cc_last_update >='" + param + "'";
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos2 = consulta.executeQuery();
+                while (datos2.next()){
+                    java.sql.Date sqlfecha = new java.sql.Date(datos2.getDate("cc_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos2.getDate("cc_fecha").getTime());
+                    java.sql.Date sqlfecha2 = new java.sql.Date(datos2.getDate("cc_fecha_pagado").getTime());
+                    lista = lista + "UPDATE cuotas_convenio set cc_fecha = '" + sqlfecha1
+                        + "', cc_fecha_pagado = '" + sqlfecha2
+                        + "', cc_monto = " + datos2.getInt("cc_monto")
+                        + ", tipo_pago_tp_id = " + datos2.getInt("tipo_pago_tp_id")
+                        + ", convenio_cnv_id = " + datos2.getInt("convenio_cnv_id")
+                        + ", cc_estado = " + datos2.getInt("cc_estado")
+                        + ", cc_last_update = '" + sqlfecha
+                        + "', cc_last_hour = " + datos2.getInt("cc_last_hour")
+                        + " WHERE cc_id = '" + datos2.getString("cc_id")
+                        + "' AND ((cc_last_update < '"+sqlfecha+"')OR"
+                        + "(cc_last_update = '"+sqlfecha+"' AND cc_last_hour < "+datos2.getInt("cc_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Descuento){
+                String sql = "SELECT * FROM descuento WHERE des_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("des_last_update").getTime());
+                    lista = lista + "UPDATE descuento set des_nombre = '" + datos.getString("des_nombre")
+                        + "', des_descripcion = '" + datos.getString("des_descripcion")
+                        + "', des_porc = " + datos.getInt("des_porc")
+                        + ", des_monto = " + datos.getInt("des_monto")
+                        + ", des_estado = " + datos.getInt("des_estado")
+                        + ", des_last_update = '" + sqlfecha
+                        + "', des_last_hour = " + datos.getInt("des_last_hour")
+                        + " WHERE des_id = " + datos.getInt("des_id")
+                        + " AND ((des_last_update < '"+sqlfecha+"')OR"
+                        + "(des_last_update = '"+sqlfecha+"' AND des_last_hour < "+datos.getInt("des_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Despacho){
+                String sql = "SELECT * FROM despacho WHERE dsp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("dsp_last_update").getTime());
+                    java.sql.Date sqlfecha2 = new java.sql.Date(datos.getDate("dsp_fecha").getTime());
+                    lista = lista + "UPDATE despacho set dsp_rut = '" + datos.getString("dsp_rut")
+                        + "', dsp_nombre = '" + datos.getString("dsp_nombre")
+                        + "', dsp_fecha = '" + sqlfecha2
+                        + "', ficha_fch_id = '" + datos.getString("ficha_fch_id")
+                        + "', dsp_estado = " + datos.getInt("dsp_estado")
+                        + ", dsp_last_update = '" + sqlfecha
+                        + "', dsp_last_hour = " + datos.getInt("dsp_last_hour")
+                        + " WHERE dsp_id = '" + datos.getString("dsp_id")
+                        + "' AND ((dsp_last_update < '"+sqlfecha+"')OR"
+                        + "(dsp_last_update = '"+sqlfecha+"' AND dsp_last_hour < "+datos.getInt("dsp_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Doctor){
+                String sql = "SELECT * FROM doctor WHERE doc_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("doc_last_update").getTime());
+                    lista = lista + "UPDATE doctor set doc_nombre = '" + datos.getString("doc_nombre")
+                        + "', doc_telefono = '" + datos.getString("doc_telefono")
+                        + "', doc_mail = '" + datos.getString("doc_mail")
+                        + "', doc_estado = " + datos.getInt("doc_estado")
+                        + ", doc_last_update = '" + sqlfecha
+                        + "', doc_last_hour = " + datos.getInt("doc_last_hour")
+                        + " WHERE doc_rut = '" + datos.getString("doc_rut")
+                        + "' AND ((doc_last_update < '"+sqlfecha+"')OR"
+                        + "(doc_last_update = '"+sqlfecha+"' AND doc_last_hour < "+datos.getInt("doc_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Equipo){
+                String sql = "SELECT * FROM equipo WHERE eq_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("eq_last_update").getTime());
+                    lista = lista + "UPDATE equipo set eq_nombre = '" + datos.getString("eq_nombre")
+                        + "', eq_licencia = '" + datos.getString("eq_licencia")
+                        + "', eq_bd = '" + datos.getString("eq_bd")
+                        + "', eq_bd_user = '" + datos.getString("eq_bd_user")
+                        + "', eq_bd_pass = '" + datos.getString("eq_bd_pass")
+                        + "', eq_bd_url = '" + datos.getString("eq_bd_url")
+                        + "', eq_estado = " + datos.getInt("eq_estado")
+                        + ", eq_last_update = '" + sqlfecha
+                        + "', eq_last_hour = " + datos.getInt("eq_last_hour")
+                        + " WHERE eq_id = " + datos.getInt("eq_id")   
+                        + " AND ((eq_last_update < '"+sqlfecha+"')OR"
+                        + "(eq_last_update = '"+sqlfecha+"' AND eq_last_hour < "+datos.getInt("eq_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof HistorialPago){
+                String sql = "SELECT * FROM historial_pago WHERE hp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("hp_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos.getDate("hp_fecha").getTime());
+                    lista = lista + "UPDATE historial_pago set hp_fecha = '" + sqlfecha1
+                        + "', hp_abono = " + datos.getInt("hp_abono")
+                        + ", tipo_pago_tp_id = " + datos.getInt("tipo_pago_tp_id")
+                        + ", ficha_fch_id = '"+ datos.getString("ficha_fch_id")
+                        + "', hp_estado = "+ datos.getInt("hp_estado")
+                        + ", hp_last_update = '" + sqlfecha
+                        + "', hp_last_hour = " + datos.getInt("hp_last_hour")
+                        + " WHERE hp_id = " + datos.getString("hp_id")
+                        + " AND ((hp_last_update < '"+sqlfecha+"')OR"
+                        + "(hp_last_update = '"+sqlfecha+"' AND hp_last_hour < "+datos.getInt("hp_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof InternMail){
+                String sql = "SELECT * FROM message WHERE msg_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("msg_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos.getDate("msg_fecha").getTime());
+                    lista = lista + "UPDATE message set us_id_remitente = " + datos.getInt("us_id_remitente")
+                        + ", us_id_destinatario = " + datos.getInt("us_id_destinatario")
+                        + ", msg_asunto = '" + datos.getString("msg_asunto")
+                        + "', msg_content = '" + datos.getString("msg_content")
+                        + "', msg_fecha = '" + sqlfecha1
+                        + "', msg_hora = '" + datos.getString("msg_hora")
+                        + "', msg_estado = " + datos.getInt("msg_estado")
+                        + ", msg_last_update = '" + sqlfecha
+                        + "', msg_last_hour = " + datos.getInt("msg_last_hour")
+                        + " WHERE msg_id = " + datos.getInt("msg_id")
+                        + " AND ((msg_last_update < '"+sqlfecha+"')OR"
+                        + "(msg_last_update = '"+sqlfecha+"' AND msg_last_hour < "+datos.getInt("msg_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Institucion){
+                String sql = "SELECT * FROM institucion WHERE ins_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("ins_last_update").getTime());
+                    lista = lista + "UPDATE institucion set ins_nombre = '" + datos.getString("ins_nombre")
+                        + "', ins_telefono = '" + datos.getString("ins_telefono")
+                        + "', ins_mail = '" + datos.getString("ins_mail")
+                        + "', ins_web = '" + datos.getString("ins_web")
+                        + "', ins_direccion = '" + datos.getString("ins_direccion")
+                        + "', ins_comuna = '" + datos.getString("ins_comuna")
+                        + "', ins_ciudad = '" + datos.getString("ins_ciudad")
+                        + "', ins_estado = " + datos.getInt("ins_estado")
+                        + ", ins_last_update = '" + sqlfecha
+                        + "', ins_last_hour = " + datos.getInt("ins_last_hour")
+                        + " WHERE ins_id = '" + datos.getString("ins_id")
+                        + "' AND ((ins_last_update < '"+sqlfecha+"')OR"
+                        + "(ins_last_update = '"+sqlfecha+"' AND ins_last_hour < "+datos.getInt("ins_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Inventario){
+                String sql = "SELECT * FROM inventario WHERE inv_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("inv_last_update").getTime());
+                    lista = lista + "UPDATE inventario set inv_nombre = '" + datos.getString("inv_nombre")
+                        + "', inv_descripcion = '" + datos.getString("inv_descripcion")
+                        + "', inv_estado = " + datos.getInt("inv_estado")
+                        + ", inv_last_update = '" + sqlfecha
+                        + "', inv_last_hour = " + datos.getInt("inv_last_hour")
+                        + " WHERE inv_id = " + datos.getInt("inv_id")
+                        + " AND ((inv_last_update < '"+sqlfecha+"')OR"
+                        + "(inv_last_update = '"+sqlfecha+"' AND inv_last_hour < "+datos.getInt("inv_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof Lente){
+                String sql = "SELECT * FROM lente WHERE len_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("len_last_update").getTime());
+                    lista = lista + "UPDATE lente set len_color = '" + datos.getString("len_color")
+                        + "', len_tipo = '" + datos.getString("len_tipo")
+                        + "', len_marca = '" + datos.getString("len_marca")
+                        + "', len_material = '" + datos.getString("len_material")
+                        + "', len_flex = " + datos.getInt("len_flex")
+                        + ", len_clasificacion = " + datos.getInt("len_clasificacion")
+                        + ", len_descripcion = '" + datos.getString("len_descripcion")
+                        + "', len_precio_ref = " + datos.getInt("len_precio_ref")
+                        + ", len_precio_act = " + datos.getInt("len_precio_act")
+                        + ", len_stock = " + datos.getInt("len_stock")
+                        + ", len_stock_min = " + datos.getInt("len_stock_min")
+                        + ", inventario_inv_id = " + datos.getInt("inventario_inv_id")
+                        + ", len_estado = " + datos.getInt("len_estado")
+                        + ", len_last_update = '" + sqlfecha
+                        + "', len_last_hour = " + datos.getInt("len_last_hour")
+                        + " WHERE len_id = '" + datos.getString("len_id")
+                        + "' AND ((len_last_update < '"+sqlfecha+"')OR"
+                        + "(len_last_update = '"+sqlfecha+"' AND len_last_hour < "+datos.getInt("len_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof Oficina) {
+                String sql = "SELECT * FROM oficina WHERE of_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("of_last_update").getTime());
+                    lista = lista + "UPDATE oficina set of_nombre = '" + datos.getString("of_nombre")
+                        + "', of_direccion = '" + datos.getString("of_direccion")
+                        + "', of_ciudad = '" + datos.getString("of_ciudad")
+                        + "', of_telefono1 = '" + datos.getString("of_telefono1")
+                        + "', of_telefono2 = '" + datos.getString("of_telefono2")
+                        + "', of_email = '" + datos.getString("of_email")
+                        + "', of_web = '" + datos.getString("of_web")
+                        + "', of_estado = " + datos.getInt("of_estado")
+                        + ", of_last_update = '" + sqlfecha
+                        + "', of_last_hour = " + datos.getInt("of_last_hour")
+                        + " WHERE of_id = " + datos.getInt("of_id")
+                        + " AND ((of_last_update < '"+sqlfecha+"')OR"
+                        + "(of_last_update = '"+sqlfecha+"' AND of_last_hour < "+datos.getInt("of_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof RegistroBaja) {
+                String sql = "SELECT * FROM registro_bajas WHERE rb_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("rb_last_update").getTime());
+                    java.sql.Date sqlfecha1 = new java.sql.Date(datos.getDate("rb_fecha").getTime());
+                    lista = lista + "UPDATE registro_bajas set rb_fecha = '" + sqlfecha1
+                        + "', lente_len_id = '" + datos.getString("lente_len_id")
+                        + "', rb_cantidad = " + datos.getInt("rb_cantidad")
+                        + ", rb_obs = '" + datos.getString("rb_obs")
+                        + "', rb_estado = " + datos.getInt("rb_estado")
+                        + ", rb_last_update = '" + sqlfecha
+                        + "', rb_last_hour = " + datos.getInt("rb_last_hour")
+                        + " WHERE rb_id = '" + datos.getString("rb_id")
+                        + "' AND ((rb_last_update < '"+sqlfecha+"')OR"
+                        + "(rb_last_update = '"+sqlfecha+"' AND rb_last_hour < "+datos.getInt("rb_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if (type instanceof TipoPago) {
+                String sql = "SELECT * FROM tipo_pago WHERE tp_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("tp_last_update").getTime());
+                    lista = lista + "UPDATE tipo_pago set tp_nombre = '" + datos.getString("tp_nombre")
+                        + "', tp_estado = " + datos.getInt("tp_estado")
+                        + ", tp_last_update = '" + sqlfecha
+                        + "', tp_last_hour = " + datos.getInt("tp_last_hour")
+                        + " WHERE tp_id = " + datos.getInt("tp_id")
+                        + " AND ((tp_last_update < '"+sqlfecha+"')OR"
+                        + "(tp_last_update = '"+sqlfecha+"' AND tp_last_hour < "+datos.getInt("tp_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+            if(type instanceof User){
+                String sql = "SELECT * FROM usuario WHERE us_last_update >='" + param + "'";
+
+                PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
+                ResultSet datos = consulta.executeQuery();
+                while (datos.next()) {
+                    java.sql.Date sqlfecha = new java.sql.Date(datos.getDate("us_last_update").getTime());
+                    lista = lista + "UPDATE usuario set us_nombre = '" + datos.getString("us_nombre")
+                        + "', us_username = '" + datos.getString("us_username")
+                        + "', us_email = '" + datos.getString("us_email")
+                        + "', us_pass = '" + datos.getString("us_pass")
+                        + "', us_tipo = " + datos.getInt("us_tipo")
+                        + ", us_estado = " + datos.getInt("us_estado")
+                        + ", us_last_update = '" + sqlfecha
+                        + "', us_last_hour = " + datos.getInt("us_last_hour")
+                        + " WHERE us_id = " + datos.getInt("us_id")
+                        + " AND ((us_last_update < '"+sqlfecha+"')OR"
+                        + "(us_last_update = '"+sqlfecha+"' AND us_last_hour < "+datos.getInt("us_last_hour")+"));";
+                }
+                RmBd.cerrar();
+                return lista;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
+        }
+        return lista;
+    }
+    
+    public boolean sincronizar(String externBdSqlSync){
+        try {
+            PreparedStatement insert = RmBd.obtener().prepareStatement(
+                    externBdSqlSync
+            );
+            if (insert.executeUpdate() != 0) {
+                RmBd.cerrar();
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Remote.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
