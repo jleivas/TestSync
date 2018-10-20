@@ -398,7 +398,7 @@ public class Local implements InterfaceSync {
             if(objectParam instanceof RegistroBaja){
                 RegistroBaja object = (RegistroBaja)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT rb_id FROM registro_bajas WHERE rb_id=" + object.getCod()+ "");
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT rb_id FROM registro_bajas WHERE rb_id= '" + object.getCod()+ "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         LcBd.cerrar();
@@ -3182,8 +3182,8 @@ public class Local implements InterfaceSync {
             RegistroBaja object = (RegistroBaja)objectParam;
             java.sql.Date sqlfecha1 = new java.sql.Date(object.getFecha().getTime());//la transforma a sql.Date
             java.sql.Date sqlfecha2 = new java.sql.Date(object.getLastUpdate().getTime());//la transforma a sql.Date
-            return  "INSERT INTO registro_bajas VALUES("
-                            + object.getCod()+ ",'"
+            return  "INSERT INTO registro_bajas VALUES('"
+                            + object.getCod()+ "','"
                             + sqlfecha1 + "','"
                             + object.getIdLente()+ "',"
                             + object.getCantidad()+ ",'"
