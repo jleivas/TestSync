@@ -13,8 +13,6 @@ import entities.abstractclasses.SyncStringId;
 import entities.abstractclasses.SyncClass;
 import entities.abstractclasses.SyncFichaClass;
 import entities.abstractclasses.SyncIntId;
-import entities.ficha.Armazon;
-import entities.ficha.Despacho;
 import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
