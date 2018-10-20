@@ -82,18 +82,20 @@ public class GV extends GlobalValuesCursor{
     }
     
     private static void validaBD(){
-            
-        if(GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree() &&
-           GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoLocal()){
-            Dao load = new Dao();
-            try {
+        Dao load = new Dao();
+        try {    
+            if(!GV.licenciaLocal()){
+                //Comprueba si existe una base de datos remota con el usuario root
                 if(load.get("root", 0, new User())==null){
                     GlobalValuesFunctions.sincronizeOrClose();
                 }
-            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+
+            }else{
+                load.addOnInit(new User(2, "Sistema", "root", "contacto@softdirex.cl", GV.enC("softdirex"), 7, 1, null, 0));
+            }
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(GV.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
     }
     
     public static void validaDBLocal(){

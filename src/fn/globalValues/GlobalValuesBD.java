@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jxl.write.WriteException;
-import newpackage.NoGit;
 import sync.entities.Migrar;
 import sync.entities.Remote;
 
@@ -51,10 +50,10 @@ import sync.entities.Remote;
  */
 public class GlobalValuesBD {
     /* Bases de datos*/
-    public static String BD_URL_REMOTE = NoGit.URL;
-    public static String BD_NAME_REMOTE = NoGit.DB;
-    public static String BD_USER_REMOTE = NoGit.USER;
-    public static String BD_PASS_REMOTE = NoGit.PASS;
+    public static String BD_URL_REMOTE;
+    public static String BD_NAME_REMOTE;
+    public static String BD_USER_REMOTE;
+    public static String BD_PASS_REMOTE;
     public static String BD_URL_LOCAL = "."+File.separator+"DB"+File.separator;//"localhost:1527"
     public static String BD_NAME_LOCAL = "Derby.DB";//"odm4"
     public static String BD_USER_LOCAL = "odm4";
