@@ -97,8 +97,10 @@ técnico para la puesta en marcha del sistema.
  
  - El panel de notificaciones aparece detrás del panel principal
 
- #### [Error en ventana de sincronizacion (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
+ #### [Error sincronizacion (ISS-009)](https://github.com/softdirex/TestSync/search?q=ISS-009&unscoped_q=ISS-009&type=Commits)
  
+ - Error en la primera sincronizacion [NO PROBADO]
+ - El sistea lanza excepciones al sincronizar
  - Actualizar ventana de sincronización para mostrar porcentaje de progreso actualizado al inicio
  - Ventana no se actualiza en la primera sincronizacion del sistema, reiniciar para ver sin problemas
 
