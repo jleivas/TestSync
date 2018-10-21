@@ -5,6 +5,8 @@
  */
 package dao;
 
+import entities.Cristal;
+import entities.Equipo;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
@@ -13,6 +15,7 @@ import entities.abstractclasses.SyncStringId;
 import entities.abstractclasses.SyncClass;
 import entities.abstractclasses.SyncFichaClass;
 import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncIntIdValidaName;
 import entities.ficha.EtiquetFicha;
 import entities.ficha.Ficha;
 import entities.ficha.HistorialPago;
@@ -90,6 +93,7 @@ public class Dao{
         
         return false;
     }
+    
    /**
     * Agrega registros a la base de datos, si ya existen los actualiza, útil para sincronización de bases de datos.
     * 
@@ -175,6 +179,18 @@ public class Dao{
             return sync.Sync.add(GV.LOCAL_SYNC, GV.REMOTE_SYNC, object);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean updateFromUI(Object object){
+        if(validaEntity(object)){
+            if(GV.licenciaLocal()){
+                OptionPane.showMsg("NO CREATED", "function ist created!", 3);
+                return false;
+            }else{
+                return updateRemote(object);
+            }
         }
         return false;
     }
@@ -543,5 +559,232 @@ public class Dao{
         }else{
             return (GV.REMOTE_SYNC.getElement(username, 0, new User())!=null);
         }
+    }
+
+    
+    public boolean addFromUI(Object object){
+        if(validaEntity(object)){
+            if(GV.licenciaLocal()){
+                addLocal(object);
+            }else{
+                addRemote(object);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private void addLocal(Object object) {
+        if(object instanceof SyncIntId){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+            if(object instanceof SyncIntIdValidaName){
+                addSyncIntIdValidaNameLocal(object);
+            }else{
+                addSyncIntIdLocal(object);
+            }
+        }
+        if(object instanceof SyncStringId){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+            addSyncStringIdLocal(object);
+        }
+        OptionPane.showMsg("No se puede insertar registro", "La entidad enviada no tiene un formato válido\n"
+                + "\n"
+                + "Detalle: " + object.getClass().getName(), 2);
+    }
+
+    private void addRemote(Object object) {
+        if(object instanceof SyncIntId){
+            if(!GV.isOnline()){
+                OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", 2);
+                return;
+            }
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+            ((SyncIntId)object).setId(GV.LOCAL_SYNC.getMaxId(object));
+            if(((SyncIntId)object).getId() < 0){
+                OptionPane.showMsg("Error de conexión", "No se pudo obtener conexión desde la base de datos remota.", 2);
+                return;
+            }
+            if(object instanceof SyncIntIdValidaName){
+                addSyncIntIdValidaNameRemote(object);
+                return;
+            }else{
+                addSyncIntIdRemote(object);
+                return;
+            }
+        }
+        if(object instanceof SyncStringId){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));//solo se actualizan lastuodates para crear objetos
+            addSyncStringIdRemote(object);
+            return;
+        }
+        OptionPane.showMsg("No se puede insertar registro", "La entidad enviada no tiene un formato válido\n"
+                + "\n"
+                + "Detalle: " + object.getClass().getName(), 2);
+    }
+
+    private void addSyncIntIdValidaNameLocal(Object object) {
+        SyncIntIdValidaName entity = (SyncIntIdValidaName) GV.LOCAL_SYNC.getElement(((SyncIntIdValidaName)object).getNombre(), 0, object);
+        if(entity == null){
+            if(GV.LOCAL_SYNC.add(object)){
+                msgEntityAdded();
+            }
+            msgEntityNotAdded();
+        }else{
+            msgInvalidName(entity.getEstado());
+        }
+    }
+
+    private void addSyncIntIdLocal(Object object) {
+        GV.LOCAL_SYNC.add(object);
+    }
+    
+    private void addSyncIntIdRemote(Object object) {
+        if(GV.REMOTE_SYNC.add(object)){
+            GV.LOCAL_SYNC.add(object);
+            msgEntityAdded();
+        }
+        msgEntityNotAdded();
+    }
+    
+    private void msgInvalidName(int status){
+        if(status == 0){
+            OptionPane.showMsg("Imposible registrar elemento", "Ya existe un registro con el nombre ingresado pero se encuentra elimidado,\n"
+                + "debes cambiar el nombre para poder continuar o restaurar el elemento eliminado.", 2);
+        }else{
+            OptionPane.showMsg("Imposible registrar elemento", "Ya existe un registro con el nombre ingresado,\n"
+                + "debes cambiar el nombre para poder continuar.", 2);
+        }
+    }
+    
+    private void msgEntityAdded(){
+        OptionPane.showMsg("Proceso finalizado", "El registro a sido guardado exitosamene.", 1);
+    }
+    
+    private void msgEntityNotAdded(){
+        OptionPane.showMsg("Proceso finalizado", "El registro no se ha podido guardar\n"
+                + "ha ocurrido un error inesperado durante la operación.", 2);
+    }
+
+    private void addSyncStringIdLocal(Object object) {
+        SyncStringId entity = (SyncStringId)GV.LOCAL_SYNC.getElement(((SyncStringId)object).getCod(), 0, object);
+        if(entity == null){
+            GV.LOCAL_SYNC.add(object);
+        }else{
+            if(entity.getEstado() == 0){
+                if(OptionPane.getConfirmation("El registro ya existe", 
+                        "Los datos ingresados corresponden a un registro anulado.\n"
+                        + "Los datos se actualizarán y el registro se restaurará si confirmas los cambios.\n"
+                        + "¿Deseas actualizar los datos?", 2)){
+                    GV.LOCAL_SYNC.update(object);
+                }
+            }else{
+                if(OptionPane.getConfirmation("El registro ya existe", "No se ha podido guardar el registro a menos que \n"
+                        + "confirmes los cambios.\n"
+                        + "¿Deseas actualizar los datos?", 2)){
+                    GV.LOCAL_SYNC.update(object);
+                }
+            }  
+        }
+    }
+    
+    private void addSyncStringIdRemote(Object object) {
+        SyncStringId entity = (SyncStringId)GV.LOCAL_SYNC.getElement(((SyncStringId)object).getCod(), 0, object);
+        if(entity == null){
+            GV.LOCAL_SYNC.add(object);
+            msgEntityAdded();
+        }else{
+            if(entity.getEstado() == 0){
+                if(OptionPane.getConfirmation("El registro ya existe", 
+                        "Los datos ingresados corresponden a un registro anulado.\n"
+                        + "Los datos se actualizarán y el registro se restaurará si confirmas los cambios.\n"
+                        + "¿Deseas actualizar los datos?", 2)){
+                    GV.LOCAL_SYNC.update(object);
+                    msgEntityAdded();
+                }
+            }else{
+                if(OptionPane.getConfirmation("El registro ya existe", "No se ha podido guardar el registro a menos que \n"
+                        + "confirmes los cambios.\n"
+                        + "¿Deseas actualizar los datos?", 2)){
+                    GV.LOCAL_SYNC.update(object);
+                    msgEntityAdded();
+                }
+            }  
+        }
+    }
+
+    private void addSyncIntIdValidaNameRemote(Object object) {
+        SyncIntIdValidaName entity = (SyncIntIdValidaName) GV.LOCAL_SYNC.getElement(((SyncIntIdValidaName)object).getNombre(), 0, object);
+        if(entity == null){
+            if(GV.REMOTE_SYNC.add(object)){
+                GV.LOCAL_SYNC.add(object);
+                msgEntityAdded();
+            }else{
+                msgEntityNotAdded();
+            }
+        }else{
+            msgInvalidName(entity.getEstado());
+        }
+    }
+
+    private boolean validaEntity(Object object) {
+        if(object == null){
+            return false;
+        }
+        if(object instanceof Cristal){
+            Cristal obj = (Cristal)object;
+            if(obj.getStr(obj.getNombre()).length() <= 3){
+                OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
+                        + "Información a considerar:\n"
+                        + "- El campo nombre no debe estar vacío.\n"
+                        + "- El nombre debe tener más de tres caracteres.", 2);
+                return false;
+            }
+            if(obj.getPrecio() <= 0){
+                OptionPane.showMsg("Precio incorrecto", "No se puede registrar un lente con precio " + GV.strToPrice(obj.getPrecio()) + ".", 2);
+                return false;
+            }
+            return true;
+        }
+        OptionPane.showMsg("Entidad no validada", "No se ha cumplido con las validaciones en esta entidad.", 3);
+        return false;
+    }
+
+    private boolean updateRemote(Object object) {
+        if(object instanceof SyncClass){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));
+            if(object instanceof SyncIntId){
+                if(!GV.isOnline()){
+                    OptionPane.showMsg("No se puede modificar el registro", "Para poder modificar estos datos debes tener acceso a internet.", 2);
+                    return false;
+                }
+                if(object instanceof SyncIntIdValidaName){
+                    SyncIntIdValidaName entity = (SyncIntIdValidaName)GV.REMOTE_SYNC.getElement(((SyncIntIdValidaName)object).getNombre(), 0, object);
+                    if(entity == null){
+                        return GV.LOCAL_SYNC.update(object);
+                    }else{
+                        if(entity.getId() == ((SyncIntIdValidaName)object).getId()){
+                            return GV.LOCAL_SYNC.update(object);
+                        }else{
+                            msgInvalidName(entity.getEstado());
+                            return false;
+                        }
+                    }
+                }else{
+                    return GV.LOCAL_SYNC.update(object);
+                }
+            }
+            if(object instanceof SyncStringId){
+                return false;
+            }
+        }
+        OptionPane.showMsg("No se puede modificar registro", "La entidad enviada no tiene un formato válido\n"
+                + "\n"
+                + "Detalle: " + object.getClass().getName(), 2);
+        return false;
     }
 }

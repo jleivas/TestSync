@@ -1183,4 +1183,8 @@ public class GV extends GlobalValuesCursor{
         return (licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoFree() ||
                 licenciaTipoPlan() == GlobalValuesVariables.licenciaTipoLocal());
     }
+
+    public static void mensajeExcepcion(String error, int status) {
+        OptionPane.showMsg("Error critico", "Ocurrió un error inesperado:\n"+error, status);
+    }
 }

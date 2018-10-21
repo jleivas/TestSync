@@ -508,48 +508,21 @@ public class VCristales extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         cWT();
-       
-        String nombre = txtNombreN.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = nombre.replaceAll(" ", "");
-        else{
-            OptionPane.showMsg("Agregar Cristal", "El nuevo registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        try {
-            cWT();
-            if(load.get(nombre.toUpperCase(),0, new Cristal()) != null){
-                OptionPane.showMsg("El nombre del cristal ya existe", "El nombre ingresado ya existe,\n"
-                        + "porfavor intente con otro valor.", 2);
-                cDF();
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el descuento\n\n"
-                    + ex, 3);
-            cDF();
-            return;
-        }
-            
+        String nombre = txtNombreN.getText();  
         int precio = 0;
-        
         try {
             txtPrecioN.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VCristales.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El precio ingresado es incorrecto\n"+ex.getMessage(),2);
+            cDF();
+            return;
         }
-        
         precio = (int)txtPrecioN.getValue();
-        
-        Cristal cristal= new Cristal(GV.REMOTE_SYNC.getMaxId(new Cristal()), nombre, precio, 1, null, 0);
-        try {
-            load.add(cristal);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                + "No se pudo insertar el cristal\n\n"
-                + ex, 3);
+        Cristal cristal= new Cristal(0, nombre, precio, 1, null, 0);
+        if(!load.addFromUI(cristal)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
@@ -568,48 +541,23 @@ public class VCristales extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreUKeyTyped
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        cWT();
+       
         String nombre= txtNombreU.getText();
-        if(!nombre.isEmpty() || nombre.length()>3)
-            nombre = nombre.replaceAll(" ", "");
-        else{
-            OptionPane.showMsg("Modificar Descuento", "El desuento debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        Cristal temp = null;
-        try {
-            temp = (Cristal)load.get(nombre.toUpperCase(),0, new Cristal());
-            if(temp != null && temp.getId() != stCristal.getId()){
-                OptionPane.showMsg("El nombre del cristal ya existe", "Ya existe un registro con un nombre similar,\n"
-                        + "porfavor intente con otro valor.", 2);
-                cDF();
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el cristal\n\n"
-                    + ex, 3);
-            cDF();
-            return;
-        }
-        
         int precio=0;
-        
         try {
             txtPrecioU.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VCristales.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El precio ingresado es incorrecto\n"+ex.getMessage(),2);
+            return;
         }
-        
         precio = (int)txtPrecioU.getValue();
         stCristal.setNombre(nombre);
         stCristal.setPrecio(precio);
         cWT();
-        if(load.update(stCristal)){
-            OptionPane.showMsg("Modificar Cristal", "Operación realizada con exito",  1);
-        }else{
-            OptionPane.showMsg("Modificar Cristal", "No se pudo efectuar la operación", 2);
+        if(!load.updateFromUI(stCristal)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();

@@ -53,6 +53,9 @@ public abstract class SyncClass {
     }
     
     public String getToName(String param){
+        if(getStr(param).isEmpty()){
+            return "";
+        }
         String[] str = getStr(param).toLowerCase().split(" ");
         StringBuffer value = new StringBuffer();
         for (String temp : str) {
