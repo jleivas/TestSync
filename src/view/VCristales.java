@@ -508,7 +508,7 @@ public class VCristales extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         cWT();
-        String nombre = txtNombreN.getText();  
+        String nombre = GV.getFilterString(txtNombreN.getText());  
         int precio = 0;
         try {
             txtPrecioN.commitEdit();
@@ -542,7 +542,7 @@ public class VCristales extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
        
-        String nombre= txtNombreU.getText();
+        String nombre = GV.getFilterString(txtNombreU.getText());
         int precio=0;
         try {
             txtPrecioU.commitEdit();
