@@ -404,11 +404,9 @@ public class VCristales extends javax.swing.JPanel {
             String nombre = tblListar.getValueAt(fila, 1).toString();
             Cristal temp = (Cristal)load.get(nombre,0,new Cristal());
             if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el cristal "+temp.getNombre()+"?", 2)){
-                cWT();
-                if(load.delete(nombre,0, temp)){
-                    OptionPane.showMsg("Eliminar Cristal", "El registro ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar Cristal", "No se pudo eliminar el registro", 2);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
             }
             cargarDatos("0");
@@ -428,12 +426,12 @@ public class VCristales extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 1).toString();
+            Cristal temp = (Cristal)load.get(nombre, 0, new Cristal());
             if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", 1)){
                 cWT();
-                if(load.restore(nombre, 0, new Cristal())){
-                    OptionPane.showMsg("Restaurar Cristal", "El registro ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Cristal", "No se pudo restaurar el registro", 2);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
             }
             cargarDatos("-1");
