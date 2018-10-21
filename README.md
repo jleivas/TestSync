@@ -34,7 +34,11 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
-  #### [CRUD clientes (ISS-024)](https://github.com/softdirex/TestSync/search?q=ISS-002&type=Commits)
+   #### [CRUD tipo de pagos (ISS-025)](https://github.com/softdirex/TestSync/search?q=ISS-025&type=Commits)
+ 
+ - Refactoring del crud
+
+  #### [CRUD clientes (ISS-024)](https://github.com/softdirex/TestSync/search?q=ISS-024&type=Commits)
  
  - Visualizar fichas por cliente, refactoring del crud
 
