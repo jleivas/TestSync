@@ -95,8 +95,10 @@ public class GlobalValuesFunctions {
     public static String getStr(String arg){
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
-        else
-            return arg.trim();
+        else{
+            String value = arg.replaceAll("[-+^:‘´'{}]","");
+            return (value.startsWith(" "))?value.replaceFirst(" ", "").trim():value.trim();
+        }
     }
     
     public static void emptyTable(JComboBox cbo, JTextField txt, String registry){

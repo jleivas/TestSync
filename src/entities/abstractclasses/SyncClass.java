@@ -71,8 +71,10 @@ public abstract class SyncClass {
     public String getStr(String arg){
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
-        else
-            return arg.trim();
+        else{
+            String value = arg.replaceAll("[-+^:‘´'{}]","");
+            return (value.startsWith(" "))?value.replaceFirst(" ", "").trim():value.trim();
+        }
     }
     
     public String mailValidate(String email){
