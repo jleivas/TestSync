@@ -760,13 +760,12 @@ public class VInstituciones extends javax.swing.JPanel {
                 cWT();
                 int fila = tblListar.getSelectedRow();
                 String id = (tblListar.getValueAt(fila, 0).toString());
-                Institucion temp = (Institucion)load.get(id,0,new Institucion());
-                if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
+                if(OptionPane.getConfirmation("Eliminar Institucion", "¿Esta seguro que desea eliminar el registro?", 2)){
                     cWT();
-                    if(load.delete(id,0, temp)){
-                        OptionPane.showMsg("Eliminar Institucion", "El registro ha sido eliminado", 1);
-                    }else{
-                        OptionPane.showMsg("Eliminar Institucion", "No se pudo eliminar el registro", 2);
+                    Institucion temp = (Institucion)load.get(id,0,new Institucion());
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                 }
                 cargarDatos("0");
@@ -791,10 +790,10 @@ public class VInstituciones extends javax.swing.JPanel {
                 String id = (String)tblListar.getValueAt(fila, 0);
                 if(OptionPane.getConfirmation("Confirmación de Institucion", "¿Esta seguro que desea restaurar este registro?", 1)){
                     cWT();
-                    if(load.restore(id, 0, new Institucion())){
-                        OptionPane.showMsg("Restaurar Institucion", "El registro ha sido restaurado", 1);
-                    }else{
-                        OptionPane.showMsg("Restaurar Institucion", "No se pudo restaurar el registro", 2);
+                    Institucion temp = (Institucion)load.get(id,0,new Institucion());
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                     cargarDatos("-1");
                 }
@@ -840,61 +839,29 @@ public class VInstituciones extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        try {
-            cWT();
-            String rut = txtRut.getText();
-            String nombre=txtNombreN.getText();
-            if(nombre == null || nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un nombre válido.", 2);
+        cWT();
+        String rut = GV.getFilterString(txtRut.getText());
+        String nombre=GV.getFilterString(txtNombreN.getText());
+        if(!GV.validaRut(rut)){
+            if(!OptionPane.getConfirmation("Revise el identificador", "¿Está seguro que el identificador o rut ("+rut+") ingresado es correcto?\n"
+                    + "una vez registrado no se podrá modificar.", 2)){
                 cDF();
                 return;
             }
-            if(rut == null || rut.isEmpty() || rut.length()<1){
-                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener un identificador o rut válido.", 2);
-                cDF();
-                return;
-            }
-            if(!GV.validaRut(rut)){
-                if(!OptionPane.getConfirmation("Revise el identificador", "¿Está seguro que el identificador o rut ("+rut+") ingresado es correcto?\n"
-                        + "una vez registrado no se podrá modificar.", 2)){
-                    cDF();
-                    return;
-                }
-            }
-            String telefono=txtTelefonoN.getText();
-            String mail=txtEmailN.getText().toLowerCase();
-            if(telefono.isEmpty() && mail.isEmpty()){
-                OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                        + "Ingrese un teléfono o correo electrónico.", 2);
-                cDF();
-                return;
-            }
-            String direccion=txtDireccionN.getText();
-            String comuna=txtComunaN.getText();
-            String ciudad=txtCiudadN.getText();
-            String web = txtWebN.getText();
-            
-            if(load.get(rut, 0, new Institucion())==null){
-                Institucion institucion= new Institucion(rut, nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
-                try {
-                    cWT();
-                    load.add(institucion);
-                } catch (InstantiationException | IllegalAccessException ex) {
-                    OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                            + "No se pudo insertar la institucion\n\n"
-                            + ex, 3);
-                }
-                cargarDatos("0");
-            }else{
-                OptionPane.showMsg("La entidad ya existe", "No se pudo insertar nuevo registro,\n"
-                        + "Ya existe una entidad con el mismo identificador o rut,\n"
-                        + "modifique la entidad existente, si no aparece en la tabla,\n"
-                        + "debe restaurarla de elementos anulados.", 2);
-            }
-            cDF();
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VInstituciones.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String telefono=GV.getFilterString(txtTelefonoN.getText());
+        String mail=GV.getFilterString(GV.mailValidate(txtEmailN.getText().toLowerCase()));
+        String direccion=GV.getFilterString(txtDireccionN.getText());
+        String comuna=GV.getFilterString(txtComunaN.getText());
+        String ciudad=GV.getFilterString(txtCiudadN.getText());
+        String web = GV.getFilterString(txtWebN.getText());
+        Institucion institucion= new Institucion(rut, nombre, telefono, mail,web, direccion, comuna, ciudad, 1, null, 0);
+        if(!load.addFromUI(institucion)){
+            cDF();
+            return;
+        }
+        cargarDatos("0");
+        cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -907,20 +874,9 @@ public class VInstituciones extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
-        String nombre= txtNombreU.getText();
-        if(nombre == null || nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar institucion", "El registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        String telefono = txtTelefonoU.getText();
-        String email = txtEmailU.getText();
-        if(telefono.isEmpty() && email.isEmpty()){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
+        String nombre= GV.getFilterString(txtNombreU.getText());
+        String telefono = GV.getFilterString(txtTelefonoU.getText());
+        String email = GV.getFilterString(GV.mailValidate(txtEmailU.getText()));
         
         stInstitucion.setCiudad(txtCiudadU.getText());
         stInstitucion.setComuna(txtComunaU.getText());
@@ -930,10 +886,9 @@ public class VInstituciones extends javax.swing.JPanel {
         stInstitucion.setTelefono(telefono);
         stInstitucion.setWeb(txtWebU.getText());
         cWT();
-        if(load.update(stInstitucion)){
-            OptionPane.showMsg("Modificar Institucion", "Operación realizada con exito",  1);
-        }else{
-            OptionPane.showMsg("Modificar Institucion", "No se pudo efectuar la operación", 2);
+        if(!load.updateFromUI(stInstitucion)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
@@ -1120,6 +1075,7 @@ public class VInstituciones extends javax.swing.JPanel {
 
     private void limpiarTextField() {
         txtCiudadU.setText("");
+        txtRut.setText("");
         txtComunaU.setText("");
         txtDireccionU.setText("");
         txtEmailU.setText("");

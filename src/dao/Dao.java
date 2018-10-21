@@ -10,6 +10,7 @@ import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
 import entities.Doctor;
+import entities.Institucion;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
@@ -846,6 +847,27 @@ public class Dao{
         }
         if(object instanceof Doctor){
             Doctor obj = (Doctor)object;
+            if(obj.getStr(obj.getNombre()).length() <= 3){
+                OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
+                        + "Información a considerar:\n"
+                        + "- El campo nombre no debe estar vacío.\n"
+                        + "- El nombre debe tener más de tres caracteres.\n"
+                        + "- El nombre no debe contener caracteres especiales.", 2);
+                return false;
+            }
+            if(obj.getTelefono().isEmpty() && obj.getEmail().isEmpty()){
+                OptionPane.showMsg("Faltan datos de contacto", "El nuevo registro debe tener al menos un registro de contacto.\n"
+                        + "Ingrese un teléfono o correo electrónico.", 2);
+                return false;
+            }
+            return true;
+        }
+        if(object instanceof Institucion){
+            Institucion obj = (Institucion)object;
+            if(obj.getCod().isEmpty()){
+                OptionPane.showMsg("Identificador no ingresado", "El nuevo registro debe tener un identificador o rut válido.", 2);
+                return false;
+            }
             if(obj.getStr(obj.getNombre()).length() <= 3){
                 OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
                         + "Información a considerar:\n"
