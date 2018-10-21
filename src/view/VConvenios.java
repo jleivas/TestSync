@@ -688,10 +688,9 @@ public class VConvenios extends javax.swing.JPanel {
                 }
                 if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el convenio "+temp.getNombre()+"?", 2)){
                     cWT();
-                    if(load.delete(null,id, temp)){
-                        OptionPane.showMsg("Eliminar Convenio", "El convenio ha sido eliminado", 1);
-                    }else{
-                        OptionPane.showMsg("Eliminar Convenio", "No se pudo eliminar el convenio", 2);
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                 }
                 cargarDatos("0");
@@ -716,12 +715,12 @@ public class VConvenios extends javax.swing.JPanel {
                 cWT();
                 int fila = tblListar.getSelectedRow();
                 int id = Integer.parseInt(tblListar.getValueAt(fila, 0).toString());
+                Convenio temp = (Convenio)load.get(null, id, new Convenio());
                 if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", 1)){
                     cWT();
-                    if(load.restore(null, id, new Convenio())){
-                        OptionPane.showMsg("Restaurar convenio", "El convenio ha sido restaurado", 1);
-                    }else{
-                        OptionPane.showMsg("Restaurar convenio", "No se pudo restaurar el convenio", 2);
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                     cargarDatos("-1");
                 }
