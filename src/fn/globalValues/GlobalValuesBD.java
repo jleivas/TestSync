@@ -673,6 +673,7 @@ public class GlobalValuesBD {
                 createExcel(new Ficha());
                 createExcel(new HistorialPago());
                 createExcel(new Institucion());
+                createExcel(new Inventario());
                 createExcel(new InternStock());
                 createExcel(new Lente());
                 createExcel(new InternMail());
@@ -1025,7 +1026,7 @@ public class GlobalValuesBD {
         createExcel(stList, new Institucion());
     }
 
-    private static void migrarLentes() {
+    public static void migrarLentes() {
         List<Object> lista = mig.listar("-2", new Lente());
 //        for (Object object : lista) {
 //            Lente temp = (Lente)object;
