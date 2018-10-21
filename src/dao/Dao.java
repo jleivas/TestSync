@@ -226,6 +226,12 @@ public class Dao{
     }
     
     public boolean restoreOrDeleteFromUI(Object object){
+        if(object instanceof Inventario){
+            if(((Inventario)object).getNombre().equals(GV.inventarioName())){
+                OptionPane.showMsg("No se puede eliminar", "Este inventario se encuentra en uso, no se puede eliminar.",3);
+                return false;
+            }
+        }
         if(GV.licenciaLocal()){
             System.out.println("no function");
             return false;

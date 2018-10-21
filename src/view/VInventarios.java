@@ -453,10 +453,9 @@ public class VInventarios extends javax.swing.JPanel {
             Inventario temp = (Inventario)load.get(nombre,0,new Inventario());
             if(OptionPane.getConfirmation("Eliminar Inventario", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
                 cWT();
-                if(load.delete(nombre,0, temp)){
-                    OptionPane.showMsg("Eliminar Inventario", "El registro ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar Inventario", "No se pudo eliminar el registro", 2);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
             }
             cargarDatos("0");
@@ -478,10 +477,10 @@ public class VInventarios extends javax.swing.JPanel {
             String nombre = tblListar.getValueAt(fila, 0).toString();
             if(OptionPane.getConfirmation("Confirmación de Inventario", "¿Esta seguro que desea restaurar este registro?", 1)){
                 cWT();
-                if(load.restore(nombre, 0, new Inventario())){
-                    OptionPane.showMsg("Restaurar Inventario", "El registro ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Inventario", "No se pudo restaurar el registro", 2);
+                Inventario temp = (Inventario)load.get(nombre, 0, new Inventario());
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
                 cargarDatos("-1");
                 cDF();
