@@ -34,6 +34,10 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+  #### [CRUD convenios (ISS-026)](https://github.com/softdirex/TestSync/search?q=ISS-026&type=Commits)
+ 
+ - Refactoring del crud convenios (entities.Convenio)
+
    #### [CRUD tipo de pagos (ISS-025)](https://github.com/softdirex/TestSync/search?q=ISS-025&type=Commits)
  
  - Refactoring del crud
