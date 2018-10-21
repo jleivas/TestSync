@@ -610,23 +610,11 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String username = tblListar.getValueAt(fila, 0).toString();
-            if(username.toLowerCase().equals(GV.user().getUsername().toLowerCase())){
-                OptionPane.showMsg("No es posible realizar esta operación", "No puedes eliminar tu propio usuario.", 2);
-                cDF();
-                return;
-            }
             User temp = (User)load.get(username, 0, new User());
-            if(temp.getTipo() == 1){
-                OptionPane.showMsg("No se puede eliminar", "El usuario "+temp.getNombre()+" no se puede eliminar", 2);
-                cDF();
-                return;
-            }
             if(OptionPane.getConfirmation("Eliminar usuario", "¿Estas seguro que deseas eliminar al usuario "+temp.getNombre()+"?", 2)){
-                cWT();
-                if(load.delete(username, 0, temp)){
-                    OptionPane.showMsg("Eliminar usuario", "El usuario ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar usuario", "No se pudo eliminar el usuario", 2);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
                 cargarDatos("0");
             }
@@ -646,14 +634,13 @@ public class VUsuarios extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String username = tblListar.getValueAt(fila, 0).toString();
+            
             if(OptionPane.getConfirmation("Confirmación de usuario", "¿Esta seguro que desea restaurar este usuario?", 1)){
-                cWT();
-                if(load.restore(username, 0, new User())){
-                    OptionPane.showMsg("Restaurar usuario", "El usuario ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar usuario", "No se pudo restaurar el usuario", 2);
+                User temp = (User)load.get(username, 0, new User());
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
-                
             }
             cargarDatos("-1");
         }catch(Exception e){
@@ -693,16 +680,7 @@ public class VUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-        if(GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoFree() && 
-           GV.licenciaTipoPlan() != GlobalValuesVariables.licenciaTipoLocal()){
-            if(GV.isOnline()){
-                guardarUsuario();
-            }else{
-                OptionPane.showMsg("No se puede agregar nuevo usuario", "Intente denuevo mas tarde cuando tenga acceso a internet", 2);
-            }
-        }else{
-            guardarUsuario();
-        }
+        guardarUsuario();
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -715,43 +693,17 @@ public class VUsuarios extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
-        staticUser.setEmail(txtUpdateEmail.getText());
-        staticUser.setNombre((txtUpdateName.getText()));
+        staticUser.setEmail(GV.getFilterString(GV.mailValidate(txtUpdateEmail.getText())));
+        staticUser.setNombre(GV.getFilterString(txtUpdateName.getText()));
         staticUser.setPass(GV.enC(txtUpdatePass.getText()));
         int tipo = cboTipo2.getSelectedIndex();
-        if(tipo == 1 && !GV.tipoUserSuperAdmin()){
-            OptionPane.showMsg("Modificar usuario", "No se pudo modificar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nno tienes permisos suficientes para crear el tipo de usuario \"Jefatura\".", 2);
-            cDF();
-            return;
-        }
         staticUser.setTipo(tipo);
-        String newUsername = txtUpdateUsername.getText();
-        
-        if(staticUser.getNombre().length() < 3 || newUsername.length() < 3){
-            OptionPane.showMsg("Modificar usuario", "Debe ingresar un nombre o username válido,"
-                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
+        staticUser.setUsername(GV.getFilterString(txtUpdateUsername.getText()));
+        cWT();
+        if(!load.updateFromUI(staticUser)){
             cDF();
             return;
-        }
-        
-        if(!staticUser.getUsername().equals(newUsername)){
-            if(GV.usernameYaExiste(newUsername)){
-                if(GV.licenciaLocal()){
-                    OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.", 2);
-                }else{
-                    OptionPane.showMsg("Modificar usuario", "El username ingresado ya se encuentra registrado.\n\n"
-                            + "Si no aparece en la tabla debes sincronizar los datos", 2);
-                }
-            }else{
-                staticUser.setUsername(newUsername);
-            }
-        }
-        cWT();
-        load.update(staticUser);
-        OptionPane.showMsg("Modificar usuario", "El usuario ha sido modificado exitosamente,\n"
-                + "La clave de acceso a sido reseteada\n"
-                + "Nueva contraseña: "+GV.dsC(staticUser.getPass()), 1);  
+        } 
         cargarDatos("0");
         cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
@@ -1028,48 +980,17 @@ public class VUsuarios extends javax.swing.JPanel {
 
     private void guardarUsuario() {
         cWT();
-        String nombre=txtNewName.getText();
-        String username=txtNewUsername.getText();
-        String email=txtNewEmail.getText();
+        String nombre=GV.getFilterString(txtNewName.getText());
+        String username=GV.getFilterString(txtNewUsername.getText());
+        String email=GV.getFilterString(GV.mailValidate(txtNewEmail.getText()));
         int tipo = cboTipo1.getSelectedIndex();
         String pass=GV.enC(txtNewPass.getText());
-        if(nombre.length() < 3 || username.length() < 3){
-            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre o username válido,"
-                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
-            cDF();
-            return;
-        }
-        
-        if(!GV.tipoUserSuperAdmin()&& tipo == 1){
-            OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
-                    + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", 2);
-            cDF();
-            return;
-        }
-            
         User user = new User(0,nombre, username, email, pass, tipo, 1, null, 0);
-        try {
-            cWT();
-            if(GV.usernameYaExiste(username)){
-                if(GV.licenciaLocal()){
-                    OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado", 2);
-                }else{
-                    OptionPane.showMsg("Agregar usuario", "El username ingresado ya se encuentra registrado.\n"
-                        + "Si no aparece en la tabla debes sincronizar los datos.", 2);
-                }
-                cDF();
-                return;
-            }else{
-                cWT();
-                load.add(user);
-                OptionPane.showMsg("Agregar usuario", "El usuario ha sido registrado exitosamente.\n"
-                        + "La clave de acceso es: "+GV.dsC(user.getPass()), 1);
-            }
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar el usuario\n\n"
-                    + ex, 3);
-        } 
+        cWT();
+        if(!load.addFromUI(user)){
+            cDF();
+            return;
+        }
         cargarDatos("0");
         cDF();
     }

@@ -228,9 +228,24 @@ public class Dao{
     }
     
     public boolean restoreOrDeleteFromUI(Object object){
+        if(!validaPrivilegiosParaEstados(object)){
+            if(((SyncClass)object).getEstado() == 0){
+                OptionPane.showMsg("No tienes privilegios suficientes", "No tienes permiso para restaurar el registro", 2);
+                return false;
+            }else{
+                OptionPane.showMsg("No tienes privilegios suficientes", "No tienes permiso para eliminar el registro", 2);
+                return false;
+            }
+        }
         if(object instanceof Inventario){
             if(((Inventario)object).getNombre().equals(GV.inventarioName())){
                 OptionPane.showMsg("No se puede eliminar", "Este inventario se encuentra en uso, no se puede eliminar.",3);
+                return false;
+            }
+        }
+        if(object instanceof User){
+            if(((User)object).getId() == GV.user().getId()){
+                OptionPane.showMsg("No es posible realizar esta operación", "No puedes eliminar tu propio usuario.", 2);
                 return false;
             }
         }
@@ -686,11 +701,34 @@ public class Dao{
     }
     
     private void addSyncIntIdRemote(Object object) {
-        if(GV.REMOTE_SYNC.add(object)){
-            GV.LOCAL_SYNC.add(object);
-            msgEntityAdded();
-        }
-        msgEntityNotAdded();
+        if(object instanceof User){
+            User entity = (User) GV.REMOTE_SYNC.getElement(((User)object).getUsername(), 0, object);
+            if(entity == null){
+                if(GV.REMOTE_SYNC.add(object)){
+                    GV.LOCAL_SYNC.add(object);
+                    msgEntityAdded();
+                    return;
+                }
+                msgEntityNotAdded();
+                return;
+            }else{
+                if(entity.getEstado() == 0){
+                    OptionPane.showMsg("No se puede agregar el registro", "Ya existe un usuario con el username ingresado pero se encuentra anulado.", 2);
+                    return;
+                }else{
+                    OptionPane.showMsg("No se puede agregar el registro", "Ya existe un usuario con el username ingresado.", 2);
+                    return;
+                }
+            }
+        }else{
+            if(GV.REMOTE_SYNC.add(object)){
+                GV.LOCAL_SYNC.add(object);
+                msgEntityAdded();
+                return;
+            }
+            msgEntityNotAdded();
+            return;
+        } 
     }
     
     private void msgInvalidName(int status){
@@ -951,6 +989,29 @@ public class Dao{
         if(object instanceof TipoPago){
             return true;
         }
+        if(object instanceof User){
+            User obj = (User)object;
+            if(obj.getNombre().length() <= 3){
+                OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un nombre válido,"
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
+                return false;
+            }
+            if(obj.getUsername().length() <= 3){
+                OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un username válido,"
+                    + "\nlos registros deben tener como mínimo 3 carácteres.", 2);
+                return false;
+            }
+            if(!GV.tipoUserSuperAdmin() && obj.getTipo() == 1){
+                OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario distinto,"
+                        + "\nno tienes permisos suficientes para crear un usuario de tipo \"Jefatura\".", 2);
+                return false;
+            }
+            if(obj.getTipo() == 0){
+                OptionPane.showMsg("Agregar usuario", "No se pudo agregar usuario, debe ingresar un tipo de usuario válido.", 2);
+                return false;
+            }
+            return true;
+        }
         OptionPane.showMsg("Entidad no validada", "No se ha cumplido con las validaciones en esta entidad.", 3);
         return false;
     }
@@ -1007,7 +1068,36 @@ public class Dao{
     }
 
     private void updateSyncIntIdRemote(Object object) {
-        System.out.println("invalid function");
+        if(object instanceof User){
+            User entity = (User)GV.REMOTE_SYNC.getElement(((User)object).getUsername(), 0, new User());
+            if(entity == null){
+                if(GV.REMOTE_SYNC.update(object)){
+                    GV.LOCAL_SYNC.update(object);
+                    msgEntityUpdated();
+                    return;
+                }
+                msgEntityNotUpdated();
+                return;
+            }else{
+                if(entity.getId() == ((User)object).getId()){
+                    if(GV.REMOTE_SYNC.update(object)){
+                        GV.LOCAL_SYNC.update(object);
+                        msgEntityUpdated();
+                        return;
+                    }
+                    msgEntityNotUpdated();
+                    return;
+                }else{
+                    if(entity.getEstado() == 0){
+                        OptionPane.showMsg("No se puede modificar el registro", "Ya existe un usuario con el username ingresado pero se encuentra anulado.", 2);
+                        return;
+                    }else{
+                        OptionPane.showMsg("No se puede modificar el registro", "Ya existe un usuario con el username ingresado.", 2);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private void updateSyncStringIdRemote(Object object) {
@@ -1087,5 +1177,33 @@ public class Dao{
         }else{
             OptionPane.showMsg("Registro no fue restaurado", "La operación no se pudo ejecutar correctamente", 2);
         }
+    }
+
+    private boolean validaPrivilegiosParaEstados(Object object) {
+        if(object instanceof Cliente){
+            return GV.tipoUserIventario();
+        }
+        if(object instanceof Convenio)
+            return GV.tipoUserSuperAdmin();
+        if(object instanceof Cristal)
+            return GV.tipoUserIventario();
+        if(object instanceof Descuento)
+            return GV.tipoUserSuperAdmin();
+        if(object instanceof Doctor)
+            return true;
+        if(object instanceof Institucion)
+            return true;
+        if(object instanceof Inventario)
+            return GV.tipoUserIventario();
+        if(object instanceof Lente)
+            return GV.tipoUserIventario();
+        if(object instanceof Oficina)
+            return GV.tipoUserSuperAdmin();
+        if(object instanceof TipoPago)
+            return GV.tipoUserSuperAdmin();
+        if(object instanceof User)
+            return GV.tipoUserAdmin();
+        OptionPane.showMsg("No valid entitie", "isnt possible to validate the user type", 3);
+        return false;
     }
 }
