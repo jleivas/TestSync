@@ -327,6 +327,10 @@ public class GV extends GlobalValuesCursor{
         return GlobalValuesFunctions.getStr(arg);
     }
     
+    public static String getFilterString(String arg){
+        return GlobalValuesFunctions.getFilterString(arg);
+    }
+    
     public static String getStToName(String arg){
         return GlobalValuesFunctions.getToName(arg);
     }
