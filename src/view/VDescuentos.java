@@ -519,10 +519,9 @@ public class VDescuentos extends javax.swing.JPanel {
             Descuento temp = (Descuento)load.get(nombre,0,new Descuento());
             if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el descuento "+temp.getNombre()+"?", JOptionPane.WARNING_MESSAGE)){
                 cWT();
-                if(load.delete(nombre,0, temp)){
-                    OptionPane.showMsg("Eliminar Descuento", "El descuento ha sido eliminado", JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    OptionPane.showMsg("Eliminar Descuento", "No se pudo eliminar el descuento", JOptionPane.WARNING_MESSAGE);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
             }
             cargarDatos("0");
@@ -543,11 +542,12 @@ public class VDescuentos extends javax.swing.JPanel {
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 1).toString();
             if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", JOptionPane.INFORMATION_MESSAGE)){
+                
                 cWT();
-                if(load.restore(nombre, 0, new Descuento())){
-                    OptionPane.showMsg("Restaurar Descuento", "El descuento ha sido restaurado", JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    OptionPane.showMsg("Restaurar Descuento", "No se pudo restaurar el descuento", JOptionPane.WARNING_MESSAGE);
+                Descuento temp = (Descuento)load.get(nombre, 0, new Descuento());
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
                 cargarDatos("-1");
             }

@@ -950,7 +950,11 @@ public class Dao{
             }
             if(object instanceof SyncIntId){
                 if(!GV.isOnline()){
-                    OptionPane.showMsg("No se puede eliminar el registro", "Para poder eliminar este elemento debes tener acceso a internet.", 2);
+                    if(((SyncClass)object).getEstado() < 1){
+                        OptionPane.showMsg("No se puede eliminar el registro", "Para poder eliminar este elemento debes tener acceso a internet.", 2);
+                    }else{
+                        OptionPane.showMsg("No se puede restaurar el registro", "Para poder restaurar este elemento debes tener acceso a internet.", 2);
+                    }
                     return;
                 }
                 restoreOrDeleteSyncIntIdRemote(object);
