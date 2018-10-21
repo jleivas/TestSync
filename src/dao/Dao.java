@@ -11,6 +11,7 @@ import entities.Equipo;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
+import entities.TipoPago;
 import entities.User;
 import entities.abstractclasses.SyncStringId;
 import entities.abstractclasses.SyncClass;
@@ -786,6 +787,9 @@ public class Dao{
             return true;
         }
         if(object instanceof Inventario){
+            return true;
+        }
+        if(object instanceof TipoPago){
             return true;
         }
         OptionPane.showMsg("Entidad no validada", "No se ha cumplido con las validaciones en esta entidad.", 3);

@@ -458,22 +458,11 @@ public class VTipoPagos extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         cWT();
-        String nombre=txtNombreN.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar tipo de pago", "El nuevo registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
+        String nombre=GV.getFilterString(txtNombreN.getText());
+        TipoPago tipoPago= new TipoPago(0, nombre, 1, null, 0);
+        if(!load.addFromUI(tipoPago)){
             cDF();
             return;
-        }
-        
-
-        TipoPago tipoPago= new TipoPago(GV.LOCAL_SYNC.getMaxId(new TipoPago()), nombre, 1, null, 0);
-        try {
-            cWT();
-            load.add(tipoPago);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar tipo de pago\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
         }
         cargarDatos("0");
         cDF();
@@ -489,23 +478,11 @@ public class VTipoPagos extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
-        String nombre= txtNombreU.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar tipo de pago", "El registro debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
-            cDF();
-            return;
-        }
-        
+        String nombre= GV.getFilterString(txtNombreU.getText());
         stTipoPago.setNombre(nombre);
-        if(GV.LOCAL_SYNC.exist(stTipoPago)){
-            OptionPane.showMsg("Modificar tipo de pago", "Ya existe un registro con el mismo nombre.", JOptionPane.WARNING_MESSAGE);
+        if(!load.updateFromUI(stTipoPago)){
             cDF();
             return;
-        }
-        if(load.update(stTipoPago)){
-            OptionPane.showMsg("Modificar Inventario", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            OptionPane.showMsg("Modificar Inventario", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
         }
         cargarDatos("0");
         cDF();
