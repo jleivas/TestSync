@@ -14,6 +14,7 @@ import entities.Institucion;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
+import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
 import entities.abstractclasses.SyncStringId;
@@ -382,6 +383,19 @@ public class Dao{
         }
         return GV.LOCAL_SYNC.getElement(cod,id,type);
     }
+    
+    public Lente getLente(String idLente, String inventarioName){
+        Inventario inv = new Inventario();
+        try {
+            inv = (Inventario)get(inventarioName, 0, new Inventario());
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GV.setInventarioSeleccionado(inv.getId());
+        Lente lente = LocalInventario.getLente(idLente);
+        GV.setInventarioSeleccionado(0);
+        return lente;
+    }
 
     public static void sincronize(Object type) {
         Log.setLog(className,Log.getReg());
@@ -618,6 +632,11 @@ public class Dao{
     }
 
     private void addRemote(Object object) {
+        if(object instanceof SyncFichaClass){
+            if(!(object instanceof Ficha)){
+                ((SyncFichaClass) object).setCod(getCurrentCod(object));
+            }
+        }
         if(object instanceof SyncIntId){
             if(!GV.isOnline()){
                 OptionPane.showMsg("No se puede crear nuevo registro", "Para poder ingresar un nuevo registro debes tener acceso a internet.", 2);
@@ -890,6 +909,33 @@ public class Dao{
             return true;
         }
         if(object instanceof Inventario){
+            return true;
+        }
+        if(object instanceof Lente){
+            Lente obj = (Lente)object;
+            if(obj.getCod().isEmpty()){
+                OptionPane.showMsg("Faltan datos", "El lente debe tener un código válido.", 2);
+                return false;
+            }
+            if(obj.getColor().isEmpty()){
+                OptionPane.showMsg("Faltan datos", "El lente debe tener un color válido.", 2);
+                return false;
+            }
+            if(obj.getTipo().isEmpty()){
+                OptionPane.showMsg("Faltan datos", "El lente debe tener un tipo válido.", 2);
+                return false;
+            }
+            if(obj.getMarca().isEmpty()){
+                OptionPane.showMsg("Faltan datos", "El lente debe tener una marca válida.", 2);
+                return false;
+            }
+            if(obj.getMaterial().isEmpty()){
+                OptionPane.showMsg("Faltan datos", "El lente debe tener un material válido.", 2);
+                return false;
+            }
+            return true;
+        }
+        if(object instanceof RegistroBaja){
             return true;
         }
         if(object instanceof TipoPago){

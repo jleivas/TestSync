@@ -1007,7 +1007,7 @@ public class Local implements InterfaceSync {
                 sql = "SELECT MAX(of_id) as id FROM oficina";
             }
             if (type instanceof RegistroBaja) {
-                sql = "SELECT COUNT(rb_id) as id FROM registro_baja WHERE rb_id LIKE '%-"+getIdEquipo()+"'";
+                sql = "SELECT COUNT(rb_id) as id FROM registro_bajas WHERE rb_id LIKE '%-"+getIdEquipo()+"'";
             }
             if (type instanceof TipoPago) {
                 sql = "SELECT MAX(tp_id) as id FROM tipo_pago";
@@ -1875,6 +1875,9 @@ public class Local implements InterfaceSync {
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM inventario";
                 }
+                if(idParam.startsWith("BY_ID/")){
+                    sql = "SELECT * FROM inventario WHERE inv_id = " + idParam.replaceAll("BY_ID/", "");
+                }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -2717,7 +2720,7 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if(type instanceof Inventario){
-                if(GV.isNumeric(cod)){
+                if(GV.isNumeric(cod.replaceAll("BY_ID/", ""))){
                     for (Object object : listar(cod, type)) {//id debe ser el rut del doctor
                         if (((Inventario) object).getId() == GV.strToNumber(cod)) {
                             return object;
