@@ -34,6 +34,14 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [CRUD instituciones (ISS-030)](https://github.com/softdirex/TestSync/search?q=ISS-030&type=Commits)
+ 
+ - Refactoring del crud instituciones (entities.Institucion)
+
+ #### [CRUD cristales (ISS-029)](https://github.com/softdirex/TestSync/search?q=ISS-029&type=Commits)
+ 
+ - Refactoring del crud cristales (entities.Cristal)
+
  #### [CRUD doctores (ISS-028)](https://github.com/softdirex/TestSync/search?q=ISS-028&type=Commits)
  
  - Refactoring del crud doctores (entities.Doctor)
@@ -69,6 +77,8 @@ técnico para la puesta en marcha del sistema.
 
   #### [CRUD Lentes (ISS-023)](https://github.com/softdirex/TestSync/search?q=ISS-023&type=Commits)
 
+ - Refactoring CRUD Lente reduccion de stock y refactorind del codigo del Lente
+ - Refactoring CRUD Lente
  - Probar si al reducir stock manualmente se aplican los cambios, aplica decrease OK
  - Error al reducir stock, valores distintos en bd remota, tabla y registro abierto
  - Probar si los cambios solucionan el error de los stock [PENDIENTE]
