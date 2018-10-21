@@ -34,6 +34,10 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+ #### [CRUD oficinas (ISS-031)](https://github.com/softdirex/TestSync/search?q=ISS-031&type=Commits)
+ 
+ - Refactoring del crud oficinas (entities.Oficina)
+
  #### [CRUD instituciones (ISS-030)](https://github.com/softdirex/TestSync/search?q=ISS-030&type=Commits)
  
  - Refactoring del crud instituciones (entities.Institucion)
