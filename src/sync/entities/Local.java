@@ -1565,6 +1565,9 @@ public class Local implements InterfaceSync {
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM convenio";
                 }
+                if(!GV.isNumeric(idParam)){
+                    sql = "SELECT * FROM convenio WHERE cnv_nombre = '" + idParam + "'";
+                }
 
                 PreparedStatement consulta = LcBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -2604,9 +2607,17 @@ public class Local implements InterfaceSync {
                 return null;
             }
             if(type instanceof Convenio){
-                for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
-                    if (((Convenio) object).getId() == id ) {
-                        return object;
+                if(cod != null){
+                    for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
+                        if (((Convenio) object).getNombre().equals(cod)) {
+                            return object;
+                        }
+                    }
+                }else{
+                    for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
+                        if (((Convenio) object).getId() == id ) {
+                            return object;
+                        }
                     }
                 }
                 return null;

@@ -457,7 +457,7 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch( SQLException | ClassNotFoundException | NullPointerException ex){
+        }catch( ClassNotFoundException | SQLException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -935,7 +935,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return true;
             }
-        }catch(SQLException | ClassNotFoundException | NullPointerException ex){
+        }catch(ClassNotFoundException | SQLException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -952,7 +952,7 @@ public class Remote implements InterfaceSync{
                 id = datos.getInt("eq_id");
             }
             RmBd.cerrar();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -1019,7 +1019,7 @@ public class Remote implements InterfaceSync{
                 }
                 RmBd.cerrar();
             }
-        } catch (NullPointerException | SQLException | ClassNotFoundException ex) {
+        } catch (NullPointerException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             return -1000;
         }
@@ -1561,6 +1561,9 @@ public class Remote implements InterfaceSync{
                 if (idParam.equals("-2")) {
                     sql = "SELECT * FROM convenio";
                 }
+                if(!GV.isNumeric(idParam)){
+                    sql = "SELECT * FROM convenio WHERE cnv_nombre = '" + idParam + "'";
+                }
 
                 PreparedStatement consulta = RmBd.obtener().prepareStatement(sql);
                 ResultSet datos = consulta.executeQuery();
@@ -2059,7 +2062,7 @@ public class Remote implements InterfaceSync{
                 
                 return lista;
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch ( ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error de conexión", "El sistema está teniendo errores al conectarse a la base de datos "
                     + ""+className+",\n pruebe cerrando todos los procesos y vuelva a intentar, \nde lo contrario reinicie el equipo."
@@ -2533,7 +2536,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
         }
@@ -2600,9 +2603,17 @@ public class Remote implements InterfaceSync{
                 return null;
             }
             if(type instanceof Convenio){
-                for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
-                    if (((Convenio) object).getId() == id ) {
-                        return object;
+                if(cod != null){
+                    for (Object object : listar(cod, type)) {//id debe ser el rut del cliente
+                        if (((Convenio) object).getNombre().equals(cod)) {
+                            return object;
+                        }
+                    }
+                }else{
+                    for (Object object : listar(""+id, type)) {//id debe ser el rut del cliente
+                        if (((Convenio) object).getId() == id ) {
+                            return object;
+                        }
                     }
                 }
                 return null;
@@ -4162,7 +4173,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return lista;
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
         }

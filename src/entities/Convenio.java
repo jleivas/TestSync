@@ -5,7 +5,7 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncIntIdValidaName;
 import entities.ficha.Ficha;
 import fn.GV;
 import fn.date.Cmp;
@@ -18,8 +18,7 @@ import java.util.List;
  *
  * @author sdx
  */
-public class Convenio extends SyncIntId{
-    private String nombre;
+public class Convenio extends SyncIntIdValidaName{
     private Date fechaInicio;
     private Date fechaFin;
     private int cuotas;
@@ -51,6 +50,14 @@ public class Convenio extends SyncIntId{
         setEstado(estado);
         setLastUpdate(lastUpdate);
         setLastHour(lastHour);
+    }
+    
+    public void setNombre(String nombre){
+        super.setNombre(getToName(nombre));
+    }
+    
+    public String getNombre(){
+        return getToName(super.getNombre());
     }
 
     public void addCuotaConvenio(CuotasConvenio cuota){
@@ -93,10 +100,6 @@ public class Convenio extends SyncIntId{
         return porcentajeAdicion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = getToName(nombre);
-    }
-
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = getDate(fechaInicio);
     }
@@ -127,10 +130,6 @@ public class Convenio extends SyncIntId{
 
     public void setIdInstitucion(String idInstitucion) {
         this.idInstitucion = getStr(idInstitucion);
-    }
-
-    public String getNombre() {
-        return getToName(nombre);
     }
 
     public Date getFechaInicio() {

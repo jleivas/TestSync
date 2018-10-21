@@ -847,52 +847,29 @@ public class VConvenios extends javax.swing.JPanel {
                     Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            String nombre = (txtNombreU.getText());
-            if(nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Modificar convenio", "El convenio debe tener un nombre válido.", 2);
-                cDF();
-                return;
-            }
+            String nombre = GV.getFilterString(txtNombreU.getText());
             Date fechaIni = txtFechaIniU.getDate();
             Date fechaFin = txtFechaFinU.getDate();
             Date fechaCobro = txtFechaCobroU.getDate();
-            if(localIsNewOrEqual(fechaIni, fechaFin)){
-                if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
-                    OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
-                    cDF();
-                    return;
-                }
-            }
-            if(GV.fechaPasada(fechaFin)){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser igual o superior a la fecha actual.", 2);
-                cDF();
-                return;
-            }
-            if(localIsNewOrEqual(fechaFin, fechaCobro)){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
-                cDF();
-                return;
-            }
             try {
                 txtPorcentajeAdicionalU.commitEdit();
+            } catch (ParseException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                GV.mensajeExcepcion("El porcentaje adicional ingresado es incorrecto\n"+ex.getMessage(),2);
+            }
+            try {
                 txtCuotasU.commitEdit();
             } catch (ParseException ex) {
                 Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                GV.mensajeExcepcion("Las cuotas ingresadas son incorrectas\n"+ex.getMessage(),2);
             }
             int cuotas = (int)txtCuotasU.getValue();
             int montoMax = 0;
             int montoPp = 0;
             int cantClientes = 0;
             int idDescuento  =  0;
-            String idInstitucion = getIdInstitucion(txtInstitucionU.getText());
+            String idInstitucion = (getIdInstitucion(txtInstitucionU.getText()));
             int porcAdicional = (int)txtPorcentajeAdicionalU.getValue();
-            if(idInstitucion == null){
-                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla\n"
-                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
-                cDF();
-                return;
-            }
-
             stConvenio.setNombre(nombre);
             stConvenio.setCuotas(cuotas);
             stConvenio.setFechaCobro(fechaCobro);
@@ -919,10 +896,9 @@ public class VConvenios extends javax.swing.JPanel {
             stConvenio.setMontoMaximo(montoMax);
             stConvenio.setMontoPp(montoPp);
 
-            if(load.update(stConvenio)){
-                OptionPane.showMsg("Modificar convenio", "Operación realizada con exito",  1);
-            }else{
-                OptionPane.showMsg("Modificar convenio", "No se pudo efectuar la operación", 2);
+            if(!load.updateFromUI(stConvenio)){
+                cDF();
+                return;
             }
             cargarDatos("0");
             cDF();
@@ -1015,43 +991,21 @@ public class VConvenios extends javax.swing.JPanel {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         if(GV.tipoUserAdmin()){
             cWT();
-            String nombre = (txtNombreN.getText());
-            if(nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Agregar convenio", "El convenio debe tener un nombre válido.", 2);
-                cDF();
-                return;
-            }
+            String nombre = GV.getFilterString(txtNombreN.getText());
             Date fechaIni = txtFechaIniN.getDate();
             Date fechaFin = txtFechaTerN.getDate();
             Date fechaCobro = txtFechaCobroN.getDate();
-
-            if(localIsNewOrEqual(fechaIni, fechaFin)){
-                if(!GV.dateToString(fechaIni, "ddmmyyyy").equals(GV.dateToString(fechaFin, "ddmmyyyy"))){
-                    OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
-                    cDF();
-                    return;
-                }
-            }
-            if(localIsNewOrEqual(fechaFin, fechaCobro)){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
-                cDF();
-                return;
-            }
-            if(!GV.fechaActualOFutura(fechaIni)){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de inicio debe ser igual o superior a la fecha actual.", 2);
-                cDF();
-                return;
-            }
-            if(GV.fechaActualOPasada(fechaCobro)){
-                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser superior a la fecha actual.", 2);
-                cDF();
-                return;
-            }
             try {
                 txtPorcentajeAdicionalN.commitEdit();
+            } catch (ParseException ex) {
+                Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                GV.mensajeExcepcion("El porcentaje adicional ingresado es incorrecto\n"+ex.getMessage(),2);
+            }
+            try {
                 txtCuotasN.commitEdit();
             } catch (ParseException ex) {
                 Logger.getLogger(VConvenios.class.getName()).log(Level.SEVERE, null, ex);
+                GV.mensajeExcepcion("Las cuotas ingresadas son incorrectas\n"+ex.getMessage(),2);
             }
             int cuotas = (int)txtCuotasN.getValue();
             int montoMax = 0;
@@ -1060,22 +1014,10 @@ public class VConvenios extends javax.swing.JPanel {
             int idDescuento  =  0;
             String idInstitucion = getIdInstitucion(txtInstitucionN.getText());
             int porcAdicional = (int)txtPorcentajeAdicionalN.getValue();
-            if(idInstitucion == null){
-                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
-                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", montoMax);
+            Convenio convenio= new Convenio(0, nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, idInstitucion, 1, null, 0);
+            if(!load.addFromUI(convenio)){
                 cDF();
                 return;
-            }
-
-            Convenio convenio= new Convenio(GV.REMOTE_SYNC.getMaxId(new Convenio()), nombre, fechaIni, fechaFin, cuotas,fechaCobro, montoMax, montoPp, cantClientes, idDescuento, porcAdicional, idInstitucion, 1, null, 0);
-            try {
-                cWT();
-                load.add(convenio);
-            } catch (InstantiationException | IllegalAccessException ex) {
-                OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar el convenio\n\n"
-                    + ex, 3);
-                cDF();
             }
             cargarDatos("0");
             cDF();
@@ -1284,8 +1226,10 @@ public class VConvenios extends javax.swing.JPanel {
         txtCuotasU.setValue((int)1);
         txtFechaFinU.setDate(null);
         txtFechaIniN.setDate(null);
+        txtFechaCobroN.setDate(null);
         txtFechaIniU.setDate(null);
         txtFechaTerN.setDate(null);
+        txtFechaCobroU.setDate(null);
         txtInstitucionN.setText("");
         txtInstitucionU.setText("");
     }
@@ -1332,7 +1276,7 @@ public class VConvenios extends javax.swing.JPanel {
     private String getIdInstitucion(String text) {
         if(text!=null){
             text = ((text.startsWith("[")) && (text.contains("]")))?text.substring(1, text.indexOf("]")):null;
-            text = (!(GV.getStr(text).isEmpty()))?text:null;
+            text = (!(GV.getFilterString(text).isEmpty()))?text:null;
         }
         return text;
     }

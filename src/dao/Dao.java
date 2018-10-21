@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Cliente;
+import entities.Convenio;
 import entities.Cristal;
 import entities.Equipo;
 import entities.InternMail;
@@ -26,6 +27,7 @@ import fn.Log;
 import fn.OptionPane;
 import fn.SubProcess;
 import fn.date.Cmp;
+import static fn.date.Cmp.localIsNewOrEqual;
 import fn.globalValues.GlobalValuesVariables;
 import fn.mail.Send;
 import java.sql.SQLException;
@@ -774,6 +776,42 @@ public class Dao{
             if(obj.getTelefono1().isEmpty() && obj.getTelefono2().isEmpty() && obj.getEmail().isEmpty()){
                 OptionPane.showMsg("Faltan datos de contacto", "El cliente debe tener al menos un registro de contacto.\n"
                     + "Ingrese un teléfono o correo electrónico.", 2);
+                return false;
+            }
+            return true;
+        }
+        if(object instanceof Convenio){
+            Convenio obj = (Convenio)object;
+            if(obj.getFechaCobro() == null || obj.getFechaFin() == null | obj.getFechaInicio() == null){
+                OptionPane.showMsg("Fechas mal ingresadas", "Todos los campos de fecha deben tener un dato válido.", 2);
+                return false;
+            }
+            if(localIsNewOrEqual(obj.getFechaInicio(), obj.getFechaFin())){
+                if(!GV.dateToString(obj.getFechaInicio(), "ddmmyyyy").equals(GV.dateToString(obj.getFechaFin(), "ddmmyyyy"))){
+                    OptionPane.showMsg("Fechas mal ingresadas", "La fecha de término debe ser mayor o igual a la fecha de inicio.", 2);
+                    return false;
+                }
+            }
+            if(localIsNewOrEqual(obj.getFechaFin(), obj.getFechaCobro())){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser mayor a la fecha de término.", 2);
+                return false;
+            }
+            if(!GV.fechaActualOFutura(obj.getFechaFin())){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de inicio debe ser igual o superior a la fecha actual.", 2);
+                return false;
+            }
+            if(GV.fechaActualOPasada(obj.getFechaCobro())){
+                OptionPane.showMsg("Fechas mal ingresadas", "La fecha de pago debe ser superior a la fecha actual.", 2);
+                return false;
+            }
+            if(obj.getIdInstitucion() == null){
+                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
+                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", 2);
+                return false;
+            }
+            if(obj.getIdInstitucion().isEmpty()){
+                OptionPane.showMsg("Institución no existe", "Debe seleccionar una institución registrada y no modificarla.\n"
+                    + "Si no aparece la deseada, debe crear un nuevo registro en \"Instituciones\".", 2);
                 return false;
             }
             return true;
