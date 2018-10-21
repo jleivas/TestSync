@@ -8,7 +8,7 @@ package dao;
 import entities.Cliente;
 import entities.Convenio;
 import entities.Cristal;
-import entities.Equipo;
+import entities.Descuento;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
@@ -758,6 +758,15 @@ public class Dao{
                         + "- El nombre no debe contener caracteres especiales.", 2);
                 return false;
             }
+        }
+        if(object instanceof Descuento){
+            Descuento obj = (Descuento)object;
+            if(obj.getMonto() == 0 && obj.getPorcetange() == 0){
+                OptionPane.showMsg("Descuento inválido", "No ha agregado ningún tipo de descuento.\n"
+                        + "Seleccione el tipo de descuento y aplique un monto válido.", 2);
+                return false;
+            }
+            return true;
         }
         if(object instanceof Cliente){
             Cliente obj = (Cliente)object;

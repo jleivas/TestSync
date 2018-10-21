@@ -622,53 +622,36 @@ public class VDescuentos extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         
-        cWT();
-        String nombre = (txtNombreN.getText());
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Agregar Descuento", "El descuento debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
-            cDF();
-            return;
-        }
-        try {
-            if(load.get(nombre,0, new Descuento()) != null){
-                OptionPane.showMsg("El nombre del descuento ya existe", "El nombre ingresado ya existe,\n"
-                        + "porfavor intente con otro valor.", JOptionPane.WARNING_MESSAGE);
-                cDF();
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el descuento\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
-            cDF();
-            return;
-        }
-            
-        String desc = txtDescripcionN.getText();
+        String nombre = GV.getFilterString(txtNombreN.getText());
+        String desc = GV.getFilterString(txtDescripcionN.getText());
         int porc = 0;
         int monto=0;
-        
+        cWT();
         try {
             txtPorcN.commitEdit();
+        } catch (ParseException ex) {
+            Logger.getLogger(VDescuentos.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El porcentaje ingresado es incorrecto\n"+ex.getMessage(),2);
+            cDF();
+            return;
+        }
+        try {
             txtMontoN.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VDescuentos.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El monto ingresado es incorrecto\n"+ex.getMessage(),2);
+            cDF();
+            return;
         }
-        
         if(cboTipoN.getSelectedIndex()==0){
             porc = (int)txtPorcN.getValue();
         }else{
             monto = (int)txtMontoN.getValue();
         }
-        
-        Descuento descuento= new Descuento(GV.REMOTE_SYNC.getMaxId(new Descuento()), nombre, desc, porc, monto, 1, null, 0);
-        try {
-            cWT();
-            load.add(descuento);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                + "No se pudo insertar el descuento\n\n"
-                + ex, JOptionPane.ERROR_MESSAGE);
+        Descuento descuento= new Descuento(0, nombre, desc, porc, monto, 1, null, 0);
+        if(!load.addFromUI(descuento)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
@@ -688,41 +671,24 @@ public class VDescuentos extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
-        String nombre= (txtNombreU.getText());
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar Descuento", "El desuento debe tener un nombre válido.", JOptionPane.WARNING_MESSAGE);
-            cDF();
-            return;
-        }
-        Descuento temp = null;
-        try {
-            temp = (Descuento)load.get(nombre,0, new Descuento());
-            if(temp != null && temp.getId() != stDescuento.getId()){
-                OptionPane.showMsg("El nombre del descuento ya existe", "Ya existe un registro con un nombre similar,\n"
-                        + "porfavor intente con otro valor.", JOptionPane.WARNING_MESSAGE);
-                cDF();
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el descuento\n\n"
-                    + ex, JOptionPane.ERROR_MESSAGE);
-            cDF();
-            return;
-        }
-        
-        String desc = txtDescripcionU.getText();
+        String nombre= GV.getFilterString(txtNombreU.getText());
+        String desc = GV.getFilterString(txtDescripcionU.getText());
         int porc=0;
         int monto=0;
-        
         try {
             txtPorcU.commitEdit();
+        } catch (ParseException ex) {
+            Logger.getLogger(VDescuentos.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El porcentaje ingresado es incorrecto\n"+ex.getMessage(),2);
+            return;
+        }
+        try {
             txtMontoU.commitEdit();
         } catch (ParseException ex) {
             Logger.getLogger(VDescuentos.class.getName()).log(Level.SEVERE, null, ex);
+            GV.mensajeExcepcion("El monto ingresado es incorrecto\n"+ex.getMessage(),2);
+            return;
         }
-        
-        
         if(cboTipoU.getSelectedIndex()==0){
             porc = (int)txtPorcU.getValue();
         }else
@@ -731,11 +697,9 @@ public class VDescuentos extends javax.swing.JPanel {
         stDescuento.setMonto(monto);
         stDescuento.setNombre(nombre);
         stDescuento.setPorcetange(porc);
-        
-        if(load.update(stDescuento)){
-            OptionPane.showMsg("Modificar Descuento", "Operación realizada con exito",  JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            OptionPane.showMsg("Modificar Descuento", "No se pudo efectuar la operación", JOptionPane.WARNING_MESSAGE);
+        if(!load.updateFromUI(stDescuento)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
