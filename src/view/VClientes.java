@@ -17,6 +17,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
@@ -962,55 +964,21 @@ public class VClientes extends javax.swing.JPanel {
             cDF();
             return;
         }
-        try {
-            if(load.get(rut,0, new Cliente()) != null){
-                if(!OptionPane.getConfirmation("El cliente ya existe", "El rut o dni ingresados ya existe,\n"
-                        + "¿Desea modificar los nuevos valores ingresados?", 2)){
-                    cDF();
-                    return;
-                }
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el cliente\n\n"
-                    + ex, 3);
-            cDF();
-            return;
-        }
-        String nombre=txtNombreNew.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        if(txtFechaNew.getDate() == null){
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener una fecha de nacimiento válida.", 2);
-            cDF();
-            return;
-        }
-        String telefono1=txtTelefonoNew1.getText();
-        String telefono2=txtTelefonoNew2.getText();
-        String mail=txtEmailNew.getText().toLowerCase();
-        if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
-        String direccion=(txtDireccionNew.getText());
-        String comuna=(txtComunaNew.getText());
-        String ciudad=(txtCiudadNew.getText());
+        String nombre=GV.getFilterString(txtNombreNew.getText());
+        String telefono1=GV.getFilterString(txtTelefonoNew1.getText());
+        String telefono2=GV.getFilterString(txtTelefonoNew2.getText());
+        String mail=GV.getFilterString(GV.mailValidate(txtEmailNew.getText().toLowerCase()));
+        String direccion=GV.getFilterString(txtDireccionNew.getText());
+        String comuna=GV.getFilterString(txtComunaNew.getText());
+        String ciudad=GV.getFilterString(txtCiudadNew.getText());
         int sexo=cboSexoNew.getSelectedIndex();
         Date nacimiento = txtFechaNew.getDate();
         int estado=1;
 
         Cliente cliente= new Cliente(rut, nombre, telefono1,telefono2, mail, direccion, comuna, ciudad, sexo, nacimiento, estado,null,0);
-        try {
-            load.add(cliente);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar el cliente\n\n"
-                    + ex, 3);
+        if(!load.addFromUI(cliente)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
@@ -1031,34 +999,24 @@ public class VClientes extends javax.swing.JPanel {
             return;
         }
         String rut = txtRut.getText();
-        String nombre= txtNombre.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar Cliente", "El cliente debe tener un nombre válido.", 2);
-            return;
-        }
-        String telefono1 = txtTelefono1.getText();
-        String telefono2 = txtTelefono2.getText();
+        String nombre= GV.getFilterString(txtNombre.getText());
+        String telefono1 = GV.getFilterString(txtTelefono1.getText());
+        String telefono2 = GV.getFilterString(txtTelefono2.getText());
         
-        String email = txtEmail.getText();
-        if(telefono1.isEmpty() && telefono2.isEmpty() && email.isEmpty()){
-            OptionPane.showMsg("Modificar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
-        String direccion = (txtDireccion.getText());
-        String comuna = (txtComuna.getText());
-        String ciudad = (txtCiudad.getText());
+        String email = GV.getFilterString(GV.mailValidate(txtEmail.getText()));
+        String direccion = GV.getFilterString(txtDireccion.getText());
+        String comuna = GV.getFilterString(txtComuna.getText());
+        String ciudad = GV.getFilterString(txtCiudad.getText());
         int sexo = cboSexo.getSelectedIndex();
         Date nacimiento = txtFecha.getDate();
         int estado = 1;
         
         Cliente cliente = new Cliente(rut, nombre, telefono1,telefono2, email, direccion, comuna, ciudad, sexo, nacimiento, estado,null,0);
         cWT();
-        if(load.update(cliente))
-            OptionPane.showMsg("Modificar Cliente", "Operación realizada con exito",  1);
-        else
-            OptionPane.showMsg("Modificar Cliente", "No se pudo efectuar la operación", 2);
+        if(!load.updateFromUI(cliente)){
+            cDF();
+            return;
+        }
         cargarDatos("0");
         loadPanels(1);
         cDF();
@@ -1073,8 +1031,17 @@ public class VClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnModificarMouseExited
 
     private void btnMostrarFichas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseClicked
+        cWT();
         GV.listarFichasByClient(txtRut.getText());
-        //abrir fichas
+        GV.rutClientSelected(txtRut.getText());
+        GV.setCboFichasFilter(VFichas.BY_CLIENT);
+        try {
+            boton.fichas(GV.cboFichasFilter());
+            //abrir fichas
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(VClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cDF();
     }//GEN-LAST:event_btnMostrarFichas1MouseClicked
 
     private void btnMostrarFichas1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarFichas1MouseEntered

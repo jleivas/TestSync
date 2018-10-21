@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entities.Cliente;
 import entities.Cristal;
 import entities.Equipo;
 import entities.InternMail;
@@ -755,6 +756,27 @@ public class Dao{
                 return false;
             }
         }
+        if(object instanceof Cliente){
+            Cliente obj = (Cliente)object;
+            if(obj.getStr(obj.getNombre()).length() <= 3){
+                OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
+                        + "Información a considerar:\n"
+                        + "- El campo nombre no debe estar vacío.\n"
+                        + "- El nombre debe tener más de tres caracteres.\n"
+                        + "- El nombre no debe contener caracteres especiales.", 2);
+                return false;
+            }
+            if(obj.getNacimiento() == null){
+                OptionPane.showMsg("Fecha no ingresada", "El cliente debe tener una fecha de nacimiento válida.", 2);
+                return false;
+            }
+            if(obj.getTelefono1().isEmpty() && obj.getTelefono2().isEmpty() && obj.getEmail().isEmpty()){
+                OptionPane.showMsg("Faltan datos de contacto", "El cliente debe tener al menos un registro de contacto.\n"
+                    + "Ingrese un teléfono o correo electrónico.", 2);
+                return false;
+            }
+            return true;
+        }
         if(object instanceof Cristal){
             Cristal obj = (Cristal)object;
             if(obj.getPrecio() <= 0){
@@ -827,6 +849,10 @@ public class Dao{
     }
 
     private void updateSyncStringIdRemote(Object object) {
-        System.out.println("invalid function");
+        if(GV.LOCAL_SYNC.update(object)){
+            msgEntityUpdated();
+            return;
+        }
+        msgEntityNotUpdated();
     }
 }

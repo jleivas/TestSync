@@ -37,11 +37,11 @@ import view.opanel.OpanelSelectUser;
 public class VFichas extends javax.swing.JPanel {
     Boton boton = new Boton();
     Dao load= new Dao();
-    private static boolean isFiltering = false;
+    public static boolean isFiltering = false;
     private static SalesReportFicha reportSales = new SalesReportFicha();
     private static int BY_DAY =0;
     private static int BY_DATE=1;
-    private static int BY_CLIENT=2;
+    public static int BY_CLIENT=2;
     private static int BY_USER=3;
     private static int BY_CONVENY=4;
     private static int COLUMNAS_TABLA = 7;
