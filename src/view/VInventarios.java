@@ -525,22 +525,14 @@ public class VInventarios extends javax.swing.JPanel {
     }//GEN-LAST:event_cboMostrarItemStateChanged
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        
+        String nombre=GV.getFilterString(txtNombreN.getText());
+        String desc=GV.getFilterString(txtDescN.getText());
+        Inventario inventario= new Inventario(0, nombre, desc, 1, null, 0);
         cWT();
-        String nombre=txtNombreN.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Inventario", "El nuevo registro debe tener un nombre válido.", 2);
+        if(!load.addFromUI(inventario)){
             cDF();
             return;
-        }
-        String desc=txtDescN.getText();
-        Inventario inventario= new Inventario(0, nombre, desc, 1, null, 0);
-        try {
-            cWT();
-            load.add(inventario);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la inventario\n\n"
-                    + ex, 3);
         }
         cargarDatos("0");
         cDF();
@@ -555,45 +547,22 @@ public class VInventarios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGuardarMouseExited
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        try {
-            cWT();
-            String nombre= txtNombreU.getText();
-            if(nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Modificar inventario", "El registro debe tener un nombre válido.", 2);
-                cDF();
-                return;
-            }
-            boolean isLocal = (stInventario.getNombre().toLowerCase().equals(GV.inventarioName().toLowerCase()))?
-                    true:false;
-            stInventario.setNombre(nombre);
-            stInventario.setDescripcion(txtDescU.getText());
-            Inventario validate = (Inventario)load.get(nombre, 0, new Inventario());
-            if(validate != null){
-                if(nombre.toLowerCase().equals(validate.getNombre().toLowerCase()) &&
-                    stInventario.getId()!=validate.getId()){
-                OptionPane.showMsg("Modificar Inventario", "No se pudieron modificar los datos\n"
-                        + "porque ya existe un inventario con el nombre: "+nombre, 2);
-                GV.cursorDF(this);
-                return;
-                }
-            }else{
-                cWT();
-                if(load.update(stInventario)){
-                    if(isLocal){
-                        GV.setInventarioLocal(stInventario.getNombre());
-                        ContentAdmin.lblTitle.setText("Inventarios ("+GV.inventarioName()+" asignado a este equipo)");
-                    }
-                    OptionPane.showMsg("Modificar Inventario", "Operación realizada con exito",  1);
-                }else{
-                    OptionPane.showMsg("Modificar Inventario", "No se pudo efectuar la operación", 2);
-                }
-                cargarDatos("0");
-                cDF();
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(VInventarios.class.getName()).log(Level.SEVERE, null, ex);
-            OptionPane.showMsg("Error al guardar cambios", "No se pudo modificar el inventario", 3);
+        cWT();
+        boolean isLocal = (stInventario.getNombre().toLowerCase().equals(GV.inventarioName().toLowerCase()))?
+                true:false;
+        stInventario.setNombre(GV.getFilterString(txtNombreU.getText()));
+        stInventario.setDescripcion(GV.getFilterString(txtDescU.getText()));
+        cWT();
+        if(!load.updateFromUI(stInventario)){
+            cDF();
+            return;
         }
+        if(isLocal){
+            GV.setInventarioLocal(stInventario.getNombre());
+            ContentAdmin.lblTitle.setText("Inventarios ("+GV.inventarioName()+" asignado a este equipo)");
+        }
+        cargarDatos("0");
+        cDF();
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered

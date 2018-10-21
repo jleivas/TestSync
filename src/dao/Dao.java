@@ -189,7 +189,8 @@ public class Dao{
                 OptionPane.showMsg("NO CREATED", "function ist created!", 3);
                 return false;
             }else{
-                return updateRemote(object);
+                updateRemote(object);
+                return true;
             }
         }
         return false;
@@ -668,6 +669,15 @@ public class Dao{
         OptionPane.showMsg("Proceso finalizado", "El registro no se ha podido guardar\n"
                 + "ha ocurrido un error inesperado durante la operación.", 2);
     }
+    
+    private void msgEntityUpdated() {
+        OptionPane.showMsg("Proceso finalizado", "El registro a sido modificado exitosamene.", 1);
+    }
+
+    private void msgEntityNotUpdated() {
+        OptionPane.showMsg("Proceso finalizado", "El registro no se ha podido modificar\n"
+                + "ha ocurrido un error inesperado durante la operación.", 2);
+    }
 
     private void addSyncStringIdLocal(Object object) {
         SyncStringId entity = (SyncStringId)GV.LOCAL_SYNC.getElement(((SyncStringId)object).getCod(), 0, object);
@@ -734,57 +744,89 @@ public class Dao{
         if(object == null){
             return false;
         }
-        if(object instanceof Cristal){
-            Cristal obj = (Cristal)object;
+        if(object instanceof SyncIntIdValidaName){
+            SyncIntIdValidaName obj = (SyncIntIdValidaName)object;
             if(obj.getStr(obj.getNombre()).length() <= 3){
                 OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
                         + "Información a considerar:\n"
                         + "- El campo nombre no debe estar vacío.\n"
-                        + "- El nombre debe tener más de tres caracteres.", 2);
+                        + "- El nombre debe tener más de tres caracteres.\n"
+                        + "- El nombre no debe contener caracteres especiales.", 2);
                 return false;
             }
+        }
+        if(object instanceof Cristal){
+            Cristal obj = (Cristal)object;
             if(obj.getPrecio() <= 0){
                 OptionPane.showMsg("Precio incorrecto", "No se puede registrar un lente con precio " + GV.strToPrice(obj.getPrecio()) + ".", 2);
                 return false;
             }
             return true;
         }
+        if(object instanceof Inventario){
+            return true;
+        }
         OptionPane.showMsg("Entidad no validada", "No se ha cumplido con las validaciones en esta entidad.", 3);
         return false;
     }
 
-    private boolean updateRemote(Object object) {
+    private void updateRemote(Object object) {
         if(object instanceof SyncClass){
             ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
             ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));
             if(object instanceof SyncIntId){
                 if(!GV.isOnline()){
                     OptionPane.showMsg("No se puede modificar el registro", "Para poder modificar estos datos debes tener acceso a internet.", 2);
-                    return false;
+                    return;
                 }
                 if(object instanceof SyncIntIdValidaName){
-                    SyncIntIdValidaName entity = (SyncIntIdValidaName)GV.REMOTE_SYNC.getElement(((SyncIntIdValidaName)object).getNombre(), 0, object);
-                    if(entity == null){
-                        return GV.LOCAL_SYNC.update(object);
-                    }else{
-                        if(entity.getId() == ((SyncIntIdValidaName)object).getId()){
-                            return GV.LOCAL_SYNC.update(object);
-                        }else{
-                            msgInvalidName(entity.getEstado());
-                            return false;
-                        }
-                    }
+                    updateSyncIntIdValidaNameRemote(object);
+                    return;
                 }else{
-                    return GV.LOCAL_SYNC.update(object);
+                    updateSyncIntIdRemote(object);
+                    return;
                 }
             }
             if(object instanceof SyncStringId){
-                return false;
+                updateSyncStringIdRemote(object);
+                return;
             }
         }
         OptionPane.showMsg("No se puede modificar registro", "La entidad enviada no tiene un formato válido\n"
                 + "\n"
                 + "Detalle: " + object.getClass().getName(), 2);
-        return false;
+        return;
+    }
+
+    private void updateSyncIntIdValidaNameRemote(Object object) {
+        SyncIntIdValidaName entity = (SyncIntIdValidaName)GV.REMOTE_SYNC.getElement(((SyncIntIdValidaName)object).getNombre(), 0, object);
+        if(entity == null){
+            if(GV.REMOTE_SYNC.update(object)){
+                GV.LOCAL_SYNC.update(object);
+                msgEntityUpdated();
+                return;
+            }
+            msgEntityNotUpdated();
+            return;
+        }else{
+            if(entity.getId() == ((SyncIntIdValidaName)object).getId()){
+                if(GV.REMOTE_SYNC.update(object)){
+                    GV.LOCAL_SYNC.update(object);
+                    msgEntityUpdated();
+                    return;
+                }
+                msgEntityNotUpdated();
+            }else{
+                msgInvalidName(entity.getEstado());
+            }
+        }
+    }
+
+    private void updateSyncIntIdRemote(Object object) {
+        System.out.println("invalid function");
+    }
+
+    private void updateSyncStringIdRemote(Object object) {
+        System.out.println("invalid function");
     }
 }
