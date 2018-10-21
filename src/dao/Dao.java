@@ -9,6 +9,7 @@ import entities.Cliente;
 import entities.Convenio;
 import entities.Cristal;
 import entities.Descuento;
+import entities.Doctor;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
@@ -220,6 +221,16 @@ public class Dao{
             return false;
         }catch(IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException ex){
             return false;
+        }
+    }
+    
+    public boolean restoreOrDeleteFromUI(Object object){
+        if(GV.licenciaLocal()){
+            System.out.println("no function");
+            return false;
+        }else{
+            restoreOrDeleteRemote(object);
+            return true;
         }
     }
     
@@ -833,6 +844,23 @@ public class Dao{
             }
             return true;
         }
+        if(object instanceof Doctor){
+            Doctor obj = (Doctor)object;
+            if(obj.getStr(obj.getNombre()).length() <= 3){
+                OptionPane.showMsg("Nombre incorrecto", "El registro debe tener un nombre válido.\n"
+                        + "Información a considerar:\n"
+                        + "- El campo nombre no debe estar vacío.\n"
+                        + "- El nombre debe tener más de tres caracteres.\n"
+                        + "- El nombre no debe contener caracteres especiales.", 2);
+                return false;
+            }
+            if(obj.getTelefono().isEmpty() && obj.getEmail().isEmpty()){
+                OptionPane.showMsg("Faltan datos de contacto", "El nuevo registro debe tener al menos un registro de contacto.\n"
+                        + "Ingrese un teléfono o correo electrónico.", 2);
+                return false;
+            }
+            return true;
+        }
         if(object instanceof Inventario){
             return true;
         }
@@ -868,7 +896,6 @@ public class Dao{
         OptionPane.showMsg("No se puede modificar registro", "La entidad enviada no tiene un formato válido\n"
                 + "\n"
                 + "Detalle: " + object.getClass().getName(), 2);
-        return;
     }
 
     private void updateSyncIntIdValidaNameRemote(Object object) {
@@ -905,5 +932,72 @@ public class Dao{
             return;
         }
         msgEntityNotUpdated();
+    }
+
+    private void restoreOrDeleteRemote(Object object) {
+        if(object instanceof SyncClass){
+            ((SyncClass)object).setLastUpdate(new Date());//actualizamos la ultima fecha de modificacion
+            ((SyncClass)object).setLastHour(Cmp.hourToInt(new Date()));
+            int estado = ((SyncClass)object).getEstado();
+            if(object instanceof Ficha){
+                ((SyncClass)object).setEstado(estado*-1);
+            }else{
+                if(estado > 0){
+                    ((SyncClass)object).setEstado(0);
+                }else{
+                    ((SyncClass)object).setEstado(1);
+                }
+            }
+            if(object instanceof SyncIntId){
+                if(!GV.isOnline()){
+                    OptionPane.showMsg("No se puede eliminar el registro", "Para poder eliminar este elemento debes tener acceso a internet.", 2);
+                    return;
+                }
+                restoreOrDeleteSyncIntIdRemote(object);
+                return;
+            }
+            if(object instanceof SyncStringId){
+                restoreOrDeleteSyncStringIdRemote(object);
+                return;
+            }
+        }
+        OptionPane.showMsg("No se puede eliminar registro", "La entidad enviada no tiene un formato válido\n"
+                + "\n"
+                + "Detalle: " + object.getClass().getName(), 2);
+    }
+
+    private void restoreOrDeleteSyncIntIdRemote(Object object) {
+        if(GV.REMOTE_SYNC.update(object)){
+            GV.LOCAL_SYNC.update(object);
+            msgEntityRestoreOrDeleted(((SyncClass)object).getEstado());
+            return;
+        }
+        msgEntityNotRestoreOrDeleted(((SyncClass)object).getEstado());
+    }
+    
+    
+
+    private void restoreOrDeleteSyncStringIdRemote(Object object) {
+        if(GV.LOCAL_SYNC.update(object)){
+            msgEntityRestoreOrDeleted(((SyncClass)object).getEstado());
+            return;
+        }
+        msgEntityNotRestoreOrDeleted(((SyncClass)object).getEstado());
+    }
+
+    private void msgEntityRestoreOrDeleted(int estado) {
+        if(estado == 0){
+            OptionPane.showMsg("Registro eliminado", "La operación se ejecutó exitosamente", 1);
+        }else{
+            OptionPane.showMsg("Registro restaurado", "La operación se ejecutó exitosamente", 1);
+        }
+    }
+
+    private void msgEntityNotRestoreOrDeleted(int estado) {
+        if(estado == 0){
+            OptionPane.showMsg("Registro no fue eliminado", "La operación no se pudo ejecutar correctamente", 2);
+        }else{
+            OptionPane.showMsg("Registro no fue restaurado", "La operación no se pudo ejecutar correctamente", 2);
+        }
     }
 }

@@ -562,18 +562,12 @@ public class VDoctores extends javax.swing.JPanel {
                 Doctor temp = (Doctor)load.get(rut,0,new Doctor());
                 if(OptionPane.getConfirmation("Eliminar Doctor", "¿Esta seguro que desea eliminar el registro "+temp.getNombre()+"?", 2)){
                     cWT();
-                    if(load.delete(rut,0, temp))
-                    {
-                        OptionPane.showMsg("Eliminar Doctor", "El registro ha sido eliminado", 1);
-                    }
-                    else
-                    {
-                        OptionPane.showMsg("Eliminar Doctor", "No se pudo eliminar el registro", 2);
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                     cargarDatos("0");
                 }
-
-
                 cDF();
             }catch(Exception e){
                 OptionPane.showMsg("Seleccione Doctor","Error al cargar valores,\n"
@@ -594,12 +588,11 @@ public class VDoctores extends javax.swing.JPanel {
                 cWT();
                 int fila = tblListar.getSelectedRow();
                 String rut = tblListar.getValueAt(fila, 0).toString();
+                Doctor temp = (Doctor)load.get(rut, 0, new Doctor());
                 if(OptionPane.getConfirmation("Confirmación de Doctor", "¿Esta seguro que desea restaurar este registro?", 1)){
-                    cWT();
-                    if(load.restore(rut, 0, new Doctor())){
-                        OptionPane.showMsg("Restaurar Doctor", "El registro ha sido restaurado", 1);
-                    }else{
-                        OptionPane.showMsg("Restaurar Doctor", "No se pudo restaurar el registro", 2);
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                     cargarDatos("-1");
                 }
@@ -654,44 +647,13 @@ public class VDoctores extends javax.swing.JPanel {
             cDF();
             return;
         }
-        try {
-            if(load.get(rut,0, new Doctor()) != null){
-                if(!OptionPane.getConfirmation("El Doctor ya existe", "El rut o dni ingresados ya existe,\n"
-                        + "¿Desea modificar los nuevos valores ingresados?", 2))
-                {
-                    cDF();
-                    return;
-                }
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el cliente\n\n"
-                    + ex, 3);
-            cDF();
-            return;
-        }
-        String nombre=txtNombreN.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Doctor", "El nuevo registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        String telefono=txtTelefonoN.getText();
-        String mail=txtEmailN.getText().toLowerCase();
-        if(telefono.isEmpty() && mail.isEmpty()){
-            OptionPane.showMsg("Guardar Institucion", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
-
+        String nombre=GV.getFilterString(txtNombreN.getText());
+        String telefono=GV.getFilterString(txtTelefonoN.getText());
+        String mail=GV.getFilterString(GV.mailValidate(txtEmailN.getText().toLowerCase()));
         Doctor doctor= new Doctor(rut, nombre, telefono, mail, 1, null, 0);
-        try {
-            load.add(doctor);
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la doctor\n\n"
-                    + ex, 3);
+        if(!load.addFromUI(doctor)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
@@ -707,30 +669,17 @@ public class VDoctores extends javax.swing.JPanel {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         cWT();
-        String nombre= txtNombreU.getText();
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Modificar Doctor", "El registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        String telefono = txtTelefonoU.getText();
-        String email = txtEmailU.getText().toLowerCase();
-        if(telefono.isEmpty() && email.isEmpty()){
-            OptionPane.showMsg("Guardar Doctor", "El nuevo registro debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
+        String nombre= GV.getFilterString(txtNombreU.getText());
+        String telefono = GV.getFilterString(txtTelefonoU.getText());
+        String email = GV.getFilterString(GV.mailValidate(txtEmailU.getText().toLowerCase()));
         
         stDoctor.setEmail(email);
         stDoctor.setNombre(nombre);
         stDoctor.setTelefono(telefono);
         cWT();
-        if(load.update(stDoctor)){
-            OptionPane.showMsg("Modificar Doctor", "Operación realizada con exito",  1);
-        }
-        else{
-            OptionPane.showMsg("Modificar Doctor", "No se pudo efectuar la operación", 2);
+        if(!load.updateFromUI(stDoctor)){
+            cDF();
+            return;
         }
         cargarDatos("0");
         cDF();
