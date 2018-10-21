@@ -33,6 +33,10 @@ técnico para la puesta en marcha del sistema.
  ### Reporte de errores
  *Objetivo*
  Refactorizar códigos con error de implementación
+
+ #### [CRUD doctores (ISS-028)](https://github.com/softdirex/TestSync/search?q=ISS-028&type=Commits)
+ 
+ - Refactoring del crud doctores (entities.Doctor)
  
  #### [CRUD descuentos (ISS-027)](https://github.com/softdirex/TestSync/search?q=ISS-027&type=Commits)
  
