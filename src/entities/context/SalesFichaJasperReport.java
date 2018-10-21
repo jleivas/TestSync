@@ -220,6 +220,13 @@ public class SalesFichaJasperReport {
                 generateResumenTotal(detalle.getDetalle(),montoAbono);
                 FILAS++;
             }
+        }else{
+            //Aunque no tenga abonos se debe agregar una fila por vendedor
+            DetalleVentas detalle = new DetalleVentas();
+            detalle.setDetalle("Sin abonos");
+            detalle.setMonto(0);
+            vendedor.addDetalle(detalle);
+            FILAS++;
         }
         vendedores.add(vendedor);
     }
