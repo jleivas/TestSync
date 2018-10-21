@@ -66,6 +66,7 @@ técnico para la puesta en marcha del sistema.
 
  #### [Error al generar reporte de ventas(ISS-018)](https://github.com/softdirex/TestSync/search?q=ISS-018&type=Commits)
  
+ - Exepcion al generar reportes sin abonos
  - Arreglos de string fuera del rango.
  - Validacion de resumen con datos nulos
 
