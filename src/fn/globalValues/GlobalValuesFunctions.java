@@ -104,7 +104,7 @@ public class GlobalValuesFunctions {
         if(arg == null || arg.replaceAll(" ", "").isEmpty())
             return "";
         else{
-            String value = arg.replaceAll("[-+^:‘´'{}]","");
+            String value = arg.replaceAll("[+^‘´'{}]","");
             return (value.startsWith(" "))?value.replaceFirst(" ", "").trim():value.trim();
         }
     }
