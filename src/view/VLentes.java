@@ -59,7 +59,6 @@ public class VLentes extends javax.swing.JPanel {
         tblListar.setModel(modelo);
         cargarCbos();
         cboInventarioFilter.setSelectedItem(inventaryName);
-        cboInventario1.setSelectedItem(inventaryName);
         System.out.println(inventaryName);
         try {
             stInventario = (Inventario)load.get(cboInventarioFilter.getSelectedItem().toString(), 0, new Inventario());
@@ -122,7 +121,7 @@ public class VLentes extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         txtStockMin1 = new javax.swing.JSpinner();
         jLabel24 = new javax.swing.JLabel();
-        cboInventario1 = new javax.swing.JComboBox<>();
+        txtInventario1 = new javax.swing.JTextField();
         pnl2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -151,7 +150,7 @@ public class VLentes extends javax.swing.JPanel {
         txtStockMin2 = new javax.swing.JSpinner();
         btnCancel = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        cboInventario2 = new javax.swing.JComboBox<>();
+        txtInventario2 = new javax.swing.JTextField();
         pnl3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -444,11 +443,10 @@ public class VLentes extends javax.swing.JPanel {
         jLabel24.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel24.setText("Ubicación");
 
-        cboInventario1.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboInventario1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboInventario1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboInventario1ActionPerformed(evt);
+        txtInventario1.setEditable(false);
+        txtInventario1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtInventario1KeyTyped(evt);
             }
         });
 
@@ -481,7 +479,7 @@ public class VLentes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cboInventario1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtInventario1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)
@@ -540,7 +538,7 @@ public class VLentes extends javax.swing.JPanel {
                     .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtMat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel24)
-                        .addComponent(cboInventario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtInventario1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
                 .addGroup(pnl1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl1Layout.createSequentialGroup()
@@ -691,8 +689,12 @@ public class VLentes extends javax.swing.JPanel {
         jLabel35.setFont(new java.awt.Font("Segoe UI Light", 0, 11)); // NOI18N
         jLabel35.setText("Ubicación");
 
-        cboInventario2.setFont(new java.awt.Font("Segoe UI Light", 1, 11)); // NOI18N
-        cboInventario2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtInventario2.setEditable(false);
+        txtInventario2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtInventario2KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
         pnl2.setLayout(pnl2Layout);
@@ -746,15 +748,15 @@ public class VLentes extends javax.swing.JPanel {
                                 .addComponent(btnUpdate)
                                 .addContainerGap())
                             .addGroup(pnl2Layout.createSequentialGroup()
-                                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCol2)
-                                    .addComponent(txtMar2)
-                                    .addComponent(cboTipo2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cboInventario2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(88, 88, 88))
-                            .addGroup(pnl2Layout.createSequentialGroup()
                                 .addComponent(txtStock2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl2Layout.createSequentialGroup()
+                                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtInventario2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCol2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtMar2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboTipo2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(88, 88, 88))))
                     .addGroup(pnl2Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -775,13 +777,12 @@ public class VLentes extends javax.swing.JPanel {
                     .addComponent(jLabel29)
                     .addComponent(txtMar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel21)
-                        .addComponent(txtMat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel35))
-                    .addComponent(cboInventario2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(txtMat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel35)
+                    .addComponent(txtInventario2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(cboFlex2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1058,9 +1059,11 @@ public class VLentes extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String cod = tblListar.getValueAt(fila, 0).toString();
-            Lente temp = (Lente)load.get(cod,0,new Lente());
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el lente "+temp.getCod()+"?", 2)){
+            String invName = cboInventarioFilter.getSelectedItem().toString();
+            
+            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar el lente "+cod+"?", 2)){
                 cWT();
+                Lente temp = (Lente)load.getLente(cod,invName);
                 if(!load.restoreOrDeleteFromUI(temp)){
                     cDF();
                     return;
@@ -1085,10 +1088,11 @@ public class VLentes extends javax.swing.JPanel {
             String cod = tblListar.getValueAt(fila, 0).toString();
             if(OptionPane.getConfirmation("Confirmación de registro", "¿Esta seguro que desea restaurar este registro?", 1)){
                 cWT();
-                if(load.restore(cod, 0, new Lente())){
-                    OptionPane.showMsg("Restaurar Lente", "El lente ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Lente", "No se pudo restaurar el lente", 2);
+                String invName = cboInventarioFilter.getSelectedItem().toString();
+                Lente temp = (Lente)load.getLente(cod,invName);
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
                 cargarDatos("-1");
                 cDF();
@@ -1207,7 +1211,7 @@ public class VLentes extends javax.swing.JPanel {
             int precioRef = (int)txtPrecRef1.getValue();
             int stock = (int)txtStock1.getValue();
             int stockMin  =  (int)txtStockMin1.getValue();
-            String inventaryName = cboInventario1.getSelectedItem().toString();
+            String inventaryName = txtInventario1.getText();
             Inventario inventario = (Inventario)load.get(inventaryName,0, new Inventario());
             int idInventario=(inventario!=null)?inventario.getId():0;
             Lente lente= new Lente(cod, color, tipo, marca, material, flex, type, desc, precioRef, precioAct, stock, stockMin, idInventario, 1, null, 0);
@@ -1270,7 +1274,7 @@ public class VLentes extends javax.swing.JPanel {
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         try {
-            Inventario inventario = (Inventario)load.get(cboInventario2.getSelectedItem().toString(), 0, new Inventario());
+            Inventario inventario = (Inventario)load.get(txtInventario2.getText(), 0, new Inventario());
             int idInventario = (inventario!= null)?inventario.getId():0;
             cWT();
             stLente.setClasificacion(cboTipo2.getSelectedIndex());
@@ -1512,9 +1516,13 @@ public class VLentes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLoadMouseClicked
 
-    private void cboInventario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboInventario1ActionPerformed
+    private void txtInventario1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInventario1KeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboInventario1ActionPerformed
+    }//GEN-LAST:event_txtInventario1KeyTyped
+
+    private void txtInventario2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInventario2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInventario2KeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1531,8 +1539,6 @@ public class VLentes extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cboFlex;
     private javax.swing.JComboBox<String> cboFlex2;
     private javax.swing.JComboBox<String> cboFlex3;
-    private javax.swing.JComboBox<String> cboInventario1;
-    private javax.swing.JComboBox<String> cboInventario2;
     private javax.swing.JComboBox<String> cboInventarioFilter;
     private javax.swing.JComboBox<String> cboMostrar;
     private javax.swing.JComboBox<String> cboTipo;
@@ -1591,6 +1597,8 @@ public class VLentes extends javax.swing.JPanel {
     private javax.swing.JTextArea txtDsc1;
     private javax.swing.JTextArea txtDsc2;
     private javax.swing.JTextArea txtDsc3;
+    private javax.swing.JTextField txtInventario1;
+    private javax.swing.JTextField txtInventario2;
     private javax.swing.JTextField txtMar1;
     private javax.swing.JTextField txtMar2;
     private javax.swing.JTextField txtMar3;
@@ -1633,8 +1641,6 @@ public class VLentes extends javax.swing.JPanel {
         cboTipo3.addItem("Unisex");
         cboTipo3.addItem("Femenino");
         cboTipo3.addItem("Masculino");
-        cboInventario1.removeAllItems();
-        cboInventario2.removeAllItems();
         cboInventarioFilter.removeAllItems();
         ArrayList<Object> list = load.listar("0", new Inventario());
         if(list.size() == 0){
@@ -1648,12 +1654,10 @@ public class VLentes extends javax.swing.JPanel {
             }
         }
         for (Object object : list) {
-            cboInventario1.addItem(((Inventario)object).getNombre());
-            cboInventario2.addItem(((Inventario)object).getNombre());
             cboInventarioFilter.addItem(((Inventario)object).getNombre());
         }
         cboInventarioFilter.setSelectedItem(inventaryName);
-        cboInventario1.setSelectedItem(inventaryName);
+        txtInventario1.setText(inventaryName);
     }
     
     private void load(){
@@ -1724,7 +1728,7 @@ public class VLentes extends javax.swing.JPanel {
             txtPrecAct2.setValue((int)stLente.getPrecioAct());
             txtPrecRef2.setValue((int)stLente.getPrecioRef());
             Inventario inv = (Inventario)load.get("BY_ID/"+stLente.getInventario(), 0, new Inventario());
-            cboInventario2.setSelectedItem(inv.getNombre());
+            txtInventario2.setText(invName);
 
             txtStock2.setValue((int)stLente.getStock());
             txtStockMin2.setValue((int)stLente.getStockMin());

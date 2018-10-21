@@ -79,7 +79,7 @@ public class Lente extends SyncStringId{
                 marca = "00";
             if(color == null || color.equals(""))
                 color = "00";
-            super.setCod(cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", ""));
+            super.setCod(cod.trim().replaceAll("-", "") + "-" + marca.trim().replaceAll("-", "") + "-" + color.trim().replaceAll("-", "") + "[" + inventario + "]");
         }
     }
     public void setInventario(int inventario) {
