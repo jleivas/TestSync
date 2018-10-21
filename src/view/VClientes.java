@@ -878,12 +878,10 @@ public class VClientes extends javax.swing.JPanel {
                 String rut = tblListar.getValueAt(fila, 0).toString();
                 Cliente temp = (Cliente)load.get(rut,0,new Cliente());
                 if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar al cliente "+temp.getNombre()+"?", 2)){
-                    cWT();
-                    if(load.delete(rut,0, temp))
-                        OptionPane.showMsg("Eliminar Cliente", "El cliente ha sido eliminado", 1);
-                    else
-                        OptionPane.showMsg("Eliminar Cliente", "No se pudo eliminar el cliente", 2);
-                    cDF();
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
+                    }
                 }
                 cargarDatos("0");
 
@@ -906,11 +904,11 @@ public class VClientes extends javax.swing.JPanel {
                 cWT();
                 int fila = tblListar.getSelectedRow();
                 String rut = tblListar.getValueAt(fila, 0).toString();
+                Cliente temp = (Cliente)load.get(rut, 0,new Cliente());
                 if(OptionPane.getConfirmation("Confirmación de cliente", "¿Esta seguro que desea restaurar este cliente?", 1)){
-                    if(load.restore(rut, 0, new Cliente())){
-                        OptionPane.showMsg("Restaurar cliente", "El cliente ha sido restaurado", 1);
-                    }else{
-                        OptionPane.showMsg("Restaurar cliente", "No se pudo restaurar el cliente", 2);
+                    if(!load.restoreOrDeleteFromUI(temp)){
+                        cDF();
+                        return;
                     }
                     cargarDatos("-1");
                 }
