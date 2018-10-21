@@ -5,15 +5,14 @@
  */
 package entities;
 
-import entities.abstractclasses.SyncIntId;
+import entities.abstractclasses.SyncIntIdValidaName;
 import java.util.Date;
 
 /**
  *
  * @author sdx
  */
-public class Oficina extends SyncIntId{
-    private String nombre;
+public class Oficina extends SyncIntIdValidaName{
     private String direccion;
     private String ciudad;
     private String telefono1;
@@ -40,7 +39,7 @@ public class Oficina extends SyncIntId{
     }
 
     public void setNombre(String nombre) {
-        this.nombre = getToName(nombre);
+        super.setNombre(getToName(nombre));
     }
 
     public void setDireccion(String direccion) {
@@ -68,7 +67,7 @@ public class Oficina extends SyncIntId{
     }
 
     public String getNombre() {
-        return getToName(nombre);
+        return getToName(super.getNombre());
     }
 
     public String getDireccion() {

@@ -757,13 +757,13 @@ public class VOficinas extends javax.swing.JPanel {
             cWT();
             int fila = tblListar.getSelectedRow();
             String nombre = tblListar.getValueAt(fila, 0).toString();
-            Oficina temp = (Oficina)load.get(nombre,0,new Oficina());
-            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar la oficina: "+temp.getNombre()+"?", 2)){
+            
+            if(OptionPane.getConfirmation("Eliminar registro", "¿Esta seguro que desea eliminar la oficina: "+nombre+"?", 2)){
                 cWT();
-                if(load.delete(nombre,0, temp)){
-                    OptionPane.showMsg("Eliminar Oficina", "El registro ha sido eliminado", 1);
-                }else{
-                    OptionPane.showMsg("Eliminar Oficina", "No se pudo eliminar el registro", 2);
+                Oficina temp = (Oficina)load.get(nombre,0,new Oficina());
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
             }
             cargarDatos("0");
@@ -786,10 +786,10 @@ public class VOficinas extends javax.swing.JPanel {
             String nombre = tblListar.getValueAt(fila, 0).toString();
             if(OptionPane.getConfirmation("Confirmación de Oficina", "¿Esta seguro que desea restaurar este registro?", 1)){
                 cWT();
-                if(load.restore(nombre, 0, new Oficina())){
-                    OptionPane.showMsg("Restaurar Oficina", "El registro ha sido restaurado", 1);
-                }else{
-                    OptionPane.showMsg("Restaurar Oficina", "No se pudo restaurar el registro", 2);
+                Oficina temp = (Oficina)load.get(nombre,0,new Oficina());
+                if(!load.restoreOrDeleteFromUI(temp)){
+                    cDF();
+                    return;
                 }
                 cargarDatos("-1");
                 cDF();
@@ -834,59 +834,22 @@ public class VOficinas extends javax.swing.JPanel {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         cWT();
-        String nombre=txtNombreNew.getText();
-        if(nombre == null || nombre.isEmpty()){
-            OptionPane.showMsg("Error de ingreso de datos","El nombre ingresado no es válido."
-                    , 2);
-            cDF();
-            return;
-        }
-        try {
-            cWT();
-            if(load.get(nombre,0, new Oficina()) != null){
-                OptionPane.showMsg("El registro ya existe", "El nombre ingresado ya existe.", 
-                        2);
-                cDF();
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                    + "No se pudo insertar el registro\n\n"
-                    + ex, 3);
-            cDF();
-            return;
-        }
-        if(nombre.isEmpty() || nombre.length()<3){
-            OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", 2);
-            cDF();
-            return;
-        }
-        String telefono1=txtTelefonoNew1.getText();
-        String telefono2=txtTelefonoNew2.getText();
-        String mail=txtEmailNew.getText().toLowerCase();
-        String web=txtWebNew.getText().toLowerCase();
-        if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
-            OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                    + "Ingrese un teléfono o correo electrónico.", 2);
-            cDF();
-            return;
-        }
-        String direccion=(txtDireccionNew.getText());
-        String ciudad=(txtCiudadNew.getText());
+        String nombre=GV.getFilterString(txtNombreNew.getText());
+        String telefono1=GV.getFilterString(txtTelefonoNew1.getText());
+        String telefono2=GV.getFilterString(txtTelefonoNew2.getText());
+        String mail=GV.getFilterString(GV.mailValidate(txtEmailNew.getText().toLowerCase()));
+        String web=GV.getFilterString(txtWebNew.getText().toLowerCase());
+        String direccion=GV.getFilterString(txtDireccionNew.getText());
+        String ciudad=GV.getFilterString(txtCiudadNew.getText());
         int estado=1;
 
         Oficina oficina= new Oficina(0, nombre, direccion, ciudad, telefono1, telefono2, mail, web, estado, null, 0);
-        try {
-            cWT();
-            load.add(oficina);
-            cDF();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar insertar un nuevo registro:\n"
-                    + "No se pudo insertar la oficina\n\n"
-                    + ex, 3);
-            cDF();
-        }
+        
         cWT();
+        if(!load.addFromUI(oficina)){
+            cDF();
+            return;
+        }
         cargarDatos("0");
         cDF();
     }//GEN-LAST:event_btnGuardarMouseClicked
@@ -990,48 +953,23 @@ public class VOficinas extends javax.swing.JPanel {
         String nombre=txtNombre2.getText();
         boolean isNameLocal = (stOficina.getNombre().equals(GV.getNombreOficina()))?true:false;
         if(stOficina != null){
-
-            if(nombre.isEmpty() || nombre.length()<3){
-                OptionPane.showMsg("Guardar Oficina", "El registro debe tener un nombre válido.", 2);
-                cDF();
-                return;
-            }
-            try {
-                if(!stOficina.getNombre().equals(nombre.trim())){
-                    cWT();
-                    if(load.get(nombre,0, new Oficina()) != null){
-                        OptionPane.showMsg("El registro ya existe", "El nombre ingresado ya existe.", 
-                                2);
-                        cDF();
-                        return;
-                    }
-                }
-            } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                OptionPane.showMsg("Error inesperado","Ocurrió un error al intentar consultar existencia de un nuevo registro:\n"
-                        + "No se pudo insertar el registro\n\n"
-                        + ex, 3);
-                cDF();
-                return;
-            }
-            String telefono1 = (txtTelefono1_2.getText());
-            String telefono2 = (txtTelefono2_2.getText());
-            String mail = (txtEmail2.getText());
-            stOficina.setWeb(txtWeb2.getText());
-            cWT();
-            if(telefono1.isEmpty() && telefono2.isEmpty() && mail.isEmpty()){
-                OptionPane.showMsg("Guardar Cliente", "El cliente debe tener al menos un registro de contacto.\n"
-                        + "Ingrese un teléfono o correo electrónico.", 2);
-                cDF();
-                return;
-            }
+            String telefono1 = GV.getFilterString(txtTelefono1_2.getText());
+            String telefono2 = GV.getFilterString(txtTelefono2_2.getText());
+            String mail = GV.getFilterString(GV.mailValidate(txtEmail2.getText()));
+            String web = GV.getFilterString(txtWeb2.getText().toLowerCase());
+            String dir = GV.getFilterString(txtDireccion2.getText());
+            String ciu = GV.getFilterString(txtCiudad2.getText());
+            stOficina.setWeb(web);
             stOficina.setNombre(nombre);
             stOficina.setTelefono1(telefono1);
             stOficina.setTelefono2(telefono2);
             stOficina.setEmail(mail);
-            stOficina.setDireccion(txtDireccion2.getText());
-            stOficina.setCiudad(txtCiudad2.getText());
-
-            load.update(stOficina);
+            stOficina.setDireccion(dir);
+            stOficina.setCiudad(ciu);
+            if(!load.updateFromUI(stOficina)){
+                cDF();
+                return;
+            }
             if(isNameLocal){
                 GV.setOficina(nombre);
                 ContentAdmin.lblTitle.setText("Registro de oficinas ("+GV.getLblNombreOficina()+")");

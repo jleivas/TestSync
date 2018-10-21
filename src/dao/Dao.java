@@ -14,6 +14,7 @@ import entities.Institucion;
 import entities.InternMail;
 import entities.Inventario;
 import entities.Lente;
+import entities.Oficina;
 import entities.RegistroBaja;
 import entities.TipoPago;
 import entities.User;
@@ -931,6 +932,15 @@ public class Dao{
             }
             if(obj.getMaterial().isEmpty()){
                 OptionPane.showMsg("Faltan datos", "El lente debe tener un material válido.", 2);
+                return false;
+            }
+            return true;
+        }
+        if(object instanceof Oficina){
+            Oficina obj = (Oficina)object;
+            if(obj.getTelefono1().isEmpty() && obj.getTelefono2().isEmpty() && obj.getEmail().isEmpty()){
+                OptionPane.showMsg("Faltan datos de contacto", "El nuevo registro debe tener al menos un registro de contacto.\n"
+                        + "Ingrese un teléfono o correo electrónico.", 2);
                 return false;
             }
             return true;
