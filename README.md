@@ -34,6 +34,23 @@ técnico para la puesta en marcha del sistema.
  *Objetivo*
  Refactorizar códigos con error de implementación
 
+  #### [CRUD clientes (ISS-024)](https://github.com/softdirex/TestSync/search?q=ISS-002&type=Commits)
+ 
+ - Visualizar fichas por cliente, refactoring del crud
+
+  #### [CRUD usuarios (ISS-002)](https://github.com/softdirex/TestSync/search?q=ISS-002&type=Commits)
+ 
+ - Mostrar mensaje de aviso de cambio de contraseña a usuario modificado
+ - Mostrar mensaje de aviso de confirmación de usuario creado
+ - No aparece el tipo de usuario al cargar mis datos
+ - El sistema permite la entrada a usuarios anulados
+ - El sistema debe validar online si existen usernames nuevos
+
+  #### [CRUD inventario (ISS-020)](https://github.com/softdirex/TestSync/search?q=ISS-020&type=Commits)
+ 
+ - Refactoring crud inventario agregar y modificar
+ - Si el sistema no encuentra un inventario por modificacion externa se cae
+
   #### [CRUD Lentes (ISS-023)](https://github.com/softdirex/TestSync/search?q=ISS-023&type=Commits)
 
  - Probar si al reducir stock manualmente se aplican los cambios, aplica decrease OK
@@ -55,10 +72,6 @@ técnico para la puesta en marcha del sistema.
  
  - Se modifica titulo de ventana para ingresar token
  - Cambiar títulos de emails con acento
-
- #### [Modificacion de inventario (ISS-020)](https://github.com/softdirex/TestSync/search?q=ISS-020&type=Commits)
- 
- - Si el sistema no encuentra un inventario por modificacion externa se cae
 
  #### [Cursor en espera (ISS-019)](https://github.com/softdirex/TestSync/search?q=ISS-019&type=Commits)
  
@@ -124,14 +137,6 @@ técnico para la puesta en marcha del sistema.
  #### [Botón de sincronización manual (ISS-001)](https://github.com/softdirex/TestSync/search?q=ISS-001&type=Commits)
  
  - Desabilitar cuando ya se está ejecutando una sincronización
-
- #### [CRUD usuarios (ISS-002)](https://github.com/softdirex/TestSync/search?q=ISS-002&type=Commits)
- 
- - Mostrar mensaje de aviso de cambio de contraseña a usuario modificado
- - Mostrar mensaje de aviso de confirmación de usuario creado
- - No aparece el tipo de usuario al cargar mis datos
- - El sistema permite la entrada a usuarios anulados
- - El sistema debe validar online si existen usernames nuevos
 
  #### Respaldo automático de datos (ISS-003)
  
