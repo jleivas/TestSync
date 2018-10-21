@@ -33,12 +33,16 @@ técnico para la puesta en marcha del sistema.
  ### Reporte de errores
  *Objetivo*
  Refactorizar códigos con error de implementación
+ 
+ #### [CRUD descuentos (ISS-027)](https://github.com/softdirex/TestSync/search?q=ISS-027&type=Commits)
+ 
+ - Refactoring del crud descuentos (entities.Descuento)
 
-  #### [CRUD convenios (ISS-026)](https://github.com/softdirex/TestSync/search?q=ISS-026&type=Commits)
+ #### [CRUD convenios (ISS-026)](https://github.com/softdirex/TestSync/search?q=ISS-026&type=Commits)
  
  - Refactoring del crud convenios (entities.Convenio)
 
-   #### [CRUD tipo de pagos (ISS-025)](https://github.com/softdirex/TestSync/search?q=ISS-025&type=Commits)
+  #### [CRUD tipo de pagos (ISS-025)](https://github.com/softdirex/TestSync/search?q=ISS-025&type=Commits)
  
  - Refactoring del crud
 
