@@ -457,7 +457,7 @@ public class Remote implements InterfaceSync{
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch(SQLException | ClassNotFoundException ex){
+        }catch( SQLException | ClassNotFoundException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -935,7 +935,7 @@ public class Remote implements InterfaceSync{
                 RmBd.cerrar();
                 return true;
             }
-        }catch(SQLException | ClassNotFoundException ex){
+        }catch(SQLException | ClassNotFoundException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -1019,8 +1019,9 @@ public class Remote implements InterfaceSync{
                 }
                 RmBd.cerrar();
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (NullPointerException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            return -1000;
         }
         return id + 1;
     }

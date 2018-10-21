@@ -398,7 +398,7 @@ public class Local implements InterfaceSync {
             if(objectParam instanceof RegistroBaja){
                 RegistroBaja object = (RegistroBaja)objectParam;
                 if (object != null) {
-                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT rb_id FROM registro_bajas WHERE rb_id= '" + object.getCod()+ "'");
+                    PreparedStatement consulta = LcBd.obtener().prepareStatement("SELECT rb_id FROM registro_bajas WHERE rb_id='" + object.getCod()+ "'");
                     ResultSet datos = consulta.executeQuery();
                     while (datos.next()) {
                         LcBd.cerrar();
@@ -461,7 +461,7 @@ public class Local implements InterfaceSync {
                 OptionPane.showMsg("Error inseperado en la operación", "El objeto no se pudo insertar.\n\n"+className+" no soporta el tipo de registro enviado.", 3);
                 return false;
             }
-        }catch(InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex){
+        }catch( InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -939,7 +939,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return true;
             }
-        }catch(InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex){
+        }catch(InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | NullPointerException ex){
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -956,7 +956,7 @@ public class Local implements InterfaceSync {
                 id = datos.getInt("eq_id");
             }
             LcBd.cerrar();
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
@@ -1023,8 +1023,9 @@ public class Local implements InterfaceSync {
                 }
                 LcBd.cerrar();
             }
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+        } catch (NullPointerException | InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            return -1000;
         }
         return id + 1;
     }
@@ -2062,7 +2063,7 @@ public class Local implements InterfaceSync {
                 
                 return lista;
             }
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error de conexión", "El sistema está teniendo errores al conectarse a la base de datos "
                     + ""+className+",\n pruebe cerrando todos los procesos y vuelva a intentar, \nde lo contrario reinicie el equipo."
@@ -2536,7 +2537,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
         }
@@ -3703,8 +3704,6 @@ public class Local implements InterfaceSync {
                         + " from ficha f ";
     }
     
-    
-    
     public String getSqlSync(Date paramDate, Object type) {
         Log.setLog(className, Log.getReg());
         java.sql.Date param = new java.sql.Date(paramDate.getTime());
@@ -4167,7 +4166,7 @@ public class Local implements InterfaceSync {
                 LcBd.cerrar();
                 return lista;
             }
-        } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException ex) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
             OptionPane.showMsg("Error al conectar con base de datos "+className, ""+ex, 3);
         }
