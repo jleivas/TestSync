@@ -1421,7 +1421,7 @@ public class Migrar implements InterfaceSync {
                 ResultSet datos = consulta.executeQuery();
                 while (datos.next()) {
                     lista.add(new Institucion(
-                        "Sin_rut_"+datos.getString("ins_id"),
+                        "ID_"+datos.getString("ins_id"),
                         datos.getString("ins_nombre"),
                         datos.getString("ins_telefono"),
                         datos.getString("ins_mail"),

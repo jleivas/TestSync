@@ -890,17 +890,17 @@ public class GlobalValuesBD {
     public static void migrarAllOldData(){
         //todas las fichas tendran id con guion uno, no se deberá utilizar mas
         migrarArmazones();
-        migrarClientes();
-        migrarCristales();
-        migrarDescuentos();
-        migrarDespachos();
-        migrarDoctores();
-        migrarFichas();
-        migrarHistorialPago();
-        migrarInstitucion();
-        migrarLentes();
-        migrarRegistroBajas();
-        migrarUsers();
+//        migrarClientes();
+//        migrarCristales();
+//        migrarDescuentos();
+//        migrarDespachos();
+//        migrarDoctores();
+//        migrarFichas();
+//        migrarHistorialPago();
+//        migrarInstitucion();
+//        migrarLentes();
+//        migrarRegistroBajas();
+//        migrarUsers();
     }
     
     private static void migrarUsers() {
@@ -942,7 +942,7 @@ public class GlobalValuesBD {
     }
     
     private static void migrarCristales() {
-        int maxId = rem.getMaxId(new Cristal());
+        int maxId = 1;
         List<Object> lista = mig.listar("-2", new Cristal());
         List<Object> lista2 = new ArrayList<>();
         int cont = 0;
@@ -960,7 +960,7 @@ public class GlobalValuesBD {
     }
     
     private static void migrarDescuentos() {
-        int maxId = rem.getMaxId(new Descuento());
+        int maxId = 1;
         List<Object> lista = mig.listar("-2", new Descuento());
         List<Object> lista2 = new ArrayList<>();
         for (Object object : lista) {
