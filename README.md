@@ -289,6 +289,7 @@ técnico para la puesta en marcha del sistema.
 
  - Crear opción en herramientas para importar todos los datos desde los respaldos en excel
  - Generar archivos Excel para migrar datos antiguos
+ - Generar logica para migrar datos desde BD antigua
 
  #### Importación de inventario (CON-011)
 
