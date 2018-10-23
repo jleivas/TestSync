@@ -24,6 +24,7 @@ public class SalesFichaJasperReport {
     private String dir;
     private String companyContacts;
     private String titleFilter;
+    private String NO_DETAIL = "Sin abonos";
     
     private int montoTotal;
     private int montoTotalAbonado;
@@ -196,9 +197,11 @@ public class SalesFichaJasperReport {
                 vendedor.setTotalVentas(vendedor.getTotalVentas()+nuevoMonto);
                 String[][] abonos = (String[][])GlobalValuesFunctions.listarAbonos(ficha.getCod());
                 vendedor.detalle = updateDetails(vendedor.getDetalle(),abonos);
+                //retorna true si el vendedor existe
                 return true;
             }
         }
+        //retorna false si no lo encontró
         return false;
     }
     
@@ -220,15 +223,18 @@ public class SalesFichaJasperReport {
                 generateResumenTotal(detalle.getDetalle(),montoAbono);
                 FILAS++;
             }
-        }else{
-            //Aunque no tenga abonos se debe agregar una fila por vendedor
-            DetalleVentas detalle = new DetalleVentas();
-            detalle.setDetalle("Sin abonos");
-            detalle.setMonto(0);
-            vendedor.addDetalle(detalle);
-            FILAS++;
+            vendedores.add(vendedor);
         }
-        vendedores.add(vendedor);
+//        else
+//        {
+//            //Aunque no tenga abonos se debe agregar una fila por vendedor
+//            DetalleVentas detalle = new DetalleVentas();
+//            detalle.setDetalle(NO_DETAIL);
+//            detalle.setMonto(0);
+//            vendedor.addDetalle(detalle);
+//            FILAS++;
+//        }
+//        vendedores.add(vendedor);
     }
     
     
@@ -300,7 +306,7 @@ public class SalesFichaJasperReport {
         FILAS = FILAS + resumenTotal.size();
         resumenAbonos = new String[resumenTotal.size()][SalesFichaRecursoDatos.columns];
         for (int i = 0; i < resumenAbonos.length; i++) {
-            resumenAbonos[i][SalesFichaRecursoDatos.indexVendedor]="Totales";
+            resumenAbonos[i][SalesFichaRecursoDatos.indexVendedor]="Detalle total abonos";
             resumenAbonos[i][SalesFichaRecursoDatos.indexTotalVentas]="";
             for (int j = 0; j < SalesFichaRecursoDatos.columns; j++) {
                 if(j == SalesFichaRecursoDatos.indexNombreAbono)

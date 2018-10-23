@@ -378,6 +378,9 @@ public class GlobalValuesPrint {
             dt.createReport(fichas, title, GV.companyName(), GV.getOficinaWeb(), 
                             GV.getOficinaAddress()+" - "+GV.getOficinaCity(),
                             GV.getOficinaMail());
+            if(dt.noGenerated()){
+                return;
+            }
             try{
                 is = new FileInputStream("src"+File.separator+"reportes"+File.separator+"reporteVentas.jrxml");
             }catch(FileNotFoundException e){

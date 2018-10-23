@@ -7,6 +7,7 @@ package reportes;
 
 import entities.context.SalesFichaJasperReport;
 import fn.GV;
+import fn.OptionPane;
 import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -33,6 +34,10 @@ public class SalesFichaRecursoDatos  implements JRDataSource{
         return ++currentIndex < resumen.length;
     }
 
+    public boolean noGenerated(){
+        return (sf.getFilas() == 0);
+    }
+    
     @Override
     public Object getFieldValue(JRField jrf) throws JRException {
         Object valor = null;
@@ -85,6 +90,10 @@ public class SalesFichaRecursoDatos  implements JRDataSource{
     public void createReport(List<Object> fichas,String titleFilter,String companyName,
                                 String web,String dir,String companyContacts){
         sf = new SalesFichaJasperReport(fichas, titleFilter, companyName, web, dir, companyContacts);
+        if(sf.getFilas() == 0){
+            OptionPane.showMsg("No se pudo generar el reporte", "No existen montos válidos para calcular", 2);
+            return;
+        }
         resumen  = new String[sf.getFilas()][columns];
         int i = 0;
         int header = 0;
