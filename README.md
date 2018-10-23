@@ -90,6 +90,8 @@ técnico para la puesta en marcha del sistema.
 
   #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
 
+ - Nuevo formato de los títulos
+ - No generar reportes cuando los montos son iguales a cero
  - Al marcar todas las fichas como entregadas no se actualiza la tabla
  - No generar reportes cuando la tabla esta vacia
  - No se pueden eliminar las fichas
