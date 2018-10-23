@@ -703,7 +703,7 @@ public class VFichas extends javax.swing.JPanel {
         int filter = cboFilterOptions.getSelectedIndex();
         boolean openDialog = (isFiltering)?false:true;
         if(filter==BY_DAY){
-            ContentAdmin.lblTitle.setText("Fichas al día "+GV.dateToString(new Date(), "dd/mm/yyyy"));
+            ContentAdmin.lblTitle.setText("Registros del día: "+GV.dateToString(new Date(), "dd/mm/yyyy"));
             GV.listarFichasByDate(new Date(),null);
         }
         if(filter==BY_DATE){
@@ -713,7 +713,13 @@ public class VFichas extends javax.swing.JPanel {
             }else{
                 GV.listarFichasByDate(GV.dateFrom(),GV.dateTo());
             }
-            String tempTitle = "Fichas entre los días "+GV.dateToString(GV.dateFrom(), "dd/mm/yyyy")+" y "+GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
+            String fecha1 = GV.dateToString(GV.dateFrom(), "dd/mm/yyyy");
+            String fecha2 = GV.dateToString(GV.dateTo(), "dd/mm/yyyy");
+            String tempTitle = "Registros entre los días "+fecha1+" y "+fecha2;
+            if(fecha1.equals(fecha2)){
+                tempTitle = "Registros del día: "+fecha1;
+            }
+            
             tempTitle = (tempTitle.contains("date-error"))?tempTitle.replaceAll("date-error", ".").replaceAll("y", "."):tempTitle;
             ContentAdmin.lblTitle.setText(tempTitle);
         }
@@ -726,7 +732,7 @@ public class VFichas extends javax.swing.JPanel {
                 GV.listarFichasByClient(GV.rutClientSelected());
                 try {
                     Cliente cli = (Cliente)load.get(GV.rutClientSelected(), 0, new Cliente());
-                    ContentAdmin.lblTitle.setText("Fichas por Cliente: "+cli.getNombre()+" [Rut: "+cli.getCod()+"]");
+                    ContentAdmin.lblTitle.setText("Registros por Cliente: "+cli.getNombre()+" [Rut: "+cli.getCod()+"]");
                 } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                     Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -741,7 +747,7 @@ public class VFichas extends javax.swing.JPanel {
                 GV.listarFichasByUser(GV.userIdSelected());
                 try {
                     User us = (User)load.get(null, GV.strToNumber(GV.userIdSelected()), new User());
-                    ContentAdmin.lblTitle.setText("Fichas por Vendedor: "+us.getNombre());
+                    ContentAdmin.lblTitle.setText("Registros por Vendedor: "+us.getNombre());
                 } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                     Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -758,7 +764,7 @@ public class VFichas extends javax.swing.JPanel {
                 GV.listarFichasByConveny(GV.convenioIdSelected());
                 try {
                     Convenio cnv = (Convenio)load.get(null, GV.strToNumber(GV.convenioIdSelected()), new Convenio());
-                    ContentAdmin.lblTitle.setText("Fichas por Convenio: "+cnv.getNombre());
+                    ContentAdmin.lblTitle.setText("Registros por Convenio: "+cnv.getNombre());
                 } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                     Logger.getLogger(VFichas.class.getName()).log(Level.SEVERE, null, ex);
                 }
