@@ -137,7 +137,8 @@ public class Armazon extends SyncFichaClass{
     }
     
     public void setMarca(String marca) {
-        this.marca = getStr(marca);
+        String cod = getStr(marca);
+        this.marca = (cod.contains("[")) ? cod.substring(0, cod.indexOf("[")) : cod;
     }
 
     public int getTipo() {
