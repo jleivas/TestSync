@@ -90,6 +90,7 @@ técnico para la puesta en marcha del sistema.
 
   #### [CRUD fichas (ISS-022)](https://github.com/softdirex/TestSync/search?q=ISS-022&type=Commits)
 
+ - Armazón guarda el codigo del lente en el formato antiguo
  - Nuevo formato de los títulos
  - No generar reportes cuando los montos son iguales a cero
  - Al marcar todas las fichas como entregadas no se actualiza la tabla
